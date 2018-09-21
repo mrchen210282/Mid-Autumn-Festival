@@ -8,12 +8,8 @@ import java.io.Serializable;
  * @author soso
  * @date 2018年5月22日 下午10:44:03
  */
-
 public class UserInvitationCodeEntity implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -672573899381849255L;
 
     private String uid;

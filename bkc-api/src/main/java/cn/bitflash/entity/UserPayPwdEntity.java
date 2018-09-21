@@ -1,5 +1,4 @@
 package cn.bitflash.entity;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,21 +6,12 @@ public class UserPayPwdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
-
     private String uid;
 
     private String payPassword;
 
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUid() {
         return uid;

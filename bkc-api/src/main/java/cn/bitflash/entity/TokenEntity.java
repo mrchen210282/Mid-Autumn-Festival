@@ -15,11 +15,15 @@
  */
 
 package cn.bitflash.entity;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 用户Token
+ *
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2017-03-23 15:22:07
  */
 public class TokenEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,6 +32,7 @@ public class TokenEntity implements Serializable {
      * 用户ID
      */
     private String uid;
+
     private String token;
     /**
      * 过期时间
@@ -39,6 +44,9 @@ public class TokenEntity implements Serializable {
     private Date updateTime;
 
     private String mobile;
+
+
+
 
     public String getMobile() {
         return mobile;

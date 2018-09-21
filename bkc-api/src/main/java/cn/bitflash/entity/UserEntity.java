@@ -18,8 +18,10 @@ package cn.bitflash.entity;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户
@@ -30,13 +32,14 @@ public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
-     */
-    private String uid;
-    /**
      * 手机号
      */
     private String mobile;
+
+    /**
+     * 用户ID
+     */
+    private String uid;
     /**
      * 密码
      */
@@ -47,6 +50,9 @@ public class UserEntity implements Serializable {
      * uuid 32位的钱包账号
      */
     private String uuid;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     public String getUid() {
         return uid;
@@ -80,5 +86,11 @@ public class UserEntity implements Serializable {
         this.uuid = uuid;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
 
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

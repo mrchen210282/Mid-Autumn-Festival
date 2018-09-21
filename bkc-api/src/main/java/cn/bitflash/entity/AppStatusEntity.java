@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 public class AppStatusEntity implements Serializable {
 
-
     private String appid;
 
     private String version;

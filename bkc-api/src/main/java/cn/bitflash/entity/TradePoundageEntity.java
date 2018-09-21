@@ -15,7 +15,6 @@
  */
 
 package cn.bitflash.entity;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ import java.util.Date;
  *
  * @author eric
  */
-public class TradePoundageEntity implements Serializable  {
+public class TradePoundageEntity implements Serializable {
 
     private String userTradeId;
 
@@ -35,9 +34,7 @@ public class TradePoundageEntity implements Serializable  {
 
     private BigDecimal poundage;
 
-    private BigDecimal quantity;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public String getUserTradeId() {
@@ -70,13 +67,5 @@ public class TradePoundageEntity implements Serializable  {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
     }
 }

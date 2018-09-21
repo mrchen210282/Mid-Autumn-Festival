@@ -24,14 +24,7 @@ import java.util.Date;
 /**
  * @author wangjun
  */
-public class UserPayUrlEntity implements Serializable {
-
-    private static final long serialVersionUID = -3272015324293238491L;
-
-    /**
-     * id
-     */
-    private Integer id;
+public class UserPayImgEntity implements Serializable {
 
     /**
      * uid
@@ -53,44 +46,12 @@ public class UserPayUrlEntity implements Serializable {
      */
     private String mobile;
 
-    private String name;
+    private String accountName;
 
     private String account;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date crateTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getUid() {
         return uid;
@@ -114,6 +75,30 @@ public class UserPayUrlEntity implements Serializable {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public Date getCrateTime() {
