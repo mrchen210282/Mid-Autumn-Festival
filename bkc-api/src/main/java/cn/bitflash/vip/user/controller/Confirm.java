@@ -2,19 +2,19 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserPayUrlEntity;
-import cn.bitflash.interceptor.ApiLoginInterceptor;
+import cn.bitflash.util.Common;
+import cn.bitflash.util.HttpUtils;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
-import com.gexin.rp.sdk.base.uitls.MD5Util;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Decoder;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -26,63 +26,43 @@ public class Confirm {
 
     @Login
     @PostMapping("uploadSFZ")
-    public R uploadImgMessage(@RequestParam String img, @RequestParam String imgType,
+    public R uploadImgMessage(@RequestParam String realname, @RequestParam String idnum,
                               @RequestAttribute("uid") String uid) {
-        String mobile = userFeign.selectUserInfoByColumn(uid,"mobile");
-
-        String imgName = imgType.equals("3") ? MD5Util.getMD5Format(mobile+ System.currentTimeMillis()) + "_z" : MD5Util.getMD5Format(mobile + System.currentTimeMillis()) + "_f";
-        String imgUrl = "";
-        String path = "/home/statics/idnumber/" + imgName + ".png";
-        imgUrl = "http://www.bitflash.vip/auth/" + imgName + ".png";
-        BASE64Decoder decoder = new BASE64Decoder();
+        UserInfoEntity info = userFeign.selectUserinfoById(uid);
+        if (info.getIsAuthentication().equals(Common.AUTHENTICATION)) {
+            return R.ok();
+        }
+        String host = "https://checkid.market.alicloudapi.com";
+        String path = "/IDCard";
+        String method = "GET";
+        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        querys.put("idCard", idnum);
+        querys.put("name", realname);
+        String code = null;
         try {
-            // Base64解码
-            String[] base64Str = img.split(",");
-            if(base64Str.length >= 2) {
-                byte[] b = decoder.decodeBuffer(base64Str[1]);
-                for (int i = 0; i < b.length; ++i) {
-                    if (b[i] < 0) {// 调整异常数据
-                        b[i] += 256;
-                    }
-                }
-                OutputStream out = new FileOutputStream(path);
-                out.write(b);
-                out.flush();
-                out.close();
-            } else {
-                return R.error();
+            HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+            //获取response的body
+            String msg = EntityUtils.toString(response.getEntity());
+            code = JSON.parseObject(msg).getString("status");
+            if (code.equals("01") || code.equals("1")) {
+                info.setIsAuthentication(Common.AUTHENTICATION);
+                userFeign.updateUserInfoById(info);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            return R.error();
         }
-        UserPayUrlEntity userPay = userFeign.selectUserPayUrlByUidAndType(uid,imgType);
-        //为空代表第一次上传图片插入操作
-        if (userPay == null) {
-            userPay = new UserPayUrlEntity();
-            userPay.setImgType(imgType);
-            userPay.setCrateTime(new Date());
-            userPay.setUid(uid);
-            userPay.setImgUrl(imgUrl);
-            userPay.setMobile(mobile);
-            userFeign.insertUserUrl(userPay);
-        } else {
-            userPay.setImgUrl(imgUrl);
-            userFeign.updateUserUrlById(userPay);
-        }
-        return R.ok();
+        /**
+         * code 01 实名认证通过！
+         *      02 实名认证不通过！
+         *      202	无法验证！
+         *      203	异常情况！
+         *      204	姓名格式不正确！
+         *      205	身份证格式不正确！
+         */
+        return R.ok(code);
     }
-
-    @Login
-    @PostMapping("successUpload")
-    public R successUpload(@RequestAttribute(ApiLoginInterceptor.UID) String uid) {
-        UserInfoEntity userinfo = new UserInfoEntity();
-        userinfo.setIsAuthentication("1");
-        userinfo.setUid(uid);
-        userFeign.updateUserInfoById(userinfo);
-        return R.ok();
-    }
-
-
 }
+

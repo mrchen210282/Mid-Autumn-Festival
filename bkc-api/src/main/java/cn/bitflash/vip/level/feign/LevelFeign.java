@@ -76,7 +76,7 @@ public interface LevelFeign {
      * user_cash_income 表
      */
 
-    UserCashIncome selectUserCashIncomeByUid(@RequestParam("uid") String uid);
+    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("uid") String uid);
 
-    Boolean updateUserCashIncomeById(@RequestBody UserCashIncome cashIncome);
+    Boolean updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
 }
