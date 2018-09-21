@@ -3,6 +3,7 @@ package cn.bitflash.vip.index.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.TokenEntity;
 import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UserGTCidEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.util.AESTokenUtil;

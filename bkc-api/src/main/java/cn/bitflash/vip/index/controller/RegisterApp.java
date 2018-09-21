@@ -7,6 +7,7 @@ import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.index.entity.RegisterForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class RegisterApp {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("register")
+    @ApiOperation(value = "注册")
     public R register(@RequestBody RegisterForm form) {
         //验证表单
         ValidatorUtils.validateEntity(form);
@@ -38,7 +40,12 @@ public class RegisterApp {
         }
 
         String uid = generateUUID32();
-        Boolean flag = indexFeign.insertUserEntity(uid, mobile, form.getPwd(), generateUUID32());
+        UserEntity us = new UserEntity();
+        us.setMobile(mobile);
+        us.setPassword(form.getPwd());
+        us.setUuid(generateUUID32());
+        us.setUid(uid);
+        Boolean flag = indexFeign.insertUserEntity(us);
         if (flag) {
             Date now = new Date();
             Boolean flag2 = indexFeign.insertAccount(uid, now);
@@ -46,6 +53,10 @@ public class RegisterApp {
                 String name = this.getName();
                 Boolean flag3 = indexFeign.insertInfo(uid, mobile, false, name);
                 if (flag3) {
+                    UserCashIncome cashIncome = new UserCashIncome();
+                    cashIncome.setUid(uid);
+                    cashIncome.setCreateTime(new Date());
+                    indexFeign.insertUserCashIncome(cashIncome);
                     logger.info("手机号：" + form.getMobile() + ",注册成功，途径app，没有推广码");
                     return R.ok("注册成功");
 
@@ -70,7 +81,12 @@ public class RegisterApp {
         }
 
         String uid = generateUUID32();
-        Boolean flag = indexFeign.insertUserEntity(uid, mobile, pwd, generateUUID32());
+        UserEntity us = new UserEntity();
+        us.setMobile(mobile);
+        us.setPassword(pwd);
+        us.setUuid(generateUUID32());
+        us.setUid(uid);
+        Boolean flag = indexFeign.insertUserEntity(us);
         if (flag) {
             Date now = new Date();
             Boolean flag2 = indexFeign.insertAccount(uid, now);
@@ -83,6 +99,10 @@ public class RegisterApp {
                         String name = this.getName();
                         Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
                         if (flag4) {
+                            UserCashIncome cashIncome = new UserCashIncome();
+                            cashIncome.setUid(uid);
+                            cashIncome.setCreateTime(new Date());
+                            indexFeign.insertUserCashIncome(cashIncome);
                             logger.info("手机号：" + mobile + ",注册成功,邀请码：" + invitationCode);
                             return R.ok("注册成功");
                         }
