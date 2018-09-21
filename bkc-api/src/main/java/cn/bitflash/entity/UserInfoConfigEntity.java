@@ -1,5 +1,4 @@
 package cn.bitflash.entity;
-
 import java.io.Serializable;
 
 public class UserInfoConfigEntity implements Serializable {
@@ -9,11 +8,19 @@ public class UserInfoConfigEntity implements Serializable {
 
     private Integer min;
 
+    private float power;
+
     private String showPower;
+
+    private float releaseProfit;
 
     private Double giveRate;
 
     private String showGiveRate;
+
+    private float maxAchievement;
+
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -31,12 +38,28 @@ public class UserInfoConfigEntity implements Serializable {
         this.min = min;
     }
 
+    public float getPower() {
+        return power;
+    }
+
+    public void setPower(float power) {
+        this.power = power;
+    }
+
     public String getShowPower() {
         return showPower;
     }
 
     public void setShowPower(String showPower) {
         this.showPower = showPower;
+    }
+
+    public float getReleaseProfit() {
+        return releaseProfit;
+    }
+
+    public void setReleaseProfit(float releaseProfit) {
+        this.releaseProfit = releaseProfit;
     }
 
     public Double getGiveRate() {
@@ -53,5 +76,21 @@ public class UserInfoConfigEntity implements Serializable {
 
     public void setShowGiveRate(String showGiveRate) {
         this.showGiveRate = showGiveRate;
+    }
+
+    public float getMaxAchievement() {
+        return maxAchievement;
+    }
+
+    public void setMaxAchievement(float maxAchievement) {
+        this.maxAchievement = maxAchievement;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
