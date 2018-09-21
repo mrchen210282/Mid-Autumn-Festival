@@ -64,7 +64,7 @@ public interface LevelFeign {
      * user_info_config表
      */
     @PostMapping("/inner/userInfoConfig/selectById")
-    UserInfoConfigEntity selectInfoConfigById(@RequestParam("vip") Integer vip);
+    UserInfoConfigEntity selectInfoConfigById(@RequestParam("id") Integer vip);
 
     /**
      * vip_conditions 表
@@ -75,8 +75,9 @@ public interface LevelFeign {
     /**
      * user_cash_income 表
      */
+    @PostMapping("/inner/userCashIncome/selectById")
+    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("id") String uid);
 
-    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("uid") String uid);
-
-    Boolean updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
+    @PostMapping("/inner/userCashIncome/updateById")
+    void updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
 }

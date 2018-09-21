@@ -27,7 +27,7 @@ public class VipConditionsController {
      *
      * @return
      */
-    @PostMapping("/inner/userRelation/selectById")
+    @PostMapping("/inner/vipConditions/selectById")
     public VipConditionsEntity selectById(@RequestParam("id") String id) {
         VipConditionsEntity entity = vipConditionsService.selectById(id);
         return entity;
@@ -38,7 +38,7 @@ public class VipConditionsController {
      *
      * @return
      */
-    @PostMapping("/inner/userRelation/updateById")
+    @PostMapping("/inner/vipConditions/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void updateById(@RequestBody JSONObject json) {
         VipConditionsEntity entity = new VipConditionsEntity();
@@ -55,7 +55,7 @@ public class VipConditionsController {
      *
      * @return
      */
-    @PostMapping("/inner/userRelation/insert")
+    @PostMapping("/inner/vipConditions/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void insert(@RequestBody JSONObject json) {
         VipConditionsEntity entity = new VipConditionsEntity();
@@ -72,7 +72,7 @@ public class VipConditionsController {
      *
      * @return
      */
-    @PostMapping("/inner/userRelation/deleteById")
+    @PostMapping("/inner/vipConditions/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
     public void deleteById(@RequestParam("id") String id) {
         vipConditionsService.deleteById(id);
