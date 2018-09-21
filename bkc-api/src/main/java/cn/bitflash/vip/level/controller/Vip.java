@@ -7,6 +7,7 @@ import cn.bitflash.util.R;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -29,6 +30,7 @@ public class Vip {
 
     @Login
     @PostMapping("updateLevel")
+    @ApiOperation("提升算力")
     public R updateVipLevel(@RequestAttribute("uid") String uid) {
 
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);

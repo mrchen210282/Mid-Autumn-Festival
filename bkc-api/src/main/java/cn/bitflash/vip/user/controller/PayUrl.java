@@ -9,7 +9,7 @@ import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.gexin.rp.sdk.base.uitls.MD5Util;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,14 @@ public class PayUrl {
 
     @Login
     @PostMapping("upload")
-    @Transactional
+    @ApiOperation("上传支付码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "img",dataType = "String"),
+            @ApiImplicitParam(name = "imgType",dataType = "String"),
+            @ApiImplicitParam(name = "name",dataType = "String"),
+            @ApiImplicitParam(name = "account",dataType = "String"),
+            @ApiImplicitParam(name = "password",dataType = "String")
+    })
     public R upload(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
         ValidatorUtils.validateEntity(imgForm);
 
@@ -112,7 +119,8 @@ public class PayUrl {
 
     @Login
     @PostMapping("getPayUrl")
-    public R getPayUrl(@RequestAttribute("uid") String myuid, @RequestParam(value = "uid", required = false) String uid, @RequestParam("imgType") String imgType) {
+    @ApiOperation("获取图片地址")
+    public R getPayUrl(@RequestAttribute("uid") String myuid, @ApiParam @RequestParam(value = "uid", required = false) String uid,@ApiParam @RequestParam("imgType") String imgType) {
         UserPayImgEntity payUrlEntity = null;
         if (uid == null) {
             payUrlEntity = userFeign.selectUserPayUrlByUidAndType(myuid, imgType);

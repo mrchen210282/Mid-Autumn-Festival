@@ -8,6 +8,7 @@ import cn.bitflash.util.R;
 import cn.bitflash.vip.system.entity.PriceChart;
 import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ public class PriceRate {
      */
     @Login
     @PostMapping("getWeekPriceRate")
+    @ApiOperation("显示折线图")
     public R getWeekPriceRate() {
         Date now = new DateTime().withTimeAtStartOfDay().toDate();
         Date after = DateUtils.addDateDays(now, -7);

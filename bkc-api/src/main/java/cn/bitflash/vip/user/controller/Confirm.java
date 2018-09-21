@@ -8,6 +8,8 @@ import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class Confirm {
 
     @Login
     @PostMapping("uploadSFZ")
-    public R uploadImgMessage(@RequestParam String realname, @RequestParam String idnum,
+    @ApiOperation("实名认证")
+    public R uploadImgMessage(@ApiParam @RequestParam String realname,@ApiParam @RequestParam String idnum,
                               @RequestAttribute("uid") String uid) {
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
         if (info.getIsAuthentication().equals(Common.AUTHENTICATION)) {
