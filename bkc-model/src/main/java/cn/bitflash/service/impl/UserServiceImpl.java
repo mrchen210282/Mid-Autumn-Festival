@@ -14,18 +14,22 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.UserDao;
+import cn.bitflash.entity.UserEntity;
+import cn.bitflash.service.UserService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.TokenEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+@Service("userService")
+public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
 
-/**
- * 用户Token
- *
- * @author eric
- * @date 2018-03-23 15:22:07
- */
-public interface TokenDao extends BaseMapper<TokenEntity> {
+    @Override
+    public UserEntity queryByMobile(String mobile) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setMobile(mobile);
+        return baseMapper.selectOne(userEntity);
+    }
 
 }

@@ -14,18 +14,20 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service;
 
-
-import cn.bitflash.entity.TokenEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import cn.bitflash.entity.UserEntity;
+import com.baomidou.mybatisplus.service.IService;
 
 /**
- * 用户Token
+ * 用户
  *
- * @author eric
- * @date 2018-03-23 15:22:07
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2017-03-23 15:22:06
  */
-public interface TokenDao extends BaseMapper<TokenEntity> {
+public interface UserService extends IService<UserEntity> {
+
+    UserEntity queryByMobile(String mobile);
 
 }

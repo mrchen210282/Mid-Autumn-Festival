@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @TableName("vip_conditions")
 public class VipConditionsEntity implements Serializable {
@@ -11,13 +12,13 @@ public class VipConditionsEntity implements Serializable {
     @TableId
     private String level;
 
-    private float power;
+    private BigDecimal power;
 
-    private int bkcountremarkstate;
+    private Integer bkcount;
 
     private String remark;
 
-    private int state;
+    private Integer state;
 
     public String getLevel() {
         return level;
@@ -27,20 +28,20 @@ public class VipConditionsEntity implements Serializable {
         this.level = level;
     }
 
-    public float getPower() {
+    public BigDecimal getPower() {
         return power;
     }
 
-    public void setPower(float power) {
+    public void setPower(BigDecimal power) {
         this.power = power;
     }
 
-    public int getBkcountremarkstate() {
-        return bkcountremarkstate;
+    public Integer getBkcount() {
+        return bkcount;
     }
 
-    public void setBkcountremarkstate(int bkcountremarkstate) {
-        this.bkcountremarkstate = bkcountremarkstate;
+    public void setBkcount(Integer bkcount) {
+        this.bkcount = bkcount;
     }
 
     public String getRemark() {
@@ -51,11 +52,11 @@ public class VipConditionsEntity implements Serializable {
         this.remark = remark;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }
