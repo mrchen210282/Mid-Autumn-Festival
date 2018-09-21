@@ -16,48 +16,42 @@
 
 package cn.bitflash.entity;
 
-
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 用户
- *
- * @author eric
+ * @author wangjun
  */
-@TableName("tb_user")
-public class UserEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class UserPayImgEntity implements Serializable {
+
+    /**
+     * uid
+     */
+    private String uid;
+
+    /**
+     * 上传图片类型
+     */
+    private String imgType;
+
+    /**
+     * 图片地址
+     */
+    private String imgUrl;
 
     /**
      * 手机号
      */
-    @TableId(type = IdType.INPUT)
     private String mobile;
 
-    /**
-     * 用户ID
-     */
-    private String uid;
-    /**
-     * 密码
-     */
-    @JSONField(serialize = false)
-    private String password;
+    private String accountName;
 
-    /**
-     * uuid 32位的钱包账号
-     */
-    private String uuid;
+    private String account;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    private Date crateTime;
 
     public String getUid() {
         return uid;
@@ -65,6 +59,22 @@ public class UserEntity implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getImgType() {
+        return imgType;
+    }
+
+    public void setImgType(String imgType) {
+        this.imgType = imgType;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getMobile() {
@@ -75,27 +85,27 @@ public class UserEntity implements Serializable {
         this.mobile = mobile;
     }
 
-    public String getPassword() {
-        return password;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Date getCrateTime() {
+        return crateTime;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setCrateTime(Date crateTime) {
+        this.crateTime = crateTime;
     }
 }

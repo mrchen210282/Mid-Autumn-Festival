@@ -14,11 +14,6 @@ import java.io.Serializable;
 @TableName("app_status")
 public class AppStatusEntity implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -6999516427877319228L;
-
     @TableId(type = IdType.INPUT)
     private String appid;
 
