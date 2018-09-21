@@ -82,5 +82,6 @@ public interface IndexFeign {
     /**
      * UserCashIncome 表
      */
+    @PostMapping("/inner/userCashIncome/insert")
     Boolean insertUserCashIncome(@RequestBody UserCashIncomeEntity cashIncome);
 }
