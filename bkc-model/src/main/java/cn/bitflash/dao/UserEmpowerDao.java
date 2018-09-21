@@ -1,7 +1,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserEmpowerEntity;
+import cn.bitflash.entities.UserEmpowerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
