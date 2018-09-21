@@ -14,18 +14,14 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.UserCashIncomeDao;
+import cn.bitflash.entity.UserCashIncomeEntity;
+import cn.bitflash.service.UserCashIncomeService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.TokenEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-/**
- * 用户Token
- *
- * @author eric
- * @date 2018-03-23 15:22:07
- */
-public interface TokenDao extends BaseMapper<TokenEntity> {
-
+@Service("userCashIncome")
+public class UserCashIncomeServiceImpl extends ServiceImpl<UserCashIncomeDao, UserCashIncomeEntity> implements UserCashIncomeService {
 }

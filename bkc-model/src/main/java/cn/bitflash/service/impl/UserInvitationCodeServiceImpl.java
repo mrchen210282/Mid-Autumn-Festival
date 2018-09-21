@@ -14,18 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.UserInvitationCodeDao;
+import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.service.UserInvitationCodeService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.TokenEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-/**
- * 用户Token
- *
- * @author eric
- * @date 2018-03-23 15:22:07
- */
-public interface TokenDao extends BaseMapper<TokenEntity> {
-
+@Service("userInvitationCodeService")
+public class UserInvitationCodeServiceImpl extends ServiceImpl<UserInvitationCodeDao, UserInvitationCodeEntity>
+        implements UserInvitationCodeService {
 }

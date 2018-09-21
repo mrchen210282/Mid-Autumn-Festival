@@ -14,18 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.VipConditionsDao;
+import cn.bitflash.entity.VipConditionsEntity;
+import cn.bitflash.service.VipConditionsService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.TokenEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-/**
- * 用户Token
- *
- * @author eric
- * @date 2018-03-23 15:22:07
- */
-public interface TokenDao extends BaseMapper<TokenEntity> {
+@Service("vipConditionsService")
+public class VipConditionsServiceImpl extends ServiceImpl<VipConditionsDao, VipConditionsEntity> implements VipConditionsService {
 
 }

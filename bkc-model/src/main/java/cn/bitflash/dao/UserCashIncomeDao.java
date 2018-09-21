@@ -17,7 +17,7 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entities.UserCashIncome;
+import cn.bitflash.entity.UserCashIncomeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -25,6 +25,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  *
  * @author eric
  */
-public interface UserCashIncomeDao extends BaseMapper<UserCashIncome> {
+public interface UserCashIncomeDao extends BaseMapper<UserCashIncomeEntity> {
 
 }
