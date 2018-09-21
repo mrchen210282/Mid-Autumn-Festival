@@ -55,16 +55,6 @@ public interface IndexFeign {
     @PostMapping("/inner/userAccount/deleteById")
     void delAccountByUid(@RequestParam("id")String uid);
 
-    /**
-     * user_account_game表
-     */
-    @ApiOperation(value = "插入user_account_game表")
-    @PostMapping("/inner/userAccountGame/insertGameIndex")
-    Boolean insertGame(@RequestParam("uid")String uid, @RequestParam("date")Date date);
-
-    @ApiOperation(value = "根据uid删除user_account_game表")
-    @PostMapping("/inner/userAccountGame/deleteById")
-    void delGameByUid(@RequestParam("id")String uid);
 
     /**
      * user_info表

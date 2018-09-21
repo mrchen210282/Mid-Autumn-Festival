@@ -66,7 +66,6 @@ public class RegisterApp {
         }
         indexFeign.delUserEntityBymMbile(mobile);
         indexFeign.delAccountByUid(uid);
-        indexFeign.delGameByUid(uid);
         indexFeign.delUserInfoByUid(uid);
 
         return R.error("注册失败");
@@ -92,21 +91,18 @@ public class RegisterApp {
             Date now = new Date();
             Boolean flag2 = indexFeign.insertAccount(uid, now);
             if (flag2) {
-                Boolean flag3 = indexFeign.insertGame(uid, now);
-                if (flag3) {
-                    // 校验验证码是否正确
-                    UserInvitationCodeEntity userInvitationCodeEntity = indexFeign.selectCodeByCode(invitationCode);
-                    if (userInvitationCodeEntity == null) {
-                        String name = this.getName();
-                        Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
-                        if (flag4) {
-                            UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
-                            cashIncome.setUid(uid);
-                            cashIncome.setCreateTime(new Date());
-                            indexFeign.insertUserCashIncome(cashIncome);
-                            logger.info("手机号：" + mobile + ",注册成功,邀请码：" + invitationCode);
-                            return R.ok("注册成功");
-                        }
+                // 校验验证码是否正确
+                UserInvitationCodeEntity userInvitationCodeEntity = indexFeign.selectCodeByCode(invitationCode);
+                if (userInvitationCodeEntity == null) {
+                    String name = this.getName();
+                    Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
+                    if (flag4) {
+                        UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
+                        cashIncome.setUid(uid);
+                        cashIncome.setCreateTime(new Date());
+                        indexFeign.insertUserCashIncome(cashIncome);
+                        logger.info("手机号：" + mobile + ",注册成功,邀请码：" + invitationCode);
+                        return R.ok("注册成功");
                     }
 
                 }
@@ -114,7 +110,6 @@ public class RegisterApp {
         }
         indexFeign.delUserEntityBymMbile(mobile);
         indexFeign.delAccountByUid(uid);
-        indexFeign.delGameByUid(uid);
         indexFeign.delUserInfoByUid(uid);
 
         return R.error("注册失败");
