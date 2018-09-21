@@ -26,8 +26,11 @@ public interface SystemFeign {
     UserEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
 
     @ApiOperation(value = "查询区间时间内的价格")
+    @PostMapping()
     List<PriceChart> selectLineChartByDate(@RequestParam("after") Date after, @RequestParam("yesterday") Date yesterday);
 
+
     @ApiOperation(value = "根据主键查询数据")
+    @PostMapping()
     PriceLinechartEntity selectLineChartById(@RequestParam("date")Date date);
 }
