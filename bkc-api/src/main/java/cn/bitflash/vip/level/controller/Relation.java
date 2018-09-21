@@ -1,7 +1,6 @@
 package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserAccountEntity;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
@@ -35,7 +34,7 @@ public class Relation {
             return R.error("没有加入社区");
         }
         //返回map
-        UserAccountEntity userAccount = levelFeign.selectAccountByUid(uid);
+        UserDigitalIncome userAccount = levelFeign.selectAccountByUid(uid);
         Map<String, Object> map = new HashMap<String, Object>();
         if (userAccount != null) {
             Double left = userAccount.getLftAchievement().doubleValue();

@@ -1,5 +1,6 @@
 package cn.bitflash.vip.index.controller;
 
+import cn.bitflash.entity.UserCashIncomeEntity;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.util.R;
@@ -53,7 +54,7 @@ public class RegisterApp {
                 String name = this.getName();
                 Boolean flag3 = indexFeign.insertInfo(uid, mobile, false, name);
                 if (flag3) {
-                    UserCashIncome cashIncome = new UserCashIncome();
+                    UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
                     cashIncome.setUid(uid);
                     cashIncome.setCreateTime(new Date());
                     indexFeign.insertUserCashIncome(cashIncome);
@@ -99,7 +100,7 @@ public class RegisterApp {
                         String name = this.getName();
                         Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
                         if (flag4) {
-                            UserCashIncome cashIncome = new UserCashIncome();
+                            UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
                             cashIncome.setUid(uid);
                             cashIncome.setCreateTime(new Date());
                             indexFeign.insertUserCashIncome(cashIncome);

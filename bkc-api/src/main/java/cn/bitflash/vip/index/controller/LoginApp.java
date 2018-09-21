@@ -52,7 +52,6 @@ public class LoginApp {
         if (user == null || !user.getPassword().equals(form.getPassword())) {
             throw new RRException("手机号或密码错误" );
         }
-
         // 插入token
         String token = generateToken();
         TokenEntity tokenEntity = new TokenEntity();
