@@ -8,7 +8,7 @@ public class VipConditionsEntity implements Serializable {
 
     private float power;
 
-    private int bkcountremarkstate;
+    private int bkcount;
 
     private String remark;
 
@@ -30,12 +30,12 @@ public class VipConditionsEntity implements Serializable {
         this.power = power;
     }
 
-    public int getBkcountremarkstate() {
-        return bkcountremarkstate;
+    public int getBkcount() {
+        return bkcount;
     }
 
-    public void setBkcountremarkstate(int bkcountremarkstate) {
-        this.bkcountremarkstate = bkcountremarkstate;
+    public void setBkcount(int bkcount) {
+        this.bkcount = bkcount;
     }
 
     public String getRemark() {

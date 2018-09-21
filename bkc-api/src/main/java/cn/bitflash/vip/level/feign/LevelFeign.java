@@ -2,52 +2,81 @@ package cn.bitflash.vip.level.feign;
 
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@FeignClient(value = "bkc-model")
 public interface LevelFeign {
 
     /**
      * user_account 表
      */
-    UserAccountEntity selectAccountByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userAccount/selectById")
+    UserDigitalIncomeEntity selectAccountByUid(@RequestParam("id") String uid);
 
-    Boolean updateAccountById(@RequestBody UserAccountEntity account);
+    @PostMapping("/inner/userAccount/updateById")
+    Boolean updateAccountById(@RequestBody UserDigitalIncomeEntity account);
 
     /**
      * user_info 表
      */
-    UserInfoEntity selectUserInfoByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userInfo/selectById")
+    UserInfoEntity selectUserInfoByUid(@RequestParam("id") String uid);
 
+    @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
 
     /**
      * user_relation 表
      */
-    UserRelationEntity selectRelationByCode(@RequestParam("code")String code);
+    @PostMapping("/inner/userRelation/selectRelationByCode")
+    UserRelationEntity selectRelationByCode(@RequestParam("code") String code);
 
-    List<UserRelationJoinAccountEntity>  selectTreeNodes(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userRelation/selectTreeNodes")
+    List<UserRelationJoinAccountEntity> selectTreeNodes(@RequestParam("uid") String uid);
 
     /**
      * user_invitation_code 表
      */
-    UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("uid")String uid);
+    @PostMapping("/inner/userInvitationCode/selectById")
+    UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("id") String uid);
 
-    UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code")String code);
+    @PostMapping("/inner/userInvitationCode/selectCodeByCode")
+    UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 
+    @PostMapping("/inner/userInvitationCode/insert")
     Boolean insertInvitationCode(@RequestBody UserInvitationCodeEntity code);
 
-    Boolean insertTreeNode(@RequestParam("pid")String pid,@RequestParam("uid") String uid,@RequestParam("code")String code);
+    @PostMapping("/inner/userRelation/insertTreeNode")
+    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid, @RequestParam("code") String code);
 
     /**
      * platform_config 表
      */
-    String getVal(@RequestParam("key")String key);
+    @PostMapping("/inner/platFormConfig/getVal")
+    String getVal(@RequestParam("key") String key);
 
     /**
      * user_info_config表
      */
-    UserInfoConfigEntity selectInfoConfigById(@RequestParam("vip")Integer vip);
+    @PostMapping("/inner/userInfoConfig/selectById")
+    UserInfoConfigEntity selectInfoConfigById(@RequestParam("vip") Integer vip);
+
+    /**
+     * vip_conditions 表
+     */
+    @PostMapping("/inner/VipConditions/selectVipConditonsByLevel")
+    List<VipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level") String level);
+
+    /**
+     * user_cash_income 表
+     */
+
+    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("uid") String uid);
+
+    Boolean updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
 }
