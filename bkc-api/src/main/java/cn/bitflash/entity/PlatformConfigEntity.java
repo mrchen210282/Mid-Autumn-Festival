@@ -1,15 +1,11 @@
 package cn.bitflash.entity;
 
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName("platform_config")
 public class PlatformConfigEntity implements Serializable {
 
-    @TableId
     private Integer id;
     private String configName;
     private String configValue;

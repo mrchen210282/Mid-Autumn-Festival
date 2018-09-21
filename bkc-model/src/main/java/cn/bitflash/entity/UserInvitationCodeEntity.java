@@ -16,9 +16,6 @@ import java.io.Serializable;
 @TableName("user_invitation_code")
 public class UserInvitationCodeEntity implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -672573899381849255L;
 
     @TableId(type = IdType.INPUT)

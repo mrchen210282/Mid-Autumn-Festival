@@ -14,11 +14,6 @@ import java.util.Date;
 @TableName("user_empower")
 public class UserEmpowerEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * id
-     */
     @TableId
     private Integer id;
 
