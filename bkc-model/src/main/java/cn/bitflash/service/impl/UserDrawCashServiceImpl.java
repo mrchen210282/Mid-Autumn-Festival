@@ -16,12 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.UserMarkDao;
-import cn.bitflash.entity.UserMarkEntity;
-import cn.bitflash.service.UserMarkService;
+import cn.bitflash.dao.UserDrawCashDao;
+import cn.bitflash.entity.UserDrawCashEntity;
+import cn.bitflash.service.UserDrawCashService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("userMarkService")
-public class UserMarkServiceImpl extends ServiceImpl<UserMarkDao, UserMarkEntity> implements UserMarkService {
+@Service("userDrawCashService")
+public class UserDrawCashServiceImpl extends ServiceImpl<UserDrawCashDao, UserDrawCashEntity> implements UserDrawCashService {
 }

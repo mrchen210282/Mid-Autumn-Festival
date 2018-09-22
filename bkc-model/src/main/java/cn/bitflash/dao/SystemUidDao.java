@@ -17,13 +17,13 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserPaymentCodeEntity;
+import cn.bitflash.entity.SystemUidEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-public interface UserPaymentCodeDao extends BaseMapper<UserPaymentCodeEntity> {
+public interface SystemUidDao extends BaseMapper<SystemUidEntity> {
 
 }

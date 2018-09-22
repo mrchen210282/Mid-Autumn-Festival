@@ -3,14 +3,15 @@ package cn.bitflash.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_payment_code")
-public class UserPaymentCodeEntity implements Serializable {
+@TableName("user_mobile_payment_info")
+public class UserMobilePaymentInfoEntity implements Serializable {
     @TableId
     private BigInteger id;
 

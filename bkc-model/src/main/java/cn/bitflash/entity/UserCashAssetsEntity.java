@@ -15,6 +15,8 @@ public class UserCashAssetsEntity implements Serializable {
     @TableId
     private String uid;
 
+    private BigDecimal purchase;
+
     private BigDecimal totleIncome;
 
     private BigDecimal differenceIncome;
@@ -27,6 +29,14 @@ public class UserCashAssetsEntity implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public BigDecimal getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(BigDecimal purchase) {
+        this.purchase = purchase;
     }
 
     public BigDecimal getTotleIncome() {

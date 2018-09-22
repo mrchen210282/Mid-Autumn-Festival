@@ -1,8 +1,8 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserMarkEntity;
-import cn.bitflash.service.UserMarkService;
+import cn.bitflash.entity.UserDrawCashEntity;
+import cn.bitflash.service.UserDrawCashService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GAOYGUUO
  */
 @RestController
-public class UserMarkController {
+public class UserDrawCashController {
 
     @Autowired
-    private UserMarkService userMarkService;
+    private UserDrawCashService userDrawCashService;
 
     /**
      * selectById
      *
      * @return
      */
-    @PostMapping("/inner/userMark/selectById")
-    public UserMarkEntity selectById(@RequestParam("id") String id) {
-        UserMarkEntity entity = userMarkService.selectById(id);
+    @PostMapping("/inner/userDrawCash/selectById")
+    public UserDrawCashEntity selectById(@RequestParam("id") String id) {
+        UserDrawCashEntity entity = userDrawCashService.selectById(id);
         return entity;
     }
 
@@ -35,10 +35,10 @@ public class UserMarkController {
      *
      * @return
      */
-    @PostMapping("/inner/userMark/updateById")
+    @PostMapping("/inner/userDrawCash/updateById")
     public void updateById(@RequestBody JSONObject json) throws Exception {
-        UserMarkEntity entity = (UserMarkEntity) JSONObject.parseObject(json.toString(), UserMarkEntity.class);
-        userMarkService.updateById(entity);
+        UserDrawCashEntity entity = (UserDrawCashEntity) JSONObject.parseObject(json.toString(), UserDrawCashEntity.class);
+        userDrawCashService.updateById(entity);
     }
 
     /**
@@ -46,10 +46,10 @@ public class UserMarkController {
      *
      * @return
      */
-    @PostMapping("/inner/userMark/insert")
+    @PostMapping("/inner/userDrawCash/insert")
     public void insert(@RequestBody JSONObject json) throws Exception {
-        UserMarkEntity entity = (UserMarkEntity) JSONObject.parseObject(json.toString(), UserMarkEntity.class);
-        userMarkService.insert(entity);
+        UserDrawCashEntity entity = (UserDrawCashEntity) JSONObject.parseObject(json.toString(), UserDrawCashEntity.class);
+        userDrawCashService.insert(entity);
     }
 
     /**
@@ -57,9 +57,9 @@ public class UserMarkController {
      *
      * @return
      */
-    @PostMapping("/inner/userMark/deleteById")
+    @PostMapping("/inner/userDrawCash/deleteById")
     public void deleteById(@RequestParam("id") String id) throws Exception {
-        userMarkService.deleteById(id);
+        userDrawCashService.deleteById(id);
     }
 
 }
