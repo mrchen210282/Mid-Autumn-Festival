@@ -1,10 +1,8 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.DictComputingPowerEntity;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.service.DictComputingPowerService;
-import cn.bitflash.service.UserInfoService;
+import cn.bitflash.entity.SystemParamEntity;
+import cn.bitflash.service.SystemParamService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,19 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GAOYGUUO
  */
 @RestController
-public class UserInfoController {
+public class SystemParamController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private SystemParamService systemParamService;
 
     /**
      * selectById
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/selectById")
-    public UserInfoEntity selectById(@RequestParam("id") String id) {
-        UserInfoEntity entity = userInfoService.selectById(id);
+    @PostMapping("/inner/systemParam/selectById")
+    public SystemParamEntity selectById(@RequestParam("id") String id) {
+        SystemParamEntity entity = systemParamService.selectById(id);
         return entity;
     }
 
@@ -37,10 +35,10 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/updateById")
+    @PostMapping("/inner/systemParam/updateById")
     public void updateById(@RequestBody JSONObject json) throws Exception {
-        UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.updateById(entity);
+        SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
+        systemParamService.updateById(entity);
     }
 
     /**
@@ -48,10 +46,10 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/insert")
+    @PostMapping("/inner/systemParam/insert")
     public void insert(@RequestBody JSONObject json) throws Exception {
-        UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.insert(entity);
+        SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
+        systemParamService.insert(entity);
     }
 
     /**
@@ -59,9 +57,9 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/deleteById")
+    @PostMapping("/inner/systemParam/deleteById")
     public void deleteById(@RequestParam("id") String id) throws Exception {
-        userInfoService.deleteById(id);
+        systemParamService.deleteById(id);
     }
 
 }

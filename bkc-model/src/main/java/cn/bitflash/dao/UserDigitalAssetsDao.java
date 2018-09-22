@@ -17,13 +17,13 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.UserRelationEntity;
+import cn.bitflash.entity.UserDigitalAssetsEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
+public interface UserDigitalAssetsDao extends BaseMapper<UserDigitalAssetsEntity> {
 
 }
