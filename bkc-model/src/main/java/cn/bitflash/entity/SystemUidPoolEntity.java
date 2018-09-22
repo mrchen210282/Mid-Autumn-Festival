@@ -3,14 +3,13 @@ package cn.bitflash.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 
-import java.io.Serializable;
-
 /**
- * @author gaoyuguo
+ * @author wangjun
  * @date 2018年9月22日
  */
-@TableName("system_uid")
-public class SystemUidEntity implements Serializable {
+@TableName("system_uid_pool")
+public class SystemUidPoolEntity {
+
     @TableId
     private String uid;
 
@@ -21,4 +20,6 @@ public class SystemUidEntity implements Serializable {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
+
 }
