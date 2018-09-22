@@ -3,6 +3,7 @@ package cn.bitflash.vip.user.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.util.R;
+import cn.bitflash.vip.user.feign.SystemUidFeign;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,9 @@ public class NickName {
 
     @Autowired
     private UserFeign userFeign;
+
+    @Autowired
+    private SystemUidFeign systemUidFeign;
 
     @Login
     @PostMapping("updateNickName")
@@ -37,5 +41,13 @@ public class NickName {
         } else {
             return R.error("昵称长度不能大于6个字！");
         }
+    }
+
+    @PostMapping("selectUid")
+    @ApiOperation("修改昵称")
+    public R selectUid() {
+        String uid = systemUidFeign.selectUid();
+        System.out.println(uid + "-------------------------");
+        return R.ok();
     }
 }
