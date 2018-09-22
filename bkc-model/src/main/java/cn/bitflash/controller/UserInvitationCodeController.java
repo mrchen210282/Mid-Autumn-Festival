@@ -2,20 +2,16 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.UserInvitationCodeEntity;
-import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserInvitationCodeService;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author GAOYUGUO
+ * @author GAOYGUUO
  */
 @RestController
 public class UserInvitationCodeController {
@@ -40,12 +36,8 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/updateById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(@RequestBody JSONObject json) {
-        UserInvitationCodeEntity entity = new UserInvitationCodeEntity();
-        entity.setUid(json.getString("uid"));
-        entity.setLftCode(json.getString("lftCode"));
-        entity.setRgtCode(json.getString("rgtCode"));
+    public void updateById(@RequestBody JSONObject json) throws Exception {
+        UserInvitationCodeEntity entity = (UserInvitationCodeEntity) JSONObject.parseObject(json.toString(), UserInvitationCodeEntity.class);
         userInvitationCodeService.updateById(entity);
     }
 
@@ -55,12 +47,8 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/insert")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(@RequestBody JSONObject json) {
-        UserInvitationCodeEntity entity = new UserInvitationCodeEntity();
-        entity.setUid(json.getString("uid"));
-        entity.setLftCode(json.getString("lftCode"));
-        entity.setRgtCode(json.getString("rgtCode"));
+    public void insert(@RequestBody JSONObject json) throws Exception {
+        UserInvitationCodeEntity entity = (UserInvitationCodeEntity) JSONObject.parseObject(json.toString(), UserInvitationCodeEntity.class);
         userInvitationCodeService.insert(entity);
     }
 
@@ -70,21 +58,8 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/deleteById")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(@RequestParam("id") String id) {
+    public void deleteById(@RequestParam("id") String id) throws Exception {
         userInvitationCodeService.deleteById(id);
-    }
-
-    /**
-     * selectCodeByCode
-     */
-    @PostMapping("/inner/userInvitationCode/selectCodeByCode")
-    UserInvitationCodeEntity selectCodeByCode(@RequestParam("code")String code){
-        UserInvitationCodeEntity entity = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("lft_code",code));
-        if(entity == null){
-            entity = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("rgt_code",code));
-        }
-        return entity;
     }
 
 }

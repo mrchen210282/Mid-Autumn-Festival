@@ -14,16 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.DictUserRelationDao;
+import cn.bitflash.entity.DictUserRelationEntity;
+import cn.bitflash.service.DictUserRelationService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.UserRelationEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-/**
- * @author gaoyuguo
- * @date 2018年9月22日
- */
-public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
+@Service("dictUserRelationService")
+public class DictUserRelationServiceImpl extends ServiceImpl<DictUserRelationDao, DictUserRelationEntity> implements DictUserRelationService {
 
 }

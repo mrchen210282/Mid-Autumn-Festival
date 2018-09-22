@@ -2,28 +2,19 @@ package cn.bitflash.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 
 /**
- * 用户邀请码
- *
- * @author soso
- * @date 2018年5月22日 下午10:44:03
+ * @author gaoyuguo
+ * @date 2018年9月22日
  */
-
 @TableName("user_invitation_code")
 public class UserInvitationCodeEntity implements Serializable {
-
-    private static final long serialVersionUID = -672573899381849255L;
-
-    @TableId(type = IdType.INPUT)
+    @TableId
     private String uid;
 
-    private String lftCode;
-
-    private String rgtCode;
+    private String code;
 
     public String getUid() {
         return uid;
@@ -33,20 +24,11 @@ public class UserInvitationCodeEntity implements Serializable {
         this.uid = uid;
     }
 
-    public String getLftCode() {
-        return lftCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setLftCode(String lftCode) {
-        this.lftCode = lftCode;
+    public void setCode(String code) {
+        this.code = code;
     }
-
-    public String getRgtCode() {
-        return rgtCode;
-    }
-
-    public void setRgtCode(String rgtCode) {
-        this.rgtCode = rgtCode;
-    }
-
 }

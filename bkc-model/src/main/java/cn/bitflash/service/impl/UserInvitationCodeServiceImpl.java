@@ -23,6 +23,5 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service("userInvitationCodeService")
-public class UserInvitationCodeServiceImpl extends ServiceImpl<UserInvitationCodeDao, UserInvitationCodeEntity>
-        implements UserInvitationCodeService {
+public class UserInvitationCodeServiceImpl extends ServiceImpl<UserInvitationCodeDao, UserInvitationCodeEntity> implements UserInvitationCodeService {
 }

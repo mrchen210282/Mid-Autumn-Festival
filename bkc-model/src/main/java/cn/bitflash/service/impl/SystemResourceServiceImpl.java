@@ -14,16 +14,14 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.SystemResourceDao;
+import cn.bitflash.entity.SystemResourceEntity;
+import cn.bitflash.service.SystemResourceService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.UserRelationEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-/**
- * @author gaoyuguo
- * @date 2018年9月22日
- */
-public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
-
+@Service("systemResourceService")
+public class SystemResourceServiceImpl extends ServiceImpl<SystemResourceDao, SystemResourceEntity> implements SystemResourceService {
 }
