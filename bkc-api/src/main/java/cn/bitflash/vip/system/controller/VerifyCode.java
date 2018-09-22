@@ -5,6 +5,8 @@ import cn.bitflash.util.R;
 import cn.bitflash.util.SmsUtils;
 import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ public class VerifyCode {
     private SystemFeign systemFeign;
 
     @RequestMapping("getVerifyCode")
-    public R sent(@RequestParam String mobile, @RequestParam String type, HttpServletResponse response) {
+    @ApiOperation("获取短信验证码")
+    public R sent(@ApiParam  @RequestParam String mobile,@ApiParam(value = "reg 注册验证码 findPwd 找回密码") @RequestParam String type, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         if (StringUtils.isBlank(mobile)) {
             return R.error(501, "手机号不能为空");

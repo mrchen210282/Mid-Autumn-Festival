@@ -5,6 +5,8 @@ import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +20,8 @@ public class NickName {
 
     @Login
     @PostMapping("updateNickName")
-    public R updateNickName(@RequestParam String nickname, @RequestAttribute("uid") String uid) {
+    @ApiOperation("修改昵称")
+    public R updateNickName(@ApiParam @RequestParam String nickname, @RequestAttribute("uid") String uid) {
         if (nickname.length() <= 6) {
             String nicklock = userFeign.selectUserInfoByColumn(uid, "nicklock");
             if ("1".equals(nicklock)) {

@@ -21,12 +21,6 @@ public interface UserFeign {
     Boolean updateUserById(@RequestBody UserEntity userEntity);
 
     /**
-     * user_account表
-     */
-    @PostMapping("/inner/userDigitalIncome/selectById")
-    UserDigitalIncomeEntity selectAccountByUid(@RequestParam("id") String id);
-
-    /**
      * user_info表
      */
     //返回对应列的值
@@ -51,19 +45,10 @@ public interface UserFeign {
     @PostMapping("/inner/userPayUrl/updateById")
     Boolean updateUserUrlById(@RequestBody UserPayImgEntity userPayUrlEntity);
 
-    //imgType 1,2,5
-    @PostMapping("")
-    List<UserPayImgEntity> selectUserUrlList(@RequestParam("uid") String uid);
-
     /**
      * user_pay_pwd 表
      */
     @PostMapping("/inner/userPayPwd/selectById")
     UserPayPwdEntity selectUserPwdByUid(@RequestParam("id") String id);
 
-    @PostMapping("/inner/userPayPwd/insert")
-    Boolean insertUserPwd(@RequestBody UserPayPwdEntity userPayPwdEntity);
-
-    @PostMapping("/inner/userPayPwd/updateById")
-    Boolean updateUserPwdById(@RequestBody UserPayPwdEntity userPayPwdEntity);
 }

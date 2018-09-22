@@ -27,9 +27,6 @@ public interface LevelFeign {
     @PostMapping("/inner/userInfo/selectById")
     UserInfoEntity selectUserInfoByUid(@RequestParam("id") String uid);
 
-    @PostMapping("/inner/userInfo/updateById")
-    Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
-
     /**
      * user_relation 表
      */
@@ -48,9 +45,6 @@ public interface LevelFeign {
     @PostMapping("/inner/userInvitationCode/selectCodeByCode")
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 
-    @PostMapping("/inner/userInvitationCode/insert")
-    Boolean insertInvitationCode(@RequestBody UserInvitationCodeEntity code);
-
     @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid, @RequestParam("code") String code);
 
@@ -59,12 +53,6 @@ public interface LevelFeign {
      */
     @PostMapping("/inner/platFormConfig/getVal")
     String getVal(@RequestParam("key") String key);
-
-    /**
-     * user_info_config表
-     */
-    @PostMapping("/inner/userInfoConfig/selectById")
-    UserInfoConfigEntity selectInfoConfigById(@RequestParam("id") Integer vip);
 
     /**
      * vip_conditions 表

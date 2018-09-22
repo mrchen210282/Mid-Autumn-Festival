@@ -6,6 +6,7 @@ import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -25,6 +26,7 @@ public class Relation {
 
     @Login
     @PostMapping("getRelation")
+    @ApiOperation("显示社区详情")
     public R getRelation(@RequestAttribute("uid") String uid) {
 
         UserInfoEntity infoEntity = levelFeign.selectUserInfoByUid(uid);

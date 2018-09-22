@@ -7,6 +7,8 @@ import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,8 @@ public class LoginPwd {
 
     @Login
     @PostMapping("updateLoginPwd")
-    public R updateLoginPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, @RequestParam String oldPwd, @RequestParam String newPwd) {
+    @ApiOperation("修改登录密码")
+    public R updateLoginPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, @ApiParam @RequestParam String oldPwd,@ApiParam @RequestParam String newPwd) {
         UserEntity user = userFeign.selectUserByUid(uid);
         if (oldPwd.equals(user.getPassword())) {
             user.setPassword(newPwd);
@@ -32,7 +35,8 @@ public class LoginPwd {
     }
 
     @PostMapping("findLoginPwd")
-    public R findLoginPwd(@RequestParam String mobile, @RequestParam String newPwd) {
+    @ApiOperation("找回登录密码")
+    public R findLoginPwd(@ApiParam @RequestParam String mobile, @ApiParam @RequestParam String newPwd) {
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(newPwd);
         userEntity.setMobile(mobile);
