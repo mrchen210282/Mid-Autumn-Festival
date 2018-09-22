@@ -1,8 +1,8 @@
 package cn.bitflash.vip.system.controller;
 
 import cn.bitflash.entity.UseLoginEntity;
-import cn.bitflash.util.R;
-import cn.bitflash.util.SmsUtils;
+import cn.bitflash.utils.R;
+import cn.bitflash.utils.SmsUtils;
 import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

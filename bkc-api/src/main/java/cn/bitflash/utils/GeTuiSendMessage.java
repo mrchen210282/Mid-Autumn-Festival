@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import com.gexin.rp.sdk.base.IBatch;
 import com.gexin.rp.sdk.base.IIGtPush;

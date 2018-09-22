@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 public class RedisDetail {
 

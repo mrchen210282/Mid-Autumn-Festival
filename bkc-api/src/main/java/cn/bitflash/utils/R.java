@@ -14,7 +14,7 @@
  * the License.
  */
 
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import java.util.HashMap;
 import java.util.Map;

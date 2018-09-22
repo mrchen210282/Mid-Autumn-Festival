@@ -4,18 +4,24 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.SystemResourceEntity;
 import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.entity.UserPaymentCodeEntity;
-import cn.bitflash.util.R;
-import cn.bitflash.util.ValidatorUtils;
+import cn.bitflash.utils.R;
+import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
 import cn.bitflash.vip.user.feign.UserFeign;
+import com.alibaba.fastjson.JSON;
 import com.gexin.rp.sdk.base.uitls.MD5Util;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -91,19 +97,19 @@ public class PayUrl {
     @Login
     @PostMapping("getPayUrl")
     @ApiOperation("获取图片地址")
-    public R getPayUrl(@RequestAttribute("uid") String myuid, @ApiParam @RequestParam(value = "uid", required = false) String uid, @ApiParam @RequestParam("imgType") String imgType) {
-        UserPaymentCodeEntity payment = null;
-        if (uid == null) {
-            payment = userFeign.selectPaymentByUidAndType(myuid, imgType);
-        } else {
-            payment = userFeign.selectPaymentByUidAndType(uid, imgType);
-        }
+    public R getPayUrl(@RequestAttribute("uid") String uid) {
+        List<UserPaymentCodeEntity> payment =userFeign.selectPaymentByUid(uid);
         if (payment == null) {
             return R.error("未上传收款信息");
         }
         SystemResourceEntity uri = userFeign.selectSysResourceById(1);
-        return R.ok().put("url", uri + payment.getCode()).put("account", payment.getAccount()).put("type", payment.getType());
+        Map<String,Object> map = new HashMap<>();
+        payment.stream().forEach(u->{
+            if(u.getType().equals(""))
+        });
+        return payment;
     }
+
 
 
 }

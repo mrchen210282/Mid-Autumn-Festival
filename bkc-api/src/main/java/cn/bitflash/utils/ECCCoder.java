@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import java.math.BigInteger;
 import java.security.*;
@@ -8,17 +8,8 @@ import java.security.spec.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.crypto.Cipher;
-import javax.crypto.NullCipher;
-
-import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.ECPointUtil;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
-import org.bouncycastle.jce.spec.ECNamedCurveSpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
-import sun.security.ec.ECKeyFactory;
 import sun.security.ec.ECPrivateKeyImpl;
 import sun.security.ec.ECPublicKeyImpl;
 

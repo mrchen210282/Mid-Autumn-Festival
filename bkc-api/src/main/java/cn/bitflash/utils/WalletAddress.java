@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

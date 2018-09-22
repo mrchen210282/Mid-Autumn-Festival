@@ -14,7 +14,7 @@
  * the License.
  */
 
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;

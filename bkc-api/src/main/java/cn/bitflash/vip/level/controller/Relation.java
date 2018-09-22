@@ -2,8 +2,8 @@ package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
-import cn.bitflash.util.Common;
-import cn.bitflash.util.R;
+import cn.bitflash.utils.Common;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

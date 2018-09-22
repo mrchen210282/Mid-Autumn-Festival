@@ -3,7 +3,7 @@ package cn.bitflash.interceptor;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserTokenEntity;
 import cn.bitflash.exception.RRException;
-import cn.bitflash.util.RedisUtils;
+import cn.bitflash.utils.RedisUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static cn.bitflash.util.Common.TOKEN;
+import static cn.bitflash.utils.Common.TOKEN;
 
 @Component
 public class ApiLoginInterceptor extends HandlerInterceptorAdapter {

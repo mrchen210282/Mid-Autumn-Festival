@@ -37,7 +37,6 @@ public class UseLoginEntity implements Serializable {
      * 手机号
      */
     private String mobile;
-
     /**
      * 密码
      */
@@ -47,6 +46,9 @@ public class UseLoginEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    private int salt;
+
+    private String token;
 
     public String getMobile() {
         return mobile;
@@ -78,5 +80,21 @@ public class UseLoginEntity implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public int getSalt() {
+        return salt;
+    }
+
+    public void setSalt(int salt) {
+        this.salt = salt;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

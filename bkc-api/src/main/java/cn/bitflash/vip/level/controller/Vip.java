@@ -3,7 +3,7 @@ package cn.bitflash.vip.level.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
-import cn.bitflash.util.R;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;

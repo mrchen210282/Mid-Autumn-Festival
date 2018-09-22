@@ -1,20 +1,17 @@
 package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.entity.UseLoginEntity;
-import cn.bitflash.entity.UserCashIncomeEntity;
-import cn.bitflash.entity.UseLoginrEntity;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserInvitationCodeEntity;
-import cn.bitflash.util.R;
-import cn.bitflash.util.ValidatorUtils;
-import cn.bitflash.vip.index.entity.RegisterForm;
+import cn.bitflash.utils.R;
+import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -39,19 +36,21 @@ public class RegisterApp {
         if (oldUser != null) {
             return R.error(501, "手机号已经存在");
         }
-        //TODO uid生成规则 钱包地址
-        String uid = generateUUID32();
+
+        String uid = indexFeign.selectUid();
         UseLoginEntity us = new UseLoginEntity();
         us.setMobile(mobile);
         us.setPassword(pwd);
         us.setUid(uid);
         us.setCreateTime(new Date());
+        us.setSalt(RandomNumUtil.nBit(4));
         //初始化user_login表
         Boolean flag = indexFeign.insertUserLoginEntity(us);
-        if(!flag){
+        if (!flag) {
             indexFeign.delUserEntityByMbile(mobile);
             return R.error("注册失败");
         }
+        logger.info("注册手机号");
         return R.ok("注册成功");
     }
 
@@ -59,7 +58,7 @@ public class RegisterApp {
         return UUID.randomUUID().toString().replace("-", "").toUpperCase();
     }
 
-    public String getName() {
+    private String getName() {
         String str = "用户";
         int max = 10000;
         int min = 1000;
@@ -67,4 +66,6 @@ public class RegisterApp {
         str += random.nextInt(max) % (max - min + 1) + min;
         return str;
     }
+
+
 }

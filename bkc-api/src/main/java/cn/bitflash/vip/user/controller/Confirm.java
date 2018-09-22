@@ -1,9 +1,6 @@
 package cn.bitflash.vip.user.controller;
 
-import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.util.Common;
-import cn.bitflash.util.R;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
