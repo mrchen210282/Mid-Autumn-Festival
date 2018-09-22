@@ -41,6 +41,6 @@ public interface UserFeign {
      * user_wallet_address
      */
     @PostMapping("")
-
+    void insetUserWalletAddress(@RequestBody UserWalletAddressEntity userWalletAddress);
 
 }
