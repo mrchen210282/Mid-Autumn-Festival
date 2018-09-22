@@ -3,8 +3,8 @@ package cn.bitflash.vip.system.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.PriceLinechartEntity;
-import cn.bitflash.util.DateUtils;
-import cn.bitflash.util.R;
+import cn.bitflash.utils.DateUtils;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.system.entity.PriceChart;
 import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
