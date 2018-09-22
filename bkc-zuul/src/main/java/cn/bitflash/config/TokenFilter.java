@@ -1,4 +1,3 @@
-/*
 package cn.bitflash.config;
 
 import cn.bitflash.exception.RRException;
@@ -17,12 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Base64;
 
-*/
 /**
  * zuul拦截器
  *
  * @author eric
- *//*
+ */
+
 
 public class TokenFilter extends ZuulFilter {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -33,8 +32,7 @@ public class TokenFilter extends ZuulFilter {
     public static final String TIME = "time";
     public static final String TOKEN = "token";
 
-    */
-/**
+    /**
      * filterType：过滤器的类型，它决定过滤器在请求的哪个生命周期中执行。
      * pre：可以在请求被路由之前调用
      * route：在路由请求时候被调用
@@ -42,31 +40,35 @@ public class TokenFilter extends ZuulFilter {
      * error：处理请求时发生错误时被调用
      *
      * @return pre
-     *//*
+     */
+
 
     @Override
+
     public String filterType() {
         return "pre";
     }
 
-    */
-/**
+    /**
      * filterOrder：过滤器的执行顺序
      * 当请求在一个阶段中存在多个过滤器时，需要根据该方法返回的值来依次执行。
      * 数字越小，执行过程越往前
-     *//*
+     */
+
 
     @Override
+
     public int filterOrder() {
         return 0;
     }
 
-    */
-/**
+    /**
      * 如果请求地址中标包含登录接口则不执行该过滤器
-     *//*
+     */
+
 
     @Override
+
     public boolean shouldFilter() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
@@ -80,13 +82,13 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("bitflash-sys/api/getTime") != -1) {
             return false;
         }
-        if (url.indexOf("bitflash-login/api/login/changePassword2" )!= -1) {
+        if (url.indexOf("bitflash-login/api/login/changePassword2") != -1) {
             return false;
         }
-        if(url.indexOf("bitflash-sys/api/getBitflash")!=-1){
+        if (url.indexOf("bitflash-sys/api/getBitflash") != -1) {
             return false;
         }
-        if(url.indexOf("/api/update")!=-1){
+        if (url.indexOf("/api/update") != -1) {
             return false;
         }
         return true;
@@ -109,8 +111,8 @@ public class TokenFilter extends ZuulFilter {
         //token为空
         if (StringUtils.isBlank(secretTime) || StringUtils.isBlank(secretToken)) {
             ctx.setSendZuulResponse(false); //不进行路由
-            logger.info("token不能为空,请求接口为:"+url);
-            throw new RRException("token不能为空,请求接口为:"+url);
+            logger.info("token不能为空,请求接口为:" + url);
+            throw new RRException("token不能为空,请求接口为:" + url);
         }
         try {
             HttpSession session = request.getSession();
@@ -124,17 +126,16 @@ public class TokenFilter extends ZuulFilter {
             TokenEntity tokenEntity = redisUtils.get(token, TokenEntity.class);
             if (tokenEntity == null) {
                 ctx.setSendZuulResponse(false); //不进行路由
-                logger.info("token错误/失效,请求接口为:"+url);
-                throw new RRException("token错误/失效,请求接口为:"+url);
+                logger.info("token错误/失效,请求接口为:" + url);
+                throw new RRException("token错误/失效,请求接口为:" + url);
             }
             session.setAttribute(TOKEN, token);
         } catch (Exception e) {
             ctx.setSendZuulResponse(false); //不进行路由
-            logger.info("token解密失败,请求接口为:"+url);
-            throw new RRException("token解密失败,请求接口为:"+url);
+            logger.info("token解密失败,请求接口为:" + url);
+            throw new RRException("token解密失败,请求接口为:" + url);
         }
         return null;
     }
 
 }
-*/

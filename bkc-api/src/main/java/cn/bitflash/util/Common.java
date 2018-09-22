@@ -14,9 +14,6 @@ public class Common {
 
 	public final static String TOKEN = "token";
 
-	//userinfo 实名认证完成状态码
-	public final static String AUTHENTICATION = "2";
-
 
 	/**
 	 * 生成8位随机数

@@ -1,7 +1,7 @@
 package cn.bitflash.interceptor;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.TokenEntity;
+import cn.bitflash.entity.UserTokenEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.util.RedisUtils;
 import org.apache.commons.lang.StringUtils;
@@ -43,7 +43,7 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isBlank(token)) {
             throw new RRException("参数不能为空");
         }
-        TokenEntity tokenEntity = redisUtils.get(token,TokenEntity.class);
+        UserTokenEntity tokenEntity = redisUtils.get(token,UserTokenEntity.class);
 
         //设置userId到request里，后续根据userId，获取用户信息
         request.setAttribute(UID, tokenEntity.getUid());
