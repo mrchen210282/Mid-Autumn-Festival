@@ -20,6 +20,8 @@ package cn.bitflash.dao;
 import cn.bitflash.entity.SystemUidPoolEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.Map;
+
 /**
  * @author wangjun
  * @date 2018年9月22日
@@ -27,5 +29,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 public interface SystemUidPoolDao extends BaseMapper<SystemUidPoolEntity> {
 
     //查询用户uid
-    public String selectUid();
+    public String selectUid(Map<String,Object> map);
 }
