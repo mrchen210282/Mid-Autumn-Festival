@@ -37,4 +37,10 @@ public interface UserFeign {
     @PostMapping("")
     SystemResourceEntity selectSysResourceById(@RequestParam("id")int id);
 
+    /**
+     * user_wallet_address
+     */
+    @PostMapping("")
+    void insetUserWalletAddress(@RequestBody UserWalletAddressEntity userWalletAddress);
+
 }
