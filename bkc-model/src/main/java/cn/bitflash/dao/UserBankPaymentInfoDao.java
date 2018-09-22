@@ -14,14 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.UserPaymentCodeDao;
-import cn.bitflash.entity.UserPaymentCodeEntity;
-import cn.bitflash.service.UserPaymentCodeService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.entity.UserBankPaymentInfoEntity;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
-@Service("userPaymentCodeService")
-public class UserPaymentCodeServiceImpl extends ServiceImpl<UserPaymentCodeDao, UserPaymentCodeEntity> implements UserPaymentCodeService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface UserBankPaymentInfoDao extends BaseMapper<UserBankPaymentInfoEntity> {
+
 }
