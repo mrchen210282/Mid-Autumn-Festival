@@ -1,6 +1,6 @@
 package cn.bitflash.vip.system.controller;
 
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.util.SmsUtils;
 import cn.bitflash.vip.system.feign.SystemFeign;
@@ -31,7 +31,7 @@ public class VerifyCode {
         if (StringUtils.isBlank(mobile)) {
             return R.error(501, "手机号不能为空");
         }
-        UserEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
+        UseLoginEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
         String verifyCode = generateCode();
         if (type.equals("reg")) {
             if (userEntity != null) {

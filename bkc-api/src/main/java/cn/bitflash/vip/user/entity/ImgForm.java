@@ -4,18 +4,14 @@ import javax.validation.constraints.NotBlank;
 
 public class ImgForm {
 
-    @NotBlank(message="图片不能为空")
     private String img;
 
-    @NotBlank(message="图片类型不能为空")
+    @NotBlank(message = "图片类型不能为空")
     private String imgType;
 
-    private String name;
-
+    @NotBlank(message = "账户不能为空")
     private String account;
 
-    @NotBlank(message="交易密码不能为空")
-    private String password;
 
     public String getImg() {
         return img;
@@ -33,14 +29,6 @@ public class ImgForm {
         this.imgType = imgType;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getAccount() {
         return account;
     }
@@ -49,11 +37,4 @@ public class ImgForm {
         this.account = account;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

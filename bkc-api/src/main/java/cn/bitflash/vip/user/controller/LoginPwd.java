@@ -2,7 +2,7 @@ package cn.bitflash.vip.user.controller;
 
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
@@ -24,7 +24,7 @@ public class LoginPwd {
     @PostMapping("updateLoginPwd")
     @ApiOperation("修改登录密码")
     public R updateLoginPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, @ApiParam @RequestParam String oldPwd,@ApiParam @RequestParam String newPwd) {
-        UserEntity user = userFeign.selectUserByUid(uid);
+        UseLoginEntity user = userFeign.selectUserByUid(uid);
         if (oldPwd.equals(user.getPassword())) {
             user.setPassword(newPwd);
             userFeign.updateUserById(user);
@@ -37,7 +37,7 @@ public class LoginPwd {
     @PostMapping("findLoginPwd")
     @ApiOperation("找回登录密码")
     public R findLoginPwd(@ApiParam @RequestParam String mobile, @ApiParam @RequestParam String newPwd) {
-        UserEntity userEntity = new UserEntity();
+        UseLoginEntity userEntity = new UseLoginEntity();
         userEntity.setPassword(newPwd);
         userEntity.setMobile(mobile);
         boolean rst = userFeign.updateUserById(userEntity);

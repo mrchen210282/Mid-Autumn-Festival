@@ -2,7 +2,7 @@ package cn.bitflash.vip.system.feign;
 
 import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.entity.PriceLinechartEntity;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.vip.system.entity.PriceChart;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +23,7 @@ public interface SystemFeign {
 
     @ApiOperation(value = "根据手机号查询用户是否存在")
     @PostMapping("/inner/user/selectById")
-    UserEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
+    UseLoginEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
 
     @ApiOperation(value = "查询区间时间内的价格")
     @PostMapping()

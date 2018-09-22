@@ -1,8 +1,6 @@
-/*
 package cn.bitflash;
 
 import cn.bitflash.config.TokenFilter;
-import com.fasterxml.jackson.core.filter.TokenFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -28,7 +26,7 @@ public class BitflashZuulApplication {
     }
 
     @Bean
-    public TokenFilter getTokenFilter() {
+    public cn.bitflash.config.TokenFilter getTokenFilter() {
         return new TokenFilter();
     }
 
@@ -53,4 +51,3 @@ public class BitflashZuulApplication {
     }
 
 }
-*/

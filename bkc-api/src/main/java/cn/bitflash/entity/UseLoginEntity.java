@@ -28,39 +28,25 @@ import java.util.Date;
  *
  * @author eric
  */
-public class UserEntity implements Serializable {
+public class UseLoginEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
+
+    private String uid;
     /**
      * 手机号
      */
     private String mobile;
 
     /**
-     * 用户ID
-     */
-    private String uid;
-    /**
      * 密码
      */
     @JSONField(serialize = false)
     private String password;
 
-    /**
-     * uuid 32位的钱包账号
-     */
-    private String uuid;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public String getMobile() {
         return mobile;
@@ -78,19 +64,19 @@ public class UserEntity implements Serializable {
         this.password = password;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

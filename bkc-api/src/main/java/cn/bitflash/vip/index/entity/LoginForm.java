@@ -31,17 +31,6 @@ public class LoginForm {
     @NotBlank(message = "密码不能为空" )
     private String password;
 
-    @NotBlank(message = "个推appid" )
-    private String cid;
-
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
     public String getMobile() {
         return mobile;
     }
