@@ -1,7 +1,9 @@
 package cn.bitflash.vip.index.controller;
 
+import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.entity.UserCashIncomeEntity;
-import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UseLoginrEntity;
+import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.util.ValidatorUtils;
@@ -29,90 +31,28 @@ public class RegisterApp {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping("register")
-    @ApiOperation(value = "注册")
-    public R register(@RequestBody RegisterForm form) {
-        //验证表单
-        ValidatorUtils.validateEntity(form);
-        String mobile = form.getMobile();
-        UserEntity oldUser = indexFeign.selectUserEntityByMobile(mobile);
-        if (oldUser != null) {
-            return R.error(501, "手机号已经存在");
-        }
-
-        String uid = generateUUID32();
-        UserEntity us = new UserEntity();
-        us.setMobile(mobile);
-        us.setPassword(form.getPwd());
-        us.setUuid(generateUUID32());
-        us.setUid(uid);
-        Boolean flag = indexFeign.insertUserEntity(us);
-        if (flag) {
-            Date now = new Date();
-            Boolean flag2 = indexFeign.insertAccount(uid, now);
-            if (flag2) {
-                String name = this.getName();
-                Boolean flag3 = indexFeign.insertInfo(uid, mobile, false, name);
-                if (flag3) {
-                    UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
-                    cashIncome.setUid(uid);
-                    cashIncome.setCreateTime(new Date());
-                    indexFeign.insertUserCashIncome(cashIncome);
-                    logger.info("手机号：" + form.getMobile() + ",注册成功，途径app，没有推广码");
-                    return R.ok("注册成功");
-
-                }
-            }
-        }
-        indexFeign.delUserEntityBymMbile(mobile);
-        indexFeign.delAccountByUid(uid);
-        indexFeign.delUserInfoByUid(uid);
-
-        return R.error("注册失败");
-    }
-
     @GetMapping("registerWeb")
     public R register2(@RequestParam String mobile, @RequestParam String pwd,
                        @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        UserEntity oldUser = indexFeign.selectUserEntityByMobile(mobile);
+        UseLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
         if (oldUser != null) {
             return R.error(501, "手机号已经存在");
         }
-
+        //TODO uid生成规则 钱包地址
         String uid = generateUUID32();
-        UserEntity us = new UserEntity();
+        UseLoginEntity us = new UseLoginEntity();
         us.setMobile(mobile);
         us.setPassword(pwd);
-        us.setUuid(generateUUID32());
         us.setUid(uid);
-        Boolean flag = indexFeign.insertUserEntity(us);
-        if (flag) {
-            Date now = new Date();
-            Boolean flag2 = indexFeign.insertAccount(uid, now);
-            if (flag2) {
-                // 校验验证码是否正确
-                UserInvitationCodeEntity userInvitationCodeEntity = indexFeign.selectCodeByCode(invitationCode);
-                if (userInvitationCodeEntity == null) {
-                    String name = this.getName();
-                    Boolean flag4 = indexFeign.insertInfoCode(uid, mobile, true, name, invitationCode);
-                    if (flag4) {
-                        UserCashIncomeEntity cashIncome = new UserCashIncomeEntity();
-                        cashIncome.setUid(uid);
-                        cashIncome.setCreateTime(new Date());
-                        indexFeign.insertUserCashIncome(cashIncome);
-                        logger.info("手机号：" + mobile + ",注册成功,邀请码：" + invitationCode);
-                        return R.ok("注册成功");
-                    }
-
-                }
-            }
+        us.setCreateTime(new Date());
+        //初始化user_login表
+        Boolean flag = indexFeign.insertUserLoginEntity(us);
+        if(!flag){
+            indexFeign.delUserEntityByMbile(mobile);
+            return R.error("注册失败");
         }
-        indexFeign.delUserEntityBymMbile(mobile);
-        indexFeign.delAccountByUid(uid);
-        indexFeign.delUserInfoByUid(uid);
-
-        return R.error("注册失败");
+        return R.ok("注册成功");
     }
 
     private String generateUUID32() {

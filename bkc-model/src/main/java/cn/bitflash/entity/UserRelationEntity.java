@@ -2,117 +2,56 @@ package cn.bitflash.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 
 /**
- * 用户体系
- *
- * @author soso
- * @date 2018年5月26日 上午10:36:57
+ * @author gaoyuguo
+ * @date 2018年9月22日
  */
-
-@TableName("user_relation")
+@TableName("user_mark")
 public class UserRelationEntity implements Serializable {
-
-
-    /**
-     * 用户id
-     */
-    @TableId(type = IdType.INPUT)
+    @TableId
     private String uid;
 
+    private String fatherCode;
 
-    /**
-     * 直推邀请码
-     */
-    private String invitation_code;
-
-
-    /**
-     * 左边界值
-     */
     private Integer lft;
 
-    /**
-     * 右边界值
-     */
     private Integer rgt;
 
-    /**
-     * 层
-     */
     private Integer layer;
 
-    /**
-     * 获取用户id
-     *
-     * @return uid
-     */
+    private String area;
+
     public String getUid() {
         return uid;
     }
 
-    /**
-     * 设置用户id
-     *
-     * @param uid
-     */
     public void setUid(String uid) {
         this.uid = uid;
     }
 
-    /**
-     * 获取直推邀请码
-     *
-     * @return invitation_code
-     */
-    public String getInvitation_code() {
-        return invitation_code;
+    public String getFatherCode() {
+        return fatherCode;
     }
 
-    /**
-     * 设置直推邀请码
-     *
-     * @param invitation_code
-     */
-    public void setInvitation_code(String invitation_code) {
-        this.invitation_code = invitation_code;
+    public void setFatherCode(String fatherCode) {
+        this.fatherCode = fatherCode;
     }
 
-    /**
-     * 获取左边界值
-     *
-     * @return lft
-     */
     public Integer getLft() {
         return lft;
     }
 
-    /**
-     * 设置左边界值
-     *
-     * @param lft
-     */
     public void setLft(Integer lft) {
         this.lft = lft;
     }
 
-    /**
-     * 获取右边界值
-     *
-     * @return rgt
-     */
     public Integer getRgt() {
         return rgt;
     }
 
-    /**
-     * 设置右边界值
-     *
-     * @param rgt
-     */
     public void setRgt(Integer rgt) {
         this.rgt = rgt;
     }
@@ -123,5 +62,13 @@ public class UserRelationEntity implements Serializable {
 
     public void setLayer(Integer layer) {
         this.layer = layer;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 }

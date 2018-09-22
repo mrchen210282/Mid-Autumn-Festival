@@ -19,36 +19,30 @@ public interface IndexFeign {
      */
     @ApiOperation(value = "根据手机号查询用户是否存在")
     @PostMapping("/inner/user/selectById")
-    UserEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
+    UseLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
 
     @ApiOperation(value = "根据手机号删除用户信息")
     @PostMapping("/inner/user/deleteById")
-    void delUserEntityBymMbile(@RequestParam("id")String mobile);
+    void delUserEntityByMbile(@RequestParam("id")String mobile);
 
     @ApiOperation(value = "插入tb_user表")
     @PostMapping("/inner/user/insert")
-    Boolean insertUserEntity(@RequestBody UserEntity userEntity);
+    Boolean insertUserLoginEntity(@RequestBody UseLoginEntity userEntity);
 
     /**
      * tb_token表
      */
     @ApiOperation(value = "插入或者更新用户token值")
     @PostMapping("/inner/token/insertOrUpdateToken")
-    Boolean insertOrUpdateToken(@RequestBody TokenEntity tokenEntity);
+    Boolean insertOrUpdateToken(@RequestBody UserTokenEntity tokenEntity);
+
 
     /**
-     * user_getui_cid表
-     */
-    @ApiOperation(value = "插入或者更新用户cid值")
-    @PostMapping("/inner/userGTCidEntity/insertOrUpdateGT")
-    Boolean insertOrUpdateGT(@RequestBody UserGTCidEntity userGTCidEntity);
-
-    /**
-     * user_account表
+     * user_digital_assets表
      */
     @ApiOperation(value = "插入user_account表")
     @PostMapping("/inner/userAccount/insertAccountIndex")
-    Boolean insertAccount(@RequestParam("uid")String uid, @RequestParam("date")Date date);
+    Boolean insertUserDigtalAssets(@RequestParam("uid")String uid);
 
 
     @ApiOperation(value = "根据uid删除user_account表")
@@ -60,9 +54,8 @@ public interface IndexFeign {
      * user_info表
      */
     @ApiOperation(value = "插入user_info表")
-    @PostMapping("/inner/userInfouser/insertInfoIndex")
-    Boolean insertInfo(@RequestParam("uid")String uid,@RequestParam("mobile")String mobile,
-                       @RequestParam("isInvitation")boolean flag,@RequestParam("name")String name);
+    @PostMapping("")
+    Boolean insertUserInfo(@RequestBody UserInfoEntity info);
 
     @ApiOperation(value = "根据uid删除user_info表")
     @PostMapping("/inner/userInfo/deleteById")

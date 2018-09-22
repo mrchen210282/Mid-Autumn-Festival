@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @FeignClient(value = "bkc-model")
 public interface UserFeign {
 
@@ -15,40 +13,28 @@ public interface UserFeign {
      * tb_user表
      */
     @PostMapping("/inner/user/selectById")
-    UserEntity selectUserByUid(@RequestParam("id") String id);
+    UseLoginEntity selectUserLoginByUid(@RequestParam("id") String id);
 
     @PostMapping("/inner/user/updateById")
-    Boolean updateUserById(@RequestBody UserEntity userEntity);
+    Boolean updateUserById(@RequestBody UseLoginEntity userEntity);
+
 
     /**
-     * user_info表
-     */
-    //返回对应列的值
-    @PostMapping("")
-    String selectUserInfoByColumn(@RequestParam("uid") String uid, @RequestParam("column") String column);
-
-    @PostMapping("/inner/userInfo/updateById")
-    Boolean updateUserInfoById(@RequestBody UserInfoEntity userInfo);
-
-    @PostMapping("/inner/userInfo/selectById")
-    UserInfoEntity selectUserinfoById(@RequestParam("id") String id);
-
-    /**
-     * user_pay_url表
+     * user_payment_code表
      */
     @PostMapping("")
-    UserPayImgEntity selectUserPayUrlByUidAndType(@RequestParam("uid") String uid, @RequestParam("type") String type);
+    UserPaymentCodeEntity selectPaymentByUidAndType(@RequestParam("uid")String uid,@RequestParam("imgType") String imgType);
 
-    @PostMapping("/inner/userPayUrl/insert")
-    Boolean insertUserUrl(@RequestBody UserPayImgEntity userPayUrlEntity);
+    @PostMapping("")
+    Boolean insertUserPayment(@RequestBody UserPaymentCodeEntity payment);
 
-    @PostMapping("/inner/userPayUrl/updateById")
-    Boolean updateUserUrlById(@RequestBody UserPayImgEntity userPayUrlEntity);
+    @PostMapping("")
+    Boolean updateUserPaymentById(@RequestBody UserPaymentCodeEntity payment);
 
     /**
-     * user_pay_pwd 表
+     * system_resource
      */
-    @PostMapping("/inner/userPayPwd/selectById")
-    UserPayPwdEntity selectUserPwdByUid(@RequestParam("id") String id);
+    @PostMapping("")
+    SystemResourceEntity selectSysResourceById(@RequestParam("id")int id);
 
 }

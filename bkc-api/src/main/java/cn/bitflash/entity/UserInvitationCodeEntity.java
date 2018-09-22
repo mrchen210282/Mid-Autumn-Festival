@@ -14,9 +14,7 @@ public class UserInvitationCodeEntity implements Serializable {
 
     private String uid;
 
-    private String lftCode;
-
-    private String rgtCode;
+    private String code;
 
     public String getUid() {
         return uid;
@@ -26,20 +24,11 @@ public class UserInvitationCodeEntity implements Serializable {
         this.uid = uid;
     }
 
-    public String getLftCode() {
-        return lftCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setLftCode(String lftCode) {
-        this.lftCode = lftCode;
+    public void setCode(String code) {
+        this.code = code;
     }
-
-    public String getRgtCode() {
-        return rgtCode;
-    }
-
-    public void setRgtCode(String rgtCode) {
-        this.rgtCode = rgtCode;
-    }
-
 }

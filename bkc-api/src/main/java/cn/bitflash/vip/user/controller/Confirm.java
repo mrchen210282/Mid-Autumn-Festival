@@ -18,54 +18,84 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "å®åCon", tags = {"ç”¨æˆ·ä¸Šä¼ sfzå›¾ç‰‡"})
+@Api(value = "ÊµÃûCon", tags = {"ÓÃ»§ÉÏ´«sfzÍ¼Æ¬"})
 public class Confirm {
 
     @Autowired
     private UserFeign userFeign;
 
-    @Login
-    @PostMapping("uploadSFZ")
-    @ApiOperation("å®åè®¤è¯")
-    public R uploadImgMessage(@ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum,
-                              @RequestAttribute("uid") String uid) throws Exception {
+    //@Login  @RequestAttribute("uid") String uid
+    @PostMapping("authentication")
+    @ApiOperation("ÊµÃûÈÏÖ¤")
+    public R uploadImgMessage(@ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
+                             ) throws Exception {
 
-        UserInfoEntity info = userFeign.selectUserinfoById(uid);
+       /* UserInfoEntity info = userFeign.selectUserinfoById(uid);
         if (info.getIsAuthentication().equals(Common.AUTHENTICATION)) {
             return R.ok();
-        }
-        String host = "https://checkid.market.alicloudapi.com";       //è¯·æ±‚åœ°å€  æ”¯æŒhttp å’Œ https åŠ WEBSOCKET
-        String path = "/IDCard";                                     //åç¼€
-        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";                             //AppCode  ä½ è‡ªå·±çš„AppCode åœ¨ä¹°å®¶ä¸­å¿ƒæŸ¥çœ‹
-        String idCard = "210282199508135316";                                     //å‚æ•°ï¼Œå…·ä½“å‚ç…§apiæ¥å£å‚æ•°
-        String name = "é™ˆæ‰¿æ¯…";                                            //å‚æ•°ï¼Œå…·ä½“å‚ç…§apiæ¥å£å‚æ•°
-        String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;   //æ‹¼æ¥è¯·æ±‚é“¾æ¥
+        }*/
+        String host = "https://checkid.market.alicloudapi.com";       //ÇëÇóµØÖ·  Ö§³Öhttp ºÍ https ¼° WEBSOCKET
+        String path = "/IDCard";                                     //ºó×º
+        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";                             //AppCode  Äã×Ô¼ºµÄAppCode ÔÚÂò¼ÒÖĞĞÄ²é¿´
+        String idCard = idnum;                                     //²ÎÊı£¬¾ßÌå²ÎÕÕapi½Ó¿Ú²ÎÊı
+        String name = realname;                                            //²ÎÊı£¬¾ßÌå²ÎÕÕapi½Ó¿Ú²ÎÊı
+        String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;   //Æ´½ÓÇëÇóÁ´½Ó
         URL url = new URL(urlSend);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);//æ ¼å¼Authorization:APPCODE (ä¸­é—´æ˜¯è‹±æ–‡ç©ºæ ¼)
+        httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);//¸ñÊ½Authorization:APPCODE (ÖĞ¼äÊÇÓ¢ÎÄ¿Õ¸ñ)
         int httpCode = httpURLConnection.getResponseCode();
         String json = read(httpURLConnection.getInputStream());
         String code = JSON.parseObject(json).getString("status");
-        if (code.equals("01") || code.equals("1")) {
+       /* if (code.equals("01") || code.equals("1")) {
             info.setIsAuthentication(Common.AUTHENTICATION);
             userFeign.updateUserInfoById(info);
+        }*/
+        Map<String, Object> map = new HashMap<>();
+        switch (code) {
+            case "01":
+                map.put("code", "0");
+                map.put("msg", "ÊµÃûÈÏÖ¤Í¨¹ı!");
+                break;
+            case "02":
+                map.put("code", "02");
+                map.put("msg", "ÊµÃûÈÏÖ¤²»Í¨¹ı£¡!");
+                break;
+            case "202":
+                map.put("code", "202");
+                map.put("msg", "ÎŞ·¨ÑéÖ¤£¡");
+                break;
+            case "203":
+                map.put("code", "203");
+                map.put("msg", "Òì³£Çé¿ö£¡");
+                break;
+            case "204":
+                map.put("code", "204");
+                map.put("msg", "ĞÕÃû¸ñÊ½²»ÕıÈ·£¡");
+                break;
+            case "205":
+                map.put("code", "205");
+                map.put("msg", "Éí·İÖ¤¸ñÊ½²»ÕıÈ·£¡");
+                break;
+
         }
         /**
-         * code 01 å®åè®¤è¯é€šè¿‡ï¼
-         *      02 å®åè®¤è¯ä¸é€šè¿‡ï¼
-         *      202	æ— æ³•éªŒè¯ï¼
-         *      203	å¼‚å¸¸æƒ…å†µï¼
-         *      204	å§“åæ ¼å¼ä¸æ­£ç¡®ï¼
-         *      205	èº«ä»½è¯æ ¼å¼ä¸æ­£ç¡®ï¼
+         * code 01 ÊµÃûÈÏÖ¤Í¨¹ı£¡
+         *      02 ÊµÃûÈÏÖ¤²»Í¨¹ı£¡
+         *      202	ÎŞ·¨ÑéÖ¤£¡
+         *      203	Òì³£Çé¿ö£¡
+         *      204	ĞÕÃû¸ñÊ½²»ÕıÈ·£¡
+         *      205	Éí·İÖ¤¸ñÊ½²»ÕıÈ·£¡
          */
-        return R.ok(code);
+        return R.ok(map);
     }
 
     /*
-       è¯»å–è¿”å›ç»“æœ
+       ¶ÁÈ¡·µ»Ø½á¹û
     */
     private static String read(InputStream is) throws IOException {
         StringBuffer sb = new StringBuffer();
