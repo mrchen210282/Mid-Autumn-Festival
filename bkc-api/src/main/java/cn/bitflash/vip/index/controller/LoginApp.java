@@ -6,10 +6,16 @@ import cn.bitflash.entity.UserEntity;
 import cn.bitflash.entity.UserGTCidEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
-import cn.bitflash.util.*;
+import cn.bitflash.util.AESTokenUtil;
+import cn.bitflash.util.R;
+import cn.bitflash.util.RedisUtils;
+import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.index.entity.LoginForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +37,12 @@ public class LoginApp {
     private RedisUtils redisUtils;
 
     @PostMapping("login")
+    @ApiOperation("登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "mobile",dataType = "String"),
+            @ApiImplicitParam(value = "password",dataType = "password"),
+            @ApiImplicitParam(value = "cid",dataType = "cid")
+    })
     public R login(@RequestBody LoginForm form){
         // 表单校验
         ValidatorUtils.validateEntity(form);
@@ -40,7 +52,6 @@ public class LoginApp {
         if (user == null || !user.getPassword().equals(form.getPassword())) {
             throw new RRException("手机号或密码错误" );
         }
-
         // 插入token
         String token = generateToken();
         TokenEntity tokenEntity = new TokenEntity();

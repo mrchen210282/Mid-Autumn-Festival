@@ -1,25 +1,23 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
+import cn.bitflash.entity.UserEntity;
+import cn.bitflash.entity.UserPayImgEntity;
+import cn.bitflash.entity.UserPayPwdEntity;
 import cn.bitflash.util.R;
 import cn.bitflash.util.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.gexin.rp.sdk.base.uitls.MD5Util;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -31,7 +29,14 @@ public class PayUrl {
 
     @Login
     @PostMapping("upload")
-    @Transactional
+    @ApiOperation("上传支付码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "img",dataType = "String"),
+            @ApiImplicitParam(name = "imgType",dataType = "String"),
+            @ApiImplicitParam(name = "name",dataType = "String"),
+            @ApiImplicitParam(name = "account",dataType = "String"),
+            @ApiImplicitParam(name = "password",dataType = "String")
+    })
     public R upload(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
         ValidatorUtils.validateEntity(imgForm);
 
@@ -91,64 +96,32 @@ public class PayUrl {
         }
 
         // 先查询是否已上传过图片，如果已上传则使用最新上传的图片
-        UserPayUrlEntity userPayUrlEntity = userFeign.selectUserPayUrlByUidAndType(uid, imgType);
-        if (userPayUrlEntity == null || userPayUrlEntity.getId() == null) {
-            userPayUrlEntity = new UserPayUrlEntity();
+        UserPayImgEntity userPayUrlEntity = userFeign.selectUserPayUrlByUidAndType(uid, imgType);
+        if (userPayUrlEntity == null) {
+            userPayUrlEntity = new UserPayImgEntity();
             userPayUrlEntity.setImgType(imgType);
             userPayUrlEntity.setAccount(imgForm.getAccount());
             userPayUrlEntity.setCrateTime(new Date());
             userPayUrlEntity.setImgUrl(imgUrl);
             userPayUrlEntity.setMobile(user.getMobile());
-            userPayUrlEntity.setName(imgForm.getName());
+            userPayUrlEntity.setAccountName(imgForm.getName());
             userPayUrlEntity.setUid(user.getUid());
             userFeign.insertUserUrl(userPayUrlEntity);
         } else {
             userPayUrlEntity.setImgUrl(imgUrl);
             userPayUrlEntity.setAccount(imgForm.getAccount());
-            userPayUrlEntity.setName(imgForm.getName());
+            userPayUrlEntity.setAccountName(imgForm.getName());
             userFeign.updateUserUrlById(userPayUrlEntity);
         }
         return R.ok();
     }
 
-    @Login
-    @PostMapping("getPayMessage")
-    public R getPayMessage(@RequestParam("accountId") String accountId, @RequestParam("type") String type) {
-        String uid = null;
-        //交易订单
-        if (type.equals("1")) {
-            UserTradeEntity tradeEntity = userFeign.selectTradeById(accountId);
-            uid = tradeEntity.getUid();
-        }
-        //求购订单
-        else if (type.equals("2")) {
-            UserBuyHistoryEntity userBuyEntity = userFeign.selectBuyHistoryById(accountId);
-            uid = userBuyEntity.getSellUid();
-        }
-        List<UserPayUrlEntity> payUrlEntities = userFeign.selectUserUrlList(uid);
-        if (payUrlEntities == null || payUrlEntities.size() == 0) {
-            return R.error("未设置支付信息");
-        }
-        List<Map<String, Object>> list = new ArrayList<>();
-        payUrlEntities.stream().forEach(u -> {
-            if (u.getImgType().equals("1")) {
-                list.add(new ModelMap("name", "微信").addAttribute("type", 1));
-            }
-            if (u.getImgType().equals("2")) {
-                list.add(new ModelMap("name", "支付宝").addAttribute("type", 2));
-            }
-            if (u.getImgType().equals("5")) {
-                list.add(new ModelMap("name", "银行卡").addAttribute("type", 5));
-            }
-        });
-
-        return R.ok().put("url", list).put("uid", uid);
-    }
 
     @Login
     @PostMapping("getPayUrl")
-    public R getPayUrl(@RequestAttribute("uid") String myuid, @RequestParam(value = "uid", required = false) String uid, @RequestParam("imgType") String imgType) {
-        UserPayUrlEntity payUrlEntity = null;
+    @ApiOperation("获取图片地址")
+    public R getPayUrl(@RequestAttribute("uid") String myuid, @ApiParam @RequestParam(value = "uid", required = false) String uid,@ApiParam @RequestParam("imgType") String imgType) {
+        UserPayImgEntity payUrlEntity = null;
         if (uid == null) {
             payUrlEntity = userFeign.selectUserPayUrlByUidAndType(myuid, imgType);
         } else {
@@ -157,8 +130,8 @@ public class PayUrl {
         if (payUrlEntity == null) {
             return R.error("未上传收款信息");
         }
-        if (payUrlEntity.getName() != null && payUrlEntity.getAccount() != null) {
-            return R.ok().put("url", payUrlEntity.getImgUrl()).put("name", payUrlEntity.getName()).put("account", payUrlEntity.getAccount());
+        if (payUrlEntity.getAccountName() != null && payUrlEntity.getAccount() != null) {
+            return R.ok().put("url", payUrlEntity.getImgUrl()).put("name", payUrlEntity.getAccountName()).put("account", payUrlEntity.getAccount());
         }
         return R.ok().put("url", payUrlEntity.getImgUrl());
     }

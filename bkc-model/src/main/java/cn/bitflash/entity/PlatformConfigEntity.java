@@ -9,19 +9,14 @@ import java.util.Date;
 @TableName("platform_config")
 public class PlatformConfigEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    // 主键
     @TableId
     private Integer id;
-    // 配置key值
     private String configName;
-    // 配置value
     private String configValue;
-    // 单位
     private String unit;
-    // 创建时间
     private Date createTime;
-    // 修改时间
+    private Date updateTime;
+
 
     public Integer getId() {
         return id;
@@ -71,6 +66,5 @@ public class PlatformConfigEntity implements Serializable {
         this.updateTime = updateTime;
     }
 
-    private Date updateTime;
 
 }

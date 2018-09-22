@@ -2,19 +2,22 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserPayUrlEntity;
-import cn.bitflash.interceptor.ApiLoginInterceptor;
+import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.user.feign.UserFeign;
-import com.gexin.rp.sdk.base.uitls.MD5Util;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Decoder;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @RestController
 @RequestMapping("/user")
@@ -26,63 +29,54 @@ public class Confirm {
 
     @Login
     @PostMapping("uploadSFZ")
-    public R uploadImgMessage(@RequestParam String img, @RequestParam String imgType,
-                              @RequestAttribute("uid") String uid) {
-        String mobile = userFeign.selectUserInfoByColumn(uid,"mobile");
+    @ApiOperation("实名认证")
+    public R uploadImgMessage(@ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum,
+                              @RequestAttribute("uid") String uid) throws Exception {
 
-        String imgName = imgType.equals("3") ? MD5Util.getMD5Format(mobile+ System.currentTimeMillis()) + "_z" : MD5Util.getMD5Format(mobile + System.currentTimeMillis()) + "_f";
-        String imgUrl = "";
-        String path = "/home/statics/idnumber/" + imgName + ".png";
-        imgUrl = "http://www.bitflash.vip/auth/" + imgName + ".png";
-        BASE64Decoder decoder = new BASE64Decoder();
-        try {
-            // Base64解码
-            String[] base64Str = img.split(",");
-            if(base64Str.length >= 2) {
-                byte[] b = decoder.decodeBuffer(base64Str[1]);
-                for (int i = 0; i < b.length; ++i) {
-                    if (b[i] < 0) {// 调整异常数据
-                        b[i] += 256;
-                    }
-                }
-                OutputStream out = new FileOutputStream(path);
-                out.write(b);
-                out.flush();
-                out.close();
-            } else {
-                return R.error();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return R.error();
+        UserInfoEntity info = userFeign.selectUserinfoById(uid);
+        if (info.getIsAuthentication().equals(Common.AUTHENTICATION)) {
+            return R.ok();
         }
-        UserPayUrlEntity userPay = userFeign.selectUserPayUrlByUidAndType(uid,imgType);
-        //为空代表第一次上传图片插入操作
-        if (userPay == null) {
-            userPay = new UserPayUrlEntity();
-            userPay.setImgType(imgType);
-            userPay.setCrateTime(new Date());
-            userPay.setUid(uid);
-            userPay.setImgUrl(imgUrl);
-            userPay.setMobile(mobile);
-            userFeign.insertUserUrl(userPay);
-        } else {
-            userPay.setImgUrl(imgUrl);
-            userFeign.updateUserUrlById(userPay);
+        String host = "https://checkid.market.alicloudapi.com";       //请求地址  支持http 和 https 及 WEBSOCKET
+        String path = "/IDCard";                                     //后缀
+        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";                             //AppCode  你自己的AppCode 在买家中心查看
+        String idCard = "210282199508135316";                                     //参数，具体参照api接口参数
+        String name = "陈承毅";                                            //参数，具体参照api接口参数
+        String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;   //拼接请求链接
+        URL url = new URL(urlSend);
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);//格式Authorization:APPCODE (中间是英文空格)
+        int httpCode = httpURLConnection.getResponseCode();
+        String json = read(httpURLConnection.getInputStream());
+        String code = JSON.parseObject(json).getString("status");
+        if (code.equals("01") || code.equals("1")) {
+            info.setIsAuthentication(Common.AUTHENTICATION);
+            userFeign.updateUserInfoById(info);
         }
-        return R.ok();
+        /**
+         * code 01 实名认证通过！
+         *      02 实名认证不通过！
+         *      202	无法验证！
+         *      203	异常情况！
+         *      204	姓名格式不正确！
+         *      205	身份证格式不正确！
+         */
+        return R.ok(code);
     }
 
-    @Login
-    @PostMapping("successUpload")
-    public R successUpload(@RequestAttribute(ApiLoginInterceptor.UID) String uid) {
-        UserInfoEntity userinfo = new UserInfoEntity();
-        userinfo.setIsAuthentication("1");
-        userinfo.setUid(uid);
-        userFeign.updateUserInfoById(userinfo);
-        return R.ok();
+    /*
+       读取返回结果
+    */
+    private static String read(InputStream is) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            line = new String(line.getBytes(), "utf-8");
+            sb.append(line);
+        }
+        br.close();
+        return sb.toString();
     }
-
-
 }
+

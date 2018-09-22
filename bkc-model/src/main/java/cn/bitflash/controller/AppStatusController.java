@@ -2,16 +2,13 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.exception.RRException;
 import cn.bitflash.service.AppStatusService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
-
 
 /**
  * @author GAOYGUUO
@@ -23,19 +20,14 @@ public class AppStatusController {
     private AppStatusService appStatusService;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public AppStatusEntity selectOne(Map<String, Object> param) {
-        List<AppStatusEntity> appStatusEntities = appStatusService.selectByMap(param);
-        if (appStatusEntities.size() > 0) {
-            AppStatusEntity appStatusEntity = appStatusEntities.get(0);
-            return appStatusEntity;
-        }
-        return null;
+    @PostMapping("/inner/appStatus/selectById")
+    public AppStatusEntity selectById(@RequestParam("id") String id) {
+        AppStatusEntity entity = appStatusService.selectById(id);
+        return entity;
     }
 
     /**
@@ -43,9 +35,15 @@ public class AppStatusController {
      *
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(AppStatusEntity appStatusEntity) {
-        appStatusService.updateById(appStatusEntity);
+    @PostMapping("/inner/appStatus/updateById")
+    public void updateById(@RequestBody JSONObject json) {
+        AppStatusEntity entity = new AppStatusEntity();
+        entity.setAppid(json.getString("appId"));
+        entity.setVersion(json.getString("version"));
+        entity.setUrl(json.getString("url"));
+        entity.setTitle(json.getString("title"));
+        entity.setNote(json.getString("note"));
+        appStatusService.updateById(entity);
     }
 
     /**
@@ -53,9 +51,15 @@ public class AppStatusController {
      *
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(AppStatusEntity appStatusEntity) {
-        appStatusService.insert(appStatusEntity);
+    @PostMapping("/inner/appStatus/insert")
+    public void insert(@RequestBody JSONObject json) {
+        AppStatusEntity entity = new AppStatusEntity();
+        entity.setAppid(json.getString("appId"));
+        entity.setUrl(json.getString("url"));
+        entity.setTitle(json.getString("title"));
+        entity.setNote(json.getString("note"));
+        entity.setVersion(json.getString("version"));
+        appStatusService.insert(entity);
     }
 
     /**
@@ -63,8 +67,8 @@ public class AppStatusController {
      *
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
+    @PostMapping("/inner/appStatus/deleteById")
+    public void deleteById(@RequestParam("id") String id) {
         appStatusService.deleteById(id);
     }
 

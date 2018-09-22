@@ -7,32 +7,15 @@ public class PriceLinechartEntity implements Serializable {
 
     private static final long serialVersionUID = 8348757757253519053L;
 
-    private Float price;
-
-    private Float rate;
-
-    private int cny;
-
-    private float bkc;
-
     private LocalDateTime rateTime;
 
+    private float price;
 
-    public Float getPrice() {
-        return price;
-    }
+    private float rate;
 
-    public void setPrice(Float price) {
-        this.price = price;
-    }
+    private float cny;
 
-    public Float getRate() {
-        return rate;
-    }
-
-    public void setRate(Float rate) {
-        this.rate = rate;
-    }
+    private float bkc;
 
     public LocalDateTime getRateTime() {
         return rateTime;
@@ -42,11 +25,27 @@ public class PriceLinechartEntity implements Serializable {
         this.rateTime = rateTime;
     }
 
-    public int getCny() {
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public float getCny() {
         return cny;
     }
 
-    public void setCny(int cny) {
+    public void setCny(float cny) {
         this.cny = cny;
     }
 

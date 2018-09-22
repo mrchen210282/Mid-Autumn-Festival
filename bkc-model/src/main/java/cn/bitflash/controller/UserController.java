@@ -1,41 +1,37 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.LoginForm;
 import cn.bitflash.entity.UserEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserService;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserController {
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserEntity selectOne(Map<String, Object> param) {
-        List<UserEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/user/selectById")
+    public UserEntity selectById(@RequestParam("id") String id) {
+        UserEntity entity = userService.selectById(id);
+        return entity;
     }
 
     /**
@@ -43,9 +39,15 @@ public class UserController {
      *
      * @return
      */
+    @PostMapping("/inner/user/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserEntity entity) {
-        service.updateById(entity);
+    public void updateById(@RequestBody JSONObject json) {
+        UserEntity entity = new UserEntity();
+        entity.setMobile(json.getString("mobile"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setPassword(json.getString("password"));
+        entity.setUid(json.getString("uid"));
+        userService.updateById(entity);
     }
 
     /**
@@ -53,9 +55,15 @@ public class UserController {
      *
      * @return
      */
+    @PostMapping("/inner/user/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserEntity entity) {
-        service.insert(entity);
+    public void insert(@RequestBody JSONObject json) {
+        UserEntity entity = new UserEntity();
+        entity.setMobile(json.getString("mobile"));
+        entity.setUuid(json.getString("uuid"));
+        entity.setUid(json.getString("uid"));
+        entity.setPassword(json.getString("password"));
+        userService.insert(entity);
     }
 
     /**
@@ -63,31 +71,23 @@ public class UserController {
      *
      * @return
      */
+    @PostMapping("/inner/user/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(String id) {
-        service.deleteById(id);
+    public void deleteById(@RequestParam("id") String id) {
+        userService.deleteById(id);
     }
 
     /**
-     * queryByMobile
-     *
-     * @return
+     * selectByUuid
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public UserEntity queryByMobile(String mobile) {
-        UserEntity userEntity = service.queryByMobile(mobile);
-        return userEntity;
+    @PostMapping("/inner/user/selectByUuid")
+    JSONObject selectByUuid(@RequestParam("uuid") String uuid){
+        UserEntity entity = userService.selectOne(new EntityWrapper<UserEntity>().eq("uuid",uuid));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("uuid", entity.getUuid());
+        jsonObject.put("uid", entity.getUid());
+        jsonObject.put("password", entity.getPassword());
+        jsonObject.put("mobile", entity.getMobile());
+        return jsonObject;
     }
-
-    /**
-     * login
-     *
-     * @return
-     */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public Map<String, Object> login(LoginForm form) {
-        Map<String, Object> map = service.login(form);
-        return map;
-    }
-
 }

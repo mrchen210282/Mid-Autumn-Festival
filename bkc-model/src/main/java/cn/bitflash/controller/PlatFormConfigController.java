@@ -1,41 +1,35 @@
 package cn.bitflash.controller;
 
-
 import cn.bitflash.entity.PlatformConfigEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.PlatFormConfigService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class PlatFormConfigController {
 
     @Autowired
-    private PlatFormConfigService service;
+    private PlatFormConfigService platFornConfigService;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public PlatformConfigEntity selectOne(Map<String, Object> param) {
-        List<PlatformConfigEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            PlatformConfigEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/platFormConfig/selectById")
+    public PlatformConfigEntity selectById(@RequestParam("id") Integer id) {
+        PlatformConfigEntity entity = platFornConfigService.selectById(id);
+        return entity;
     }
 
     /**
@@ -43,9 +37,17 @@ public class PlatFormConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/platFormConfig/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(PlatformConfigEntity entity) {
-        service.updateById(entity);
+    public void updateById(@RequestBody JSONObject json) {
+        PlatformConfigEntity entity = new PlatformConfigEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUnit(json.getString("unit"));
+        entity.setConfigName(json.getString("configName"));
+        entity.setConfigValue(json.getString("configValue"));
+        entity.setCreateTime(json.getDate("createTime"));
+        entity.setUpdateTime(json.getDate("updateTime"));
+        platFornConfigService.updateById(entity);
     }
 
     /**
@@ -53,9 +55,17 @@ public class PlatFormConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/platFormConfig/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(PlatformConfigEntity entity) {
-        service.insert(entity);
+    public void insert(@RequestBody JSONObject json) {
+        PlatformConfigEntity entity = new PlatformConfigEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setUnit(json.getString("unit"));
+        entity.setConfigName(json.getString("configName"));
+        entity.setConfigValue(json.getString("configValue"));
+        entity.setCreateTime(json.getDate("createTime"));
+        entity.setUpdateTime(json.getDate("updateTime"));
+        platFornConfigService.insert(entity);
     }
 
     /**
@@ -63,20 +73,21 @@ public class PlatFormConfigController {
      *
      * @return
      */
+    @PostMapping("/inner/platFormConfig/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
-        service.deleteById(id);
+    public void deleteById(@RequestParam("id") Integer id) {
+        platFornConfigService.deleteById(id);
     }
 
     /**
      * getVal
      *
+     * @param key
      * @return
      */
     @PostMapping("/inner/platFormConfig/getVal")
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public String getVal(String key) {
-        String val = service.getVal(key);
+    String getVal(@RequestParam("key") String key){
+        String val = platFornConfigService.getVal(key);
         return val;
     }
 

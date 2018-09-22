@@ -16,7 +16,6 @@
 
 package cn.bitflash.service;
 
-
 import cn.bitflash.entity.TokenEntity;
 import cn.bitflash.entity.UserEntity;
 import com.baomidou.mybatisplus.service.IService;

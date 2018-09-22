@@ -1,8 +1,8 @@
 package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.UserRelationDao;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.entity.UserRelationJoinAccountEntity;
-import cn.bitflash.dao.UserRelationDao;
 import cn.bitflash.service.UserRelationService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -35,15 +35,7 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
 
     }
 
-    @Override
-    public int updateTreeNodes(Integer leftCode, String column) {
-        return baseMapper.updateTreeNodes(leftCode, column);
-    }
 
-    @Override
-    public int selectLayer(Integer rgt) {
-        return baseMapper.selectLayer(rgt);
-    }
 
 
 }

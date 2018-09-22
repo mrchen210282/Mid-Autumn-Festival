@@ -7,6 +7,7 @@ import cn.bitflash.vip.system.entity.PriceChart;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
@@ -17,14 +18,19 @@ import java.util.List;
 public interface SystemFeign {
 
     @ApiOperation(value = "根据手机号查询")
-    AppStatusEntity selectAppStatusByAppId(@RequestParam("appid")String appid);
+    @PostMapping("/inner/appStatus/selectById")
+    AppStatusEntity selectAppStatusByAppId(@RequestParam("id")String appid);
 
     @ApiOperation(value = "根据手机号查询用户是否存在")
-    UserEntity selectUserEntityByMobile(@RequestParam("mobile")String mobile);
+    @PostMapping("/inner/user/selectById")
+    UserEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
 
     @ApiOperation(value = "查询区间时间内的价格")
+    @PostMapping()
     List<PriceChart> selectLineChartByDate(@RequestParam("after") Date after, @RequestParam("yesterday") Date yesterday);
 
+
     @ApiOperation(value = "根据主键查询数据")
+    @PostMapping()
     PriceLinechartEntity selectLineChartById(@RequestParam("date")Date date);
 }

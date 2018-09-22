@@ -17,8 +17,6 @@ public interface UserRelationService extends IService<UserRelationEntity> {
 
     List<UserRelationJoinAccountEntity> selectTreeNodes(String f_uid);
 
-    int updateTreeNodes(Integer leftCode, String column);
 
-    int selectLayer(Integer rgt);
 
 }

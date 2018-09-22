@@ -1,23 +1,20 @@
 package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.entity.UserInfoConfigEntity;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
-import cn.bitflash.util.CodeUtils;
-import cn.bitflash.util.Common;
 import cn.bitflash.util.R;
 import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang.StringUtils;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,158 +22,128 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/level")
-@Api(value = "加入社区Con", tags = {"加入"})
+@Api(value = "提升算力Con", tags = {"加入"})
 public class Vip {
 
     @Autowired
     private LevelFeign levelFeign;
 
     @Login
-    @PostMapping("updateVipLevel")
-    public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestParam("vipLevel") Integer vipLevel) {
-        /**
-         *  1.查询是否是vip
-         *		只有vip等级为0的用户才能有机会赠送贝壳
-         *  2.查询可用资产(availableAssets)是否够用
-         *      2.1 金额够升级
-         *          2.1.1 可用资产(可用资产=调节释放+调节收益)
-         *          2.1.2 购买数量+=20000
-         *          2.1.3 赠送数量+=20000*0.05
-         *          2.1.4 冻结数量+=20000+赠送数量
-         *      2.2 return 金额不足
-         */
+    @PostMapping("updateLevel")
+    @ApiOperation("提升算力")
+    public R updateVipLevel(@RequestAttribute("uid") String uid) {
+
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        String invitationCode = userInfo.getInvitationCode();
-        if (StringUtils.isBlank(invitationCode)) {
-            return R.error("非邀请码注册用户");
+        UserDigitalIncomeEntity userAccount = levelFeign.selectAccountByUid(uid);
+        List<VipConditionsEntity> vipConditions = levelFeign.selectVipConditonsByLevel(userInfo.getIsVip());
+        if (vipConditions.size() < 2) {
+            return R.error("更高算力暂未开放");
         }
-        if (!userInfo.getIsVip().equals(Common.VIP_LEVEL_0)) {
-            return R.error("后续升级VIP操作请联系后台管理");
-        }
-        //vip升级消息
-        UserInfoConfigEntity vip = levelFeign.selectInfoConfigById(vipLevel);
-        //升级vip所需的贝壳数量
-        int vip_count = vip.getMin();
-        //赠送数量
-        Double giveRatio = 0.0;
-        if (userInfo.getIsVip().equals(Common.VIP_LEVEL_0)) {
-            giveRatio = vip.getMin() * vip.getGiveRate();
-        }
-        //BigDecimal类型的vip升级数量
-        BigDecimal vip_number = new BigDecimal(vip_count);
-        UserAccountEntity userAccount = levelFeign.selectAccountByUid(uid);
-        BigDecimal acacilNum = userAccount.getAvailableAssets();
-        // 可用资产>=所需升级的vip数量
-        if (acacilNum.compareTo(vip_number) == 1 || acacilNum.compareTo(vip_number) == 0) {
-            /**
-             * 计算升级VIP之后的数据
-             * 2.1金额够升级vip2
-             * 2.1.1 可用资产(可用资产=调节释放+调节收益)-=20000
-             * 2.1.2 购买数量+=20000
-             * 2.1.3 赠送数量+=20000*0.5
-             * 2.1.4 冻结数量+=20000+赠送数量
-             */
-            BigDecimal zero = new BigDecimal(0.00);
-            double result = userAccount.getRegulateRelease().doubleValue() - vip_count;
-            if (result <= 0) {
-                userAccount.setRegulateRelease(zero);
-                userAccount.setRegulateIncome(new BigDecimal(result + userAccount.getRegulateIncome().doubleValue()));
-            } else {
-                userAccount.setRegulateRelease(new BigDecimal(result));
-            }
-            //2.1.1
-            userAccount.setAvailableAssets(userAccount.getRegulateRelease().add(userAccount.getRegulateIncome()));
-            //2.1.2
-            userAccount.setPurchase(userAccount.getPurchase().add(vip_number));
-            //2.1.3
-            userAccount.setGiveAmount(userAccount.getGiveAmount().add(new BigDecimal(giveRatio)));
-            //2.1.4
-            userAccount.setFrozenAssets(userAccount.getFrozenAssets().add(vip_number.add(new BigDecimal(giveRatio))));
-            userAccount.setTotelAssets(userAccount.getPurchase().add(userAccount.getGiveAmount()));
-            levelFeign.updateAccountById(userAccount);
-            //更新会员等级
-            userInfo.setIsVip(vip.getId().toString());
-            userInfo.setVipCreateTime(new Date());
-            levelFeign.updateUserInfoById(userInfo);
-            UserInvitationCodeEntity userInvit = new UserInvitationCodeEntity();
-            userInvit.setUid(uid);
-            userInvit.setLftCode(CodeUtils.genInvitationCode());
-            userInvit.setRgtCode(CodeUtils.genInvitationCode());
-            //生成会员的邀请码
-            levelFeign.insertInvitationCode(userInvit);
-            //插入体系内
-            this.insertTradeCodes(invitationCode, uid);
-            //logger.info("升级vip的用户uid/手机号为：" + user.getUid() + "--" + user.getMobile());
-            return R.ok();
-        } else {
-            return R.error("资金不足");
-        }
-    }
-
-
-    /**
-     * @param invitationCode
-     * @param uid
-     */
-    public R insertTradeCodes(String invitationCode, String uid) {
         /**
-         * 1.根据邀请码查询出父节点的uid
-         * 2.找到父节点的下面的子节点
-         * 3.判断左右区邀请码
-         *
-         * 情况1：o  情况2：o  情况3：o
-         *      /         /\       /
-         *     o         o  o     o
-         *                        /
-         *                       o
-         *
+         * 扣除冻结的bkc
+         * 提升vip  userinfo
          */
-        UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitationCode);
+        float cha = vipConditions.get(1).getBkcount() - vipConditions.get(0).getBkcount();
+        if (cha > userAccount.getAvailableAssets().doubleValue()) {
+            return R.error("bkc数量不够");
+        }
+        userAccount.setAvailableAssets(new BigDecimal(userAccount.getAvailableAssets().doubleValue() - cha));
+        userAccount.setPurchase(new BigDecimal(cha));
+        userAccount.setFrozenAssets(userAccount.getFrozenAssets().add(new BigDecimal(cha)));
+        levelFeign.updateAccountById(userAccount);
 
-        List<UserRelationJoinAccountEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
+        UserCashIncomeEntity cashIncome = levelFeign.selectUserCashIncomeByUid(uid);
+        cashIncome.setPower(new BigDecimal(vipConditions.get(1).getPower()));
+        levelFeign.updateUserCashIncomeById(cashIncome);
+
         List<UserRelationJoinAccountEntity> child_user = levelFeign.selectTreeNodes(uid);
-        //左区邀请码
-        if (invitationCode.equals(pCode.getLftCode()) && child_user.size() == 0 && f_user.size() > 0) {
-            if (f_user.size() == 1) {
-                levelFeign.insertTreeNode(pCode.getUid(), uid, invitationCode);
+        if (child_user != null || child_user.size() != 0) {
+            return R.ok();
+        }
+        String code[] = userInfo.getInvitationCode().split("-");
+        String invitCode = code[0];
+        String area = code[1];
+        UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
+        List<UserRelationJoinAccountEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
+        //父类下所有的子类数量（包含父类）
+        int size = f_user.size();
+        switch (area) {
+            case "l":
+                if (size == 1) {
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                } else if (size == 2) {
+                    levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitCode);
+                } else if (size > 2) {
+                    //筛选出左区第一个子节点
+                    UserRelationJoinAccountEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(0).getLft() + 1).findFirst().get();
+                    List<UserRelationJoinAccountEntity> child2_user = f_user.stream().filter((u) ->
+                            u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
+                    if (child2_user.size() == 1) {
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
+                    } else if (child2_user.size() > 1) {
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                    }
+                }
+                break;
+            case "c":
+                if (size == 1) {
+                    //等于1 = 没有左区，需要先排左区
+                    throw new RRException("邀请码不正确");
+                }
+                //等于2代表直接父类下面开辟中区,或者左区下面只有一个点
+                else if (size == 2) {
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                } else if (size > 3) {
+                    if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
+                        //   o 情况1   实现 o
+                        //  o             o o
+                        // o             o
+                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                        return R.ok();
+                    }
+                    //筛选出右区第一个子节点
+                    UserRelationJoinAccountEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(1).getRgt() + 1).findFirst().get();
+                    List<UserRelationJoinAccountEntity> child2_user = f_user.stream().filter((u) ->
+                            u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
+                    if (child2_user.size() == 1) {
+                        //    o  情况2  实现 o
+                        //   o o           o  o
+                        //                   o
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
+                    } else {
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                    }
+                }
+                break;
+            case "r":
+                if (size < 3 || f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
+                    //等于2 = 没有左区，中区，需要先排左区和中区
+                    throw new RRException("邀请码不正确");
+                } else if (size == 3 && f_user.get(0).getRgt() != f_user.get(1).getRgt() + 1) {
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                } else if (size > 3) {
 
-            } else if (f_user.size() == 2) {
-                levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitationCode);
-            } else if (f_user.size() > 2) {
-                //筛选出左区第一个子节点
-                UserRelationJoinAccountEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(0).getLft() + 1).findFirst().get();
-                List<UserRelationJoinAccountEntity> child2_user = f_user.stream().filter((u) ->
-                        u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
-                if (child2_user.size() == 1) {
-                    levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitationCode);
-                } else if (child2_user.size() > 1) {
-                    levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitationCode);
+                    UserRelationJoinAccountEntity ue = f_user.stream().filter(u -> f_user.get(1).getRgt() + 1 == u.getLft()).findFirst().get();
+                    UserRelationJoinAccountEntity ue2 = f_user.stream().filter(u -> f_user.get(0).getRgt() == u.getRgt() + 1).findFirst().get();
+                    if (ue.equals(ue2)) {
+                        //    o     情况：不存在右区  实现   o
+                        //  o  o                        o  o  o
+                        // o                          o
+                        levelFeign.insertTreeNode(f_user.get(0).getUid(), uid, invitCode);
+                    } else {
+                        //     o     情况：不存在右区  实现     o
+                        //  o  o  o                       o  o  o
+                        // o                                   o
+                        List<UserRelationJoinAccountEntity> child2_user = f_user.stream().filter((u) ->
+                                u.getLft() >= ue2.getLft() && u.getRgt() <= ue2.getRgt()).collect(Collectors.toList());
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                    }
                 }
-            }
-        } else if (invitationCode.equals(pCode.getRgtCode()) && child_user.size() == 0 && f_user.size() > 0) {
-            if (f_user.size() == 1) {
-                //return R.error("只能先插入左区" );
-                throw new RRException("只能先插入左区！");
-            } else if (f_user.size() == 2) {
-                levelFeign.insertTreeNode(pCode.getUid(), uid, invitationCode);
-            } else if (f_user.size() > 2) {
-                if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitationCode);
-                    return R.ok();
-                }
-                //筛选出右区第一个子节点
-                UserRelationJoinAccountEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(1).getRgt() + 1).findFirst().get();
-                List<UserRelationJoinAccountEntity> child2_user = f_user.stream().filter((u) ->
-                        u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
-                if (child2_user.size() == 1) {
-                    levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitationCode);
-                } else {
-                    levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitationCode);
-                }
-            }
+                break;
         }
         return R.ok();
     }
+
 
     public String getChildNode(List<UserRelationJoinAccountEntity> p1_user, Map<String, UserRelationJoinAccountEntity> map) {
         /**

@@ -1,7 +1,7 @@
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserEmpowerEntity;
 import cn.bitflash.dao.UserEmpowerDao;
+import cn.bitflash.entity.UserEmpowerEntity;
 import cn.bitflash.service.UserEmpowerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

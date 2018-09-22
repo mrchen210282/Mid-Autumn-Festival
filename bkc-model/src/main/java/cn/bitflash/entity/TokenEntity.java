@@ -39,6 +39,7 @@ public class TokenEntity implements Serializable {
      */
     @TableId(type = IdType.INPUT)
     private String uid;
+
     private String token;
     /**
      * 过期时间
@@ -50,6 +51,9 @@ public class TokenEntity implements Serializable {
     private Date updateTime;
 
     private String mobile;
+
+
+
 
     public String getMobile() {
         return mobile;

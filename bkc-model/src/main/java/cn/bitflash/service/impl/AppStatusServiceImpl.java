@@ -16,8 +16,8 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.dao.AppStatusDao;
+import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.service.AppStatusService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

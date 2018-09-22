@@ -16,8 +16,8 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.dao.UserInvitationCodeDao;
+import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.service.UserInvitationCodeService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;

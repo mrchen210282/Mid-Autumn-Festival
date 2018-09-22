@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
+import java.io.Serializable;
+
 /**
  * 用户体系
  *
@@ -12,7 +14,7 @@ import com.baomidou.mybatisplus.enums.IdType;
  */
 
 @TableName("user_relation")
-public class UserRelationEntity {
+public class UserRelationEntity implements Serializable {
 
 
     /**

@@ -4,37 +4,33 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserEmpowerEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.service.UserEmpowerService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * @author GAOYGUUO
+ * @author GAOYUGUO
  */
 @RestController
 public class UserEmpowerController {
 
     @Autowired
-    private UserEmpowerService service;
+    private UserEmpowerService userEmpowerService;
 
     /**
-     * selectOne
+     * selectById
      *
-     * @param param
      * @return
      */
-
-    public UserEmpowerEntity selectOne(Map<String, Object> param) {
-        List<UserEmpowerEntity> entityList = service.selectByMap(param);
-        if (entityList.size() > 0) {
-            UserEmpowerEntity entity = entityList.get(0);
-            return entity;
-        }
-        return null;
+    @PostMapping("/inner/userEmpower/selectById")
+    public UserEmpowerEntity selectById(@RequestParam("id") Integer id) {
+        UserEmpowerEntity entity = userEmpowerService.selectById(id);
+        return entity;
     }
 
     /**
@@ -42,9 +38,16 @@ public class UserEmpowerController {
      *
      * @return
      */
+    @PostMapping("/inner/userEmpower/updateById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void updateById(UserEmpowerEntity entity) {
-        service.updateById(entity);
+    public void updateById(@RequestBody JSONObject json) {
+        UserEmpowerEntity entity = new UserEmpowerEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setAppid(json.getString("appid"));
+        entity.setAppkey(json.getString("appkey"));
+        entity.setTicket(json.getString("ticket"));
+        entity.setCreateTime(json.getDate("createTime"));
+        userEmpowerService.updateById(entity);
     }
 
     /**
@@ -52,9 +55,16 @@ public class UserEmpowerController {
      *
      * @return
      */
+    @PostMapping("/inner/userEmpower/insert")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void insert(UserEmpowerEntity entity) {
-        service.insert(entity);
+    public void insert(@RequestBody JSONObject json) {
+        UserEmpowerEntity entity = new UserEmpowerEntity();
+        entity.setId(json.getInteger("id"));
+        entity.setAppid(json.getString("appid"));
+        entity.setAppkey(json.getString("appkey"));
+        entity.setTicket(json.getString("ticket"));
+        entity.setCreateTime(json.getDate("createTime"));
+        userEmpowerService.insert(entity);
     }
 
     /**
@@ -62,9 +72,10 @@ public class UserEmpowerController {
      *
      * @return
      */
+    @PostMapping("/inner/userEmpower/deleteById")
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = RRException.class)
-    public void deleteById(int id) {
-        service.deleteById(id);
+    public void deleteById(@RequestParam("id") Integer id) {
+        userEmpowerService.deleteById(id);
     }
 
 }

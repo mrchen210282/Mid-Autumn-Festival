@@ -1,13 +1,14 @@
 package cn.bitflash.entity;
 
+import java.io.Serializable;
+
 /**
  * 用户体系
  *
  * @author soso
  * @date 2018年5月26日 上午10:36:57
  */
-
-public class UserRelationEntity {
+public class UserRelationEntity implements Serializable {
 
 
     /**
