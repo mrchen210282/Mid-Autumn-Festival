@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;

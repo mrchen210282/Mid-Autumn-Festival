@@ -1,4 +1,4 @@
-package cn.bitflash.util;
+package cn.bitflash.utils;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;

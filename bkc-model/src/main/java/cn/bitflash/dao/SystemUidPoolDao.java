@@ -17,13 +17,15 @@
 package cn.bitflash.dao;
 
 
-import cn.bitflash.entity.SystemUidEntity;
+import cn.bitflash.entity.SystemUidPoolEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
- * @author gaoyuguo
+ * @author wangjun
  * @date 2018年9月22日
  */
-public interface SystemUidDao extends BaseMapper<SystemUidEntity> {
+public interface SystemUidPoolDao extends BaseMapper<SystemUidPoolEntity> {
 
+    //查询用户uid
+    public String selectUid();
 }

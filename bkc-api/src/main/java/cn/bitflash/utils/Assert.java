@@ -14,14 +14,29 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.utils;
 
-import cn.bitflash.dao.SystemUidDao;
-import cn.bitflash.entity.SystemUidEntity;
-import cn.bitflash.service.SystemUidService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.exception.RRException;
+import org.apache.commons.lang.StringUtils;
 
-@Service("systemUidService")
-public class SystemUidServiceImpl extends ServiceImpl<SystemUidDao, SystemUidEntity> implements SystemUidService {
+/**
+ * 数据校验
+ *
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2017-03-23 15:50
+ */
+public abstract class Assert {
+
+    public static void isBlank(String str, String message) {
+        if (StringUtils.isBlank(str)) {
+            throw new RRException(message);
+        }
+    }
+
+    public static void isNull(Object object, String message) {
+        if (object == null) {
+            throw new RRException(message);
+        }
+    }
 }

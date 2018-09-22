@@ -4,7 +4,7 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UseLoginEntity;
 import cn.bitflash.entity.UserTokenEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
-import cn.bitflash.util.*;
+import cn.bitflash.utils.*;
 import cn.bitflash.vip.index.entity.LoginForm;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;

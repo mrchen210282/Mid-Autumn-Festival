@@ -36,45 +36,8 @@ public interface IndexFeign {
     @PostMapping("/inner/token/insertOrUpdateToken")
     Boolean insertOrUpdateToken(@RequestBody UserTokenEntity tokenEntity);
 
-
     /**
-     * user_digital_assets表
+     * system_uid
      */
-    @ApiOperation(value = "插入user_account表")
-    @PostMapping("/inner/userAccount/insertAccountIndex")
-    Boolean insertUserDigtalAssets(@RequestParam("uid")String uid);
-
-
-    @ApiOperation(value = "根据uid删除user_account表")
-    @PostMapping("/inner/userAccount/deleteById")
-    void delAccountByUid(@RequestParam("id")String uid);
-
-
-    /**
-     * user_info表
-     */
-    @ApiOperation(value = "插入user_info表")
-    @PostMapping("")
-    Boolean insertUserInfo(@RequestBody UserInfoEntity info);
-
-    @ApiOperation(value = "根据uid删除user_info表")
-    @PostMapping("/inner/userInfo/deleteById")
-    void delUserInfoByUid(@RequestParam("id")String uid);
-
-    @PostMapping("/inner/userInfouser/insertInfoCode")
-    Boolean insertInfoCode(@RequestParam("uid")String uid,@RequestParam("mobile")String mobile,
-                           @RequestParam("isInvitation")boolean flag,@RequestParam("name")String name
-            ,@RequestParam("code")String code);
-
-    /**
-     * user_invitation_code 表
-     */
-    @PostMapping("/inner/userInvitationCode/selectCodeByCode")
-    UserInvitationCodeEntity selectCodeByCode(@RequestParam("code")String code);
-
-    /**
-     * UserCashIncome 表
-     */
-    @PostMapping("/inner/userCashIncome/insert")
-    Boolean insertUserCashIncome(@RequestBody UserCashIncomeEntity cashIncome);
+    String selectUid();
 }
