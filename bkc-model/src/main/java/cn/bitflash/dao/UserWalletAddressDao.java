@@ -14,14 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.UserMarkDao;
-import cn.bitflash.entity.UserMarkEntity;
-import cn.bitflash.service.UserMarkService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.entity.UserWalletAddressEntity;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
-@Service("userMarkService")
-public class UserMarkServiceImpl extends ServiceImpl<UserMarkDao, UserMarkEntity> implements UserMarkService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface UserWalletAddressDao extends BaseMapper<UserWalletAddressEntity> {
+
 }
