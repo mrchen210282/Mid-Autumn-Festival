@@ -133,20 +133,17 @@
             <version>2.7.0</version>
         </dependency>
 
-
-
-
-        <!--加密-->
+        <!--以太坊钱包-->
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.56</version>
+            <groupId>org.web3j</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.0</version>
+            <type>pom</type>
         </dependency>
-
-
-
-
     </dependencies>
+
+
+
     <repositories>
         <repository>
             <id>getui-nexus</id>
