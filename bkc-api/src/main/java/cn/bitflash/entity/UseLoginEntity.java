@@ -46,7 +46,7 @@ public class UseLoginEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private int salt;
+    private String salt;
 
     private String token;
 
@@ -82,11 +82,11 @@ public class UseLoginEntity implements Serializable {
         this.uid = uid;
     }
 
-    public int getSalt() {
+    public String getSalt() {
         return salt;
     }
 
-    public void setSalt(int salt) {
+    public void setSalt(String salt) {
         this.salt = salt;
     }
 

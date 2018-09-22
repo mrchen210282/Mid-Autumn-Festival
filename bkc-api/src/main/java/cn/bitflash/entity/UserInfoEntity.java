@@ -16,7 +16,7 @@ public class UserInfoEntity implements Serializable {
 
     private String invitationCode;
 
-    private Boolean isInvitated;
+    private String isInvitated;
 
     private String avatar;
 
@@ -52,11 +52,11 @@ public class UserInfoEntity implements Serializable {
         this.invitationCode = invitationCode;
     }
 
-    public Boolean getIsInvitated() {
+    public String getIsInvitated() {
         return isInvitated;
     }
 
-    public void setIsInvitated(Boolean isInvitated) {
+    public void setIsInvitated(String isInvitated) {
         this.isInvitated = isInvitated;
     }
 

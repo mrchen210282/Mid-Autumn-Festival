@@ -10,7 +10,7 @@ public class Common {
 
 	public final static String TOKEN = "token";
 
-	public final static String TOKEN = "token";
+	public final static String WECHAT = "WeChat";
 
 
 }

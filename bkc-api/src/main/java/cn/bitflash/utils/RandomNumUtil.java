@@ -2,7 +2,7 @@ package cn.bitflash.utils;
 
 public class RandomNumUtil {
 
-    public static int nBit(int length) {
+    public static String nBit(int length) {
         // 字符源，可以根据需要删减
         String generateSource = "1234567890";
         String rtnStr = "";
@@ -13,6 +13,6 @@ public class RandomNumUtil {
             rtnStr += nowStr;
             generateSource = generateSource.replaceAll(nowStr, "" );
         }
-        return new Integer(rtnStr);
+        return rtnStr;
     }
 }

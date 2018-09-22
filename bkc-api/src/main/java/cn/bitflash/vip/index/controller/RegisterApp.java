@@ -1,6 +1,8 @@
 package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.entity.UseLoginEntity;
+import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
@@ -38,33 +40,26 @@ public class RegisterApp {
         }
 
         String uid = indexFeign.selectUid();
+        String salt = RandomNumUtil.nBit(4);
         UseLoginEntity us = new UseLoginEntity();
         us.setMobile(mobile);
-        us.setPassword(pwd);
+        String finalPwd = Encrypt.SHA256(pwd+Encrypt.SHA256(salt));
+        us.setPassword(finalPwd);
         us.setUid(uid);
         us.setCreateTime(new Date());
-        us.setSalt(RandomNumUtil.nBit(4));
+        us.setSalt(salt);
         //初始化user_login表
         Boolean flag = indexFeign.insertUserLoginEntity(us);
-        if (!flag) {
-            indexFeign.delUserEntityByMbile(mobile);
+        UserInfoEntity info = new UserInfoEntity();
+        info.setUid(uid);
+        info.setInvitationCode(invitationCode);
+        info.setIsInvitated("Y");
+        Boolean flag2 = indexFeign.updateUserInfoById(info);
+        if(!flag || !flag2){
             return R.error("注册失败");
         }
-        logger.info("注册手机号");
+        logger.info("注册手机号:"+mobile+",邀请码："+invitationCode);
         return R.ok("注册成功");
-    }
-
-    private String generateUUID32() {
-        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
-    }
-
-    private String getName() {
-        String str = "用户";
-        int max = 10000;
-        int min = 1000;
-        Random random = new Random();
-        str += random.nextInt(max) % (max - min + 1) + min;
-        return str;
     }
 
 

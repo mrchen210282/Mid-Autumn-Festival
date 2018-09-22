@@ -39,5 +39,11 @@ public interface IndexFeign {
     /**
      * system_uid
      */
+    @PostMapping("")
     String selectUid();
+
+    /**
+     * user_info表
+     */
+    Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 }
