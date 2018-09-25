@@ -10,7 +10,6 @@ import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.CashForm;
 import cn.bitflash.vip.user.feign.UserFeign;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
