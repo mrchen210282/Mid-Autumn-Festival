@@ -1,5 +1,8 @@
 package cn.bitflash.vip.user.controller;
 
+import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.alibaba.fastjson.JSON;
@@ -26,32 +29,41 @@ public class Confirm {
     @Autowired
     private UserFeign userFeign;
 
-    //@Login  @RequestAttribute("uid") String uid
+    @Login
+
     @PostMapping("authentication")
     @ApiOperation("实名认证")
-    public R uploadImgMessage(@ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
-                             ) throws Exception {
+    public R uploadImgMessage(@RequestAttribute("uid") String uid,
+                              @ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
+    ) throws Exception {
 
-       /* UserInfoEntity info = userFeign.selectUserinfoById(uid);
-        if (info.getIsAuthentication().equals(Common.AUTHENTICATION)) {
+        UserInfoEntity info = userFeign.selectUserinfoById(uid);
+        if (info.getIsAuth().equals(Common.AUTHENTICATION)) {
             return R.ok();
-        }*/
-        String host = "https://checkid.market.alicloudapi.com";       //请求地址  支持http 和 https 及 WEBSOCKET
-        String path = "/IDCard";                                     //后缀
-        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";                             //AppCode  你自己的AppCode 在买家中心查看
-        String idCard = idnum;                                     //参数，具体参照api接口参数
-        String name = realname;                                            //参数，具体参照api接口参数
-        String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;   //拼接请求链接
+        }
+        //请求地址  支持http 和 https 及 WEBSOCKET
+        String host = "https://checkid.market.alicloudapi.com";
+        //后缀
+        String path = "/IDCard";
+        //AppCode  你自己的AppCode 在买家中心查看
+        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";
+        //参数，具体参照api接口参数
+        String idCard = idnum;
+        //参数，具体参照api接口参数
+        String name = realname;
+        //拼接请求链接
+        String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;
         URL url = new URL(urlSend);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);//格式Authorization:APPCODE (中间是英文空格)
-        int httpCode = httpURLConnection.getResponseCode();
+        //格式Authorization:APPCODE (中间是英文空格)
+        httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);
+        //int httpCode = httpURLConnection.getResponseCode();
         String json = read(httpURLConnection.getInputStream());
         String code = JSON.parseObject(json).getString("status");
-       /* if (code.equals("01") || code.equals("1")) {
-            info.setIsAuthentication(Common.AUTHENTICATION);
+        if (code.equals("01") || code.equals("1")) {
+            info.setIsAuth(Common.AUTHENTICATION);
             userFeign.updateUserInfoById(info);
-        }*/
+        }
         Map<String, Object> map = new HashMap<>();
         switch (code) {
             case "01":

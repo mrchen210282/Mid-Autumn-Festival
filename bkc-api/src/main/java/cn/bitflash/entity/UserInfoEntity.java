@@ -14,6 +14,8 @@ public class UserInfoEntity implements Serializable {
 
     private String idNumber;
 
+    private String isAuth;
+
     private String invitationCode;
 
     private String isInvitated;
@@ -42,6 +44,14 @@ public class UserInfoEntity implements Serializable {
 
     public void setIdNumber(String idNumber) {
         this.idNumber = idNumber;
+    }
+
+    public String getIsAuth() {
+        return isAuth;
+    }
+
+    public void setIsAuth(String isAuth) {
+        this.isAuth = isAuth;
     }
 
     public String getInvitationCode() {

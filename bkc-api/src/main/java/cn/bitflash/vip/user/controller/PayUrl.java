@@ -1,7 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UseLoginEntity;
+import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserMobilePaymentCodeEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
@@ -9,7 +9,10 @@ import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.gexin.rp.sdk.base.uitls.MD5Util;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
@@ -38,7 +41,7 @@ public class PayUrl {
     })
     public R uploadPayment(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
         ValidatorUtils.validateEntity(imgForm);
-        UseLoginEntity user = userFeign.selectUserLoginByUid(uid);
+        UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
         String path = "/home/statics/qrcode/";
         String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
@@ -95,24 +98,23 @@ public class PayUrl {
     @PostMapping("getPayUrl")
     @ApiOperation("获取图片地址")
     public R getPayUrl(@RequestAttribute("uid") String uid) {
-        List<UserMobilePaymentCodeEntity> payment =userFeign.selectPaymentByUid(uid);
+        List<UserMobilePaymentCodeEntity> payment = userFeign.selectPaymentsByUid(uid);
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put(Common.ALIPAY,"0");
-        map.put(Common.WECHAT,"0");
-        payment.stream().forEach(u->{
-            if(u.getType().equals(Common.ALIPAY)){
-                map.put(Common.ALIPAY,"1");
+        Map<String, Object> map = new HashMap<>();
+        map.put(Common.ALIPAY, "0");
+        map.put(Common.WECHAT, "0");
+        payment.stream().forEach(u -> {
+            if (u.getType().equals(Common.ALIPAY)) {
+                map.put(Common.ALIPAY, "1");
             }
-            if(u.getType().equals(Common.WECHAT)){
-                map.put(Common.WECHAT,"1");
+            if (u.getType().equals(Common.WECHAT)) {
+                map.put(Common.WECHAT, "1");
             }
         });
         return R.ok(map);
     }
-
 
 
 }

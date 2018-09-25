@@ -28,7 +28,7 @@ import java.util.Date;
  *
  * @author eric
  */
-public class UseLoginEntity implements Serializable {
+public class UserLoginEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 

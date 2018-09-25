@@ -1,14 +1,10 @@
 package cn.bitflash.vip.index.feign;
 
 import cn.bitflash.entity.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Date;
 
 @FeignClient(value = "bkc-model")
 public interface IndexFeign {
@@ -18,15 +14,15 @@ public interface IndexFeign {
      */
     //根据手机号查询用户
     @PostMapping("")
-    UseLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
+    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
 
     //插入
     @PostMapping("")
-    String insertUserLoginEntity(@RequestBody UseLoginEntity userEntity);
+    String insertUserLoginEntity(@RequestBody UserLoginEntity userEntity);
 
     //更新
     @PostMapping("")
-    Boolean updateUserLoginById(@RequestBody UseLoginEntity userEntity);
+    Boolean updateUserLoginById(@RequestBody UserLoginEntity userEntity);
 
     /**
      * tb_token表
