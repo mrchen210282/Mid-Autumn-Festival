@@ -2,7 +2,7 @@ package cn.bitflash.entity;
 
 import java.math.BigDecimal;
 
-public class UserDigitalAssets {
+public class UserDigitalAssetsEntity {
 
     private String uid;
 
