@@ -132,10 +132,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
-
-
-
-
         <!--加密-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -143,10 +139,6 @@
             <version>1.56</version>
         </dependency>
 
-
-
-
-    </dependencies>
         <!--以太坊钱包-->
         <dependency>
             <groupId>org.web3j</groupId>
@@ -154,9 +146,8 @@
             <version>3.5.0</version>
             <type>pom</type>
         </dependency>
+
     </dependencies>
-
-
 
     <repositories>
         <repository>

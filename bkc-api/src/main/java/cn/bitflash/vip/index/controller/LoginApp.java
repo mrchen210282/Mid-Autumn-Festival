@@ -54,7 +54,7 @@ public class LoginApp {
         String tokenKey = RedisDetail.REDIS_TOKEN + user.getUid();
         //加入缓存，失效时间15天
         redisUtils.set(tokenKey, user, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
-        Map<String, Object> map = new HashMap<>(2);
+        Map<String, Object> map = new HashMap<String, Object>(2);
         String time = System.currentTimeMillis() + "bkc";
         map.put("token", AESTokenUtil.setToken(time, user.getToken()));
         map.put("expire", time);
