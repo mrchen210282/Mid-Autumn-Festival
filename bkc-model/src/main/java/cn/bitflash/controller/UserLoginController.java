@@ -37,9 +37,9 @@ public class UserLoginController {
      * @return
      */
     @PostMapping("/inner/userLogin/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserLoginEntity entity = (UserLoginEntity) JSONObject.parseObject(json.toString(), UserLoginEntity.class);
-        userLoginService.updateById(entity);
+        return userLoginService.updateById(entity);
     }
 
     /**
@@ -48,9 +48,9 @@ public class UserLoginController {
      * @return
      */
     @PostMapping("/inner/userLogin/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserLoginEntity entity = (UserLoginEntity) JSONObject.parseObject(json.toString(), UserLoginEntity.class);
-        userLoginService.insert(entity);
+        return userLoginService.insert(entity);
     }
 
     /**
@@ -59,8 +59,8 @@ public class UserLoginController {
      * @return
      */
     @PostMapping("/inner/userLogin/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userLoginService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userLoginService.deleteById(id);
     }
 
     /**

@@ -1,8 +1,6 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.entity.UserSharedIncomePoolEntity;
-import cn.bitflash.service.AppStatusService;
 import cn.bitflash.service.UserSharedIncomePoolService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +35,9 @@ public class UserSharedIncomePoolController {
      * @return
      */
     @PostMapping("/inner/userSharedIncomePool/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserSharedIncomePoolEntity entity = (UserSharedIncomePoolEntity) JSONObject.parseObject(json.toString(), UserSharedIncomePoolEntity.class);
-        userSharedIncomePoolService.updateById(entity);
+        return userSharedIncomePoolService.updateById(entity);
     }
 
     /**
@@ -48,9 +46,9 @@ public class UserSharedIncomePoolController {
      * @return
      */
     @PostMapping("/inner/userSharedIncomePool/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserSharedIncomePoolEntity entity = (UserSharedIncomePoolEntity) JSONObject.parseObject(json.toString(), UserSharedIncomePoolEntity.class);
-        userSharedIncomePoolService.insert(entity);
+        return userSharedIncomePoolService.insert(entity);
     }
 
     /**
@@ -59,8 +57,8 @@ public class UserSharedIncomePoolController {
      * @return
      */
     @PostMapping("/inner/userSharedIncomePool/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userSharedIncomePoolService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userSharedIncomePoolService.deleteById(id);
     }
 
 }

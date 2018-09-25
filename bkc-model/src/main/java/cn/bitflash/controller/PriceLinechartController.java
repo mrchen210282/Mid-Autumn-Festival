@@ -39,9 +39,9 @@ public class PriceLinechartController {
      * @return
      */
     @PostMapping("/inner/priceLinechart/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         PriceLinechartEntity entity = (PriceLinechartEntity) JSONObject.parseObject(json.toString(), PriceLinechartEntity.class);
-        priceLinechartService.updateById(entity);
+        return priceLinechartService.updateById(entity);
     }
 
     /**
@@ -50,9 +50,9 @@ public class PriceLinechartController {
      * @return
      */
     @PostMapping("/inner/priceLinechart/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         PriceLinechartEntity entity = (PriceLinechartEntity) JSONObject.parseObject(json.toString(), PriceLinechartEntity.class);
-        priceLinechartService.insert(entity);
+        return priceLinechartService.insert(entity);
     }
 
     /**
@@ -61,8 +61,8 @@ public class PriceLinechartController {
      * @return
      */
     @PostMapping("/inner/priceLinechart/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        priceLinechartService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return priceLinechartService.deleteById(id);
     }
 
     /**

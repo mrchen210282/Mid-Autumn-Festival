@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author GAOYGUUO
  */
@@ -36,9 +39,9 @@ public class UserCashAssetsController {
      * @return
      */
     @PostMapping("/inner/userCashAssets/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserCashAssetsEntity entity = (UserCashAssetsEntity) JSONObject.parseObject(json.toString(), UserCashAssetsEntity.class);
-        userCashAssetsService.updateById(entity);
+        return userCashAssetsService.updateById(entity);
     }
 
     /**
@@ -47,9 +50,9 @@ public class UserCashAssetsController {
      * @return
      */
     @PostMapping("/inner/userCashAssets/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserCashAssetsEntity entity = (UserCashAssetsEntity) JSONObject.parseObject(json.toString(), UserCashAssetsEntity.class);
-        userCashAssetsService.insert(entity);
+        return userCashAssetsService.insert(entity);
     }
 
     /**
@@ -58,8 +61,22 @@ public class UserCashAssetsController {
      * @return
      */
     @PostMapping("/inner/userCashAssets/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userCashAssetsService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userCashAssetsService.deleteById(id);
+    }
+
+
+    /**
+     * selectById
+     *
+     * @return
+     */
+    @PostMapping("/inner/userCashAssets/selectById")
+    public Map<String,Object> getIndexAssets(@RequestParam("id") String id) {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+
+        return map;
     }
 
 }

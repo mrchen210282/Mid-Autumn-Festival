@@ -36,9 +36,9 @@ public class UserPerformanceController {
      * @return
      */
     @PostMapping("/inner/userPerformance/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserPerformanceEntity entity = (UserPerformanceEntity) JSONObject.parseObject(json.toString(), UserPerformanceEntity.class);
-        userPerformanceService.updateById(entity);
+        return userPerformanceService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserPerformanceController {
      * @return
      */
     @PostMapping("/inner/userPerformance/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserPerformanceEntity entity = (UserPerformanceEntity) JSONObject.parseObject(json.toString(), UserPerformanceEntity.class);
-        userPerformanceService.insert(entity);
+        return userPerformanceService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserPerformanceController {
      * @return
      */
     @PostMapping("/inner/userPerformance/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userPerformanceService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userPerformanceService.deleteById(id);
     }
 
 }

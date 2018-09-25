@@ -38,9 +38,9 @@ public class UserBankPaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userBankPaymentInfo/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserBankPaymentInfoEntity entity = (UserBankPaymentInfoEntity) JSONObject.parseObject(json.toString(), UserBankPaymentInfoEntity.class);
-        userBankPaymentInfoService.updateById(entity);
+        return userBankPaymentInfoService.updateById(entity);
     }
 
     /**
@@ -49,9 +49,9 @@ public class UserBankPaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userBankPaymentInfo/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserBankPaymentInfoEntity entity = (UserBankPaymentInfoEntity) JSONObject.parseObject(json.toString(), UserBankPaymentInfoEntity.class);
-        userBankPaymentInfoService.insert(entity);
+        return userBankPaymentInfoService.insert(entity);
     }
 
     /**
@@ -60,8 +60,8 @@ public class UserBankPaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userBankPaymentInfo/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userBankPaymentInfoService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userBankPaymentInfoService.deleteById(id);
     }
 
 }

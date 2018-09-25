@@ -36,9 +36,9 @@ public class UserDigitalAssetsController {
      * @return
      */
     @PostMapping("/inner/userDigitalAssets/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserDigitalAssetsEntity entity = (UserDigitalAssetsEntity) JSONObject.parseObject(json.toString(), UserDigitalAssetsEntity.class);
-        userDigitalAssetsService.updateById(entity);
+        return userDigitalAssetsService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserDigitalAssetsController {
      * @return
      */
     @PostMapping("/inner/userDigitalAssets/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserDigitalAssetsEntity entity = (UserDigitalAssetsEntity) JSONObject.parseObject(json.toString(), UserDigitalAssetsEntity.class);
-        userDigitalAssetsService.insert(entity);
+        return userDigitalAssetsService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserDigitalAssetsController {
      * @return
      */
     @PostMapping("/inner/userDigitalAssets/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userDigitalAssetsService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userDigitalAssetsService.deleteById(id);
     }
 
 }

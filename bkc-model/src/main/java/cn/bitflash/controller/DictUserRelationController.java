@@ -36,9 +36,9 @@ public class DictUserRelationController {
      * @return
      */
     @PostMapping("/inner/dictUserRelation/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         DictUserRelationEntity entity = (DictUserRelationEntity) JSONObject.parseObject(json.toString(), DictUserRelationEntity.class);
-        dictUserRelationService.updateById(entity);
+        return dictUserRelationService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class DictUserRelationController {
      * @return
      */
     @PostMapping("/inner/dictUserRelation/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         DictUserRelationEntity entity = (DictUserRelationEntity) JSONObject.parseObject(json.toString(), DictUserRelationEntity.class);
-        dictUserRelationService.insert(entity);
+        return dictUserRelationService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class DictUserRelationController {
      * @return
      */
     @PostMapping("/inner/dictUserRelation/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        dictUserRelationService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return dictUserRelationService.deleteById(id);
     }
 
 }

@@ -36,9 +36,9 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserInvitationCodeEntity entity = (UserInvitationCodeEntity) JSONObject.parseObject(json.toString(), UserInvitationCodeEntity.class);
-        userInvitationCodeService.updateById(entity);
+        return userInvitationCodeService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserInvitationCodeEntity entity = (UserInvitationCodeEntity) JSONObject.parseObject(json.toString(), UserInvitationCodeEntity.class);
-        userInvitationCodeService.insert(entity);
+        return userInvitationCodeService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserInvitationCodeController {
      * @return
      */
     @PostMapping("/inner/userInvitationCode/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userInvitationCodeService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userInvitationCodeService.deleteById(id);
     }
 
 }

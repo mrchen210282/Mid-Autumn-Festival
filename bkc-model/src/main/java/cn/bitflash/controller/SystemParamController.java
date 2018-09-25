@@ -36,9 +36,9 @@ public class SystemParamController {
      * @return
      */
     @PostMapping("/inner/systemParam/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
-        systemParamService.updateById(entity);
+        return systemParamService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class SystemParamController {
      * @return
      */
     @PostMapping("/inner/systemParam/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
-        systemParamService.insert(entity);
+        return systemParamService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class SystemParamController {
      * @return
      */
     @PostMapping("/inner/systemParam/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        systemParamService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return systemParamService.deleteById(id);
     }
 
 }

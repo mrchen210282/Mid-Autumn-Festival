@@ -36,9 +36,9 @@ public class DictComputingPowerController {
      * @return
      */
     @PostMapping("/inner/dictComputingPower/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         DictComputingPowerEntity entity = (DictComputingPowerEntity) JSONObject.parseObject(json.toString(), DictComputingPowerEntity.class);
-        dictComputingPowerService.updateById(entity);
+        return dictComputingPowerService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class DictComputingPowerController {
      * @return
      */
     @PostMapping("/inner/dictComputingPower/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         DictComputingPowerEntity entity = (DictComputingPowerEntity) JSONObject.parseObject(json.toString(), DictComputingPowerEntity.class);
-        dictComputingPowerService.insert(entity);
+        return dictComputingPowerService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class DictComputingPowerController {
      * @return
      */
     @PostMapping("/inner/dictComputingPower/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        dictComputingPowerService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return dictComputingPowerService.deleteById(id);
     }
 
 }

@@ -35,9 +35,9 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
-        appStatusService.updateById(entity);
+        return appStatusService.updateById(entity);
     }
 
     /**
@@ -46,9 +46,9 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
-        appStatusService.insert(entity);
+        return appStatusService.insert(entity);
     }
 
     /**
@@ -57,8 +57,8 @@ public class AppStatusController {
      * @return
      */
     @PostMapping("/inner/appStatus/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        appStatusService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return appStatusService.deleteById(id);
     }
 
 }

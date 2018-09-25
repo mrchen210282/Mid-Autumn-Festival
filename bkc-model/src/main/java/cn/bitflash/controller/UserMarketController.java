@@ -36,9 +36,9 @@ public class UserMarketController {
      * @return
      */
     @PostMapping("/inner/userMark/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserMarketEntity entity = (UserMarketEntity) JSONObject.parseObject(json.toString(), UserMarketEntity.class);
-        userMarketService.updateById(entity);
+        return userMarketService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserMarketController {
      * @return
      */
     @PostMapping("/inner/userMark/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserMarketEntity entity = (UserMarketEntity) JSONObject.parseObject(json.toString(), UserMarketEntity.class);
-        userMarketService.insert(entity);
+        return userMarketService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserMarketController {
      * @return
      */
     @PostMapping("/inner/userMark/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userMarketService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userMarketService.deleteById(id);
     }
 
 }
