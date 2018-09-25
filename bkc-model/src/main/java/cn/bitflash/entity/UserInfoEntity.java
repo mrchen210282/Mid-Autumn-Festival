@@ -22,6 +22,8 @@ public class UserInfoEntity implements Serializable {
 
     private String invitationCode;
 
+    private String isAuth;
+
     private String avatar;
 
     public String getUid() {
@@ -70,5 +72,13 @@ public class UserInfoEntity implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getIsAuth() {
+        return isAuth;
+    }
+
+    public void setIsAuth(String isAuth) {
+        this.isAuth = isAuth;
     }
 }

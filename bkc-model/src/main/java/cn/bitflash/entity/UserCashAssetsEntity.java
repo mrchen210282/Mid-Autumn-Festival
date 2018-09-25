@@ -23,6 +23,8 @@ public class UserCashAssetsEntity implements Serializable {
 
     private BigDecimal sharedIncome;
 
+    private BigDecimal lotto;
+
     public String getUid() {
         return uid;
     }
@@ -61,5 +63,13 @@ public class UserCashAssetsEntity implements Serializable {
 
     public void setSharedIncome(BigDecimal sharedIncome) {
         this.sharedIncome = sharedIncome;
+    }
+
+    public BigDecimal getLotto() {
+        return lotto;
+    }
+
+    public void setLotto(BigDecimal lotto) {
+        this.lotto = lotto;
     }
 }

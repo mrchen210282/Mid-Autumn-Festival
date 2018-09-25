@@ -18,6 +18,8 @@ public class SystemParamEntity implements Serializable {
 
     private String value;
 
+    private String comment;
+
     private String remark;
 
     public Integer getId() {
@@ -42,6 +44,14 @@ public class SystemParamEntity implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public String getRemark() {

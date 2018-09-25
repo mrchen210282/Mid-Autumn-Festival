@@ -13,33 +13,73 @@ import java.math.BigDecimal;
 @TableName("dict_computing_power")
 public class DictComputingPowerEntity implements Serializable {
     @TableId
-    private Integer id;
+    private Integer level;
 
-    private String key;
+    private BigDecimal rate;
 
-    private BigDecimal power;
+    private String power;
 
-    public Integer getId() {
-        return id;
+    private BigDecimal cashBenchmark;
+
+    private String performanceBenchmark;
+
+    private String comment;
+
+    private String remark;
+
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
-    public String getKey() {
-        return key;
+    public BigDecimal getRate() {
+        return rate;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 
-    public BigDecimal getPower() {
+    public String getPower() {
         return power;
     }
 
-    public void setPower(BigDecimal power) {
+    public void setPower(String power) {
         this.power = power;
+    }
+
+    public BigDecimal getCashBenchmark() {
+        return cashBenchmark;
+    }
+
+    public void setCashBenchmark(BigDecimal cashBenchmark) {
+        this.cashBenchmark = cashBenchmark;
+    }
+
+    public String getPerformanceBenchmark() {
+        return performanceBenchmark;
+    }
+
+    public void setPerformanceBenchmark(String performanceBenchmark) {
+        this.performanceBenchmark = performanceBenchmark;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
