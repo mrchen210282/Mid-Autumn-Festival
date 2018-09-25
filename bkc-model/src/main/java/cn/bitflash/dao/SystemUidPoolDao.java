@@ -27,7 +27,5 @@ import java.util.Map;
  * @date 2018年9月22日
  */
 public interface SystemUidPoolDao extends BaseMapper<SystemUidPoolEntity> {
-
-    //查询用户uid
-    public String selectUid(Map<String,Object> map);
+    String selectUid(Map<String,Object> map);
 }
