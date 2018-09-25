@@ -39,10 +39,9 @@ public class AESTokenUtil {
     }
 
     public static void main(String[] args) {
-        Long time = System.currentTimeMillis();
-        System.out.println("time:" + time.toString());
-        String str = AESTokenUtil.setToken(time.toString(),"cff5b04d4812402ea49584f7c55b0d3e");
-        System.out.println(str);
+       String key = "1537866456750bkc";
+       String token =   "Uvio8PNyQxFcObpQHkeCPy4tijoPBFJxXpm4hLfB818YvVvOz8JEYiNf+Yz4Pq5A5CZUBNovD35JMnJkr4319JOI4Bpr8IOd3MxemYULeoM=";
+        System.out.println(getToken(key,token));
     }
 
 }

@@ -49,7 +49,7 @@ public class LoginApp {
             user.setToken(token);
             indexFeign.updateUserLoginById(user);
             //缓存key
-            String tokenKey = RedisDetail.REDIS_TOKEN + user.getUid();
+            String tokenKey = RedisDetail.REDIS_TOKEN + token;
             //加入缓存，失效时间15天
             redisUtils.set(tokenKey, user, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
             Map<String, Object> map = new HashMap<String, Object>(2);
@@ -64,8 +64,8 @@ public class LoginApp {
 
     @Login
     @PostMapping("logout")
-    public R logout(@RequestAttribute(ApiLoginInterceptor.UID) String uid) {
-        String tokenKey = RedisDetail.REDIS_TOKEN + uid;
+    public R logout(@RequestAttribute(ApiLoginInterceptor.UID) String uid,@RequestHeader("token")String token) {
+        String tokenKey = RedisDetail.REDIS_TOKEN + token;
         redisUtils.delete(tokenKey);
         return R.ok();
     }
