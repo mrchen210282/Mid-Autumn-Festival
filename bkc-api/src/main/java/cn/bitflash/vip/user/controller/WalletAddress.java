@@ -41,7 +41,6 @@ public class WalletAddress {
 
         //创建文件夹
         File file = new File(FILEADDRESS);
-
         //设置为只读
         file.setReadOnly();
 
@@ -60,7 +59,6 @@ public class WalletAddress {
         userWalletAddress.setUid(uid);
         userWalletAddress.setAddress(address);
         userWalletAddress.setPrivateKey(privateKey.toString());
-
         userFeign.insetUserWalletAddress(userWalletAddress);
 
         return R.ok().put("userWalletAddress",userWalletAddress);
