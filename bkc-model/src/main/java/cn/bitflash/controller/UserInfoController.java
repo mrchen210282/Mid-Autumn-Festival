@@ -1,9 +1,6 @@
 package cn.bitflash.controller;
 
-
-import cn.bitflash.entity.DictComputingPowerEntity;
 import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.service.DictComputingPowerService;
 import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +35,9 @@ public class UserInfoController {
      * @return
      */
     @PostMapping("/inner/userInfo/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.updateById(entity);
+        return userInfoService.updateById(entity);
     }
 
     /**
@@ -49,9 +46,9 @@ public class UserInfoController {
      * @return
      */
     @PostMapping("/inner/userInfo/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.insert(entity);
+        return userInfoService.insert(entity);
     }
 
     /**
@@ -60,8 +57,8 @@ public class UserInfoController {
      * @return
      */
     @PostMapping("/inner/userInfo/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userInfoService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userInfoService.deleteById(id);
     }
 
 }

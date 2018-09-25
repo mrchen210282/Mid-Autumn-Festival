@@ -30,7 +30,6 @@ public class Confirm {
     private UserFeign userFeign;
 
     @Login
-
     @PostMapping("authentication")
     @ApiOperation("实名认证")
     public R uploadImgMessage(@RequestAttribute("uid") String uid,

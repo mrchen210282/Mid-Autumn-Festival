@@ -36,9 +36,9 @@ public class UserDrawCashController {
      * @return
      */
     @PostMapping("/inner/userDrawCash/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserDrawCashEntity entity = (UserDrawCashEntity) JSONObject.parseObject(json.toString(), UserDrawCashEntity.class);
-        userDrawCashService.updateById(entity);
+        return userDrawCashService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserDrawCashController {
      * @return
      */
     @PostMapping("/inner/userDrawCash/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserDrawCashEntity entity = (UserDrawCashEntity) JSONObject.parseObject(json.toString(), UserDrawCashEntity.class);
-        userDrawCashService.insert(entity);
+        return userDrawCashService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserDrawCashController {
      * @return
      */
     @PostMapping("/inner/userDrawCash/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userDrawCashService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userDrawCashService.deleteById(id);
     }
 
 }

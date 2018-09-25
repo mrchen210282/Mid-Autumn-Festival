@@ -1,8 +1,7 @@
 package cn.bitflash.controller;
 
-
-import cn.bitflash.entity.SystemParamEntity;
-import cn.bitflash.service.SystemParamService;
+import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.service.AppStatusService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GAOYGUUO
  */
 @RestController
-public class SystemParamController {
+public class AppStatusController {
 
     @Autowired
-    private SystemParamService systemParamService;
+    private AppStatusService appStatusService;
 
     /**
      * selectById
      *
      * @return
      */
-    @PostMapping("/inner/systemParam/selectById")
-    public SystemParamEntity selectById(@RequestParam("id") String id) {
-        SystemParamEntity entity = systemParamService.selectById(id);
+    @PostMapping("/inner/appStatus/selectById")
+    public AppStatusEntity selectById(@RequestParam("id") String id) {
+        AppStatusEntity entity = appStatusService.selectById(id);
         return entity;
     }
 
@@ -35,10 +34,10 @@ public class SystemParamController {
      *
      * @return
      */
-    @PostMapping("/inner/systemParam/updateById")
+    @PostMapping("/inner/appStatus/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
-        SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
-        return systemParamService.updateById(entity);
+        AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
+        return appStatusService.updateById(entity);
     }
 
     /**
@@ -46,10 +45,10 @@ public class SystemParamController {
      *
      * @return
      */
-    @PostMapping("/inner/systemParam/insert")
+    @PostMapping("/inner/appStatus/insert")
     public boolean insert(@RequestBody JSONObject json) throws Exception {
-        SystemParamEntity entity = (SystemParamEntity) JSONObject.parseObject(json.toString(), SystemParamEntity.class);
-        return systemParamService.insert(entity);
+        AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
+        return appStatusService.insert(entity);
     }
 
     /**
@@ -57,9 +56,9 @@ public class SystemParamController {
      *
      * @return
      */
-    @PostMapping("/inner/systemParam/deleteById")
+    @PostMapping("/inner/appStatus/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
-        return systemParamService.deleteById(id);
+        return appStatusService.deleteById(id);
     }
 
 }

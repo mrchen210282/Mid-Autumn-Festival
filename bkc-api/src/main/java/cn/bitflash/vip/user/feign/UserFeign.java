@@ -14,51 +14,44 @@ public interface UserFeign {
     /**
      * user_login表
      */
-    @PostMapping("/inner/user/selectById")
+    @PostMapping("/inner/userLogin/selectById")
     UserLoginEntity selectUserLoginByUid(@RequestParam("id") String id);
 
-    @PostMapping("/inner/user/updateById")
+    @PostMapping("/inner/userLogin/updateById")
     Boolean updateUserById(@RequestBody UserLoginEntity loginEntity);
 
-    @PostMapping
+    @PostMapping("/inner/userLogin/updateById")
     Boolean updateUserByMobile(@RequestBody UserLoginEntity loginEntity);
 
 
     /**
      * user_payment_code表
      */
-    @PostMapping("")
-    UserMobilePaymentCodeEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("imgType") String imgType);
+    @PostMapping("/inner/userMobilePaymentInfo/selectPaymentByUidAndType")
+    UserMobilePaymentInfoEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("type") String type);
 
-    @PostMapping("")
-    Boolean insertUserPayment(@RequestBody UserMobilePaymentCodeEntity payment);
+    @PostMapping("/inner/userMobilePaymentInfo/insert")
+    void insertUserPayment(@RequestBody UserMobilePaymentInfoEntity payment);
 
-    @PostMapping("")
-    Boolean updateUserPaymentById(@RequestBody UserMobilePaymentCodeEntity payment);
+    @PostMapping("/inner/userMobilePaymentInfo/updateById")
+    void updateUserPaymentById(@RequestBody UserMobilePaymentInfoEntity payment);
 
-    @PostMapping
-    List<UserMobilePaymentCodeEntity>  selectPaymentsByUid(@RequestParam("id")String id);
-
-
-    /**
-     * system_resource
-     */
-    @PostMapping("")
-    SystemResourceEntity selectSysResourceById(@RequestParam("id")int id);
+    @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
+    List<UserMobilePaymentInfoEntity>  selectPaymentsByUid(@RequestParam("id")String id);
 
     /**
      * user_wallet_address
      */
-    @PostMapping("")
+    @PostMapping("/inner/userWalletAddress/insert")
     void insetUserWalletAddress(@RequestBody UserWalletAddressEntity userWalletAddress);
 
     /**
      * user_info 表
      */
-    @PostMapping
+    @PostMapping("/inner/userInfo/selectById")
     UserInfoEntity selectUserinfoById(@RequestParam("id")String id);
 
-    @PostMapping
-    Boolean updateUserInfoById(@RequestBody UserInfoEntity info);
+    @PostMapping("/inner/userInfo/updateById")
+    void updateUserInfoById(@RequestBody UserInfoEntity info);
 
 }

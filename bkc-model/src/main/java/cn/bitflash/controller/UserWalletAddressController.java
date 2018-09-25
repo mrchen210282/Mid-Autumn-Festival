@@ -36,9 +36,9 @@ public class UserWalletAddressController {
      * @return
      */
     @PostMapping("/inner/userWalletAddress/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserWalletAddressEntity entity = (UserWalletAddressEntity) JSONObject.parseObject(json.toString(), UserWalletAddressEntity.class);
-        userWalletAddressService.updateById(entity);
+        return userWalletAddressService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserWalletAddressController {
      * @return
      */
     @PostMapping("/inner/userWalletAddress/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserWalletAddressEntity entity = (UserWalletAddressEntity) JSONObject.parseObject(json.toString(), UserWalletAddressEntity.class);
-        userWalletAddressService.insert(entity);
+        return userWalletAddressService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserWalletAddressController {
      * @return
      */
     @PostMapping("/inner/userWalletAddress/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userWalletAddressService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userWalletAddressService.deleteById(id);
     }
 
 }

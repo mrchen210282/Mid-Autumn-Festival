@@ -36,9 +36,9 @@ public class UserRelationController {
      * @return
      */
     @PostMapping("/inner/userRelation/updateById")
-    public void updateById(@RequestBody JSONObject json) throws Exception {
+    public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserRelationEntity entity = (UserRelationEntity) JSONObject.parseObject(json.toString(), UserRelationEntity.class);
-        userRelationService.updateById(entity);
+        return userRelationService.updateById(entity);
     }
 
     /**
@@ -47,9 +47,9 @@ public class UserRelationController {
      * @return
      */
     @PostMapping("/inner/userRelation/insert")
-    public void insert(@RequestBody JSONObject json) throws Exception {
+    public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserRelationEntity entity = (UserRelationEntity) JSONObject.parseObject(json.toString(), UserRelationEntity.class);
-        userRelationService.insert(entity);
+        return userRelationService.insert(entity);
     }
 
     /**
@@ -58,8 +58,8 @@ public class UserRelationController {
      * @return
      */
     @PostMapping("/inner/userRelation/deleteById")
-    public void deleteById(@RequestParam("id") String id) throws Exception {
-        userRelationService.deleteById(id);
+    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+        return userRelationService.deleteById(id);
     }
 
 }
