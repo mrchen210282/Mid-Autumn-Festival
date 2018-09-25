@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 @FeignClient(value = "bkc-model")
@@ -52,9 +53,20 @@ public interface IndexFeign {
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
+
     /**
-     * 取得首页资产
+     * 按上传日期返回最新的三张上传图片
+     * selectSystemAdvertisement
+     * @return
      */
-    @PostMapping("/inner/assets/getIndexAssets")
-    Map<String,Object> getIndexAssets(@RequestParam("uid") String uid);
+    @PostMapping("/inner/systemAdvertisement/selectSystemAdvertisement")
+    List<SystemAdvertisementEntity> selectSystemAdvertisement();
+
+    /**
+     * insert
+     *
+     * @return
+     */
+    @PostMapping("/inner/systemAdvertisement/insertSystemAdvertisement")
+    Boolean insertSystemAdvertisement(@RequestParam("img")String img);
 }

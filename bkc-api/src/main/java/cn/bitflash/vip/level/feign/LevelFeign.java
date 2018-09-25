@@ -15,11 +15,11 @@ public interface LevelFeign {
     /**
      * user_account 表
      */
-    @PostMapping("/inner/userAccount/selectById")
-    UserDigitalIncomeEntity selectAccountByUid(@RequestParam("id") String uid);
+//    @PostMapping("/inner/userAccount/selectById")
+//    UserDigitalIncomeEntity selectAccountByUid(@RequestParam("id") String uid);
 
-    @PostMapping("/inner/userAccount/updateById")
-    Boolean updateAccountById(@RequestBody UserDigitalIncomeEntity account);
+//    @PostMapping("/inner/userAccount/updateById")
+//    Boolean updateAccountById(@RequestBody UserDigitalIncomeEntity account);
 
     /**
      * user_info 表
@@ -63,9 +63,9 @@ public interface LevelFeign {
     /**
      * user_cash_income 表
      */
-    @PostMapping("/inner/userCashIncome/selectById")
-    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("id") String uid);
-
-    @PostMapping("/inner/userCashIncome/updateById")
-    void updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
+//    @PostMapping("/inner/userCashIncome/selectById")
+//    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("id") String uid);
+//
+//    @PostMapping("/inner/userCashIncome/updateById")
+//    void updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
 }

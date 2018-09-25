@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(value = "bkc-model")
 public interface UserFeign {
@@ -59,5 +60,14 @@ public interface UserFeign {
      */
     @PostMapping("")
     Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo);
+
+    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
+    UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid);
+
+    @PostMapping("/inner/userPerformance/selectById")
+    UserPerformanceEntity selectUserPerformanceById(@RequestParam("id") String id);
+
+    @PostMapping("/inner/userDigitalAssets/selectById")
+    UserDigitalAssetsEntity selectDigitalAssetsById(@RequestParam("id") String id);
 
 }
