@@ -22,15 +22,16 @@ public interface SystemFeign {
     AppStatusEntity selectAppStatusByAppId(@RequestParam("id")String appid);
 
     @ApiOperation(value = "根据手机号查询用户是否存在")
-    @PostMapping("/inner/user/selectById")
-    UserLoginEntity selectUserEntityByMobile(@RequestParam("id")String mobile);
+    @PostMapping("/inner/userLogin/selectByMobile")
+    UserLoginEntity selectUserEntityByMobile(@RequestParam("mobile")String mobile);
 
     @ApiOperation(value = "查询区间时间内的价格")
-    @PostMapping()
+    @PostMapping("/inner/priceLinechart/selectLineChartByDate")
     List<PriceChart> selectLineChartByDate(@RequestParam("after") Date after, @RequestParam("yesterday") Date yesterday);
 
 
     @ApiOperation(value = "根据主键查询数据")
-    @PostMapping()
+    @PostMapping("/inner/priceLinechart/selectLineChartById")
     PriceLinechartEntity selectLineChartById(@RequestParam("date")Date date);
 }
+

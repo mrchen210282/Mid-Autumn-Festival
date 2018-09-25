@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.service.UserInfoService;
+import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.service.AppStatusService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
  * @author GAOYGUUO
  */
 @RestController
-public class UserInfoController {
+public class AppStatusController {
 
     @Autowired
-    private UserInfoService userInfoService;
+    private AppStatusService appStatusService;
 
     /**
      * selectById
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/selectById")
-    public UserInfoEntity selectById(@RequestParam("id") String id) {
-        UserInfoEntity entity = userInfoService.selectById(id);
+    @PostMapping("/inner/appStatus/selectById")
+    public AppStatusEntity selectById(@RequestParam("id") String id) {
+        AppStatusEntity entity = appStatusService.selectById(id);
         return entity;
     }
 
@@ -34,10 +34,10 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/updateById")
+    @PostMapping("/inner/appStatus/updateById")
     public void updateById(@RequestBody JSONObject json) throws Exception {
-        UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.updateById(entity);
+        AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
+        appStatusService.updateById(entity);
     }
 
     /**
@@ -45,10 +45,10 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/insert")
+    @PostMapping("/inner/appStatus/insert")
     public void insert(@RequestBody JSONObject json) throws Exception {
-        UserInfoEntity entity = (UserInfoEntity) JSONObject.parseObject(json.toString(), UserInfoEntity.class);
-        userInfoService.insert(entity);
+        AppStatusEntity entity = (AppStatusEntity) JSONObject.parseObject(json.toString(), AppStatusEntity.class);
+        appStatusService.insert(entity);
     }
 
     /**
@@ -56,9 +56,9 @@ public class UserInfoController {
      *
      * @return
      */
-    @PostMapping("/inner/userInfo/deleteById")
+    @PostMapping("/inner/appStatus/deleteById")
     public void deleteById(@RequestParam("id") String id) throws Exception {
-        userInfoService.deleteById(id);
+        appStatusService.deleteById(id);
     }
 
 }

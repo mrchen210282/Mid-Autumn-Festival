@@ -14,14 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.AppStatusDao;
-import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.service.AppStatusService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.entity.UserSharedIncomePoolEntity;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
-@Service("appStatusService")
-public class AppStatusServiceImpl extends ServiceImpl<AppStatusDao, AppStatusEntity> implements AppStatusService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface UserSharedIncomePoolDao extends BaseMapper<UserSharedIncomePoolEntity> {
+
 }

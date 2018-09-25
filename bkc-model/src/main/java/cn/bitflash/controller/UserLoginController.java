@@ -4,6 +4,7 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.service.UserLoginService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,6 +61,17 @@ public class UserLoginController {
     @PostMapping("/inner/userLogin/deleteById")
     public void deleteById(@RequestParam("id") String id) throws Exception {
         userLoginService.deleteById(id);
+    }
+
+    /**
+     * selectByMobile
+     *
+     * @return
+     */
+    @PostMapping("/inner/userLogin/selectByMobile")
+    public UserLoginEntity selectByMobile(@RequestParam("mobile") String mobile) {
+        UserLoginEntity entity = userLoginService.selectOne(new EntityWrapper<UserLoginEntity>().eq("mobile",mobile));
+        return entity;
     }
 
 }
