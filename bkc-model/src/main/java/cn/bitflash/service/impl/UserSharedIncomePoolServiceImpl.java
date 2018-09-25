@@ -16,12 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.AppStatusDao;
-import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.service.AppStatusService;
+import cn.bitflash.dao.UserSharedIncomePoolDao;
+import cn.bitflash.entity.UserSharedIncomePoolEntity;
+import cn.bitflash.service.UserSharedIncomePoolService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("appStatusService")
-public class AppStatusServiceImpl extends ServiceImpl<AppStatusDao, AppStatusEntity> implements AppStatusService {
+@Service("userSharedIncomePoolService")
+public class UserSharedIncomePoolServiceImpl extends ServiceImpl<UserSharedIncomePoolDao, UserSharedIncomePoolEntity> implements UserSharedIncomePoolService {
 }

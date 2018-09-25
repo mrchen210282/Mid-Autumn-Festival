@@ -12,36 +12,41 @@ public interface IndexFeign {
     /**
      * user_login表
      */
-    //根据手机号查询用户
-    @PostMapping("")
+
+    /**
+     * 根据手机号查询用户
+     * @param mobile
+     * @return
+     */
+    @PostMapping("/inner/userLogin/selectByMobile")
     UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
 
-    //插入
-    @PostMapping("")
+    /**
+     * 插入
+     * @param userEntity
+     * @return
+     */
+    @PostMapping("/inner/userLogin/insert")
     String insertUserLoginEntity(@RequestBody UserLoginEntity userEntity);
 
-    //更新
-    @PostMapping("")
-    Boolean updateUserLoginById(@RequestBody UserLoginEntity userEntity);
-
     /**
-     * tb_token表
+     * 更新
+     * @param userEntity
+     * @return
      */
-    //插入或者更新用户token值
-    @PostMapping("/inner/token/insertOrUpdateToken")
-    Boolean insertOrUpdateToken(@RequestBody UserTokenEntity tokenEntity);
+    @PostMapping("/inner/userLogin/updateById")
+    void updateUserLoginById(@RequestBody UserLoginEntity userEntity);
 
-    /**
-     * system_uid
-     */
-    //获取主键uid
-    @PostMapping("")
-    String selectUid();
 
     /**
      * user_info表
      */
-    //更新
-    @PostMapping()
-    Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
+
+    /**
+     * 更新
+     * @param infoEntity
+     * @return
+     */
+    @PostMapping("/inner/userInfo/updateById")
+    void updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 }
