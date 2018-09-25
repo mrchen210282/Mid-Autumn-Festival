@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/index")
@@ -39,23 +36,20 @@ public class RegisterApp {
             return R.error(501, "手机号已经存在");
         }
 
-        String uid = indexFeign.selectUid();
         String salt = RandomNumUtil.nBit(4);
         UseLoginEntity us = new UseLoginEntity();
         us.setMobile(mobile);
-        String finalPwd = Encrypt.SHA256(pwd+Encrypt.SHA256(salt));
+        String finalPwd = Encrypt.SHA512(pwd+salt);
         us.setPassword(finalPwd);
-        us.setUid(uid);
-        us.setCreateTime(new Date());
         us.setSalt(salt);
         //初始化user_login表
-        Boolean flag = indexFeign.insertUserLoginEntity(us);
+        String uid = indexFeign.insertUserLoginEntity(us);
         UserInfoEntity info = new UserInfoEntity();
         info.setUid(uid);
         info.setInvitationCode(invitationCode);
         info.setIsInvitated("Y");
         Boolean flag2 = indexFeign.updateUserInfoById(info);
-        if(!flag || !flag2){
+        if(!flag2){
             return R.error("注册失败");
         }
         logger.info("注册手机号:"+mobile+",邀请码："+invitationCode);

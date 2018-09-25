@@ -10,40 +10,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 
-@Api(value = "初始访问数据接口")
 @FeignClient(value = "bkc-model")
 public interface IndexFeign {
 
     /**
-     * tb_user表
+     * user_login表
      */
-    @ApiOperation(value = "根据手机号查询用户是否存在")
-    @PostMapping("/inner/user/selectById")
+    //根据手机号查询用户
+    @PostMapping("")
     UseLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
 
-    @ApiOperation(value = "根据手机号删除用户信息")
-    @PostMapping("/inner/user/deleteById")
-    void delUserEntityByMbile(@RequestParam("id")String mobile);
+    //插入
+    @PostMapping("")
+    String insertUserLoginEntity(@RequestBody UseLoginEntity userEntity);
 
-    @ApiOperation(value = "插入tb_user表")
-    @PostMapping("/inner/user/insert")
-    Boolean insertUserLoginEntity(@RequestBody UseLoginEntity userEntity);
+    //更新
+    @PostMapping("")
+    Boolean updateUserLoginById(@RequestBody UseLoginEntity userEntity);
 
     /**
      * tb_token表
      */
-    @ApiOperation(value = "插入或者更新用户token值")
+    //插入或者更新用户token值
     @PostMapping("/inner/token/insertOrUpdateToken")
     Boolean insertOrUpdateToken(@RequestBody UserTokenEntity tokenEntity);
 
     /**
      * system_uid
      */
+    //获取主键uid
     @PostMapping("")
     String selectUid();
 
     /**
      * user_info表
      */
+    //更新
+    @PostMapping()
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 }

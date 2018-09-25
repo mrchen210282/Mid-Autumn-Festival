@@ -2,7 +2,6 @@ package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UseLoginEntity;
-import cn.bitflash.entity.UserTokenEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.utils.*;
 import cn.bitflash.vip.index.entity.LoginForm;
@@ -14,10 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 @RestController
@@ -40,26 +37,26 @@ public class LoginApp {
     public R login(@RequestBody LoginForm form) {
         // 表单校验
         ValidatorUtils.validateEntity(form);
-        UseLoginEntity user = indexFeign.selectUserEntityByMobile(form.getMobile());
-
+        UseLoginEntity user = indexFeign.selectUserLoginEntityByMobile(form.getMobile());
+        if (user == null) {
+            return R.error("用户不存在");
+        }
+        String finalPwd = Encrypt.SHA512(form.getPassword() + user.getSalt());
         // 密码错误
-        if (user == null || !user.getPassword().equals(form.getPassword())) {
+        if (!user.getPassword().equals(finalPwd)) {
             return R.error("手机号或密码错误");
         }
         // 插入token
-        String token = generateToken();
-        UserTokenEntity tokenEntity = new UserTokenEntity();
-        tokenEntity.setUid(user.getUid());
-        tokenEntity.setToken(token);
-        tokenEntity.setUpdateTime(new Date());
-        indexFeign.insertOrUpdateToken(tokenEntity);
+        String token = Encrypt.SHA512(System.currentTimeMillis() + form.getMobile());
+        user.setToken(token);
+        indexFeign.updateUserLoginById(user);
         //缓存key
         String tokenKey = RedisDetail.REDIS_TOKEN + user.getUid();
         //加入缓存，失效时间15天
-        redisUtils.set(tokenKey, tokenEntity, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
+        redisUtils.set(tokenKey, user, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
         Map<String, Object> map = new HashMap<>(2);
         String time = System.currentTimeMillis() + "bkc";
-        map.put("token", AESTokenUtil.setToken(time, tokenEntity.getToken()));
+        map.put("token", AESTokenUtil.setToken(time, user.getToken()));
         map.put("expire", time);
         return R.ok(map);
     }
@@ -70,9 +67,5 @@ public class LoginApp {
         String tokenKey = RedisDetail.REDIS_TOKEN + uid;
         redisUtils.delete(tokenKey);
         return R.ok();
-    }
-
-    private String generateToken() {
-        return UUID.randomUUID().toString().replace("-", "");
     }
 }

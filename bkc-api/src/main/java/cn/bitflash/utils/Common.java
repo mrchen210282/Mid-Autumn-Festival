@@ -12,5 +12,7 @@ public class Common {
 
 	public final static String WECHAT = "WeChat";
 
+	public final static String ALIPAY = "Alipay";
+
 
 }

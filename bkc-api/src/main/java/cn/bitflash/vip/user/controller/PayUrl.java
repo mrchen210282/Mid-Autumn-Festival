@@ -1,24 +1,21 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.SystemResourceEntity;
 import cn.bitflash.entity.UseLoginEntity;
-import cn.bitflash.entity.UserPaymentCodeEntity;
+import cn.bitflash.entity.UserMobilePaymentCodeEntity;
+import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
 import cn.bitflash.vip.user.feign.UserFeign;
-import com.alibaba.fastjson.JSON;
 import com.gexin.rp.sdk.base.uitls.MD5Util;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +42,11 @@ public class PayUrl {
         String path = "/home/statics/qrcode/";
         String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
-            case "WeChat":
+            case Common.WECHAT:
                 imgName = imgName + "_w.png";
                 path = path + imgName;
                 break;
-            case "Alipay":
+            case Common.ALIPAY:
                 imgName = imgName + "_z.png";
                 path = path + imgName;
                 break;
@@ -77,9 +74,9 @@ public class PayUrl {
             e.printStackTrace();
             return R.error();
         }
-        UserPaymentCodeEntity payment = userFeign.selectPaymentByUidAndType(uid, imgForm.getImgType());
+        UserMobilePaymentCodeEntity payment = userFeign.selectPaymentByUidAndType(uid, imgForm.getImgType());
         if (payment == null) {
-            payment = new UserPaymentCodeEntity();
+            payment = new UserMobilePaymentCodeEntity();
             payment.setUid(uid);
             payment.setAccount(imgForm.getAccount());
             payment.setType(imgForm.getImgType());
@@ -98,16 +95,22 @@ public class PayUrl {
     @PostMapping("getPayUrl")
     @ApiOperation("获取图片地址")
     public R getPayUrl(@RequestAttribute("uid") String uid) {
-        List<UserPaymentCodeEntity> payment =userFeign.selectPaymentByUid(uid);
+        List<UserMobilePaymentCodeEntity> payment =userFeign.selectPaymentByUid(uid);
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        SystemResourceEntity uri = userFeign.selectSysResourceById(1);
         Map<String,Object> map = new HashMap<>();
+        map.put(Common.ALIPAY,"0");
+        map.put(Common.WECHAT,"0");
         payment.stream().forEach(u->{
-            if(u.getType().equals(""))
+            if(u.getType().equals(Common.ALIPAY)){
+                map.put(Common.ALIPAY,"1");
+            }
+            if(u.getType().equals(Common.WECHAT)){
+                map.put(Common.WECHAT,"1");
+            }
         });
-        return payment;
+        return R.ok(map);
     }
 
 

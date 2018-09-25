@@ -23,13 +23,14 @@ public interface UserFeign {
      * user_payment_code表
      */
     @PostMapping("")
-    UserPaymentCodeEntity selectPaymentByUidAndType(@RequestParam("uid")String uid,@RequestParam("imgType") String imgType);
+    UserMobilePaymentCodeEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("imgType") String imgType);
 
     @PostMapping("")
-    Boolean insertUserPayment(@RequestBody UserPaymentCodeEntity payment);
+    Boolean insertUserPayment(@RequestBody UserMobilePaymentCodeEntity payment);
 
     @PostMapping("")
-    Boolean updateUserPaymentById(@RequestBody UserPaymentCodeEntity payment);
+    Boolean updateUserPaymentById(@RequestBody UserMobilePaymentCodeEntity payment);
+
 
     /**
      * system_resource

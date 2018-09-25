@@ -1,6 +1,6 @@
 package cn.bitflash.entity;
 
-public class UserPaymentCodeEntity {
+public class UserMobilePaymentCodeEntity {
 
     private int id;
 
