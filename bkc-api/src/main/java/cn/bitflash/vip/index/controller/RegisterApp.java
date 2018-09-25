@@ -1,6 +1,6 @@
 package cn.bitflash.vip.index.controller;
 
-import cn.bitflash.entity.UseLoginEntity;
+import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
@@ -31,13 +31,13 @@ public class RegisterApp {
     public R register2(@RequestParam String mobile, @RequestParam String pwd,
                        @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        UseLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
+        UserLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
         if (oldUser != null) {
             return R.error(501, "手机号已经存在");
         }
 
         String salt = RandomNumUtil.nBit(4);
-        UseLoginEntity us = new UseLoginEntity();
+        UserLoginEntity us = new UserLoginEntity();
         us.setMobile(mobile);
         String finalPwd = Encrypt.SHA512(pwd+salt);
         us.setPassword(finalPwd);
