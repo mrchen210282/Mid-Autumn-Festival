@@ -33,7 +33,6 @@ public class PriceRate {
      *
      * @return
      */
-    @Login
     @PostMapping("getWeekPriceRate")
     @ApiOperation("显示折线图")
     public R getWeekPriceRate() {

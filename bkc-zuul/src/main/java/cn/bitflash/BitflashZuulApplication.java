@@ -26,7 +26,7 @@ public class BitflashZuulApplication {
     }
 
     @Bean
-    public cn.bitflash.config.TokenFilter getTokenFilter() {
+    public TokenFilter getTokenFilter() {
         return new TokenFilter();
     }
 

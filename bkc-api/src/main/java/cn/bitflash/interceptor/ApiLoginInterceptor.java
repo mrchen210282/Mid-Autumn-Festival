@@ -1,7 +1,7 @@
 package cn.bitflash.interceptor;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserTokenEntity;
+import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.RedisUtils;
 import org.apache.commons.lang.StringUtils;
@@ -13,8 +13,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static cn.bitflash.utils.Common.TOKEN;
-
 @Component
 public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -23,6 +21,8 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
 
 
     public static final String UID = "uid";
+
+    public static final String TOKEN = "token";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -36,17 +36,18 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
 
-
         String token = (String) request.getSession().getAttribute(TOKEN);
 
         //token为空
         if (StringUtils.isBlank(token)) {
             throw new RRException("参数不能为空");
         }
-        UserTokenEntity tokenEntity = redisUtils.get(token,UserTokenEntity.class);
-
+        UserLoginEntity login = redisUtils.get(token, UserLoginEntity.class);
+        if (login == null) {
+            throw new RRException("用户信息失效，请重新登录");
+        }
         //设置userId到request里，后续根据userId，获取用户信息
-        request.setAttribute(UID, tokenEntity.getUid());
+        request.setAttribute(UID, login.getUid());
         return true;
 
     }
