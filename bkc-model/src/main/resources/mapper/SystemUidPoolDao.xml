@@ -7,7 +7,7 @@
             statementType="CALLABLE" useCache="false"
             resultType="java.lang.String">
         <![CDATA[
-		  call selectTreeNodes(#{guid,jdbcType=int,mode=OUT})
+		  call register(#{mobile,jdbcType=varchar,mode=IN},#{pwd,jdbcType=varchar,mode=IN},#{uid_out,jdbcType=varchar,mode=OUT})
 		 ]]>
     </select>
 

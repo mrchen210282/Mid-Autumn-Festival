@@ -1,10 +1,14 @@
 package cn.bitflash.vip.user.controller;
 
 
-import cn.bitflash.util.R;
+import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserWalletAddressEntity;
+import cn.bitflash.interceptor.ApiLoginInterceptor;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.web3j.crypto.CipherException;
@@ -30,8 +34,9 @@ public class WalletAddress {
     @Autowired
     private UserFeign userFeign;
 
+    @Login
     @PostMapping("walletAddress")
-    public R getWalletAddress()throws CipherException, IOException,
+    public R getWalletAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid)throws CipherException, IOException,
             InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
         //创建文件夹
@@ -49,14 +54,15 @@ public class WalletAddress {
         String walleFilePath = FILEADDRESS+"/"+walletName;
         Credentials credentials = WalletUtils.loadCredentials(PASSWORD, walleFilePath);
         String address = credentials.getAddress();
-        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
         BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
 
-        Map<String , Object> map = new HashMap<String , Object>();
-        map.put("address",address);
-        map.put("publicKey",publicKey);
-        map.put("privateKey",privateKey);
+        UserWalletAddressEntity userWalletAddress = new UserWalletAddressEntity();
+        userWalletAddress.setUid(uid);
+        userWalletAddress.setAddress(address);
+        userWalletAddress.setPrivateKey(privateKey.toString());
 
-        return R.ok();
+        userFeign.insetUserWalletAddress(userWalletAddress);
+
+        return R.ok().put("userWalletAddress",userWalletAddress);
     }
 }
