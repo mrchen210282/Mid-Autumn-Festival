@@ -21,7 +21,7 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/userLogin/selectByMobile")
-    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
+    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("mobile")String mobile);
 
     /**
      * 插入

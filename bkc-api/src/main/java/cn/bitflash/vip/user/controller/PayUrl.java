@@ -106,15 +106,15 @@ public class PayUrl {
         List<String> list = new ArrayList<>();
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                list.add(Common.ALIPAY);
+                list.add("支付宝");
             }
             if (u.getType().equals(Common.WECHAT)) {
-                list.add(Common.WECHAT);
+                list.add("微信");
             }
         });
         UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
         if (paymentInfo != null) {
-            list.add(Common.BANK);
+            list.add("银行卡");
         }
         return R.ok(new ModelMap("msg", list));
     }
