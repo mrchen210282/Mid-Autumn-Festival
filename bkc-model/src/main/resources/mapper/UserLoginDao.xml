@@ -5,7 +5,7 @@
 
     <select id="selectUid"  statementType="CALLABLE" resultType="java.lang.String"  parameterType="java.util.Map">
         <![CDATA[
-		  call register(#{mobile,jdbcType=VARCHAR,mode=IN},#{password,jdbcType=VARCHAR,mode=IN},#{salt,jdbcType=VARCHAR,mode=IN},#{uid,jdbcType=VARCHAR,mode=OUT})
+		  call register(#{mobile,jdbcType=VARCHAR,mode=IN},#{password,jdbcType=VARCHAR,mode=IN},#{salt,jdbcType=VARCHAR,mode=IN})
 		 ]]>
     </select>
 

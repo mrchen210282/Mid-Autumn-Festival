@@ -41,11 +41,11 @@ public class LoginApp {
         if (user == null) {
             return R.error("用户不存在");
         }
-        String finalPwd = Encrypt.SHA512(form.getPassword() + user.getSalt());
+        String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
         // 密码错误
         if (user.getPassword().equals(form.getPassword()) || user.getPassword().equals(finalPwd)) {
             // 插入token
-            String token = Encrypt.SHA512(System.currentTimeMillis() + form.getMobile());
+            String token = Encrypt.SHA256(System.currentTimeMillis() + form.getMobile());
             user.setToken(token);
             indexFeign.updateUserLoginById(user);
             //缓存key

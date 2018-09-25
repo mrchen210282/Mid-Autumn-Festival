@@ -40,7 +40,7 @@ public class RegisterApp {
         String salt = RandomNumUtil.nBit(4);
         UserLoginEntity us = new UserLoginEntity();
         us.setMobile(mobile);
-        String finalPwd = Encrypt.SHA512(pwd+salt);
+        String finalPwd = Encrypt.SHA256(pwd+salt);
         us.setPassword(finalPwd);
         us.setSalt(salt);
         //初始化user_login表
