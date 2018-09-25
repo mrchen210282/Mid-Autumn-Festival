@@ -2,7 +2,7 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserLoginEntity;
-import cn.bitflash.entity.UserMobilePaymentCodeEntity;
+import cn.bitflash.entity.UserMobilePaymentInfoEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.ValidatorUtils;
@@ -77,9 +77,9 @@ public class PayUrl {
             e.printStackTrace();
             return R.error();
         }
-        UserMobilePaymentCodeEntity payment = userFeign.selectPaymentByUidAndType(uid, imgForm.getImgType());
+        UserMobilePaymentInfoEntity payment = userFeign.selectPaymentByUidAndType(uid, imgForm.getImgType());
         if (payment == null) {
-            payment = new UserMobilePaymentCodeEntity();
+            payment = new UserMobilePaymentInfoEntity();
             payment.setUid(uid);
             payment.setAccount(imgForm.getAccount());
             payment.setType(imgForm.getImgType());
@@ -98,7 +98,7 @@ public class PayUrl {
     @PostMapping("getPayUrl")
     @ApiOperation("获取图片地址")
     public R getPayUrl(@RequestAttribute("uid") String uid) {
-        List<UserMobilePaymentCodeEntity> payment = userFeign.selectPaymentsByUid(uid);
+        List<UserMobilePaymentInfoEntity> payment = userFeign.selectPaymentsByUid(uid);
         if (payment == null) {
             return R.error("未上传收款信息");
         }
