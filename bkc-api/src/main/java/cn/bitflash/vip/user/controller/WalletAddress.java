@@ -21,8 +21,6 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -36,7 +34,7 @@ public class WalletAddress {
 
     @Login
     @PostMapping("walletAddress")
-    public R getWalletAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid)throws CipherException, IOException,
+    public R getWalletAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid) throws CipherException, IOException,
             InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
         //创建文件夹
@@ -50,7 +48,7 @@ public class WalletAddress {
         }
 
         String walletName = WalletUtils.generateNewWalletFile(PASSWORD, new File(FILEADDRESS), false);
-        String walleFilePath = FILEADDRESS+"/"+walletName;
+        String walleFilePath = FILEADDRESS + "/" + walletName;
         Credentials credentials = WalletUtils.loadCredentials(PASSWORD, walleFilePath);
         String address = credentials.getAddress();
         BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
@@ -61,6 +59,6 @@ public class WalletAddress {
         userWalletAddress.setPrivateKey(privateKey.toString());
         userFeign.insetUserWalletAddress(userWalletAddress);
 
-        return R.ok().put("userWalletAddress",userWalletAddress);
+        return R.ok().put("userWalletAddress", userWalletAddress);
     }
 }

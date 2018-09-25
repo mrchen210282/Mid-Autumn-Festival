@@ -1,6 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserBankPaymentInfoEntity;
 import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserMobilePaymentInfoEntity;
 import cn.bitflash.utils.Common;
@@ -114,6 +115,18 @@ public class PayUrl {
             }
         });
         return R.ok(map);
+    }
+
+    @Login
+    @PostMapping("uploadBankMess")
+    @ApiOperation("上传银行信息")
+    public R uploadBankMess(@RequestParam String bank,@RequestParam String cardNo,@RequestAttribute("uid")String uid){
+        UserBankPaymentInfoEntity bankInfo = new UserBankPaymentInfoEntity();
+        bankInfo.setUid(uid);
+        bankInfo.setBank(bank);
+        bankInfo.setCardNo(cardNo);
+        userFeign.insertOrUpdateBank(bankInfo);
+        return R.ok();
     }
 
 

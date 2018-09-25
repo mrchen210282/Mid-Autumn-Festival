@@ -54,4 +54,10 @@ public interface UserFeign {
     @PostMapping("/inner/userInfo/updateById")
     void updateUserInfoById(@RequestBody UserInfoEntity info);
 
+    /**
+     * user_bank_payment_info 表
+     */
+    @PostMapping("")
+    Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo);
+
 }
