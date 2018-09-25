@@ -31,10 +31,10 @@ public interface UserFeign {
     UserMobilePaymentInfoEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("type") String type);
 
     @PostMapping("/inner/userMobilePaymentInfo/insert")
-    void insertUserPayment(@RequestBody UserMobilePaymentInfoEntity payment);
+    Boolean insertUserPayment(@RequestBody UserMobilePaymentInfoEntity payment);
 
     @PostMapping("/inner/userMobilePaymentInfo/updateById")
-    void updateUserPaymentById(@RequestBody UserMobilePaymentInfoEntity payment);
+    Boolean updateUserPaymentById(@RequestBody UserMobilePaymentInfoEntity payment);
 
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
     List<UserMobilePaymentInfoEntity>  selectPaymentsByUid(@RequestParam("id")String id);
@@ -43,7 +43,10 @@ public interface UserFeign {
      * user_wallet_address
      */
     @PostMapping("/inner/userWalletAddress/insert")
-    void insetUserWalletAddress(@RequestBody UserWalletAddressEntity userWalletAddress);
+    Boolean insetUserWalletAddress(@RequestBody UserWalletAddressEntity userWalletAddress);
+
+    @PostMapping("/inner/userWalletAddress/selectById")
+    UserWalletAddressEntity selectUserWalletAddressById(@RequestParam("id")String id);
 
     /**
      * user_info 表
@@ -52,12 +55,12 @@ public interface UserFeign {
     UserInfoEntity selectUserinfoById(@RequestParam("id")String id);
 
     @PostMapping("/inner/userInfo/updateById")
-    void updateUserInfoById(@RequestBody UserInfoEntity info);
+    Boolean updateUserInfoById(@RequestBody UserInfoEntity info);
 
     /**
      * user_bank_payment_info 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userBankPaymentInfo/insertOrUpdateBank")
     Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo);
 
     @PostMapping("")
