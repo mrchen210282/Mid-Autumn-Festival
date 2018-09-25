@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/indexAssets")
 @Api(value = "首页资产情况", tags = {"首页资产情况"})
-public class IndexAssetsController {
+public class Index {
 
 
     @PostMapping("assets")
