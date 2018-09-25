@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author GAOYGUUO
  */
@@ -60,6 +63,20 @@ public class UserCashAssetsController {
     @PostMapping("/inner/userCashAssets/deleteById")
     public void deleteById(@RequestParam("id") String id) throws Exception {
         userCashAssetsService.deleteById(id);
+    }
+
+
+    /**
+     * selectById
+     *
+     * @return
+     */
+    @PostMapping("/inner/userCashAssets/selectById")
+    public Map<String,Object> getIndexAssets(@RequestParam("id") String id) {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+
+        return map;
     }
 
 }

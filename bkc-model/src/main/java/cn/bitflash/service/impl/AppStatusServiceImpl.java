@@ -22,6 +22,6 @@ import cn.bitflash.service.AppStatusService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("dictComputingPowerService")
+@Service("appStatusService")
 public class AppStatusServiceImpl extends ServiceImpl<AppStatusDao, AppStatusEntity> implements AppStatusService {
 }
