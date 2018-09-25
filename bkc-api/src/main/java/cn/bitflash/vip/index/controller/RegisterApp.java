@@ -6,6 +6,7 @@ import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
+import cn.bitflash.vip.user.controller.WalletAddress;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,15 @@ public class RegisterApp {
         info.setInvitationCode(invitationCode);
         info.setIsInvitated("Y");
         Boolean flag2 = indexFeign.updateUserInfoById(info);
+        WalletAddress walletAddress = new WalletAddress();
+        try {
+            boolean stu = walletAddress.createWalletAddress(uid);
+            if(!stu){
+                return R.error("注册失败");
+            }
+        }catch (Exception e){
+            return R.error("注册失败");
+        }
         if(!flag2){
             return R.error("注册失败");
         }
