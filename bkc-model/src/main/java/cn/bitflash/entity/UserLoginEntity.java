@@ -20,10 +20,9 @@ public class UserLoginEntity implements Serializable {
 
     private String password;
 
-    private String token;
+    private String salt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    private Date updateTime;
+    private String token;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
@@ -52,12 +51,12 @@ public class UserLoginEntity implements Serializable {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getToken() {
@@ -68,11 +67,11 @@ public class UserLoginEntity implements Serializable {
         this.token = token;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
