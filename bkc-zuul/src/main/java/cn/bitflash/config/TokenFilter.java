@@ -115,9 +115,8 @@ public class TokenFilter extends ZuulFilter {
                 String sessionBase64 = Base64.getEncoder().encodeToString(session.getId().getBytes());
                 ctx.addZuulRequestHeader("Cookie", "SESSION=" + sessionBase64);
             }
-
             String token = AESTokenUtil.getToken(secretTime, secretToken);
-            TokenEntity tokenEntity = redisUtils.get(token, TokenEntity.class);
+            TokenEntity tokenEntity = redisUtils.get("token_"+token, TokenEntity.class);
             if (tokenEntity == null) {
                 ctx.setSendZuulResponse(false); //不进行路由
                 logger.info("token错误/失效,请求接口为:" + url);

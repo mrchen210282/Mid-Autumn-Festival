@@ -28,7 +28,7 @@ public class Encrypt {
     /**
      * 字符串 SHA 加密
      *
-     * @param strSourceText
+     * @param strText
      * @return
      */
     private static String SHA(final String strText, final String strType) {
@@ -68,7 +68,7 @@ public class Encrypt {
 
     public static void main(String[] args) {
 
-        String pass =SHA512("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"+"1234");
+        String pass =SHA256("8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"+"1234");
         System.out.println(pass);
         System.out.println(pass.length());
     }
