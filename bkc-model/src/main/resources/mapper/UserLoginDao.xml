@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.bitflash.dao.SystemUidPoolDao">
+<mapper namespace="cn.bitflash.dao.UserLoginDao">
 
     <select id="selectUid"  statementType="CALLABLE" resultType="java.lang.String"  parameterType="java.util.Map">
         <![CDATA[
-		  call register(#{mobile,jdbcType=VARCHAR,mode=IN},#{pwd,jdbcType=VARCHAR,mode=IN},#{uid_out,jdbcType=VARCHAR,mode=OUT})
+		  call register(#{mobile,jdbcType=VARCHAR,mode=IN},#{password,jdbcType=VARCHAR,mode=IN},#{salt,jdbcType=VARCHAR,mode=IN},#{uid,jdbcType=VARCHAR,mode=OUT})
 		 ]]>
     </select>
 

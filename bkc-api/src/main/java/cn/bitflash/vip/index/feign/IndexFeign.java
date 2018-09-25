@@ -28,8 +28,8 @@ public interface IndexFeign {
      * @param userEntity
      * @return
      */
-    @PostMapping("/inner/userLogin/insert")
-    String insertUserLoginEntity(@RequestBody UserLoginEntity userEntity);
+    @PostMapping("/inner/userLogin/registerLogin")
+    String registerLogin(@RequestBody UserLoginEntity userEntity);
 
     /**
      * 更新

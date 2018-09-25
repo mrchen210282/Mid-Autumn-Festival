@@ -44,7 +44,7 @@ public class RegisterApp {
         us.setPassword(finalPwd);
         us.setSalt(salt);
         //初始化user_login表
-        String uid = indexFeign.insertUserLoginEntity(us);
+        String uid = indexFeign.registerLogin(us);
         UserInfoEntity info = new UserInfoEntity();
         info.setUid(uid);
         info.setInvitationCode(invitationCode);

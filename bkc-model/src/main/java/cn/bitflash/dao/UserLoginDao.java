@@ -20,10 +20,13 @@ package cn.bitflash.dao;
 import cn.bitflash.entity.UserLoginEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.Map;
+
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
 public interface UserLoginDao extends BaseMapper<UserLoginEntity> {
 
+    String selectUid(Map<String,Object> map);
 }
