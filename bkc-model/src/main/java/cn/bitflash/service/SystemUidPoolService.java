@@ -1,7 +1,6 @@
 package cn.bitflash.service;
 
 
-import cn.bitflash.entity.DictUserRelationEntity;
 import cn.bitflash.entity.SystemUidPoolEntity;
 import com.baomidou.mybatisplus.service.IService;
 
@@ -13,6 +12,5 @@ import java.util.Map;
  */
 public interface SystemUidPoolService extends IService<SystemUidPoolEntity> {
 
-    //取得用户id
-    public String selectUid(Map<String,Object> map);
+    String selectUid(Map<String,Object> map);
 }

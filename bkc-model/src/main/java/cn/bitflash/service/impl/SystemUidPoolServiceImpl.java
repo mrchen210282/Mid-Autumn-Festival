@@ -16,11 +16,8 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.SystemResourceDao;
 import cn.bitflash.dao.SystemUidPoolDao;
-import cn.bitflash.entity.SystemResourceEntity;
 import cn.bitflash.entity.SystemUidPoolEntity;
-import cn.bitflash.service.SystemResourceService;
 import cn.bitflash.service.SystemUidPoolService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -30,7 +27,7 @@ import java.util.Map;
 @Service("systemUidPoolService")
 public class SystemUidPoolServiceImpl extends ServiceImpl<SystemUidPoolDao, SystemUidPoolEntity> implements SystemUidPoolService {
 
-    //查询用户uid
+    @Override
     public String selectUid(Map<String,Object> map) {
         String uid = baseMapper.selectUid(map);
         return uid;
