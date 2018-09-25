@@ -60,4 +60,7 @@ public interface UserFeign {
     @PostMapping("")
     Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo);
 
+    @PostMapping("")
+    UserBankPaymentInfoEntity selectBankInfoByUid(@RequestParam("id")String id);
+
 }

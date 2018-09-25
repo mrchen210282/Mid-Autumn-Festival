@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
@@ -127,6 +128,14 @@ public class PayUrl {
         bankInfo.setCardNo(cardNo);
         userFeign.insertOrUpdateBank(bankInfo);
         return R.ok();
+    }
+
+    @Login
+    @PostMapping("getBankMess")
+    @ApiOperation("获取银行信息")
+    public R getBankMess(@RequestAttribute("uid")String uid){
+        UserBankPaymentInfoEntity bankInfo =userFeign.selectBankInfoByUid(uid);
+        return R.ok(new ModelMap("bank",bankInfo));
     }
 
 
