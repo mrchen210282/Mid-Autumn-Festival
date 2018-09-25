@@ -63,4 +63,21 @@ public interface UserFeign {
     @PostMapping("")
     UserBankPaymentInfoEntity selectBankInfoByUid(@RequestParam("id")String id);
 
+    /**
+     * user_cash_assets 表
+     */
+    @PostMapping("")
+    UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
+
+    @PostMapping("")
+    Boolean updateCashAssetsByUid(@RequestBody UserCashAssetsEntity cashAssets);
+
+    /**
+     * user_drawing_info 表
+     */
+    @PostMapping("")
+    Boolean insertDrawingInfo(@RequestBody UserDrawingInfoEntity drawingInfo);
+
+
+
 }

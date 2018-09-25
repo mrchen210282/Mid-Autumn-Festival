@@ -21,9 +21,8 @@ import sun.misc.BASE64Decoder;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -98,30 +97,32 @@ public class PayUrl {
 
     @Login
     @PostMapping("getPayUrl")
-    @ApiOperation("获取图片地址")
+    @ApiOperation("获取支付方式")
     public R getPayUrl(@RequestAttribute("uid") String uid) {
         List<UserMobilePaymentInfoEntity> payment = userFeign.selectPaymentsByUid(uid);
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        Map<String, Object> map = new HashMap<>();
-        map.put(Common.ALIPAY, "0");
-        map.put(Common.WECHAT, "0");
+        List<String> list = new ArrayList<>();
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                map.put(Common.ALIPAY, "1");
+                list.add(Common.ALIPAY);
             }
             if (u.getType().equals(Common.WECHAT)) {
-                map.put(Common.WECHAT, "1");
+                list.add(Common.WECHAT);
             }
         });
-        return R.ok(map);
+        UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
+        if (paymentInfo != null) {
+            list.add(Common.BANK);
+        }
+        return R.ok(new ModelMap("msg", list));
     }
 
     @Login
     @PostMapping("uploadBankMess")
     @ApiOperation("上传银行信息")
-    public R uploadBankMess(@RequestParam String bank,@RequestParam String cardNo,@RequestAttribute("uid")String uid){
+    public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestAttribute("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = new UserBankPaymentInfoEntity();
         bankInfo.setUid(uid);
         bankInfo.setBank(bank);
@@ -133,9 +134,9 @@ public class PayUrl {
     @Login
     @PostMapping("getBankMess")
     @ApiOperation("获取银行信息")
-    public R getBankMess(@RequestAttribute("uid")String uid){
-        UserBankPaymentInfoEntity bankInfo =userFeign.selectBankInfoByUid(uid);
-        return R.ok(new ModelMap("bank",bankInfo));
+    public R getBankMess(@RequestAttribute("uid") String uid) {
+        UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
+        return R.ok(new ModelMap("bank", bankInfo));
     }
 
 

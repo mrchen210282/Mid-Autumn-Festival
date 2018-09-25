@@ -46,6 +46,20 @@ public class VerifyCode {
             }
             return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_136065023");
         }
+        //提现功能
+        if(type.equals("cashing")){
+            if(userEntity == null){
+                return R.error("手机号不存在用户");
+            }
+            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "");
+        }
+        //提现功能
+        if(type.equals("walletAdress")){
+            if(userEntity == null){
+                return R.error("手机号不存在用户");
+            }
+            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "");
+        }
         return R.error("系统错误");
     }
 

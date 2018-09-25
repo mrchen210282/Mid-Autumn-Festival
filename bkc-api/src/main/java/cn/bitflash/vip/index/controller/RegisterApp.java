@@ -52,6 +52,8 @@ public class RegisterApp {
         if(!flag2){
             return R.error("注册失败");
         }
+
+
         logger.info("注册手机号:"+mobile+",邀请码："+invitationCode);
         return R.ok("注册成功");
     }
