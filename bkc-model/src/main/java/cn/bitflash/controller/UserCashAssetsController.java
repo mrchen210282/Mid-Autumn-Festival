@@ -66,17 +66,5 @@ public class UserCashAssetsController {
     }
 
 
-    /**
-     * selectById
-     *
-     * @return
-     */
-    @PostMapping("/inner/userCashAssets/selectById")
-    public Map<String,Object> getIndexAssets(@RequestParam("id") String id) {
-        Map<String,Object> map = new HashMap<String,Object>();
-
-
-        return map;
-    }
 
 }
