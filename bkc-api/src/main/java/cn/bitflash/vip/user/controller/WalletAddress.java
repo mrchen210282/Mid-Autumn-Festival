@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/walletAddress")
 public class WalletAddress {
 
     private static final String FILEADDRESS = "D:\\BitFlash-WalletAddress";
@@ -32,14 +32,26 @@ public class WalletAddress {
     @Autowired
     private UserFeign userFeign;
 
-    @Login
-    @PostMapping("walletAddress")
-    public R getWalletAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid) throws CipherException, IOException,
+    /**
+     * 生成钱包地址
+     * @param uid
+     * @return
+     * @throws CipherException
+     * @throws IOException
+     * @throws InvalidAlgorithmParameterException
+     * @throws NoSuchAlgorithmException
+     * @throws NoSuchProviderException
+     */
+    public boolean createWalletAddress(String uid) throws CipherException, IOException,
             InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
+
+        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
+        if(userWalletAddressEntity != null){
+            return false;
+        }
 
         //创建文件夹
         File file = new File(FILEADDRESS);
-
         //设置为只读
         file.setReadOnly();
 
@@ -58,9 +70,16 @@ public class WalletAddress {
         userWalletAddress.setUid(uid);
         userWalletAddress.setAddress(address);
         userWalletAddress.setPrivateKey(privateKey.toString());
+        return userFeign.insetUserWalletAddress(userWalletAddress);
+    }
 
-        userFeign.insetUserWalletAddress(userWalletAddress);
-
-        return R.ok().put("userWalletAddress", userWalletAddress);
+    @Login
+    @PostMapping("getAddress")
+    public R getAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid){
+        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
+        if(userWalletAddressEntity == null){
+            return R.ok().put("code","0");
+        }
+        return R.ok().put("userWalletAddressEntity",userWalletAddressEntity);
     }
 }

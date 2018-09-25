@@ -22,6 +22,14 @@ import cn.bitflash.service.UserLoginService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service("userLoginService")
 public class UserLoginServiceImpl extends ServiceImpl<UserLoginDao, UserLoginEntity> implements UserLoginService {
+
+    @Override
+    public String selectUid(Map<String,Object> map) {
+        String uid = baseMapper.selectUid(map);
+        return uid;
+    }
 }

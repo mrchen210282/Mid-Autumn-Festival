@@ -6,10 +6,9 @@ import cn.bitflash.service.UserLoginService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author GAOYGUUO
@@ -19,6 +18,7 @@ public class UserLoginController {
 
     @Autowired
     private UserLoginService userLoginService;
+
 
     /**
      * selectById
@@ -72,6 +72,11 @@ public class UserLoginController {
     public UserLoginEntity selectByMobile(@RequestParam("mobile") String mobile) {
         UserLoginEntity entity = userLoginService.selectOne(new EntityWrapper<UserLoginEntity>().eq("mobile",mobile));
         return entity;
+    }
+
+    @PostMapping("/inner/userLogin/registerLogin")
+    public String registerLogin(@RequestBody Map<String,Object> map){
+        return userLoginService.selectUid(map);
     }
 
 }

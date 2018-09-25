@@ -16,23 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.SystemResourceDao;
-import cn.bitflash.dao.SystemUidPoolDao;
-import cn.bitflash.entity.SystemResourceEntity;
-import cn.bitflash.entity.SystemUidPoolEntity;
-import cn.bitflash.service.SystemResourceService;
-import cn.bitflash.service.SystemUidPoolService;
+import cn.bitflash.dao.UserDrawingInfoDao;
+import cn.bitflash.entity.UserDrawingInfoEntity;
+import cn.bitflash.service.UserDrawingInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
-@Service("systemUidPoolService")
-public class SystemUidPoolServiceImpl extends ServiceImpl<SystemUidPoolDao, SystemUidPoolEntity> implements SystemUidPoolService {
-
-    //查询用户uid
-    public String selectUid(Map<String,Object> map) {
-        String uid = baseMapper.selectUid(map);
-        return uid;
-    }
+@Service("userDrawingInfoService")
+public class UserDrawingInfoServiceImpl extends ServiceImpl<UserDrawingInfoDao, UserDrawingInfoEntity> implements UserDrawingInfoService {
 }

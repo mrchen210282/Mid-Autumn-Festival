@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/index")
-@Api(value = "ç™»å½•Con", tags = {"ç”¨æˆ·appç™»å½•"})
+@Api(value = "µÇÂ¼Con", tags = {"ÓÃ»§appµÇÂ¼"})
 public class LoginApp {
 
     @Autowired
@@ -29,28 +29,28 @@ public class LoginApp {
     private RedisUtils redisUtils;
 
     @PostMapping("login")
-    @ApiOperation("ç™»å½•")
+    @ApiOperation("µÇÂ¼")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "mobile", dataType = "String"),
             @ApiImplicitParam(value = "password", dataType = "password"),
     })
     public R login(@RequestBody LoginForm form) {
-        // è¡¨å•æ ¡éªŒ
+        // ±íµ¥Ğ£Ñé
         ValidatorUtils.validateEntity(form);
         UserLoginEntity user = indexFeign.selectUserLoginEntityByMobile(form.getMobile());
         if (user == null) {
-            return R.error("ç”¨æˆ·ä¸å­˜åœ¨");
+            return R.error("ÓÃ»§²»´æÔÚ");
         }
-        String finalPwd = Encrypt.SHA512(form.getPassword() + user.getSalt());
-        // å¯†ç é”™è¯¯
+        String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
+        // ÃÜÂë´íÎó
         if (user.getPassword().equals(form.getPassword()) || user.getPassword().equals(finalPwd)) {
-            // æ’å…¥token
-            String token = Encrypt.SHA512(System.currentTimeMillis() + form.getMobile());
+            // ²åÈëtoken
+            String token = Encrypt.SHA256(System.currentTimeMillis() + form.getMobile());
             user.setToken(token);
             indexFeign.updateUserLoginById(user);
-            //ç¼“å­˜key
+            //»º´ækey
             String tokenKey = RedisDetail.REDIS_TOKEN + user.getUid();
-            //åŠ å…¥ç¼“å­˜ï¼Œå¤±æ•ˆæ—¶é—´15å¤©
+            //¼ÓÈë»º´æ£¬Ê§Ğ§Ê±¼ä15Ìì
             redisUtils.set(tokenKey, user, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
             Map<String, Object> map = new HashMap<String, Object>(2);
             String time = System.currentTimeMillis() + "bkc";
@@ -59,7 +59,7 @@ public class LoginApp {
             return R.ok(map);
 
         }
-        return R.error("æ‰‹æœºå·æˆ–å¯†ç é”™è¯¯");
+        return R.error("ÊÖ»úºÅ»òÃÜÂë´íÎó");
     }
 
     @Login

@@ -14,19 +14,14 @@
  * the License.
  */
 
-package cn.bitflash.dao;
+package cn.bitflash.service.impl;
 
+import cn.bitflash.dao.SystemAppBannerDao;
+import cn.bitflash.entity.SystemAppBannerEntity;
+import cn.bitflash.service.SystemAppBannerService;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
-import cn.bitflash.entity.UserLoginEntity;
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-
-import java.util.Map;
-
-/**
- * @author gaoyuguo
- * @date 2018年9月22日
- */
-public interface UserLoginDao extends BaseMapper<UserLoginEntity> {
-
-    String selectUid(Map<String,Object> map);
+@Service("systemAppBannerService")
+public class SystemAppBannerServiceImpl extends ServiceImpl<SystemAppBannerDao, SystemAppBannerEntity> implements SystemAppBannerService {
 }

@@ -28,11 +28,11 @@ public class LoginPwd {
     public R updateLoginPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, @ApiParam @RequestParam String oldPwd
             , @ApiParam @RequestParam String newPwd) {
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
-        String oldPasswd = Encrypt.SHA512(oldPwd + user.getSalt());
+        String oldPasswd = Encrypt.SHA256(oldPwd + user.getSalt());
         if (oldPasswd.equals(user.getPassword())) {
             String salt = RandomNumUtil.nBit(4);
             user.setSalt(salt);
-            user.setPassword( Encrypt.SHA512(newPwd + salt));
+            user.setPassword( Encrypt.SHA256(newPwd + salt));
             userFeign.updateUserById(user);
             return R.ok();
         } else {
@@ -46,7 +46,7 @@ public class LoginPwd {
         UserLoginEntity userEntity = new UserLoginEntity();
         String salt = RandomNumUtil.nBit(4);
         userEntity.setSalt(salt);
-        userEntity.setPassword(Encrypt.SHA512(newPwd + salt));
+        userEntity.setPassword(Encrypt.SHA256(newPwd + salt));
         userEntity.setMobile(mobile);
         boolean rst = userFeign.updateUserByMobile(userEntity);
         if (rst) {

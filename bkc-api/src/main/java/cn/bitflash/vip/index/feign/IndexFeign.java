@@ -22,15 +22,15 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/userLogin/selectByMobile")
-    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("id")String mobile);
+    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("mobile")String mobile);
 
     /**
      * 插入
      * @param userEntity
      * @return
      */
-    @PostMapping("/inner/userLogin/insert")
-    String insertUserLoginEntity(@RequestBody UserLoginEntity userEntity);
+    @PostMapping("/inner/userLogin/registerLogin")
+    String registerLogin(@RequestBody UserLoginEntity userEntity);
 
     /**
      * 更新

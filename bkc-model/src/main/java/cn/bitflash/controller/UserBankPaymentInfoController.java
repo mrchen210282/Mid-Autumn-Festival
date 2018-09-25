@@ -64,4 +64,12 @@ public class UserBankPaymentInfoController {
         return userBankPaymentInfoService.deleteById(id);
     }
 
+    /**
+     * insertOrUpdateBank
+     */
+    @PostMapping("/inner/userBankPaymentInfo/insertOrUpdateBank")
+    public Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo){
+        return userBankPaymentInfoService.insertOrUpdate(bankInfo);
+    }
+
 }

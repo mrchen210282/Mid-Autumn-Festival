@@ -6,6 +6,7 @@ import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
+import cn.bitflash.vip.user.controller.WalletAddress;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,19 +40,30 @@ public class RegisterApp {
         String salt = RandomNumUtil.nBit(4);
         UserLoginEntity us = new UserLoginEntity();
         us.setMobile(mobile);
-        String finalPwd = Encrypt.SHA512(pwd+salt);
+        String finalPwd = Encrypt.SHA256(pwd+salt);
         us.setPassword(finalPwd);
         us.setSalt(salt);
         //初始化user_login表
-        String uid = indexFeign.insertUserLoginEntity(us);
+        String uid = indexFeign.registerLogin(us);
         UserInfoEntity info = new UserInfoEntity();
         info.setUid(uid);
         info.setInvitationCode(invitationCode);
         info.setIsInvitated("Y");
         Boolean flag2 = indexFeign.updateUserInfoById(info);
+        WalletAddress walletAddress = new WalletAddress();
+        try {
+            boolean stu = walletAddress.createWalletAddress(uid);
+            if(!stu){
+                return R.error("注册失败");
+            }
+        }catch (Exception e){
+            return R.error("注册失败");
+        }
         if(!flag2){
             return R.error("注册失败");
         }
+
+
         logger.info("注册手机号:"+mobile+",邀请码："+invitationCode);
         return R.ok("注册成功");
     }
