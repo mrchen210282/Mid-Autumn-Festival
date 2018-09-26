@@ -37,7 +37,8 @@ public interface LevelFeign {
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 
     @PostMapping("/inner/userRelation/insertTreeNode")
-    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid, @RequestParam("code") String code);
+    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
+                           @RequestParam("code") String code,@RequestParam("area")String area);
 
 
     /**
@@ -64,7 +65,7 @@ public interface LevelFeign {
     /**
      * dict_computer_power 表
      */
-    @PostMapping()
+    @PostMapping("")
     List<DictComputingPowerEntity>selectComputerPowersById(@RequestParam("level1")Integer level1,@RequestParam("level2")Integer level2);
 
 

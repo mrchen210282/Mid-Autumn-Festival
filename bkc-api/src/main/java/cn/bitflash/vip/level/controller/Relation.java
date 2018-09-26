@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +36,20 @@ public class Relation {
         }
         Map<String, Object> map = new HashMap<>();
         UserPerformanceEntity user = levelFeign.selectPerformanceByUid(uid);
+
+        BigDecimal[] lines = {user.getLine1(),user.getLine2(),user.getLine3()};
+        int i = 0 ;
+        map.put("show",i);
+        for(BigDecimal line:lines){
+           if(line.doubleValue()>0.0d){
+               map.put("show",++i);
+           }
+        }
         map.put("line", user);
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
-        String adress = levelFeign.getPath(4);
-        map.put("adress", adress + code.getCode());
+        String address = levelFeign.getPath(4);
+        map.put("address", address + code.getCode());
+
         return R.ok(map);
 
 
