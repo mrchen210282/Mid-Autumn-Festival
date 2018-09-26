@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SystemAppBannerController {
 
+
     @Autowired
     private SystemAppBannerService systemAppBannerService;
 
