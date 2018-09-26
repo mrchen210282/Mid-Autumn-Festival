@@ -22,6 +22,17 @@ import cn.bitflash.service.UserRelationService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("userRelationService")
 public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRelationEntity> implements UserRelationService {
+    @Override
+    public List<UserRelationEntity> selectTreeNodes(String uid) {
+        return baseMapper.selectTreeNodes(uid);
+    }
+
+    @Override
+    public Boolean insertTreeNode(String pid, String uid, String code, String area) {
+        return baseMapper.insertTreeNode(pid,uid,code,area);
+    }
 }

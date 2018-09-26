@@ -5,7 +5,9 @@ import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.level.entity.Position;
 import cn.bitflash.vip.level.feign.LevelFeign;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +51,11 @@ public class Vip {
          * 扣除冻结的bkc
          * 提升vip  userinfo
          */
-        float leftcha = power.get(1).getPosition().getLeft() - power.get(0).getPosition().getLeft();
-        float rightcha = power.get(1).getPosition().getRight() - power.get(0).getPosition().getRight();
-        float centercha = power.get(1).getPosition().getCenter() - power.get(0).getPosition().getCenter();
+        Position post1 = (Position)JSONObject.parse(power.get(1).getPerformanceBenchmark());
+        Position post0 = (Position)JSONObject.parse(power.get(0).getPerformanceBenchmark());
+        float leftcha = post1.getLeft() - post0.getLeft();
+        float rightcha = post1.getRight() - post0.getRight();
+        float centercha = post1.getCenter() - post0.getCenter();
         float sumcha = leftcha + rightcha + centercha;
         if (sumcha > digitalAssets.getAvailable().floatValue()) {
             return R.error("bkc数量不够");
