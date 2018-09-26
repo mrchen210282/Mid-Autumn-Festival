@@ -17,6 +17,8 @@ public class SystemAppBannerEntity implements Serializable {
     @TableId
     private Integer id;
 
+    private String title;
+
     private String bannerAddress;
 
     private String opendAddress;
@@ -30,6 +32,14 @@ public class SystemAppBannerEntity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getBannerAddress() {
