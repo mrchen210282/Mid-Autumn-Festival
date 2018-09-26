@@ -1,11 +1,14 @@
 package cn.bitflash.vip.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public class PriceChart {
 
     private Float price;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private LocalDateTime rateTime;
 
     public Float getPrice() {

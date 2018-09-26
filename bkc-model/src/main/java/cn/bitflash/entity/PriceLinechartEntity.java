@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 public class PriceLinechartEntity implements Serializable {
     @TableId
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    private Date rateTime;
+    private LocalDateTime rateTime;
 
     private BigDecimal price;
 
@@ -26,11 +27,11 @@ public class PriceLinechartEntity implements Serializable {
 
     private BigDecimal cny;
 
-    public Date getRateTime() {
+    public LocalDateTime getRateTime() {
         return rateTime;
     }
 
-    public void setRateTime(Date rateTime) {
+    public void setRateTime(LocalDateTime rateTime) {
         this.rateTime = rateTime;
     }
 
