@@ -44,9 +44,7 @@ public class PayUrl {
     public R uploadPayment(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
         ValidatorUtils.validateEntity(imgForm);
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
-//        String path = "/home/statics/qrcode/";
-        String path = "D:\\";
-        String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
+        //String path = "/home/statics/qrcode/";		String path = "D:\\Yitaifang/";        String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
             case Common.WECHAT:
                 imgName = imgName + "_w.png";
