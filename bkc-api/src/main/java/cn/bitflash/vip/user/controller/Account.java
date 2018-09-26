@@ -55,7 +55,7 @@ public class Account {
         if(null != userCashAssetsJoinDictComputingPowerBean) {
             map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate());
             map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome());
-            map.put("available",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash());
+            map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash());
             map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto());
         } else {
             logger.info("查询现金资产用户:" + uid + "为空！");
