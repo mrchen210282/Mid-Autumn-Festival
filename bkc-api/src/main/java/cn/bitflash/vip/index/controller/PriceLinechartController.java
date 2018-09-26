@@ -28,7 +28,7 @@ public class PriceLinechartController {
         PriceLinechartEntity priceLinechartEntity = indexFeign.selectPriceLinechart();
         if(null != priceLinechartEntity) {
             String rate = String.valueOf(priceLinechartEntity.getRate());
-            String[] rates = rate.split(".");
+            String[] rates = rate.split("\\.");
             StringBuffer buf = new StringBuffer();
             if(rates.length > 0) {
                 String rate1 = rates[1];
@@ -39,7 +39,9 @@ public class PriceLinechartController {
                     buf.append(rate1);
                     buf.append(".00%");
                 }
-
+            } else {
+                buf.append(rate);
+                buf.append("%");
             }
             priceLinechartEntity.setRateStr(buf.toString());
         }
@@ -47,7 +49,9 @@ public class PriceLinechartController {
     }
 
     public static void main(String[] args) {
-        String aa = "10";
-        System.out.println(aa.length());
+        String aa = "0.0";
+        String[] as = aa.split("\\.");
+        System.out.println(as.length);
+        //System.out.println(aa.length());
     }
 }
