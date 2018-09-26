@@ -72,22 +72,22 @@ public interface UserFeign {
 
     @PostMapping("/inner/userDigitalAssets/selectById")
     UserDigitalAssetsEntity selectDigitalAssetsById(@RequestParam("id") String id);
-    @PostMapping("")
+    @PostMapping("/inner/userBankPaymentInfo/selectById")
     UserBankPaymentInfoEntity selectBankInfoByUid(@RequestParam("id")String id);
 
     /**
      * user_cash_assets 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userCashAssets/selectById")
     UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/userCashAssets/updateById")
     Boolean updateCashAssetsByUid(@RequestBody UserCashAssetsEntity cashAssets);
 
     /**
      * user_drawing_info 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userDrawingInfo/insert")
     Boolean insertDrawingInfo(@RequestBody UserDrawingInfoEntity drawingInfo);
 
 
