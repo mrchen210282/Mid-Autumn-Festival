@@ -1,8 +1,8 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.DictComputingPowerEntity;
-import cn.bitflash.service.DictComputingPowerService;
+import cn.bitflash.entity.SystemResourceEntity;
+import cn.bitflash.service.SystemResourceService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemResourceController {
 
     @Autowired
-    private DictComputingPowerService dictComputingPowerService;
+    private SystemResourceService systemResourceService;
 
     /**
      * selectById
@@ -25,8 +25,8 @@ public class SystemResourceController {
      * @return
      */
     @PostMapping("/inner/systemResource/selectById")
-    public DictComputingPowerEntity selectById(@RequestParam("id") String id) {
-        DictComputingPowerEntity entity = dictComputingPowerService.selectById(id);
+    public SystemResourceEntity selectById(@RequestParam("id") String id) {
+        SystemResourceEntity entity = systemResourceService.selectById(id);
         return entity;
     }
 
@@ -37,8 +37,8 @@ public class SystemResourceController {
      */
     @PostMapping("/inner/systemResource/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
-        DictComputingPowerEntity entity = (DictComputingPowerEntity) JSONObject.parseObject(json.toString(), DictComputingPowerEntity.class);
-        return dictComputingPowerService.updateById(entity);
+        SystemResourceEntity entity = (SystemResourceEntity) JSONObject.parseObject(json.toString(), SystemResourceEntity.class);
+        return systemResourceService.updateById(entity);
     }
 
     /**
@@ -48,8 +48,8 @@ public class SystemResourceController {
      */
     @PostMapping("/inner/systemResource/insert")
     public boolean insert(@RequestBody JSONObject json) throws Exception {
-        DictComputingPowerEntity entity = (DictComputingPowerEntity) JSONObject.parseObject(json.toString(), DictComputingPowerEntity.class);
-        return dictComputingPowerService.insert(entity);
+        SystemResourceEntity entity = (SystemResourceEntity) JSONObject.parseObject(json.toString(), SystemResourceEntity.class);
+        return systemResourceService.insert(entity);
     }
 
     /**
@@ -59,7 +59,18 @@ public class SystemResourceController {
      */
     @PostMapping("/inner/systemResource/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
-        return dictComputingPowerService.deleteById(id);
+        return systemResourceService.deleteById(id);
+    }
+
+    /**
+     * getPath
+     *
+     * @return
+     */
+    @PostMapping("/inner/systemResource/getPath")
+    public String getPath(@RequestParam("id") String id) {
+        String path = systemResourceService.selectById(id).getPath();
+        return path;
     }
 
 }

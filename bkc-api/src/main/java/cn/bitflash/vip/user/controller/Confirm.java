@@ -23,7 +23,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "ÊµÃûCon", tags = {"ÓÃ»§ÉÏ´«sfzÍ¼Æ¬"})
+@Api(value = "å®åCon", tags = {"ç”¨æˆ·ä¸Šä¼ sfzå›¾ç‰‡"})
 public class Confirm {
 
     @Autowired
@@ -31,7 +31,7 @@ public class Confirm {
 
     @Login
     @PostMapping("authentication")
-    @ApiOperation("ÊµÃûÈÏÖ¤")
+    @ApiOperation("å®åè®¤è¯")
     public R uploadImgMessage(@RequestAttribute("uid") String uid,
                               @ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
     ) throws Exception {
@@ -40,21 +40,21 @@ public class Confirm {
         if (info.getIsAuth().equals(Common.AUTHENTICATION)) {
             return R.ok();
         }
-        //ÇëÇóµØÖ·  Ö§³Öhttp ºÍ https ¼° WEBSOCKET
+        //è¯·æ±‚åœ°å€  æ”¯æŒhttp å’Œ https åŠ WEBSOCKET
         String host = "https://checkid.market.alicloudapi.com";
-        //ºó×º
+        //åç¼€
         String path = "/IDCard";
-        //AppCode  Äã×Ô¼ºµÄAppCode ÔÚÂò¼ÒÖĞĞÄ²é¿´
+        //AppCode  ä½ è‡ªå·±çš„AppCode åœ¨ä¹°å®¶ä¸­å¿ƒæŸ¥çœ‹
         String appcode = "188cbe4f58fa44e09f122ada0ef8934e";
-        //²ÎÊı£¬¾ßÌå²ÎÕÕapi½Ó¿Ú²ÎÊı
+        //å‚æ•°ï¼Œå…·ä½“å‚ç…§apiæ¥å£å‚æ•°
         String idCard = idnum;
-        //²ÎÊı£¬¾ßÌå²ÎÕÕapi½Ó¿Ú²ÎÊı
+        //å‚æ•°ï¼Œå…·ä½“å‚ç…§apiæ¥å£å‚æ•°
         String name = realname;
-        //Æ´½ÓÇëÇóÁ´½Ó
+        //æ‹¼æ¥è¯·æ±‚é“¾æ¥
         String urlSend = host + path + "?idCard=" + idCard + "&name=" + name;
         URL url = new URL(urlSend);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-        //¸ñÊ½Authorization:APPCODE (ÖĞ¼äÊÇÓ¢ÎÄ¿Õ¸ñ)
+        //æ ¼å¼Authorization:APPCODE (ä¸­é—´æ˜¯è‹±æ–‡ç©ºæ ¼)
         httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);
         //int httpCode = httpURLConnection.getResponseCode();
         String json = read(httpURLConnection.getInputStream());
@@ -67,43 +67,43 @@ public class Confirm {
         switch (code) {
             case "01":
                 map.put("code", "0");
-                map.put("msg", "ÊµÃûÈÏÖ¤Í¨¹ı!");
+                map.put("msg", "å®åè®¤è¯é€šè¿‡!");
                 break;
             case "02":
                 map.put("code", "02");
-                map.put("msg", "ÊµÃûÈÏÖ¤²»Í¨¹ı£¡!");
+                map.put("msg", "å®åè®¤è¯ä¸é€šè¿‡ï¼!");
                 break;
             case "202":
                 map.put("code", "202");
-                map.put("msg", "ÎŞ·¨ÑéÖ¤£¡");
+                map.put("msg", "æ— æ³•éªŒè¯ï¼");
                 break;
             case "203":
                 map.put("code", "203");
-                map.put("msg", "Òì³£Çé¿ö£¡");
+                map.put("msg", "å¼‚å¸¸æƒ…å†µï¼");
                 break;
             case "204":
                 map.put("code", "204");
-                map.put("msg", "ĞÕÃû¸ñÊ½²»ÕıÈ·£¡");
+                map.put("msg", "å§“åæ ¼å¼ä¸æ­£ç¡®ï¼");
                 break;
             case "205":
                 map.put("code", "205");
-                map.put("msg", "Éí·İÖ¤¸ñÊ½²»ÕıÈ·£¡");
+                map.put("msg", "èº«ä»½è¯æ ¼å¼ä¸æ­£ç¡®ï¼");
                 break;
 
         }
         /**
-         * code 01 ÊµÃûÈÏÖ¤Í¨¹ı£¡
-         *      02 ÊµÃûÈÏÖ¤²»Í¨¹ı£¡
-         *      202	ÎŞ·¨ÑéÖ¤£¡
-         *      203	Òì³£Çé¿ö£¡
-         *      204	ĞÕÃû¸ñÊ½²»ÕıÈ·£¡
-         *      205	Éí·İÖ¤¸ñÊ½²»ÕıÈ·£¡
+         * code 01 å®åè®¤è¯é€šè¿‡ï¼
+         *      02 å®åè®¤è¯ä¸é€šè¿‡ï¼
+         *      202  æ— æ³•éªŒè¯ï¼
+         *      203  å¼‚å¸¸æƒ…å†µï¼
+         *      204  å§“åæ ¼å¼ä¸æ­£ç¡®ï¼
+         *      205  èº«ä»½è¯æ ¼å¼ä¸æ­£ç¡®ï¼
          */
         return R.ok(map);
     }
 
     /*
-       ¶ÁÈ¡·µ»Ø½á¹û
+       è¯»å–è¿”å›ç»“æœ
     */
     private static String read(InputStream is) throws IOException {
         StringBuffer sb = new StringBuffer();
@@ -117,4 +117,3 @@ public class Confirm {
         return sb.toString();
     }
 }
-

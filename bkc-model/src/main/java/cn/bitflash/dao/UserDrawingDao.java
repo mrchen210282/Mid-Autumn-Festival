@@ -16,13 +16,13 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.UserDrawingInfoEntity;
+import cn.bitflash.entity.UserDrawingEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-public interface UserDrawingInfoDao extends BaseMapper<UserDrawingInfoEntity> {
+public interface UserDrawingDao extends BaseMapper<UserDrawingEntity> {
 
 }

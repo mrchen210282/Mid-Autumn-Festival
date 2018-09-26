@@ -85,13 +85,9 @@ public interface UserFeign {
     Boolean updateCashAssetsByUid(@RequestBody UserCashAssetsEntity cashAssets);
 
     /**
-     * user_drawing_info 表
+     * user_drawing 表
      */
-    @PostMapping("/inner/userDrawingInfo/insert")
-    Boolean insertDrawingInfo(@RequestBody UserDrawingInfoEntity drawingInfo);
-
-
-
-
+    @PostMapping("/inner/userDrawing/insert")
+    Boolean insertDrawingInfo(@RequestBody UserDrawingEntity drawingInfo);
 
 }

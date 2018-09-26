@@ -1,7 +1,6 @@
 package cn.bitflash.vip.level.feign;
 
 import cn.bitflash.entity.*;
-import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,14 +11,6 @@ import java.util.List;
 @FeignClient(value = "bkc-model")
 public interface LevelFeign {
 
-    /**
-     * user_account 表
-     */
-//    @PostMapping("/inner/userAccount/selectById")
-//    UserDigitalIncomeEntity selectAccountByUid(@RequestParam("id") String uid);
-
-//    @PostMapping("/inner/userAccount/updateById")
-//    Boolean updateAccountById(@RequestBody UserDigitalIncomeEntity account);
 
     /**
      * user_info 表
@@ -31,10 +22,10 @@ public interface LevelFeign {
      * user_relation 表
      */
     @PostMapping("/inner/userRelation/selectRelationByCode")
-    UserRelationEntity selectRelationByCode(@RequestParam("code") String code);
+    UserRelationEntity selectRelationByUid(@RequestParam("id") String id);
 
-    @PostMapping("/inner/userRelation/selectTreeNodes")
-    List<UserRelationJoinAccountEntity> selectTreeNodes(@RequestParam("uid") String uid);
+    @PostMapping("")
+    List<UserRelationEntity> selectTreeNodes(@RequestParam("uid") String uid);
 
     /**
      * user_invitation_code 表
@@ -48,24 +39,42 @@ public interface LevelFeign {
     @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid, @RequestParam("code") String code);
 
-    /**
-     * platform_config 表
-     */
-    @PostMapping("/inner/platFormConfig/getVal")
-    String getVal(@RequestParam("key") String key);
 
     /**
-     * vip_conditions 表
+     * user_cash_Assets 表
      */
-    @PostMapping("/inner/VipConditions/selectVipConditonsByLevel")
-    List<VipConditionsEntity> selectVipConditonsByLevel(@RequestParam("level") String level);
+    @PostMapping("/inner/userCashAssets/selectById")
+    UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
+
+    @PostMapping("/inner/userCashAssets/updateById")
+    Boolean updateUserCashAssetsById(@RequestBody UserCashAssetsEntity cash);
 
     /**
-     * user_cash_income 表
+     * user_performance 表
      */
-//    @PostMapping("/inner/userCashIncome/selectById")
-//    UserCashIncomeEntity selectUserCashIncomeByUid(@RequestParam("id") String uid);
-//
-//    @PostMapping("/inner/userCashIncome/updateById")
-//    void updateUserCashIncomeById(@RequestBody UserCashIncomeEntity cashIncome);
+    @PostMapping("/inner/userPerformance/selectById")
+    UserPerformanceEntity selectPerformanceByUid(@RequestParam("id")String id);
+
+    /**
+     * system_resource 表
+     */
+    @PostMapping("/inner/systemResource/getPath")
+    String getPath(@RequestParam("id")Integer id);
+
+    /**
+     * dict_computer_power 表
+     */
+    @PostMapping()
+    List<DictComputingPowerEntity>selectComputerPowersById(@RequestParam("level1")Integer level1,@RequestParam("level2")Integer level2);
+
+
+    /**
+     * user_digital_assets 表
+     */
+    @PostMapping()
+    UserDigitalAssetsEntity selectDigitalAssetsByUid(@RequestParam("id")String id);
+
+    @PostMapping()
+    Boolean updateDigitalAssetsByUid(@RequestBody UserDigitalAssetsEntity dig);
+
 }
