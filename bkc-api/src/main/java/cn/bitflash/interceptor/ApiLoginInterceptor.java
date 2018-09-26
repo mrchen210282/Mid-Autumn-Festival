@@ -39,15 +39,15 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
 
         String token = (String) request.getSession().getAttribute(TOKEN);
 
-        //tokenÎª¿Õ
+        //tokenä¸ºç©º
         if (StringUtils.isBlank(token)) {
-            throw new RRException("²ÎÊı²»ÄÜÎª¿Õ");
+            throw new RRException("å‚æ•°ä¸èƒ½ä¸ºç©º");
         }
         UserLoginEntity login = redisUtils.get(RedisDetail.REDIS_TOKEN+token, UserLoginEntity.class);
         if (login == null) {
-            throw new RRException("ÓÃ»§ĞÅÏ¢Ê§Ğ§£¬ÇëÖØĞÂµÇÂ¼");
+            throw new RRException("ç”¨æˆ·ä¿¡æ¯å¤±æ•ˆï¼Œè¯·é‡æ–°ç™»å½•");
         }
-        //ÉèÖÃuserIdµ½requestÀï£¬ºóĞø¸ù¾İuserId£¬»ñÈ¡ÓÃ»§ĞÅÏ¢
+        //è®¾ç½®userIdåˆ°requesté‡Œï¼Œåç»­æ ¹æ®userIdï¼Œè·å–ç”¨æˆ·ä¿¡æ¯
         request.setAttribute(UID, login.getUid());
         return true;
 

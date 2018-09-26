@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/index")
-@Api(value = "µÇÂ¼Con", tags = {"ÓÃ»§appµÇÂ¼"})
+@Api(value = "ç™»å½•Con", tags = {"ç”¨æˆ·appç™»å½•"})
 public class LoginApp {
 
     @Autowired
@@ -29,28 +29,28 @@ public class LoginApp {
     private RedisUtils redisUtils;
 
     @PostMapping("login")
-    @ApiOperation("µÇÂ¼")
+    @ApiOperation("ç™»å½•")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "mobile", dataType = "String"),
             @ApiImplicitParam(value = "password", dataType = "password"),
     })
     public R login(@RequestBody LoginForm form) {
-        // ±íµ¥Ğ£Ñé
+        // è¡¨å•æ ¡éªŒ
         ValidatorUtils.validateEntity(form);
         UserLoginEntity user = indexFeign.selectUserLoginEntityByMobile(form.getMobile());
         if (user == null) {
-            return R.error("ÓÃ»§²»´æÔÚ");
+            return R.error("ç”¨æˆ·ä¸å­˜åœ¨");
         }
         String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
-        // ÃÜÂë´íÎó
+        // å¯†ç é”™è¯¯
         if (user.getPassword().equals(form.getPassword()) || user.getPassword().equals(finalPwd)) {
-            // ²åÈëtoken
+            // æ’å…¥token
             String token = Encrypt.SHA256(System.currentTimeMillis() + form.getMobile());
             user.setToken(token);
             indexFeign.updateUserLoginById(user);
-            //»º´ækey
+            //ç¼“å­˜key
             String tokenKey = RedisDetail.REDIS_TOKEN + token;
-            //¼ÓÈë»º´æ£¬Ê§Ğ§Ê±¼ä15Ìì
+            //åŠ å…¥ç¼“å­˜ï¼Œå¤±æ•ˆæ—¶é—´15å¤©
             redisUtils.set(tokenKey, user, RedisDetail.REDIS_TOKEN_EXPIRED_TIME);
             Map<String, Object> map = new HashMap<String, Object>(2);
             String time = System.currentTimeMillis() + "bkc";
@@ -59,7 +59,7 @@ public class LoginApp {
             return R.ok(map);
 
         }
-        return R.error("ÊÖ»úºÅ»òÃÜÂë´íÎó");
+        return R.error("æ‰‹æœºå·æˆ–å¯†ç é”™è¯¯");
     }
 
     @Login
