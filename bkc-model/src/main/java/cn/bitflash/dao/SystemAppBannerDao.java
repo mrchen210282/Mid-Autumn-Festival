@@ -19,10 +19,13 @@ package cn.bitflash.dao;
 import cn.bitflash.entity.SystemAppBannerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
 public interface SystemAppBannerDao extends BaseMapper<SystemAppBannerEntity> {
 
+    public List<SystemAppBannerEntity> selectAppBanner();
 }

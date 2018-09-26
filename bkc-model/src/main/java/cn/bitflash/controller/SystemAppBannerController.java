@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author GAOYGUUO
  */
@@ -60,6 +62,16 @@ public class SystemAppBannerController {
     @PostMapping("/inner/systemAppBanner/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return systemAppBannerService.deleteById(id);
+    }
+
+    /**
+     * selectAppBanner
+     *
+     * @return
+     */
+    @PostMapping("/inner/systemAppBanner/selectAppBanner")
+    public List<SystemAppBannerEntity> selectAppBanner() {
+        return systemAppBannerService.selectAppBanner();
     }
 
 }
