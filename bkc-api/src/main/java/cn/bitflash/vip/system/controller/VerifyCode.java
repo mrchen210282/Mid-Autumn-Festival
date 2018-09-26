@@ -51,9 +51,9 @@ public class VerifyCode {
             if(userEntity == null){
                 return R.error("手机号不存在用户");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "");
+            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_136065023");
         }
-        //提现功能
+        //钱包地址
         if(type.equals("walletAdress")){
             if(userEntity == null){
                 return R.error("手机号不存在用户");
