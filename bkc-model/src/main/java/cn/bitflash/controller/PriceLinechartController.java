@@ -85,4 +85,14 @@ public class PriceLinechartController {
         PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectById(date);
         return priceLinechartEntity;
     }
+
+
+    /**
+     * selectPriceLinechart
+     */
+    @PostMapping("/inner/priceLinechart/selectPriceLinechart")
+    public PriceLinechartEntity selectPriceLinechart(){
+        PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectPriceLinechart();
+        return priceLinechartEntity;
+    }
 }

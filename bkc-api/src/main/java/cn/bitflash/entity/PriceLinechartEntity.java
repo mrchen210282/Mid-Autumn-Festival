@@ -17,6 +17,9 @@ public class PriceLinechartEntity implements Serializable {
 
     private float bkc;
 
+    //转换为String类型
+    private String rateStr;
+
     public LocalDateTime getRateTime() {
         return rateTime;
     }
@@ -55,5 +58,13 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setBkc(float bkc) {
         this.bkc = bkc;
+    }
+
+    public String getRateStr() {
+        return rateStr;
+    }
+
+    public void setRateStr(String rateStr) {
+        this.rateStr = rateStr;
     }
 }
