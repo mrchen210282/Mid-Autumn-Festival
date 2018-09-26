@@ -2,7 +2,7 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserCashAssetsEntity;
-import cn.bitflash.entity.UserDrawingInfoEntity;
+import cn.bitflash.entity.UserDrawingEntity;
 import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
@@ -28,7 +28,7 @@ public class Cash {
     @Login
     @PostMapping("getTotleIncome")
     @ApiOperation("获取可提现金额")
-    public R getTotleIncome(@RequestAttribute("uid")String uid){
+    public R getTotleIncome(@RequestAttribute("uid") String uid) {
         UserCashAssetsEntity cashAssets = userFeign.selectCashAssetsByUid(uid);
         return R.ok(cashAssets.getTotleIncome().toString());
     }
@@ -36,12 +36,12 @@ public class Cash {
     @Login
     @PostMapping("insertCash")
     @ApiOperation("加入提现记录表")
-    public R cashing( @RequestBody CashForm cashForm, @RequestAttribute("uid")String uid){
+    public R cashing(@RequestBody CashForm cashForm, @RequestAttribute("uid") String uid) {
 
         // 表单校验
         ValidatorUtils.validateEntity(cashForm);
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
-        if(!user.getPassword().equals(Encrypt.SHA512(cashForm.getPasswd()+user.getSalt()))){
+        if (!user.getPassword().equals(Encrypt.SHA256(cashForm.getPasswd() + user.getSalt()))) {
             return R.error("登录密码错误");
         }
         //提现金额
@@ -49,18 +49,18 @@ public class Cash {
         UserCashAssetsEntity cashAssets = userFeign.selectCashAssetsByUid(uid);
         //扣除提现剩余金额
         BigDecimal cashMoney = cashAssets.getTotleIncome().subtract(money);
-        if(money.compareTo(cashAssets.getTotleIncome())==1){
+        if (money.compareTo(cashAssets.getTotleIncome()) == 1) {
             return R.error("提现金额超出累计收益");
         }
         cashAssets.setTotleIncome(cashMoney);
         userFeign.updateCashAssetsByUid(cashAssets);
-        UserDrawingInfoEntity drawingInfo = new UserDrawingInfoEntity();
-        drawingInfo.setId(RandomNumUtil.nBit(8));
-        drawingInfo.setUid(uid);
-        drawingInfo.setCashMoney(money);
-        drawingInfo.setCreateTime(new Date());
-        drawingInfo.setCashType(cashForm.getCashType());
-        userFeign.insertDrawingInfo(drawingInfo);
+        UserDrawingEntity drawing = new UserDrawingEntity();
+        drawing.setId(RandomNumUtil.nBit(8));
+        drawing.setUid(uid);
+        drawing.setMoney(money);
+        drawing.setCreateTime(new Date());
+        drawing.setType(cashForm.getCashType());
+        userFeign.insertDrawingInfo(drawing);
         return R.ok();
 
     }

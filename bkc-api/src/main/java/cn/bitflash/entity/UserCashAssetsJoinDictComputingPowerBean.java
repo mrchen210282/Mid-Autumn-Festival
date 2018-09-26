@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import cn.bitflash.vip.level.entity.Position;
+
 import java.math.BigDecimal;
 
 public class UserCashAssetsJoinDictComputingPowerBean {
@@ -95,4 +97,5 @@ public class UserCashAssetsJoinDictComputingPowerBean {
     public void setRate(BigDecimal rate) {
         this.rate = rate;
     }
+
 }

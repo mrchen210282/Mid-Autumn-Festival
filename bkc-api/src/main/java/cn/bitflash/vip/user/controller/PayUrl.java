@@ -22,7 +22,6 @@ import sun.misc.BASE64Decoder;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -105,23 +104,20 @@ public class PayUrl {
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        Map<String,Object> map =new HashMap<>();
-        map.put("支付宝",0);
-        map.put("微信",0);
-        map.put("银行卡",0);
+        List<Map<String, Object>> list = new ArrayList<>();
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                map.put("支付宝",1);
+                list.add(new ModelMap("name", "支付宝").addAttribute("type", Common.ALIPAY));
             }
             if (u.getType().equals(Common.WECHAT)) {
-                map.put("微信",1);
+                list.add(new ModelMap("name", "微信").addAttribute("type", Common.WECHAT));
             }
         });
         UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
         if (paymentInfo != null) {
-            map.put("银行卡",1);
+            list.add(new ModelMap("name", "银行卡").addAttribute("type", Common.BANK));
         }
-        return R.ok(map);
+        return R.ok(new ModelMap("msg", list));
     }
 
     @Login

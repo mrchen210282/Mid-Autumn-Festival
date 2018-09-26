@@ -1,8 +1,9 @@
 package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
-import cn.bitflash.utils.Common;
+import cn.bitflash.entity.UserCashAssetsEntity;
+import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entity.UserPerformanceEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
@@ -28,45 +29,20 @@ public class Relation {
     @PostMapping("getRelation")
     @ApiOperation("显示社区详情")
     public R getRelation(@RequestAttribute("uid") String uid) {
+        UserCashAssetsEntity cashAssets = levelFeign.selectCashAssetsByUid(uid);
+        if (cashAssets.getLevel() == null || cashAssets.getLevel() == 0) {
+            return R.ok("尚未加入社区");
+        }
+        Map<String, Object> map = new HashMap<>();
+        UserPerformanceEntity user = levelFeign.selectPerformanceByUid(uid);
+        map.put("line", user);
+        UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByCode(uid);
+        String adress = levelFeign.getPath(4);
+        map.put("adress", adress + code);
+        return R.ok(map);
 
-        UserInfoEntity infoEntity = levelFeign.selectUserInfoByUid(uid);
-        if (Integer.valueOf(infoEntity.getIsVip()) < 0) {
-            return R.error("没有加入社区");
-        }
-        //返回map
-        UserDigitalIncomeEntity userAccount = levelFeign.selectAccountByUid(uid);
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (userAccount != null) {
-            Double left = userAccount.getLftAchievement().doubleValue();
-            Double right = userAccount.getRgtAchievement().doubleValue();
-            /**
-             * 左右区显示比率最低为10%，最高为70%
-             */
-            String leftRate = "10%";
-            if (left != 0) {
-                leftRate = (((Math.round(left / (left + right)) * 0.6) + 0.1) * 100) + "%";
-            }
-            String rightRate = "10%";
-            if (right != 0) {
-                rightRate = (((Math.round(right / (left + right)) * 0.6) + 0.1) * 100) + "%";
-            }
-            map.put("leftRate", leftRate);
-            map.put("rightRate", rightRate);
-            map.put("lft_a", left);
-            map.put("rgt_a", right);
-        }
-        UserInvitationCodeEntity userInvitationCode = levelFeign.selectInvitationCodeByUid(uid);
-        UserRelationEntity ur = levelFeign.selectRelationByCode(userInvitationCode.getLftCode());
-        String address = levelFeign.getVal(Common.ADDRESS);
-        map.put("leftAddress", address + userInvitationCode.getLftCode());
-        map.put("showleft", 200);
-        if (ur != null) {
-            map.put("rightAddress", address + userInvitationCode.getRgtCode());
-            map.put("showright", 200);
-        } else {
-            map.put("rightAddress", "");
-            map.put("showright", 500);
-        }
-        return R.ok().put("myRelation", map);
+
     }
+
+
 }

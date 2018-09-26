@@ -3,6 +3,7 @@
 //import cn.bitflash.annotation.Login;
 //import cn.bitflash.entity.*;
 //import cn.bitflash.exception.RRException;
+//import cn.bitflash.utils.Common;
 //import cn.bitflash.utils.R;
 //import cn.bitflash.vip.level.entity.UserRelationJoinAccountEntity;
 //import cn.bitflash.vip.level.feign.LevelFeign;
@@ -34,37 +35,49 @@
 //    public R updateVipLevel(@RequestAttribute("uid") String uid) {
 //
 //        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-//        UserDigitalIncomeEntity userAccount = levelFeign.selectAccountByUid(uid);
-//        List<VipConditionsEntity> vipConditions = levelFeign.selectVipConditonsByLevel(userInfo.getIsVip());
-//        if (vipConditions.size() < 2) {
+//        if(userInfo.getIsInvitated().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() ==null){
+//            return R.ok("没有邀请码用户");
+//        }
+//
+//        UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
+//        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getLevel(),cash.getLevel()+1);
+//        if (power.size() < 2) {
 //            return R.error("更高算力暂未开放");
 //        }
+//        UserDigitalAssetsEntity digitalAssets = levelFeign.selectDigitalAssetsByUid(uid);
+//
 //        /**
 //         * 扣除冻结的bkc
 //         * 提升vip  userinfo
 //         */
-//        float cha = vipConditions.get(1).getBkcount() - vipConditions.get(0).getBkcount();
-//        if (cha > userAccount.getAvailableAssets().doubleValue()) {
+//        float leftcha = power.get(1).getPosition().getLeft() - power.get(0).getPosition().getLeft();
+//        float rightcha = power.get(1).getPosition().getRight() - power.get(0).getPosition().getRight();
+//        float centercha = power.get(1).getPosition().getCenter() - power.get(0).getPosition().getCenter();
+//        float sumcha = leftcha+ rightcha + centercha;
+//        if (sumcha > digitalAssets.getAvailable().floatValue()) {
 //            return R.error("bkc数量不够");
 //        }
-//        userAccount.setAvailableAssets(new BigDecimal(userAccount.getAvailableAssets().doubleValue() - cha));
-//        userAccount.setPurchase(new BigDecimal(cha));
-//        userAccount.setFrozenAssets(userAccount.getFrozenAssets().add(new BigDecimal(cha)));
-//        levelFeign.updateAccountById(userAccount);
+//        //扣除可用的bkc
+//        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
+//        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
+//        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
+//        levelFeign.updateDigitalAssetsByUid(digitalAssets);
 //
-//        UserCashIncomeEntity cashIncome = levelFeign.selectUserCashIncomeByUid(uid);
-//        cashIncome.setPower(new BigDecimal(vipConditions.get(1).getPower()));
-//        levelFeign.updateUserCashIncomeById(cashIncome);
-//
-//        List<UserRelationJoinAccountEntity> child_user = levelFeign.selectTreeNodes(uid);
-//        if (child_user != null || child_user.size() != 0) {
+//        //更新算力
+//        cash.setLevel(power.get(1).getLevel());
+//        levelFeign.updateUserCashAssetsById(cash);
+//        //如果已经排过点了
+//        UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
+//        if (relation != null ) {
 //            return R.ok();
 //        }
+//
+//        //没有排点，进行排点
 //        String code[] = userInfo.getInvitationCode().split("-");
 //        String invitCode = code[0];
 //        String area = code[1];
 //        UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
-//        List<UserRelationJoinAccountEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
+//        List<UserRelationEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
 //        //父类下所有的子类数量（包含父类）
 //        int size = f_user.size();
 //        switch (area) {
