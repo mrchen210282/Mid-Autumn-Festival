@@ -36,7 +36,7 @@ public class Relation {
         Map<String, Object> map = new HashMap<>();
         UserPerformanceEntity user = levelFeign.selectPerformanceByUid(uid);
         map.put("line", user);
-        UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByCode(uid);
+        UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
         String adress = levelFeign.getPath(4);
         map.put("adress", adress + code);
         return R.ok(map);

@@ -43,22 +43,22 @@ public interface LevelFeign {
     /**
      * user_cash_Assets 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userCashAssets/selectById")
     UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/userCashAssets/updateById")
     Boolean updateUserCashAssetsById(@RequestBody UserCashAssetsEntity cash);
 
     /**
      * user_performance 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userPerformance/selectById")
     UserPerformanceEntity selectPerformanceByUid(@RequestParam("id")String id);
 
     /**
      * system_resource 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/systemResource/getPath")
     String getPath(@RequestParam("id")Integer id);
 
     /**
