@@ -1,0 +1,9 @@
+vip\bitflash\coinQuotation\job\CoinQuotationSyncJob.class
+vip\bitflash\coinQuotation\Application.class
+vip\bitflash\coinQuotation\utils\HttpClientUtil.class
+vip\bitflash\coinQuotation\interceptor\HandshakeInterceptor.class
+vip\bitflash\coinQuotation\controller\QuotationController.class
+vip\bitflash\coinQuotation\config\QuartzConfiguration.class
+vip\bitflash\coinQuotation\handler\WsSocketHandler.class
+vip\bitflash\coinQuotation\config\WebSocketConfiguration.class
+vip\bitflash\coinQuotation\bean\CoinQuotationBean.class

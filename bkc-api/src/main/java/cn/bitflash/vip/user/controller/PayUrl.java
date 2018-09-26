@@ -22,7 +22,9 @@ import sun.misc.BASE64Decoder;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -103,20 +105,23 @@ public class PayUrl {
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        List<String> list = new ArrayList<>();
+        Map<String,Object> map =new HashMap<>();
+        map.put("支付宝",0);
+        map.put("微信",0);
+        map.put("银行卡",0);
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                list.add("支付宝");
+                map.put("支付宝",1);
             }
             if (u.getType().equals(Common.WECHAT)) {
-                list.add("微信");
+                map.put("微信",1);
             }
         });
         UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
         if (paymentInfo != null) {
-            list.add("银行卡");
+            map.put("银行卡",1);
         }
-        return R.ok(new ModelMap("msg", list));
+        return R.ok(map);
     }
 
     @Login
