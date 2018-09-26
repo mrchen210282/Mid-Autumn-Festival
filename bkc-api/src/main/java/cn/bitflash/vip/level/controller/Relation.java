@@ -31,7 +31,7 @@ public class Relation {
     @ApiOperation("显示社区详情")
     public R getRelation(@RequestAttribute("uid") String uid) {
         UserCashAssetsEntity cashAssets = levelFeign.selectCashAssetsByUid(uid);
-        if (cashAssets.getLevel() == null || cashAssets.getLevel() == 0) {
+        if (cashAssets.getPowerLevel() == null || cashAssets.getPowerLevel() == 0) {
             return R.error("尚未加入社区");
         }
         Map<String, Object> map = new HashMap<>();

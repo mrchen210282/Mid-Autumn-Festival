@@ -16,7 +16,7 @@ public class UserCashAssetsEntity {
 
     private BigDecimal lotto;
 
-    private Integer level;
+    private Integer powerLevel;
 
     //可提现
     private BigDecimal withdrawCash;
@@ -69,12 +69,12 @@ public class UserCashAssetsEntity {
         this.lotto = lotto;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getPowerLevel() {
+        return powerLevel;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setPowerLevel(Integer powerLevel) {
+        this.powerLevel = powerLevel;
     }
 
     public BigDecimal getWithdrawCash() {

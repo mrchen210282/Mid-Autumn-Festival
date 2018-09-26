@@ -41,7 +41,7 @@ public class Vip {
         }
 
         UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
-        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getLevel(), cash.getLevel() + 1);
+        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(), cash.getPowerLevel() + 1);
         if (power.size() < 2) {
             return R.error("更高算力暂未开放");
         }
@@ -67,7 +67,7 @@ public class Vip {
         levelFeign.updateDigitalAssetsByUid(digitalAssets);
 
         //更新算力
-        cash.setLevel(power.get(1).getLevel());
+        cash.setPowerLevel(power.get(1).getLevel());
         levelFeign.updateUserCashAssetsById(cash);
         //如果已经排过点了
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);

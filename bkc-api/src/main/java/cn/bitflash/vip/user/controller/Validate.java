@@ -32,7 +32,7 @@ public class Validate {
         map.put("invited",info.getIsInvitated());
         map.put("auth",info.getIsAuth());
         UserCashAssetsEntity cash = userFeign.selectCashAssetsByUid(uid);
-        map.put("level",cash.getLevel());
+        map.put("level",cash.getPowerLevel());
         return R.ok(map);
 
     }
