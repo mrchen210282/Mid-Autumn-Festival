@@ -4,6 +4,7 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.service.UserInvitationCodeService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,5 +62,18 @@ public class UserInvitationCodeController {
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userInvitationCodeService.deleteById(id);
     }
+
+    /**
+     * selectInvitationCodeByCode
+     *
+     * @return
+     */
+    @PostMapping("/inner/userInvitationCode/selectInvitationCodeByCode")
+    public UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code){
+        UserInvitationCodeEntity userInvitationCodeEntity = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("code",code));
+        return userInvitationCodeEntity;
+    }
+
+
 
 }

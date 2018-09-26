@@ -87,11 +87,7 @@ public interface UserFeign {
     /**
      * user_drawing 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userDrawing/insert")
     Boolean insertDrawingInfo(@RequestBody UserDrawingEntity drawingInfo);
-
-
-
-
 
 }

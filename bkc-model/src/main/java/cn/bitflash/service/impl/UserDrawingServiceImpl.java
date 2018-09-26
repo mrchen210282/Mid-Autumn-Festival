@@ -16,12 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.UserDrawingInfoDao;
-import cn.bitflash.entity.UserDrawingInfoEntity;
-import cn.bitflash.service.UserDrawingInfoService;
+import cn.bitflash.dao.UserDrawingDao;
+import cn.bitflash.entity.UserDrawingEntity;
+import cn.bitflash.service.UserDrawingService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("userDrawingInfoService")
-public class UserDrawingInfoServiceImpl extends ServiceImpl<UserDrawingInfoDao, UserDrawingInfoEntity> implements UserDrawingInfoService {
+@Service("userDrawingService")
+public class UserDrawingServiceImpl extends ServiceImpl<UserDrawingDao, UserDrawingEntity> implements UserDrawingService {
 }
