@@ -25,6 +25,11 @@ public class UserCashAssetsEntity implements Serializable {
 
     private BigDecimal lotto;
 
+    private Integer level;
+
+    //可提现
+    private BigDecimal withdrawCash;
+
     public String getUid() {
         return uid;
     }
@@ -71,5 +76,21 @@ public class UserCashAssetsEntity implements Serializable {
 
     public void setLotto(BigDecimal lotto) {
         this.lotto = lotto;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
+    public BigDecimal getWithdrawCash() {
+        return withdrawCash;
+    }
+
+    public void setWithdrawCash(BigDecimal withdrawCash) {
+        this.withdrawCash = withdrawCash;
     }
 }

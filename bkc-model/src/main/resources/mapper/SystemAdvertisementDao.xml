@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.SystemAdvertisementDao">
+
+    <select id="selectSystemAdvertisement" >
+      select advertisement_name,create_time from system_advertisement order by create_time desc limit 3
+    </select>
+
+
+</mapper>

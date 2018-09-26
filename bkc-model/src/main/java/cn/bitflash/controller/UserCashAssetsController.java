@@ -2,8 +2,14 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.UserCashAssetsEntity;
+import cn.bitflash.entity.UserDigitalAssetsEntity;
+import cn.bitflash.entity.UserPerformanceEntity;
 import cn.bitflash.service.UserCashAssetsService;
+import cn.bitflash.service.UserDigitalAssetsService;
+import cn.bitflash.service.UserPerformanceService;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,7 +70,4 @@ public class UserCashAssetsController {
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userCashAssetsService.deleteById(id);
     }
-
-
-
 }

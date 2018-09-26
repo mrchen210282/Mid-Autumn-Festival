@@ -2,7 +2,7 @@ package cn.bitflash.entity;
 
 import java.math.BigDecimal;
 
-public class UserCashAssetsEntity {
+public class UserCashAssetsJoinDictComputingPowerBean {
 
     private String uid;
 
@@ -15,6 +15,11 @@ public class UserCashAssetsEntity {
     private BigDecimal sharedIncome;
 
     private BigDecimal lotto;
+
+    private Integer level;
+
+    //算力
+    private BigDecimal rate;
 
     //可提现
     private BigDecimal withdrawCash;
@@ -67,11 +72,27 @@ public class UserCashAssetsEntity {
         this.lotto = lotto;
     }
 
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     public BigDecimal getWithdrawCash() {
         return withdrawCash;
     }
 
     public void setWithdrawCash(BigDecimal withdrawCash) {
         this.withdrawCash = withdrawCash;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
     }
 }
