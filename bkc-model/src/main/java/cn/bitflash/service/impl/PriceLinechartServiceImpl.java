@@ -24,4 +24,8 @@ import org.springframework.stereotype.Service;
 
 @Service("priceLinechartService")
 public class PriceLinechartServiceImpl extends ServiceImpl<PriceLinechartDao, PriceLinechartEntity> implements PriceLinechartService {
+
+    public PriceLinechartEntity selectPriceLinechart() {
+        return baseMapper.selectPriceLinechart();
+    }
 }

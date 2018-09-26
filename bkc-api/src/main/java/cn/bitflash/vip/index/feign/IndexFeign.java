@@ -67,4 +67,11 @@ public interface IndexFeign {
      */
     @PostMapping("/inner/systemAppBanner/selectAppBanner")
     public List<SystemAppBannerEntity> selectAppBanner();
+
+    /**
+     * 首页贝壳信息
+     * @return
+     */
+    @PostMapping("/inner/priceLinechart/selectPriceLinechart")
+    public PriceLinechartEntity selectPriceLinechart();
 }

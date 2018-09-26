@@ -27,9 +27,8 @@ public class PriceLinechartEntity implements Serializable {
 
     private BigDecimal cny;
 
-    public LocalDateTime getRateTime() {
-        return rateTime;
-    }
+    private BigDecimal us;
+
 
     public void setRateTime(LocalDateTime rateTime) {
         this.rateTime = rateTime;
@@ -66,4 +65,13 @@ public class PriceLinechartEntity implements Serializable {
     public void setCny(BigDecimal cny) {
         this.cny = cny;
     }
+
+    public BigDecimal getUs() {
+        return us;
+    }
+
+    public void setUs(BigDecimal us) {
+        this.us = us;
+    }
 }
+

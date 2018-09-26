@@ -31,14 +31,14 @@ public class Relation {
     public R getRelation(@RequestAttribute("uid") String uid) {
         UserCashAssetsEntity cashAssets = levelFeign.selectCashAssetsByUid(uid);
         if (cashAssets.getLevel() == null || cashAssets.getLevel() == 0) {
-            return R.ok("尚未加入社区");
+            return R.error("尚未加入社区");
         }
         Map<String, Object> map = new HashMap<>();
         UserPerformanceEntity user = levelFeign.selectPerformanceByUid(uid);
         map.put("line", user);
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
         String adress = levelFeign.getPath(4);
-        map.put("adress", adress + code);
+        map.put("adress", adress + code.getCode());
         return R.ok(map);
 
 

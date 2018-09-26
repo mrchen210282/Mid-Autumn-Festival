@@ -17,7 +17,10 @@
 package cn.bitflash.dao;
 
 import cn.bitflash.entity.PriceLinechartEntity;
+import cn.bitflash.entity.SystemAppBannerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * @author gaoyuguo
@@ -25,4 +28,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface PriceLinechartDao extends BaseMapper<PriceLinechartEntity> {
 
+    public PriceLinechartEntity selectPriceLinechart();
 }

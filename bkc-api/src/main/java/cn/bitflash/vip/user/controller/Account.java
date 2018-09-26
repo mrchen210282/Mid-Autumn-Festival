@@ -56,10 +56,29 @@ public class Account {
         }
 
         if(null != userCashAssetsJoinDictComputingPowerBean) {
-            map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate().toString());
-            map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome().toString());
-            map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash().toString());
-            map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto().toString());
+            if(null != userCashAssetsJoinDictComputingPowerBean.getRate()) {
+                map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate().toString());
+            } else {
+                map.put("rate","0.00");
+            }
+
+            if(null != userCashAssetsJoinDictComputingPowerBean.getTotleIncome()) {
+                map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome().toString());
+            } else {
+                map.put("totalIncome","0.00");
+            }
+
+            if(null != userCashAssetsJoinDictComputingPowerBean.getWithdrawCash()) {
+                map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash().toString());
+            } else {
+                map.put("withdrawCash","0.00");
+            }
+
+            if(null != userCashAssetsJoinDictComputingPowerBean.getLotto()) {
+                map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto().toString());
+            } else {
+                map.put("lotto","0.00");
+            }
         } else {
             logger.info("查询现金资产用户:" + uid + "为空！");
         }
@@ -73,6 +92,4 @@ public class Account {
         }
         return R.ok(map);
     }
-
-
 }
