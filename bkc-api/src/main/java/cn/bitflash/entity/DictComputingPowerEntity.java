@@ -12,7 +12,7 @@ public class DictComputingPowerEntity {
 
     private String cashBenchmark;
 
-    private Position position;
+    private String performanceBenchmark;
 
     private String comment;
 
@@ -48,12 +48,12 @@ public class DictComputingPowerEntity {
         this.cashBenchmark = cashBenchmark;
     }
 
-    public Position getPosition() {
-        return position;
+    public String getPerformanceBenchmark() {
+        return performanceBenchmark;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPerformanceBenchmark(String performanceBenchmark) {
+        this.performanceBenchmark = performanceBenchmark;
     }
 
     public String getComment() {

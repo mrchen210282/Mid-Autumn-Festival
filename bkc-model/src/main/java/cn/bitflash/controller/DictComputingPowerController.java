@@ -4,11 +4,14 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.DictComputingPowerEntity;
 import cn.bitflash.service.DictComputingPowerService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author GAOYGUUO
@@ -62,4 +65,8 @@ public class DictComputingPowerController {
         return dictComputingPowerService.deleteById(id);
     }
 
+    @PostMapping("/inner/dictComputingPower/selectComputerPowersById")
+    public List<DictComputingPowerEntity> selectComputerPowersById(@RequestParam("level1")Integer level1, @RequestParam("level2")Integer level2){
+        return dictComputingPowerService.selectList(new EntityWrapper<DictComputingPowerEntity>().between("level",level1,level2));
+    }
 }

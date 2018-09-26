@@ -8,6 +8,7 @@ import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import cn.bitflash.vip.user.controller.WalletAddress;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,10 @@ public class RegisterApp {
             return R.error(501, "手机号已经存在");
         }
 
-        String salt = RandomNumUtil.nBit(4);
+
         UserLoginEntity us = new UserLoginEntity();
         us.setMobile(mobile);
+        String salt = RandomStringUtils.randomAlphanumeric(16);
         String finalPwd = Encrypt.SHA256(pwd+salt);
         us.setPassword(finalPwd);
         us.setSalt(salt);

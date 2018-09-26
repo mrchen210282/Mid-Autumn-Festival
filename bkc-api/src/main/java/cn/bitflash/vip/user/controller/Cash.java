@@ -6,12 +6,13 @@ import cn.bitflash.entity.UserDrawingEntity;
 import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
-import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.CashForm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -30,8 +31,7 @@ public class Cash {
     @ApiOperation("获取可提现金额")
     public R getTotleIncome(@RequestAttribute("uid") String uid) {
         UserCashAssetsEntity cashAssets = userFeign.selectCashAssetsByUid(uid);
-        return R.ok(cashAssets.getWithdrawCash().toString());
-    }
+        return R.ok(cashAssets.getWithdrawCash().toString());    }
 
     @Login
     @PostMapping("insertCash")
@@ -55,7 +55,7 @@ public class Cash {
         cashAssets.setWithdrawCash(cashMoney);
         userFeign.updateCashAssetsByUid(cashAssets);
         UserDrawingEntity drawing = new UserDrawingEntity();
-        drawing.setId(RandomNumUtil.nBit(8));
+        drawing.setId("00" + RandomStringUtils.randomNumeric(6));
         drawing.setUid(uid);
         drawing.setMoney(money);
         drawing.setCreateTime(new Date());
@@ -64,4 +64,5 @@ public class Cash {
         return R.ok();
 
     }
+
 }
