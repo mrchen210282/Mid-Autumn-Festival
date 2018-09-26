@@ -1,10 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserCashAssetsEntity;
-import cn.bitflash.entity.UserCashAssetsJoinDictComputingPowerBean;
-import cn.bitflash.entity.UserDigitalAssetsEntity;
-import cn.bitflash.entity.UserPerformanceEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,7 +27,12 @@ public class Account {
     @Autowired
     private UserFeign userFeign;
 
-    //@Login
+    /**
+     * 首页资产信息
+     * @param uid
+     * @return
+     */
+    @Login
     @PostMapping("getIndexAssets")
     public R getIndexAssets(@RequestAttribute("uid") String uid){
 
@@ -45,29 +48,31 @@ public class Account {
         UserPerformanceEntity userPerformanceEntity = userFeign.selectUserPerformanceById(uid);
 
         if(null != userDigitalAssetsEntity) {
-            map.put("purchase",userDigitalAssetsEntity.getPurchase());
-            map.put("frozen",userDigitalAssetsEntity.getFrozen());
-            map.put("available",userDigitalAssetsEntity.getAvailable());
+            map.put("purchase",userDigitalAssetsEntity.getPurchase().toString());
+            map.put("frozen",userDigitalAssetsEntity.getFrozen().toString());
+            map.put("available",userDigitalAssetsEntity.getAvailable().toString());
         } else {
             logger.info("查询数字资产用户:" + uid + "为空！");
         }
 
         if(null != userCashAssetsJoinDictComputingPowerBean) {
-            map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate());
-            map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome());
-            map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash());
-            map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto());
+            map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate().toString());
+            map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome().toString());
+            map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash().toString());
+            map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto().toString());
         } else {
             logger.info("查询现金资产用户:" + uid + "为空！");
         }
 
         if(null != userPerformanceEntity) {
-            map.put("line1",userPerformanceEntity.getLine1());
-            map.put("line2",userPerformanceEntity.getLine2());
-            map.put("line3",userPerformanceEntity.getLine3());
+            map.put("line1",userPerformanceEntity.getLine1().toString());
+            map.put("line2",userPerformanceEntity.getLine2().toString());
+            map.put("line3",userPerformanceEntity.getLine3().toString());
         } else {
             logger.info("查询社区考核用户:" + uid + "为空！");
         }
         return R.ok(map);
     }
+
+
 }

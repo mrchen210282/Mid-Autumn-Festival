@@ -22,6 +22,12 @@ import cn.bitflash.service.SystemAppBannerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("systemAppBannerService")
 public class SystemAppBannerServiceImpl extends ServiceImpl<SystemAppBannerDao, SystemAppBannerEntity> implements SystemAppBannerService {
+
+    public List<SystemAppBannerEntity> selectAppBanner() {
+            return baseMapper.selectAppBanner();
+    }
 }

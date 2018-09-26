@@ -53,15 +53,6 @@ public interface IndexFeign {
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
-
-    /**
-     * 按上传日期返回最新的三张上传图片
-     * selectSystemAdvertisement
-     * @return
-     */
-    @PostMapping("/inner/systemAdvertisement/selectSystemAdvertisement")
-    List<SystemAdvertisementEntity> selectSystemAdvertisement();
-
     /**
      * insert
      *
@@ -69,4 +60,11 @@ public interface IndexFeign {
      */
     @PostMapping("/inner/systemAdvertisement/insertSystemAdvertisement")
     Boolean insertSystemAdvertisement(@RequestParam("img")String img);
+
+    /**
+     * 查询轮播图片
+     * @return
+     */
+    @PostMapping("/inner/systemAppBanner/selectAppBanner")
+    public List<SystemAppBannerEntity> selectAppBanner();
 }
