@@ -3,20 +3,24 @@ package cn.bitflash.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class UserDrawingInfoEntity {
+public class UserDrawingLogEntity {
 
     //提现订单号
     private String id;
 
     private String uid;
 
-    private BigDecimal cashMoney;
+    private float money;
 
-    private String cashType;
+    //
+    private String type;
 
     private Date createTime;
 
+    //1.success  2.fail
     private String status;
+
+    private String remark;
 
     public String getId() {
         return id;
@@ -34,20 +38,20 @@ public class UserDrawingInfoEntity {
         this.uid = uid;
     }
 
-    public BigDecimal getCashMoney() {
-        return cashMoney;
+    public float getMoney() {
+        return money;
     }
 
-    public void setCashMoney(BigDecimal cashMoney) {
-        this.cashMoney = cashMoney;
+    public void setMoney(float money) {
+        this.money = money;
     }
 
-    public String getCashType() {
-        return cashType;
+    public String getType() {
+        return type;
     }
 
-    public void setCashType(String cashType) {
-        this.cashType = cashType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Date getCreateTime() {
@@ -64,5 +68,13 @@ public class UserDrawingInfoEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

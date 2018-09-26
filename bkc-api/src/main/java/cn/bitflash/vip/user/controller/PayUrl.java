@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -103,18 +104,18 @@ public class PayUrl {
         if (payment == null) {
             return R.error("未上传收款信息");
         }
-        List<String> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                list.add("支付宝");
+                list.add(new ModelMap("name", "支付宝").addAttribute("type", Common.ALIPAY));
             }
             if (u.getType().equals(Common.WECHAT)) {
-                list.add("微信");
+                list.add(new ModelMap("name", "微信").addAttribute("type", Common.WECHAT));
             }
         });
         UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
         if (paymentInfo != null) {
-            list.add("银行卡");
+            list.add(new ModelMap("name", "银行卡").addAttribute("type", Common.BANK));
         }
         return R.ok(new ModelMap("msg", list));
     }
