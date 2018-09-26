@@ -29,7 +29,6 @@ public interface SystemFeign {
     @PostMapping("/inner/priceLinechart/selectLineChartByDate")
     List<PriceChart> selectLineChartByDate(@RequestParam("after") Date after, @RequestParam("yesterday") Date yesterday);
 
-
     @ApiOperation(value = "根据主键查询数据")
     @PostMapping("/inner/priceLinechart/selectLineChartById")
     PriceLinechartEntity selectLineChartById(@RequestParam("date")Date date);
