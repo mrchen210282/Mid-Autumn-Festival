@@ -61,6 +61,8 @@ public class Confirm {
         String code = JSON.parseObject(json).getString("status");
         if (code.equals("01") || code.equals("1")) {
             info.setIsAuth(Common.AUTHENTICATION);
+            info.setRealname(realname);
+            info.setIdNumber(idnum);
             userFeign.updateUserInfoById(info);
         }
         Map<String, Object> map = new HashMap<>();
