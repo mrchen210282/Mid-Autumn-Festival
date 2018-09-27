@@ -134,11 +134,20 @@ public class PayUrl {
     }
 
     @Login
-    @PostMapping("getBankMess")
+    @PostMapping("getBankPaymentInfo")
     @ApiOperation("获取银行信息")
-    public R getBankMess(@RequestAttribute("uid") String uid) {
+    public R getBankPaymentInfo(@RequestAttribute("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
         return R.ok(new ModelMap("bank", bankInfo));
+    }
+
+    @Login
+    @PostMapping("getMobilePaymentInfo")
+    @ApiOperation("获取手机支付方式")
+    public R getMobilePaymentInfo(@RequestAttribute("uid")String uid,@RequestParam String type){
+        UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid,type);
+        String address = userFeign.getPath(2);
+        return R.ok(new ModelMap("account",mobile.getAccount()).addAttribute("uri",address+mobile.getCode()));
     }
 
 

@@ -93,4 +93,10 @@ public interface UserFeign {
     @PostMapping("/inner/userDrawing/deleteById")
     void deleteDrawingInfo(@RequestParam("id")String id);
 
+    /**
+     * system_resource 表
+     */
+    @PostMapping("/inner/systemResource/getPath")
+    String getPath(@RequestParam("id")Integer id);
+
 }
