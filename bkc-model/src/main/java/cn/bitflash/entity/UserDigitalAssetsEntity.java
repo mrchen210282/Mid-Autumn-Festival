@@ -20,7 +20,7 @@ public class UserDigitalAssetsEntity implements Serializable {
 
     private BigDecimal frozen;
 
-    private BigDecimal release;
+    private BigDecimal totelRelease;
 
     private BigDecimal available;
 
@@ -48,12 +48,12 @@ public class UserDigitalAssetsEntity implements Serializable {
         this.frozen = frozen;
     }
 
-    public BigDecimal getRelease() {
-        return release;
+    public BigDecimal getTotelRelease() {
+        return totelRelease;
     }
 
-    public void setRelease(BigDecimal release) {
-        this.release = release;
+    public void setTotelRelease(BigDecimal totelRelease) {
+        this.totelRelease = totelRelease;
     }
 
     public BigDecimal getAvailable() {
