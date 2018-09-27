@@ -43,9 +43,9 @@ public class PriceLinechartController {
 
         //查询昨天的汇率进行比较
         Date yesterday = cal.getTime();
+        String subtraction = "";
         List<PriceLinechartEntity> priceLinechartList = indexFeign.selectLineChartYesterDayByDate(yesterday);
-        if (null != priceLinechartList) {
-            String subtraction = "";
+        if (null != priceLinechartList && priceLinechartList.size() > 0) {
             PriceLinechartEntity priceLinechart = priceLinechartList.get(0);
             float dValue = priceLinechartEntity.getRate() - priceLinechart.getRate();
             if(dValue > 0) {
@@ -55,8 +55,10 @@ public class PriceLinechartController {
             } else {
                 subtraction = "-";
             }
-            priceLinechartEntity.setSubtraction(subtraction);
+        } else {
+            subtraction = "+";
         }
+        priceLinechartEntity.setSubtraction(subtraction);
 
         if (null != priceLinechartEntity) {
             String rate = String.valueOf(priceLinechartEntity.getRate());

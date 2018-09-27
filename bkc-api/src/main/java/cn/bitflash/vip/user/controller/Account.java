@@ -29,14 +29,15 @@ public class Account {
 
     /**
      * 首页资产信息
+     *
      * @param uid
      * @return
      */
     @Login
     @PostMapping("getIndexAssets")
-    public R getIndexAssets(@RequestAttribute("uid") String uid){
+    public R getIndexAssets(@RequestAttribute("uid") String uid) {
 
-        Map<String,Object> map = new HashMap<String,Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
 
         //查询数字资产
         UserDigitalAssetsEntity userDigitalAssetsEntity = userFeign.selectDigitalAssetsById(uid);
@@ -47,47 +48,57 @@ public class Account {
         //查询社区考核
         UserPerformanceEntity userPerformanceEntity = userFeign.selectUserPerformanceById(uid);
 
-        if(null != userDigitalAssetsEntity) {
-            map.put("purchase",userDigitalAssetsEntity.getPurchase().toString());
-            map.put("frozen",userDigitalAssetsEntity.getFrozen().toString());
-            map.put("available",userDigitalAssetsEntity.getAvailable().toString());
+        if (null != userDigitalAssetsEntity) {
+            map.put("purchase", userDigitalAssetsEntity.getPurchase().toString());
+            map.put("frozen", userDigitalAssetsEntity.getFrozen().toString());
+            map.put("available", userDigitalAssetsEntity.getAvailable().toString());
         } else {
+            map.put("purchase", "0.00");
+            map.put("frozen", "0.00");
+            map.put("available", "0.00");
             logger.info("查询数字资产用户:" + uid + "为空！");
         }
 
-        if(null != userCashAssetsJoinDictComputingPowerBean) {
-            if(null != userCashAssetsJoinDictComputingPowerBean.getRate()) {
-                map.put("rate",userCashAssetsJoinDictComputingPowerBean.getRate().toString());
+        if (null != userCashAssetsJoinDictComputingPowerBean) {
+            if (null != userCashAssetsJoinDictComputingPowerBean.getRate()) {
+                map.put("rate", userCashAssetsJoinDictComputingPowerBean.getRate().toString() + "%");
             } else {
-                map.put("rate","0.00");
+                map.put("rate", "0%");
             }
 
-            if(null != userCashAssetsJoinDictComputingPowerBean.getTotleIncome()) {
-                map.put("totalIncome",userCashAssetsJoinDictComputingPowerBean.getTotleIncome().toString());
+            if (null != userCashAssetsJoinDictComputingPowerBean.getTotleIncome()) {
+                map.put("totalIncome", userCashAssetsJoinDictComputingPowerBean.getTotleIncome().toString());
             } else {
-                map.put("totalIncome","0.00");
+                map.put("totalIncome", "0.00");
             }
 
-            if(null != userCashAssetsJoinDictComputingPowerBean.getWithdrawCash()) {
-                map.put("withdrawCash",userCashAssetsJoinDictComputingPowerBean.getWithdrawCash().toString());
+            if (null != userCashAssetsJoinDictComputingPowerBean.getWithdrawCash()) {
+                map.put("withdrawCash", userCashAssetsJoinDictComputingPowerBean.getWithdrawCash().toString());
             } else {
-                map.put("withdrawCash","0.00");
+                map.put("withdrawCash", "0.00");
             }
 
-            if(null != userCashAssetsJoinDictComputingPowerBean.getLotto()) {
-                map.put("lotto",userCashAssetsJoinDictComputingPowerBean.getLotto().toString());
+            if (null != userCashAssetsJoinDictComputingPowerBean.getLotto()) {
+                map.put("lotto", userCashAssetsJoinDictComputingPowerBean.getLotto().toString());
             } else {
-                map.put("lotto","0.00");
+                map.put("lotto", "0.00");
             }
         } else {
+            map.put("rate", "0%");
+            map.put("totalIncome", "0.00");
+            map.put("withdrawCash", "0.00");
+            map.put("lotto", "0.00");
             logger.info("查询现金资产用户:" + uid + "为空！");
         }
 
-        if(null != userPerformanceEntity) {
-            map.put("line1",userPerformanceEntity.getLine1().toString());
-            map.put("line2",userPerformanceEntity.getLine2().toString());
-            map.put("line3",userPerformanceEntity.getLine3().toString());
+        if (null != userPerformanceEntity) {
+            map.put("line1", userPerformanceEntity.getLine1().toString());
+            map.put("line2", userPerformanceEntity.getLine2().toString());
+            map.put("line3", userPerformanceEntity.getLine3().toString());
         } else {
+            map.put("line1", "0.00");
+            map.put("line2", "0.00");
+            map.put("line3", "0.00");
             logger.info("查询社区考核用户:" + uid + "为空！");
         }
         return R.ok(map);
