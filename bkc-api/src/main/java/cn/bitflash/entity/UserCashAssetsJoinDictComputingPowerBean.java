@@ -26,6 +26,10 @@ public class UserCashAssetsJoinDictComputingPowerBean {
     //可提现
     private BigDecimal withdrawCash;
 
+    private String power;
+
+
+
     public String getUid() {
         return uid;
     }

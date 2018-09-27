@@ -2,6 +2,7 @@ package cn.bitflash.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 
@@ -9,10 +10,10 @@ import java.io.Serializable;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_info")
+@TableName("app_status")
 public class AppStatusEntity implements Serializable {
-    @TableId
-    private String appId;
+    @TableId(type = IdType.INPUT)
+    private String appid;
 
     private String version;
 
@@ -23,11 +24,11 @@ public class AppStatusEntity implements Serializable {
     private String title;
 
     public String getAppId() {
-        return appId;
+        return appid;
     }
 
     public void setAppId(String appId) {
-        this.appId = appId;
+        this.appid = appId;
     }
 
     public String getVersion() {

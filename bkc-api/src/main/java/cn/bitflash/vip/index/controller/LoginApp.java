@@ -43,7 +43,7 @@ public class LoginApp {
         }
         String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
         // 密码错误
-        if (user.getPassword().equals(form.getPassword()) || user.getPassword().equals(finalPwd)) {
+        if (user.getPassword().equals(finalPwd)) {
             // 插入token
             String token = Encrypt.SHA256(System.currentTimeMillis() + form.getMobile());
             user.setToken(token);

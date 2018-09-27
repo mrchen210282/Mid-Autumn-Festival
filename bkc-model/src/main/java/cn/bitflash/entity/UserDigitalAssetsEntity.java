@@ -2,6 +2,7 @@ package cn.bitflash.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
  */
 @TableName("user_digital_assets")
 public class UserDigitalAssetsEntity implements Serializable {
-    @TableId
+    @TableId(type = IdType.INPUT)
     private String uid;
 
     private BigDecimal purchase;

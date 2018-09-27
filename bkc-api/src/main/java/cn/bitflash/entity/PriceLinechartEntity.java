@@ -3,6 +3,7 @@ package cn.bitflash.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class PriceLinechartEntity implements Serializable {
@@ -20,8 +21,12 @@ public class PriceLinechartEntity implements Serializable {
 
     private float bkc;
 
+    private BigDecimal us;
+
     //转换为String类型
     private String rateStr;
+
+    private String subtraction;
 
     public LocalDateTime getRateTime() {
         return rateTime;
@@ -37,6 +42,14 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getSubtraction() {
+        return subtraction;
+    }
+
+    public void setSubtraction(String subtraction) {
+        this.subtraction = subtraction;
     }
 
     public float getRate() {
@@ -61,6 +74,14 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setBkc(float bkc) {
         this.bkc = bkc;
+    }
+
+    public BigDecimal getUs() {
+        return us;
+    }
+
+    public void setUs(BigDecimal us) {
+        this.us = us;
     }
 
     public String getRateStr() {
