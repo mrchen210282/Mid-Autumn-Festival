@@ -90,4 +90,7 @@ public interface UserFeign {
     @PostMapping("/inner/userDrawing/insert")
     Boolean insertDrawingInfo(@RequestBody UserDrawingEntity drawingInfo);
 
+    @PostMapping("/inner/userDrawing/deleteById")
+    void deleteDrawingInfo(@RequestParam("id")String id);
+
 }

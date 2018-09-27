@@ -82,7 +82,7 @@ public class UserMobilePaymentInfoController {
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
     List<UserMobilePaymentInfoEntity> selectPaymentsByUid(@RequestParam("id")String id){
-        List<UserMobilePaymentInfoEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("id",id));
+        List<UserMobilePaymentInfoEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("uid",id));
         return userMobilePaymentInfoEntities;
     }
 

@@ -47,20 +47,27 @@ public class Cash {
         //提现金额
         BigDecimal money = cashForm.getCashMoney();
         UserCashAssetsEntity cashAssets = userFeign.selectCashAssetsByUid(uid);
-        //扣除提现剩余金额
-        BigDecimal cashMoney = cashAssets.getWithdrawCash().subtract(money);
-        if (money.compareTo(cashAssets.getWithdrawCash()) == 1) {
-            return R.error("提现金额超出累计收益");
-        }
-        cashAssets.setWithdrawCash(cashMoney);
-        userFeign.updateCashAssetsByUid(cashAssets);
+        //插入提现记录表
         UserDrawingEntity drawing = new UserDrawingEntity();
-        drawing.setId("00" + RandomStringUtils.randomNumeric(6));
+        String orderId = "00" + RandomStringUtils.randomNumeric(6);
+        drawing.setId(orderId);
         drawing.setUid(uid);
         drawing.setMoney(money);
         drawing.setCreateTime(new Date());
         drawing.setType(cashForm.getCashType());
-        userFeign.insertDrawingInfo(drawing);
+        Boolean flag = userFeign.insertDrawingInfo(drawing);
+        if(flag){
+            //扣除提现剩余金额
+            BigDecimal cashMoney = cashAssets.getWithdrawCash().subtract(money);
+            if (money.compareTo(cashAssets.getWithdrawCash()) == 1) {
+                return R.error("提现金额超出累计收益");
+            }
+            cashAssets.setWithdrawCash(cashMoney);
+            userFeign.updateCashAssetsByUid(cashAssets);
+        }else{
+            userFeign.deleteDrawingInfo(orderId);
+        }
+
         return R.ok();
 
     }
