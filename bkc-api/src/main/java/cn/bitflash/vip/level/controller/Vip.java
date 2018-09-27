@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +44,9 @@ public class Vip {
         //当前贝壳数量
         map.put("bkc",digitalAssets.getPurchase());
         //当前业绩
-        map.put("nowPerformance",performance);
+        map.put("nowPerformance",new ModelMap("left",performance.getLine1())
+                .addAttribute("center",performance.getLine2())
+                .addAttribute("right",performance.getLine3()));
         //下一级业绩
         if(power.size()<2){
             map.put("nextPerformance",JSONObject.parse(power.get(0).getPerformanceBenchmark()));
@@ -58,7 +61,7 @@ public class Vip {
     public R updateVipLevel(@RequestAttribute("uid") String uid) {
 
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        if (userInfo.getIsInvitated().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
+        if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
 
