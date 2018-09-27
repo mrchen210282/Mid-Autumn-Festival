@@ -7,6 +7,7 @@ import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,49 +19,49 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/system")
-@Api(value = "¶ÌÏ¢Con",tags={"×¢²áÊ±·¢ËÍ¶ÌĞÅÑéÖ¤"})
+@Api(value = "çŸ­æ¯Con",tags={"æ³¨å†Œæ—¶å‘é€çŸ­ä¿¡éªŒè¯"})
 public class VerifyCode {
 
     @Autowired
     private SystemFeign systemFeign;
 
     @RequestMapping("getVerifyCode")
-    @ApiOperation("»ñÈ¡¶ÌĞÅÑéÖ¤Âë")
-    public R sent(@ApiParam  @RequestParam String mobile,@ApiParam(value = "reg ×¢²áÑéÖ¤Âë findPwd ÕÒ»ØÃÜÂë") @RequestParam String type, HttpServletResponse response) {
+    @ApiOperation("è·å–çŸ­ä¿¡éªŒè¯ç ")
+    public R sent(@ApiParam  @RequestParam String mobile,@ApiParam(value = "reg æ³¨å†ŒéªŒè¯ç  findPwd æ‰¾å›å¯†ç ") @RequestParam String type, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         if (StringUtils.isBlank(mobile)) {
-            return R.error(501, "ÊÖ»úºÅ²»ÄÜÎª¿Õ");
+            return R.error(501, "æ‰‹æœºå·ä¸èƒ½ä¸ºç©º");
         }
         UserLoginEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
         String verifyCode = generateCode();
         if (type.equals("reg")) {
             if (userEntity != null) {
-                return R.error("ÓÃ»§ÒÑ×¢²á£¬ÇëÖ±½ÓµÇÂ¼");
+                return R.error("ç”¨æˆ·å·²æ³¨å†Œï¼Œè¯·ç›´æ¥ç™»å½•");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "±´¿Ç", "SMS_135330146");
+            return SmsUtils.smsApi(mobile, verifyCode, "è´å£³", "SMS_135330146");
         }
-        // ÕÒ»ØÃÜÂë
+        // æ‰¾å›å¯†ç 
         if (type.equals("findPwd")) {
             if (userEntity == null) {
-                return R.error("ÊÖ»úºÅ´íÎó");
+                return R.error("æ‰‹æœºå·é”™è¯¯");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "±´¿Ç", "SMS_136065023");
+            return SmsUtils.smsApi(mobile, verifyCode, "è´å£³", "SMS_136065023");
         }
-        //ÌáÏÖ¹¦ÄÜ
+        //æç°åŠŸèƒ½
         if(type.equals("cashing")){
             if(userEntity == null){
-                return R.error("ÊÖ»úºÅ²»´æÔÚÓÃ»§");
+                return R.error("æ‰‹æœºå·ä¸å­˜åœ¨ç”¨æˆ·");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "±´¿Ç", "SMS_136065023");
+            return SmsUtils.smsApi(mobile, verifyCode, "è´å£³", "SMS_146615963");
         }
-        //Ç®°üµØÖ·
+        //é’±åŒ…åœ°å€
         if(type.equals("walletAdress")){
             if(userEntity == null){
-                return R.error("ÊÖ»úºÅ²»´æÔÚÓÃ»§");
+                return R.error("æ‰‹æœºå·ä¸å­˜åœ¨ç”¨æˆ·");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "±´¿Ç", "");
+            return SmsUtils.smsApi(mobile, RandomStringUtils.randomNumeric(6), "è´å£³", "SMS_146611072");
         }
-        return R.error("ÏµÍ³´íÎó");
+        return R.error("ç³»ç»Ÿé”™è¯¯");
     }
 
     private String generateCode() {

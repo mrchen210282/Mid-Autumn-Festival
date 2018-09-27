@@ -18,7 +18,7 @@ public class UserInfoEntity implements Serializable {
 
     private String invitationCode;
 
-    private String isInvitated;
+    private String isInvited;
 
     private String avatar;
 
@@ -62,19 +62,19 @@ public class UserInfoEntity implements Serializable {
         this.invitationCode = invitationCode;
     }
 
-    public String getIsInvitated() {
-        return isInvitated;
-    }
-
-    public void setIsInvitated(String isInvitated) {
-        this.isInvitated = isInvitated;
-    }
-
     public String getAvatar() {
         return avatar;
     }
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getIsInvited() {
+        return isInvited;
+    }
+
+    public void setIsInvited(String isInvited) {
+        this.isInvited = isInvited;
     }
 }

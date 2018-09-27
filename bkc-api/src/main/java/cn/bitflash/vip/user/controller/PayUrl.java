@@ -5,6 +5,7 @@ import cn.bitflash.entity.UserBankPaymentInfoEntity;
 import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserMobilePaymentInfoEntity;
 import cn.bitflash.utils.Common;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.ValidatorUtils;
 import cn.bitflash.vip.user.entity.ImgForm;
@@ -42,6 +43,11 @@ public class PayUrl {
             @ApiImplicitParam(name = "account", dataType = "String")
     })
     public R uploadPayment(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
+        UserLoginEntity login = userFeign.selectUserLoginByUid(uid);
+        String finalPass = Encrypt.SHA256(imgForm.getPassword() + login.getSalt());
+        if (!finalPass.equals(login.getPassword())) {
+            return R.error("密码错误");
+        }
         ValidatorUtils.validateEntity(imgForm);
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
         //String path = "/home/statics/qrcode/";
@@ -90,6 +96,7 @@ public class PayUrl {
             userFeign.insertUserPayment(payment);
         } else {
             payment.setCode(imgName);
+            payment.setAccount(imgForm.getAccount());
             userFeign.updateUserPaymentById(payment);
         }
 
@@ -124,7 +131,12 @@ public class PayUrl {
     @Login
     @PostMapping("uploadBankMess")
     @ApiOperation("上传银行信息")
-    public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestAttribute("uid") String uid) {
+    public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestParam String password,@RequestAttribute("uid") String uid) {
+        UserLoginEntity login = userFeign.selectUserLoginByUid(uid);
+        String finalPass = Encrypt.SHA256(password + login.getSalt());
+        if (!finalPass.equals(login.getPassword())) {
+            return R.error("密码错误");
+        }
         UserBankPaymentInfoEntity bankInfo = new UserBankPaymentInfoEntity();
         bankInfo.setUid(uid);
         bankInfo.setBank(bank);
@@ -144,10 +156,10 @@ public class PayUrl {
     @Login
     @PostMapping("getMobilePaymentInfo")
     @ApiOperation("获取手机支付方式")
-    public R getMobilePaymentInfo(@RequestAttribute("uid")String uid,@RequestParam String type){
-        UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid,type);
+    public R getMobilePaymentInfo(@RequestAttribute("uid") String uid, @RequestParam String type) {
+        UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
         String address = userFeign.getPath(2);
-        return R.ok(new ModelMap("account",mobile.getAccount()).addAttribute("uri",address+mobile.getCode()));
+        return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));
     }
 
 
