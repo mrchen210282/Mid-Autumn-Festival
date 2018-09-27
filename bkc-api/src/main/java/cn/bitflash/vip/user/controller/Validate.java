@@ -35,6 +35,8 @@ public class Validate {
         map.put("auth",info.getIsAuth());
         UserCashAssetsEntity cash = userFeign.selectCashAssetsByUid(uid);
         map.put("level",cash.getPowerLevel());
+        map.put("uid",uid);
+
         return R.ok(map);
 
     }
