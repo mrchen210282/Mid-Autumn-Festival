@@ -27,7 +27,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "æ”¯ä»˜ä¿¡æ¯Con", tags = {"ä¸Šä¼ ï¼ŒæŸ¥çœ‹"})
+@Api(value = "Ö§¸¶ĞÅÏ¢Con", tags = {"ÉÏ´«£¬²é¿´"})
 public class PayUrl {
 
     @Autowired
@@ -35,7 +35,7 @@ public class PayUrl {
 
     @Login
     @PostMapping("uploadPayment")
-    @ApiOperation("ä¸Šä¼ æ”¯ä»˜ç ")
+    @ApiOperation("ÉÏ´«Ö§¸¶Âë")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "img", dataType = "String"),
             @ApiImplicitParam(name = "imgType", dataType = "String"),
@@ -44,7 +44,9 @@ public class PayUrl {
     public R uploadPayment(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
         ValidatorUtils.validateEntity(imgForm);
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
-        //String path = "/home/statics/qrcode/";		String path = "D:\\Yitaifang/";        String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
+        //String path = "/home/statics/qrcode/";
+        String path = "D:\\Yitaifang/";
+        String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
             case Common.WECHAT:
                 imgName = imgName + "_w.png";
@@ -57,16 +59,16 @@ public class PayUrl {
         }
         BASE64Decoder decoder = new BASE64Decoder();
         try {
-            // Base64è§£ç 
+            // Base64½âÂë
             String[] base64Str = imgForm.getImg().split(",");
             if (base64Str.length >= 2) {
                 byte[] b = decoder.decodeBuffer(base64Str[1]);
                 for (int i = 0; i < b.length; ++i) {
-                    if (b[i] < 0) {// è°ƒæ•´å¼‚å¸¸æ•°æ®
+                    if (b[i] < 0) {// µ÷ÕûÒì³£Êı¾İ
                         b[i] += 256;
                     }
                 }
-                // ç”Ÿæˆjpegå›¾ç‰‡
+                // Éú³ÉjpegÍ¼Æ¬
                 OutputStream out = new FileOutputStream(path);
                 out.write(b);
                 out.flush();
@@ -97,31 +99,31 @@ public class PayUrl {
 
     @Login
     @PostMapping("getPayUrl")
-    @ApiOperation("è·å–æ”¯ä»˜æ–¹å¼")
+    @ApiOperation("»ñÈ¡Ö§¸¶·½Ê½")
     public R getPayUrl(@RequestAttribute("uid") String uid) {
         List<UserMobilePaymentInfoEntity> payment = userFeign.selectPaymentsByUid(uid);
         if (payment == null) {
-            return R.error("æœªä¸Šä¼ æ”¶æ¬¾ä¿¡æ¯");
+            return R.error("Î´ÉÏ´«ÊÕ¿îĞÅÏ¢");
         }
         List<Map<String, Object>> list = new ArrayList<>();
         payment.stream().forEach(u -> {
             if (u.getType().equals(Common.ALIPAY)) {
-                list.add(new ModelMap("name", "æ”¯ä»˜å®").addAttribute("type", Common.ALIPAY));
+                list.add(new ModelMap("name", "Ö§¸¶±¦").addAttribute("type", Common.ALIPAY));
             }
             if (u.getType().equals(Common.WECHAT)) {
-                list.add(new ModelMap("name", "å¾®ä¿¡").addAttribute("type", Common.WECHAT));
+                list.add(new ModelMap("name", "Î¢ĞÅ").addAttribute("type", Common.WECHAT));
             }
         });
         UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
         if (paymentInfo != null) {
-            list.add(new ModelMap("name", "é“¶è¡Œå¡").addAttribute("type", Common.BANK));
+            list.add(new ModelMap("name", "ÒøĞĞ¿¨").addAttribute("type", Common.BANK));
         }
         return R.ok(new ModelMap("msg", list));
     }
 
     @Login
     @PostMapping("uploadBankMess")
-    @ApiOperation("ä¸Šä¼ é“¶è¡Œä¿¡æ¯")
+    @ApiOperation("ÉÏ´«ÒøĞĞĞÅÏ¢")
     public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestAttribute("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = new UserBankPaymentInfoEntity();
         bankInfo.setUid(uid);
@@ -133,7 +135,7 @@ public class PayUrl {
 
     @Login
     @PostMapping("getBankMess")
-    @ApiOperation("è·å–é“¶è¡Œä¿¡æ¯")
+    @ApiOperation("»ñÈ¡ÒøĞĞĞÅÏ¢")
     public R getBankMess(@RequestAttribute("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
         return R.ok(new ModelMap("bank", bankInfo));
