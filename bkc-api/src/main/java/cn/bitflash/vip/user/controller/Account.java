@@ -2,9 +2,11 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,4 +105,6 @@ public class Account {
         }
         return R.ok(map);
     }
+
+
 }
