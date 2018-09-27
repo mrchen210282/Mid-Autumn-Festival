@@ -34,7 +34,7 @@ public class WalletAddress {
     private UserFeign userFeign;
 
     /**
-     * ç”Ÿæˆé’±åŒ…åœ°å€
+     * Éú³ÉÇ®°üµØÖ·
      * @param uid
      * @return
      * @throws CipherException
@@ -51,16 +51,15 @@ public class WalletAddress {
             return false;
         }
 
-        //åˆ›å»ºæ–‡ä»¶å¤¹
+        //´´½¨ÎÄ¼ş¼Ğ
         File file = new File(FILEADDRESS);
-        //è®¾ç½®ä¸ºåªè¯»
+        //ÉèÖÃÎªÖ»¶Á
         file.setReadOnly();
 
-        //å¦‚æœæ–‡ä»¶å¤¹ä¸å­˜åœ¨
+        //Èç¹ûÎÄ¼ş¼Ğ²»´æÔÚ
         if (!file.exists()) {
             file.mkdir();
         }
-
         String walletName = WalletUtils.generateNewWalletFile(PASSWORD, new File(FILEADDRESS), false);
         String walleFilePath = FILEADDRESS + "/" + walletName;
         Credentials credentials = WalletUtils.loadCredentials(PASSWORD, walleFilePath);
@@ -79,20 +78,20 @@ public class WalletAddress {
     public R getAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid){
         UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
         if(userWalletAddressEntity == null){
-            return R.ok().put("code","0");
+            return R.error("Ç®°üµØÖ·²»´æÔÚ");
         }
         return R.ok().put("userWalletAddressEntity",userWalletAddressEntity);
     }
 
     /**
-     * éªŒè¯ç™»å½•å¯†ç æ˜¯å¦æ­£ç¡®
+     * ÑéÖ¤µÇÂ¼ÃÜÂëÊÇ·ñÕıÈ·
      */
     @Login
     @PostMapping("verifyPwd")
     public R verifyPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, String pwd){
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
         if (!user.getPassword().equals(Encrypt.SHA256(pwd + user.getSalt()))) {
-            return R.error("ç™»å½•å¯†ç é”™è¯¯");
+            return R.error("µÇÂ¼ÃÜÂë´íÎó");
         }
         return R.ok();
     }
