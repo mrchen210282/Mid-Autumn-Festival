@@ -13,6 +13,7 @@ import java.math.BigDecimal;
  */
 @TableName("user_cash_assets")
 public class UserCashAssetsEntity implements Serializable {
+
     private static final long serialVersionUID = -7641609719739406440L;
 
     @TableId(type = IdType.INPUT)
@@ -28,7 +29,7 @@ public class UserCashAssetsEntity implements Serializable {
 
     private BigDecimal lotto;
 
-    private Integer powerlevel;
+    private Integer powerLevel;
 
     //可提现
     private BigDecimal withdrawCash;
@@ -79,6 +80,14 @@ public class UserCashAssetsEntity implements Serializable {
 
     public void setLotto(BigDecimal lotto) {
         this.lotto = lotto;
+    }
+
+    public Integer getPowerLevel() {
+        return powerLevel;
+    }
+
+    public void setPowerLevel(Integer powerLevel) {
+        this.powerLevel = powerLevel;
     }
 
     public BigDecimal getWithdrawCash() {

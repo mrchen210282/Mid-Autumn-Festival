@@ -5,8 +5,8 @@
 
     <select id="selectUserCashAssetsJoinDictComputingPower" resultType="cn.bitflash.bean.UserCashAssetsJoinDictComputingPowerBean">
       select uca.uid,uca.purchase,uca.totle_income as totalIncome,uca.shared_income as sharedIncome,uca.lotto,
-      uca.level,uca.withdraw_cash as withdrawCash,dcp.rate from user_cash_assets uca
+      uca.withdraw_cash as withdrawCash,dcp.rate from user_cash_assets uca
       left join dict_computing_power dcp on uca.power_level = dcp.level
-      where uca.uid = #{uid}
+      where uca.uid = #{uid};
     </select>
 </mapper>

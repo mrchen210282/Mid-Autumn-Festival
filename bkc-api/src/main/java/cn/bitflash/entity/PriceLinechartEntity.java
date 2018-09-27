@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,6 +10,7 @@ public class PriceLinechartEntity implements Serializable {
 
     private static final long serialVersionUID = 8348757757253519053L;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private LocalDateTime rateTime;
 
     private float price;

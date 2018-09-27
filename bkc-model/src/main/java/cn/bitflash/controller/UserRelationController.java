@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author GAOYGUUO
  */
@@ -60,6 +62,18 @@ public class UserRelationController {
     @PostMapping("/inner/userRelation/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userRelationService.deleteById(id);
+    }
+
+    @PostMapping("/inner/userRelation/selectTreeNodes")
+    public List<UserRelationEntity> selectTreeNodes(@RequestParam("uid") String uid){
+        return userRelationService.selectTreeNodes(uid);
+    }
+
+    @PostMapping("/inner/userRelation/insertTreeNode")
+    public Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
+                           @RequestParam("code") String code,@RequestParam("area")String area){
+        return userRelationService.insertTreeNode(pid,uid,code,area);
+
     }
 
 }

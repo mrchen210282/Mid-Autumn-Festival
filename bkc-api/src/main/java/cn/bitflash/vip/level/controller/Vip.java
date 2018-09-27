@@ -5,7 +5,9 @@ import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.level.entity.Position;
 import cn.bitflash.vip.level.feign.LevelFeign;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +36,12 @@ public class Vip {
     public R updateVipLevel(@RequestAttribute("uid") String uid) {
 
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        if(userInfo.getIsInvitated().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() ==null){
+        if (userInfo.getIsInvitated().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
 
         UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
-        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getLevel(),cash.getLevel()+1);
+        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(), cash.getPowerLevel() + 1);
         if (power.size() < 2) {
             return R.error("更高算力暂未开放");
         }
@@ -49,10 +51,12 @@ public class Vip {
          * 扣除冻结的bkc
          * 提升vip  userinfo
          */
-        float leftcha = power.get(1).getPosition().getLeft() - power.get(0).getPosition().getLeft();
-        float rightcha = power.get(1).getPosition().getRight() - power.get(0).getPosition().getRight();
-        float centercha = power.get(1).getPosition().getCenter() - power.get(0).getPosition().getCenter();
-        float sumcha = leftcha+ rightcha + centercha;
+        Position post1 = (Position)JSONObject.parse(power.get(1).getPerformanceBenchmark());
+        Position post0 = (Position)JSONObject.parse(power.get(0).getPerformanceBenchmark());
+        float leftcha = post1.getLeft() - post0.getLeft();
+        float rightcha = post1.getRight() - post0.getRight();
+        float centercha = post1.getCenter() - post0.getCenter();
+        float sumcha = leftcha + rightcha + centercha;
         if (sumcha > digitalAssets.getAvailable().floatValue()) {
             return R.error("bkc数量不够");
         }
@@ -63,11 +67,11 @@ public class Vip {
         levelFeign.updateDigitalAssetsByUid(digitalAssets);
 
         //更新算力
-        cash.setLevel(power.get(1).getLevel());
+        cash.setPowerLevel(power.get(1).getLevel());
         levelFeign.updateUserCashAssetsById(cash);
         //如果已经排过点了
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
-        if (relation != null ) {
+        if (relation != null) {
             return R.ok();
         }
 
@@ -80,37 +84,37 @@ public class Vip {
         //父类下所有的子类数量（包含父类）
         int size = f_user.size();
         switch (area) {
-            case "l":
+            case "L":
                 if (size == 1) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "L");
                 } else if (size == 2) {
-                    levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitCode);
+                    levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitCode, "L");
                 } else if (size > 2) {
                     //筛选出左区第一个子节点
                     UserRelationEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(0).getLft() + 1).findFirst().get();
                     List<UserRelationEntity> child2_user = f_user.stream().filter((u) ->
                             u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
                     if (child2_user.size() == 1) {
-                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "L");
                     } else if (child2_user.size() > 1) {
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "L");
                     }
                 }
                 break;
-            case "c":
+            case "C":
                 if (size == 1) {
                     //等于1 = 没有左区，需要先排左区
                     throw new RRException("邀请码不正确");
                 }
                 //等于2代表直接父类下面开辟中区,或者左区下面只有一个点
                 else if (size == 2) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "C");
                 } else if (size > 3) {
                     if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                         //   o 情况1   实现 o
                         //  o             o o
                         // o             o
-                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "C");
                         return R.ok();
                     }
                     //筛选出右区第一个子节点
@@ -121,18 +125,18 @@ public class Vip {
                         //    o  情况2  实现 o
                         //   o o           o  o
                         //                   o
-                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "C");
                     } else {
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "C");
                     }
                 }
                 break;
-            case "r":
+            case "R":
                 if (size < 3 || f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                     //等于2 = 没有左区，中区，需要先排左区和中区
                     throw new RRException("邀请码不正确");
                 } else if (size == 3 && f_user.get(0).getRgt() != f_user.get(1).getRgt() + 1) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "R");
                 } else if (size > 3) {
 
                     UserRelationEntity ue = f_user.stream().filter(u -> f_user.get(1).getRgt() + 1 == u.getLft()).findFirst().get();
@@ -141,14 +145,14 @@ public class Vip {
                         //    o     情况：不存在右区  实现   o
                         //  o  o                        o  o  o
                         // o                          o
-                        levelFeign.insertTreeNode(f_user.get(0).getUid(), uid, invitCode);
+                        levelFeign.insertTreeNode(f_user.get(0).getUid(), uid, invitCode, "R");
                     } else {
                         //     o     情况：不存在右区  实现     o
                         //  o  o  o                       o  o  o
                         // o                                   o
                         List<UserRelationEntity> child2_user = f_user.stream().filter((u) ->
                                 u.getLft() >= ue2.getLft() && u.getRgt() <= ue2.getRgt()).collect(Collectors.toList());
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "R");
                     }
                 }
                 break;
