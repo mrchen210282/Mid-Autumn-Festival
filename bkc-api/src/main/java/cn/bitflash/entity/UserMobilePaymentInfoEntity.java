@@ -1,8 +1,10 @@
 package cn.bitflash.entity;
 
+import java.math.BigInteger;
+
 public class UserMobilePaymentInfoEntity {
 
-    private int id;
+    private BigInteger id;
 
     private String uid;
 
@@ -12,11 +14,11 @@ public class UserMobilePaymentInfoEntity {
 
     private String account;
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
