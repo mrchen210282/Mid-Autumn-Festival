@@ -50,7 +50,7 @@ public class RegisterApp {
         UserInfoEntity info = new UserInfoEntity();
         info.setUid(uid);
         info.setInvitationCode(invitationCode);
-        info.setIsInvitated("Y");
+        info.setIsInvited("Y");
         Boolean flag2 = indexFeign.updateUserInfoById(info);
         WalletAddress walletAddress = new WalletAddress();
         try {

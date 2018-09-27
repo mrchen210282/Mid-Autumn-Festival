@@ -7,6 +7,7 @@ import cn.bitflash.vip.system.feign.SystemFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,14 +52,14 @@ public class VerifyCode {
             if(userEntity == null){
                 return R.error("手机号不存在用户");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_136065023");
+            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_146615963");
         }
         //钱包地址
         if(type.equals("walletAdress")){
             if(userEntity == null){
                 return R.error("手机号不存在用户");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "");
+            return SmsUtils.smsApi(mobile, RandomStringUtils.randomNumeric(6), "贝壳", "SMS_146611072");
         }
         return R.error("系统错误");
     }

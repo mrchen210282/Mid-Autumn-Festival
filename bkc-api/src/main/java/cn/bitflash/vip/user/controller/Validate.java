@@ -1,6 +1,7 @@
 package cn.bitflash.vip.user.controller;
 
 
+import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserCashAssetsEntity;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.utils.R;
@@ -22,6 +23,7 @@ public class Validate {
     @Autowired
     private UserFeign userFeign;
 
+    @Login
     @PostMapping("getUserPower")
     @ApiOperation("获取用户权限信息")
     public R getUserPower(@RequestAttribute("uid")String uid){
@@ -29,10 +31,12 @@ public class Validate {
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
         Map<String,Object> map= new HashMap<>();
         map.put("name",info.getRealname());
-        map.put("invited",info.getIsInvitated());
+        map.put("invited",info.getIsInvited());
         map.put("auth",info.getIsAuth());
         UserCashAssetsEntity cash = userFeign.selectCashAssetsByUid(uid);
         map.put("level",cash.getPowerLevel());
+        map.put("uid",uid);
+
         return R.ok(map);
 
     }

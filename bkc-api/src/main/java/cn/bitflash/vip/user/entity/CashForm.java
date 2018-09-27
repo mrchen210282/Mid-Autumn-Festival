@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 public class CashForm {
 
     //提现金额
-    @NotBlank(message = "提现金额不能为空")
     private BigDecimal cashMoney;
 
     //login passwd

@@ -1,9 +1,10 @@
 package cn.bitflash.vip.user.controller;
 
-
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserWalletAddressEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,5 +82,18 @@ public class WalletAddress {
             return R.ok().put("code","0");
         }
         return R.ok().put("userWalletAddressEntity",userWalletAddressEntity);
+    }
+
+    /**
+     * 验证登录密码是否正确
+     */
+    @Login
+    @PostMapping("verifyPwd")
+    public R verifyPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, String pwd){
+        UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
+        if (!user.getPassword().equals(Encrypt.SHA256(pwd + user.getSalt()))) {
+            return R.error("登录密码错误");
+        }
+        return R.ok();
     }
 }
