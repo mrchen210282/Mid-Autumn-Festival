@@ -38,7 +38,7 @@ public interface UserFeign {
     Boolean updateUserPaymentById(@RequestBody UserMobilePaymentInfoEntity payment);
 
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
-    List<UserMobilePaymentInfoEntity>  selectPaymentsByUid(@RequestParam("id")String id);
+    List<UserMobilePaymentInfoEntity>  selectPaymentsByUid(@RequestParam("uid")String uid);
 
     /**
      * user_wallet_address

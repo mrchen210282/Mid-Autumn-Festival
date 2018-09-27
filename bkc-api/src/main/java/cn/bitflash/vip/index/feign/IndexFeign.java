@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @FeignClient(value = "bkc-model")
 public interface IndexFeign {
@@ -73,5 +73,14 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/priceLinechart/selectPriceLinechart")
-    PriceLinechartEntity selectPriceLinechart();
+    public PriceLinechartEntity selectPriceLinechart();
+
+    /**
+     * 查询昨天的汇率
+     * selectLineChartYesterDayByDate
+     * @param yesterday
+     * @return
+     */
+    @PostMapping("/inner/priceLinechart/selectLineChartYesterDayByDate")
+    public List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") Date yesterday);
 }

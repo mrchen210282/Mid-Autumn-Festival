@@ -28,7 +28,7 @@ public class UserMobilePaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectById")
-    public UserMobilePaymentInfoEntity selectById(@RequestParam("id") String id) {
+    public UserMobilePaymentInfoEntity selectById(@RequestParam("id") int id) {
         UserMobilePaymentInfoEntity entity = userMobilePaymentInfoService.selectById(id);
         return entity;
     }
@@ -77,12 +77,12 @@ public class UserMobilePaymentInfoController {
 
     /**
      * selectPaymentsByUid
-     * @param id
+     * @param
      * @return
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
-    List<UserMobilePaymentInfoEntity> selectPaymentsByUid(@RequestParam("id")String id){
-        List<UserMobilePaymentInfoEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("uid",id));
+    List<UserMobilePaymentInfoEntity> selectPaymentsByUid(@RequestParam("uid")String uid){
+        List<UserMobilePaymentInfoEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("uid",uid));
         return userMobilePaymentInfoEntities;
     }
 

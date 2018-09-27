@@ -13,6 +13,7 @@ import java.math.BigDecimal;
  */
 @TableName("user_cash_assets")
 public class UserCashAssetsEntity implements Serializable {
+
     private static final long serialVersionUID = -7641609719739406440L;
 
     @TableId(type = IdType.INPUT)
