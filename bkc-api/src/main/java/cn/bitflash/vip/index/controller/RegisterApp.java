@@ -30,7 +30,7 @@ public class RegisterApp {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("registerWeb")
-    public R register2(@RequestParam String mobile, @RequestParam String pwd,
+    public R registerWeb(@RequestParam String mobile, @RequestParam String pwd,
                        @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         UserLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
