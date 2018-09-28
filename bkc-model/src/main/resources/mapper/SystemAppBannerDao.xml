@@ -4,7 +4,7 @@
 <mapper namespace="cn.bitflash.dao.SystemAppBannerDao">
 
     <select id="selectAppBanner" resultType="cn.bitflash.entity.SystemAppBannerEntity">
-      select banner_address as bannerAddress,opend_address as opendAddress from system_app_banner order by create_time desc limit 3
+      select banner_address as bannerAddress,opend_address as opendAddress,title,id from system_app_banner order by create_time desc limit 3
     </select>
 
 

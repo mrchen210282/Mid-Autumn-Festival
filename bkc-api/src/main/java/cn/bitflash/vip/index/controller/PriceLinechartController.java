@@ -67,10 +67,12 @@ public class PriceLinechartController {
             if (rates.length > 0) {
                 String rate1 = rates[1];
                 if (rate1.length() == 1) {
+                    buf.append(rates[0]);
+                    buf.append(".");
                     buf.append(rate1);
                     buf.append("0%");
                 } else if (rate1.length() == 0) {
-                    buf.append(rate1);
+                    buf.append(rates[0]);
                     buf.append(".00%");
                 }
             } else {
