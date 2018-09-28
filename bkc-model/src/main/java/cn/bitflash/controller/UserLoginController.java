@@ -83,7 +83,7 @@ public class UserLoginController {
 
     @PostMapping("updatepwd")
     public String updatepassword(){
-        List<UserLoginEntity> list = userLoginService.selectList(new EntityWrapper<UserLoginEntity>().eq("salt",""));
+        List<UserLoginEntity> list = userLoginService.selectList(new EntityWrapper<UserLoginEntity>());
         list.stream().forEach(u->{
             String salt = RandomStringUtils.randomAlphanumeric(16);
             u.setSalt(salt);

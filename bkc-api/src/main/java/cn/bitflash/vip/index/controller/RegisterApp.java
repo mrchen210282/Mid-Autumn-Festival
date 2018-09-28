@@ -48,6 +48,7 @@ public class RegisterApp {
         //初始化user_login表
         String uid = indexFeign.registerLogin(us);
         UserInfoEntity info = new UserInfoEntity();
+        info.setRealname(uid);
         info.setUid(uid);
         info.setInvitationCode(invitationCode);
         info.setIsInvited("Y");
