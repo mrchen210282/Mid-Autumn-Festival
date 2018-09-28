@@ -50,8 +50,8 @@ public class PayUrl {
         }
         ValidatorUtils.validateEntity(imgForm);
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
-        //String path = "/home/statics/qrcode/";
-        String path = "D:/";
+        String path = "/home/statics/qrcode/";
+        //String path = "D:/";
         String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
             case Common.WECHAT:
