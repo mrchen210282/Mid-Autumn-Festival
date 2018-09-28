@@ -1,5 +1,6 @@
 package cn.bitflash.utils;
 
+import cn.bitflash.utils.R;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
@@ -16,57 +17,57 @@ import java.util.Map;
 
 /**
  * @author soso
- * @date 2018Äê5ÔÂ22ÈÕ ÏÂÎç6:37:31
+ * @date 2018å¹´5æœˆ22æ—¥ ä¸‹åˆ6:37:31
  */
 
 public class SmsUtils {
     public static R smsApi(String phoneNumber, String verifyCode, String signName, String templateCode) {
         try {
-            // ÉèÖÃ³¬Ê±Ê±¼ä-¿É×ÔĞĞµ÷Õû
-            System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
-            System.setProperty("sun.net.client.defaultReadTimeout", "10000");
-            // ³õÊ¼»¯ascClientĞèÒªµÄ¼¸¸ö²ÎÊı
-            final String product = "Dysmsapi";// ¶ÌĞÅAPI²úÆ·Ãû³Æ£¨¶ÌĞÅ²úÆ·Ãû¹Ì¶¨£¬ÎŞĞèĞŞ¸Ä£©
-            final String domain = "dysmsapi.aliyuncs.com";// ¶ÌĞÅAPI²úÆ·ÓòÃû£¨½Ó¿ÚµØÖ·¹Ì¶¨£¬ÎŞĞèĞŞ¸Ä£©
-            // Ìæ»»³ÉÄãµÄAK
-            final String accessKeyId = "LTAIMrTiy4deE8bo";// ÄãµÄaccessKeyId,²Î¿¼±¾ÎÄµµ²½Öè2
-            final String accessKeySecret = "1hF0rq269TlwO0JXRG98QMGcXrynes";// ÄãµÄaccessKeySecret£¬²Î¿¼±¾ÎÄµµ²½Öè2
-            // ³õÊ¼»¯ascClient,ÔİÊ±²»Ö§³Ö¶àregion£¨ÇëÎğĞŞ¸Ä£©
+            // è®¾ç½®è¶…æ—¶æ—¶é—´-å¯è‡ªè¡Œè°ƒæ•´
+            System.setProperty("sun.net.client.defaultConnectTimeout", "10000" );
+            System.setProperty("sun.net.client.defaultReadTimeout", "10000" );
+            // åˆå§‹åŒ–ascClientéœ€è¦çš„å‡ ä¸ªå‚æ•°
+            final String product = "Dysmsapi";// çŸ­ä¿¡APIäº§å“åç§°ï¼ˆçŸ­ä¿¡äº§å“åå›ºå®šï¼Œæ— éœ€ä¿®æ”¹ï¼‰
+            final String domain = "dysmsapi.aliyuncs.com";// çŸ­ä¿¡APIäº§å“åŸŸåï¼ˆæ¥å£åœ°å€å›ºå®šï¼Œæ— éœ€ä¿®æ”¹ï¼‰
+            // æ›¿æ¢æˆä½ çš„AK
+            final String accessKeyId = "LTAIMrTiy4deE8bo";// ä½ çš„accessKeyId,å‚è€ƒæœ¬æ–‡æ¡£æ­¥éª¤2
+            final String accessKeySecret = "1hF0rq269TlwO0JXRG98QMGcXrynes";// ä½ çš„accessKeySecretï¼Œå‚è€ƒæœ¬æ–‡æ¡£æ­¥éª¤2
+            // åˆå§‹åŒ–ascClient,æš‚æ—¶ä¸æ”¯æŒå¤šregionï¼ˆè¯·å‹¿ä¿®æ”¹ï¼‰
             IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
             DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
             IAcsClient acsClient = new DefaultAcsClient(profile);
-            // ×é×°ÇëÇó¶ÔÏó
+            // ç»„è£…è¯·æ±‚å¯¹è±¡
             SendSmsRequest request = new SendSmsRequest();
-            // Ê¹ÓÃpostÌá½»
+            // ä½¿ç”¨postæäº¤
             request.setMethod(MethodType.POST);
-            // ±ØÌî:´ı·¢ËÍÊÖ»úºÅ¡£Ö§³ÖÒÔ¶ººÅ·Ö¸ôµÄĞÎÊ½½øĞĞÅúÁ¿µ÷ÓÃ£¬ÅúÁ¿ÉÏÏŞÎª1000¸öÊÖ»úºÅÂë,ÅúÁ¿µ÷ÓÃÏà¶ÔÓÚµ¥Ìõµ÷ÓÃ¼°Ê±ĞÔÉÔÓĞÑÓ³Ù,ÑéÖ¤ÂëÀàĞÍµÄ¶ÌĞÅÍÆ¼öÊ¹ÓÃµ¥Ìõµ÷ÓÃµÄ·½Ê½£»·¢ËÍ¹ú¼Ê/¸Û°ÄÌ¨ÏûÏ¢Ê±£¬½ÓÊÕºÅÂë¸ñÊ½Îª00+¹ú¼ÊÇøºÅ+ºÅÂë£¬Èç¡°0085200000000¡±
+            // å¿…å¡«:å¾…å‘é€æ‰‹æœºå·ã€‚æ”¯æŒä»¥é€—å·åˆ†éš”çš„å½¢å¼è¿›è¡Œæ‰¹é‡è°ƒç”¨ï¼Œæ‰¹é‡ä¸Šé™ä¸º1000ä¸ªæ‰‹æœºå·ç ,æ‰¹é‡è°ƒç”¨ç›¸å¯¹äºå•æ¡è°ƒç”¨åŠæ—¶æ€§ç¨æœ‰å»¶è¿Ÿ,éªŒè¯ç ç±»å‹çš„çŸ­ä¿¡æ¨èä½¿ç”¨å•æ¡è°ƒç”¨çš„æ–¹å¼ï¼›å‘é€å›½é™…/æ¸¯æ¾³å°æ¶ˆæ¯æ—¶ï¼Œæ¥æ”¶å·ç æ ¼å¼ä¸º00+å›½é™…åŒºå·+å·ç ï¼Œå¦‚â€œ0085200000000â€
             request.setPhoneNumbers(phoneNumber);
-            // ±ØÌî:¶ÌĞÅÇ©Ãû-¿ÉÔÚ¶ÌĞÅ¿ØÖÆÌ¨ÖĞÕÒµ½
+            // å¿…å¡«:çŸ­ä¿¡ç­¾å-å¯åœ¨çŸ­ä¿¡æ§åˆ¶å°ä¸­æ‰¾åˆ°
             request.setSignName(signName);
-            // ±ØÌî:¶ÌĞÅÄ£°å-¿ÉÔÚ¶ÌĞÅ¿ØÖÆÌ¨ÖĞÕÒµ½
+            // å¿…å¡«:çŸ­ä¿¡æ¨¡æ¿-å¯åœ¨çŸ­ä¿¡æ§åˆ¶å°ä¸­æ‰¾åˆ°
             request.setTemplateCode(templateCode);
-            // ¿ÉÑ¡:Ä£°åÖĞµÄ±äÁ¿Ìæ»»JSON´®,ÈçÄ£°åÄÚÈİÎª"Ç×°®µÄ${name},ÄúµÄÑéÖ¤ÂëÎª${code}"Ê±,´Ë´¦µÄÖµÎª
-            // ÓÑÇéÌáÊ¾:Èç¹ûJSONÖĞĞèÒª´ø»»ĞĞ·û,Çë²ÎÕÕ±ê×¼µÄJSONĞ­Òé¶Ô»»ĞĞ·ûµÄÒªÇó,±ÈÈç¶ÌĞÅÄÚÈİÖĞ°üº¬\r\nµÄÇé¿öÔÚJSONÖĞĞèÒª±íÊ¾³É\\r\\n,·ñÔò»áµ¼ÖÂJSONÔÚ·şÎñ¶Ë½âÎöÊ§°Ü
-            request.setTemplateParam("{\"code\":\"" + verifyCode + "\"}");
-            // ¿ÉÑ¡-ÉÏĞĞ¶ÌĞÅÀ©Õ¹Âë(À©Õ¹Âë×Ö¶Î¿ØÖÆÔÚ7Î»»òÒÔÏÂ£¬ÎŞÌØÊâĞèÇóÓÃ»§ÇëºöÂÔ´Ë×Ö¶Î)
+            // å¯é€‰:æ¨¡æ¿ä¸­çš„å˜é‡æ›¿æ¢JSONä¸²,å¦‚æ¨¡æ¿å†…å®¹ä¸º"äº²çˆ±çš„${name},æ‚¨çš„éªŒè¯ç ä¸º${code}"æ—¶,æ­¤å¤„çš„å€¼ä¸º
+            // å‹æƒ…æç¤º:å¦‚æœJSONä¸­éœ€è¦å¸¦æ¢è¡Œç¬¦,è¯·å‚ç…§æ ‡å‡†çš„JSONåè®®å¯¹æ¢è¡Œç¬¦çš„è¦æ±‚,æ¯”å¦‚çŸ­ä¿¡å†…å®¹ä¸­åŒ…å«\r\nçš„æƒ…å†µåœ¨JSONä¸­éœ€è¦è¡¨ç¤ºæˆ\\r\\n,å¦åˆ™ä¼šå¯¼è‡´JSONåœ¨æœåŠ¡ç«¯è§£æå¤±è´¥
+            request.setTemplateParam("{\"code\":\"" + verifyCode + "\"}" );
+            // å¯é€‰-ä¸Šè¡ŒçŸ­ä¿¡æ‰©å±•ç (æ‰©å±•ç å­—æ®µæ§åˆ¶åœ¨7ä½æˆ–ä»¥ä¸‹ï¼Œæ— ç‰¹æ®Šéœ€æ±‚ç”¨æˆ·è¯·å¿½ç•¥æ­¤å­—æ®µ)
             // request.setSmsUpExtendCode("90997");
-            // ¿ÉÑ¡:outIdÎªÌá¹©¸øÒµÎñ·½À©Õ¹×Ö¶Î,×îÖÕÔÚ¶ÌĞÅ»ØÖ´ÏûÏ¢ÖĞ½«´ËÖµ´ø»Ø¸øµ÷ÓÃÕß
+            // å¯é€‰:outIdä¸ºæä¾›ç»™ä¸šåŠ¡æ–¹æ‰©å±•å­—æ®µ,æœ€ç»ˆåœ¨çŸ­ä¿¡å›æ‰§æ¶ˆæ¯ä¸­å°†æ­¤å€¼å¸¦å›ç»™è°ƒç”¨è€…
             // request.setOutId("yourOutId");
-            // ÇëÇóÊ§°ÜÕâÀï»áÅ×ClientExceptionÒì³£
+            // è¯·æ±‚å¤±è´¥è¿™é‡Œä¼šæŠ›ClientExceptionå¼‚å¸¸
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
+            if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK" )) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("mobile", phoneNumber);
                 map.put("verifyCode", verifyCode);
                 return R.ok(map);
             }
-            return R.error(500, "·¢ËÍ´íÎó");
+            return R.error(500, "å‘é€é”™è¯¯" );
         } catch (ServerException e) {
             e.printStackTrace();
-            return R.error(500, "¶ÌĞÅ·şÎñ³ö´í");
+            return R.error(500, "çŸ­ä¿¡æœåŠ¡å‡ºé”™" );
         } catch (ClientException e) {
             e.printStackTrace();
-            return R.error(500, "¶ÌĞÅ·şÎñ³ö´í");
+            return R.error(500, "çŸ­ä¿¡æœåŠ¡å‡ºé”™" );
         }
 
     }

@@ -5,9 +5,11 @@ import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.service.UserLoginService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +79,18 @@ public class UserLoginController {
     @PostMapping("/inner/userLogin/registerLogin")
     public String registerLogin(@RequestBody Map<String,Object> map){
         return userLoginService.selectUid(map);
+    }
+
+    @PostMapping("updatepwd")
+    public String updatepassword(){
+        List<UserLoginEntity> list = userLoginService.selectList(new EntityWrapper<UserLoginEntity>());
+        list.stream().forEach(u->{
+            String salt = RandomStringUtils.randomAlphanumeric(16);
+            u.setSalt(salt);
+            u.setPassword(Encrypt.SHA256(u.getPassword()+salt));
+        });
+        userLoginService.updateBatchById(list);
+        return "success";
     }
 
 }

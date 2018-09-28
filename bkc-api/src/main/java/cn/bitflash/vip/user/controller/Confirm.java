@@ -61,32 +61,34 @@ public class Confirm {
         String code = JSON.parseObject(json).getString("status");
         if (code.equals("01") || code.equals("1")) {
             info.setIsAuth(Common.AUTHENTICATION);
+            info.setRealname(realname);
+            info.setIdNumber(idnum);
             userFeign.updateUserInfoById(info);
         }
         Map<String, Object> map = new HashMap<>();
         switch (code) {
             case "01":
-                map.put("code", "0");
+                map.put("status", "0");
                 map.put("msg", "实名认证通过!");
                 break;
             case "02":
-                map.put("code", "02");
+                map.put("status", "02");
                 map.put("msg", "实名认证不通过！!");
                 break;
             case "202":
-                map.put("code", "202");
+                map.put("status", "202");
                 map.put("msg", "无法验证！");
                 break;
             case "203":
-                map.put("code", "203");
+                map.put("status", "203");
                 map.put("msg", "异常情况！");
                 break;
             case "204":
-                map.put("code", "204");
+                map.put("status", "204");
                 map.put("msg", "姓名格式不正确！");
                 break;
             case "205":
-                map.put("code", "205");
+                map.put("status", "205");
                 map.put("msg", "身份证格式不正确！");
                 break;
 

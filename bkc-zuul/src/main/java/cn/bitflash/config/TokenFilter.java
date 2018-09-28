@@ -85,6 +85,9 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("/user/findLoginPwd") != -1) {
             return false;
         }
+        if (url.indexOf("/bitflash/selectPriceLinechart") != -1) {
+            return false;
+        }
         return true;
     }
 

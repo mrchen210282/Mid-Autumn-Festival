@@ -12,6 +12,15 @@ public class ImgForm {
     @NotBlank(message = "账户不能为空")
     private String account;
 
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getImg() {
         return img;

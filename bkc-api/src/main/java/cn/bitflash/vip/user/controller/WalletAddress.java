@@ -79,7 +79,7 @@ public class WalletAddress {
     public R getAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid){
         UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
         if(userWalletAddressEntity == null){
-            return R.ok().put("code","0");
+            return R.error("钱包不存在！");
         }
         return R.ok().put("userWalletAddressEntity",userWalletAddressEntity);
     }

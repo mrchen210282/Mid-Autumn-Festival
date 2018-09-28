@@ -20,6 +20,7 @@ public class UserInfoEntity implements Serializable {
 
     private String isInvited;
 
+    //头像
     private String avatar;
 
     public String getUid() {
