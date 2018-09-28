@@ -45,6 +45,17 @@ public class UserLoginController {
     }
 
     /**
+     * updateByMobile
+     *
+     * @return
+     */
+    @PostMapping("/inner/userLogin/updateByMobile")
+    public boolean updateByMobile(@RequestBody JSONObject json) throws Exception {
+        UserLoginEntity entity = (UserLoginEntity) JSONObject.parseObject(json.toString(), UserLoginEntity.class);
+        return userLoginService.update(entity,new EntityWrapper<UserLoginEntity>().eq("mobile",entity.getMobile()));
+    }
+
+    /**
      * insert
      *
      * @return
