@@ -11,6 +11,7 @@ import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class LoginPwd {
         UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
         String oldPasswd = Encrypt.SHA256(oldPwd + user.getSalt());
         if (oldPasswd.equals(user.getPassword())) {
-            String salt = RandomNumUtil.nBit(4);
+            String salt = RandomStringUtils.randomAlphanumeric(16);
             user.setSalt(salt);
             user.setPassword( Encrypt.SHA256(newPwd + salt));
             userFeign.updateUserById(user);
@@ -44,7 +45,7 @@ public class LoginPwd {
     @ApiOperation("找回登录密码")
     public R findLoginPwd(@ApiParam @RequestParam String mobile, @ApiParam @RequestParam String newPwd) {
         UserLoginEntity userEntity = new UserLoginEntity();
-        String salt = RandomNumUtil.nBit(4);
+        String salt = RandomStringUtils.randomAlphanumeric(16);
         userEntity.setSalt(salt);
         userEntity.setPassword(Encrypt.SHA256(newPwd + salt));
         userEntity.setMobile(mobile);
