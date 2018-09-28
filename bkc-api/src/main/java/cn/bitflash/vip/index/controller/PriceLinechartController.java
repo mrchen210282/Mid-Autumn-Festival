@@ -30,7 +30,6 @@ public class PriceLinechartController {
      *
      * @return
      */
-    @Login
     @PostMapping("selectPriceLinechart")
     public R selectPriceLinechart() {
         PriceLinechartEntity priceLinechartEntity = indexFeign.selectPriceLinechart();
@@ -43,8 +42,19 @@ public class PriceLinechartController {
 
         //查询昨天的汇率进行比较
         Date yesterday = cal.getTime();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String yester = dateFormat.format(yesterday);
+
+        Date yesterDayD = null;
+        try {
+            yesterDayD = dateFormat.parse(yester);
+        } catch (Exception e) {
+            e.printStackTrace();;
+        }
+
         String subtraction = "";
-        List<PriceLinechartEntity> priceLinechartList = indexFeign.selectLineChartYesterDayByDate(yesterday);
+        List<PriceLinechartEntity> priceLinechartList = indexFeign.selectLineChartYesterDayByDate(yesterDayD);
         if (null != priceLinechartList && priceLinechartList.size() > 0) {
             PriceLinechartEntity priceLinechart = priceLinechartList.get(0);
             float dValue = priceLinechartEntity.getRate() - priceLinechart.getRate();

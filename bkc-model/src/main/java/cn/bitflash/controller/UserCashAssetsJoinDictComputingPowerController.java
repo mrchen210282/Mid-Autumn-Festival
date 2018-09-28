@@ -24,6 +24,7 @@ public class UserCashAssetsJoinDictComputingPowerController {
      */
     @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
     public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid) {
-        return userCashAssetsJoinDictComputingPowerService.selectUserCashAssetsJoinDictComputingPower(uid);
+        UserCashAssetsJoinDictComputingPowerBean userCashAssetsJoinDictComputingPowerBean = userCashAssetsJoinDictComputingPowerService.selectUserCashAssetsJoinDictComputingPower(uid);
+        return userCashAssetsJoinDictComputingPowerBean;
     }
 }
