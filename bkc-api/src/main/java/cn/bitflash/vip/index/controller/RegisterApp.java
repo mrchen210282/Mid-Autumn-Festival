@@ -1,10 +1,10 @@
 package cn.bitflash.vip.index.controller;
 
-import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
-import cn.bitflash.utils.RandomNumUtil;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import cn.bitflash.vip.user.controller.WalletAddress;
 import io.swagger.annotations.Api;
@@ -31,18 +31,23 @@ public class RegisterApp {
 
     @GetMapping("registerWeb")
     public R registerWeb(@RequestParam String mobile, @RequestParam String pwd,
-                       @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
+                         @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         UserLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
         if (oldUser != null) {
             return R.error(501, "手机号已经存在");
         }
-
-
+        String code[] = invitationCode.split("-");
+        String invitCode = code[0];
+        String area = code[1];
+        UserInvitationCodeEntity pCode = indexFeign.selectInvitationCodeByCode(invitCode);
+        if (pCode == null || !area.equals("R") || !area.equals("C") || !area.equals("L")) {
+            return R.error("邀请码错误！");
+        }
         UserLoginEntity us = new UserLoginEntity();
         us.setMobile(mobile);
         String salt = RandomStringUtils.randomAlphanumeric(16);
-        String finalPwd = Encrypt.SHA256(pwd+salt);
+        String finalPwd = Encrypt.SHA256(pwd + salt);
         us.setPassword(finalPwd);
         us.setSalt(salt);
         //初始化user_login表
@@ -56,18 +61,18 @@ public class RegisterApp {
         WalletAddress walletAddress = new WalletAddress();
         try {
             boolean stu = walletAddress.createWalletAddress(uid);
-            if(!stu){
+            if (!stu) {
                 return R.error("注册失败");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return R.error("注册失败");
         }
-        if(!flag2){
+        if (!flag2) {
             return R.error("注册失败");
         }
 
 
-        logger.info("注册手机号:"+mobile+",邀请码："+invitationCode);
+        logger.info("注册手机号:" + mobile + ",邀请码：" + invitationCode);
         return R.ok("注册成功");
     }
 

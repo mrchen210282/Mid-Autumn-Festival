@@ -83,13 +83,19 @@ public class Vip {
         Double leftcha = post1.getDouble("left") - post0.getDouble("left");
         Double rightcha = post1.getDouble("right") - post0.getDouble("right");
         Double centercha = post1.getDouble("center") - post0.getDouble("center");
-        //float rightcha = post1.getRight() - post0.getRight();
-        //float centercha = post1.getCenter() - post0.getCenter();
         Double sumcha = leftcha + rightcha + centercha;
         if (sumcha > digitalAssets.getAvailable().doubleValue()) {
             return R.error("bkc数量不够");
         }
+        //扣除可用的bkc
+        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
+        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
+        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
+        levelFeign.updateDigitalAssetsByUid(digitalAssets);
 
+        //更新算力
+        cash.setPowerLevel(power.get(1).getLevel());
+        levelFeign.updateUserCashAssetsById(cash);
         //如果已经排过点了
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         if (relation != null) {
@@ -184,15 +190,7 @@ public class Vip {
                 }
                 break;
         }
-        //扣除可用的bkc
-        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
-        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
-        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
-        levelFeign.updateDigitalAssetsByUid(digitalAssets);
 
-        //更新算力
-        cash.setPowerLevel(power.get(1).getLevel());
-        levelFeign.updateUserCashAssetsById(cash);
         return R.ok();
     }
 
