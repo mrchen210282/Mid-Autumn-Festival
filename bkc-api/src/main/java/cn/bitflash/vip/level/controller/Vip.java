@@ -10,6 +10,7 @@ import cn.bitflash.vip.level.feign.LevelFeign;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jnr.ffi.Struct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,25 +34,25 @@ public class Vip {
 
     @Login
     @PostMapping("getUserLevelInfo")
-    public R getUserLevelInfo(@RequestAttribute("uid") String uid){
+    public R getUserLevelInfo(@RequestAttribute("uid") String uid) {
         UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
-        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(),cash.getPowerLevel()+1);
+        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(), cash.getPowerLevel() + 1);
         UserPerformanceEntity performance = levelFeign.selectPerformanceByUid(uid);
         UserDigitalAssetsEntity digitalAssets = levelFeign.selectDigitalAssetsByUid(uid);
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         //当前算力
-        map.put("power",power.get(0).getPower());
+        map.put("power", power.get(0).getPower());
         //当前贝壳数量
-        map.put("bkc",digitalAssets.getPurchase());
+        map.put("bkc", digitalAssets.getPurchase());
         //当前业绩
-        map.put("nowPerformance",new ModelMap("left",performance.getLine1())
-                .addAttribute("center",performance.getLine2())
-                .addAttribute("right",performance.getLine3()));
+        map.put("nowPerformance", new ModelMap("left", performance.getLine1())
+                .addAttribute("center", performance.getLine2())
+                .addAttribute("right", performance.getLine3()));
         //下一级业绩
-        if(power.size()<2){
-            map.put("nextPerformance",JSONObject.parse(power.get(0).getPerformanceBenchmark()));
+        if (power.size() < 2) {
+            map.put("nextPerformance", JSONObject.parse(power.get(0).getPerformanceBenchmark()));
         }
-        map.put("nextPerformance",JSONObject.parse(power.get(1).getPerformanceBenchmark()));
+        map.put("nextPerformance", JSONObject.parse(power.get(1).getPerformanceBenchmark()));
         return R.ok(map);
     }
 
@@ -76,24 +77,19 @@ public class Vip {
          * 扣除冻结的bkc
          * 提升vip  userinfo
          */
-        Position post1 = (Position)JSONObject.parse(power.get(1).getPerformanceBenchmark());
-        Position post0 = (Position)JSONObject.parse(power.get(0).getPerformanceBenchmark());
-        float leftcha = post1.getLeft() - post0.getLeft();
-        float rightcha = post1.getRight() - post0.getRight();
-        float centercha = post1.getCenter() - post0.getCenter();
-        float sumcha = leftcha + rightcha + centercha;
-        if (sumcha > digitalAssets.getAvailable().floatValue()) {
+
+        JSONObject post1 = JSONObject.parseObject(power.get(1).getPerformanceBenchmark());
+        JSONObject post0 = JSONObject.parseObject(power.get(0).getPerformanceBenchmark());
+        Double leftcha = post1.getDouble("left") - post0.getDouble("left");
+        Double rightcha = post1.getDouble("right") - post0.getDouble("right");
+        Double centercha = post1.getDouble("center") - post0.getDouble("center");
+        //float rightcha = post1.getRight() - post0.getRight();
+        //float centercha = post1.getCenter() - post0.getCenter();
+        Double sumcha = leftcha + rightcha + centercha;
+        if (sumcha > digitalAssets.getAvailable().doubleValue()) {
             return R.error("bkc数量不够");
         }
-        //扣除可用的bkc
-        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
-        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
-        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
-        levelFeign.updateDigitalAssetsByUid(digitalAssets);
 
-        //更新算力
-        cash.setPowerLevel(power.get(1).getLevel());
-        levelFeign.updateUserCashAssetsById(cash);
         //如果已经排过点了
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         if (relation != null) {
@@ -175,13 +171,28 @@ public class Vip {
                         //     o     情况：不存在右区  实现     o
                         //  o  o  o                       o  o  o
                         // o                                   o
+
                         List<UserRelationEntity> child2_user = f_user.stream().filter((u) ->
                                 u.getLft() >= ue2.getLft() && u.getRgt() <= ue2.getRgt()).collect(Collectors.toList());
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "R");
+                        if(child2_user.size()==1){
+                            levelFeign.insertTreeNode(child2_user.get(0).getUid(),uid,invitCode,"R");
+                        }else{
+
+                            levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "R");
+                        }
                     }
                 }
                 break;
         }
+        //扣除可用的bkc
+        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
+        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
+        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
+        levelFeign.updateDigitalAssetsByUid(digitalAssets);
+
+        //更新算力
+        cash.setPowerLevel(power.get(1).getLevel());
+        levelFeign.updateUserCashAssetsById(cash);
         return R.ok();
     }
 
