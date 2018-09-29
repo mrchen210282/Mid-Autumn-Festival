@@ -5,12 +5,15 @@ import cn.bitflash.entity.PriceLinechartEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.index.feign.IndexFeign;
 import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +25,8 @@ import java.util.List;
 @Api(value = "首页贝壳信息", tags = {"首页贝壳信息"})
 public class PriceLinechartController {
 
+    private final Logger logger = LoggerFactory.getLogger(PriceLinechartController.class);
+
     @Autowired
     private IndexFeign indexFeign;
 
@@ -32,64 +37,65 @@ public class PriceLinechartController {
      */
     @PostMapping("selectPriceLinechart")
     public R selectPriceLinechart() {
-        PriceLinechartEntity priceLinechartEntity = indexFeign.selectPriceLinechart();
 
-
-        Date date = new Date();
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, -1);
-
-        //查询昨天的汇率进行比较
-        Date yesterday = cal.getTime();
-
+        //取得当天汇率
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String yester = dateFormat.format(yesterday);
+        Date date = new Date();
+        String today = dateFormat.format(date);
+        List<PriceLinechartEntity> priceLinechartToday = indexFeign.selectLineChartYesterDayByDate(today);
+        PriceLinechartEntity priceLinechartEntity = null;
+        int symbol = 1;
+        if(null != priceLinechartToday && priceLinechartToday.size() > 0) {
+            priceLinechartEntity = priceLinechartToday.get(0);
 
-        Date yesterDayD = null;
-        try {
-            yesterDayD = dateFormat.parse(yester);
-        } catch (Exception e) {
-            e.printStackTrace();;
-        }
+            //查询昨天的汇率进行比较
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(date);
+            cal.add(Calendar.DATE, -1);
+            Date yesterday = cal.getTime();
+            String yester = dateFormat.format(yesterday);
+            List<PriceLinechartEntity> priceLinechartList = indexFeign.selectLineChartYesterDayByDate(yester);
 
-        String subtraction = "";
-        List<PriceLinechartEntity> priceLinechartList = indexFeign.selectLineChartYesterDayByDate(yesterDayD);
-        if (null != priceLinechartList && priceLinechartList.size() > 0) {
-            PriceLinechartEntity priceLinechart = priceLinechartList.get(0);
-            float dValue = priceLinechartEntity.getRate() - priceLinechart.getRate();
-            if(dValue > 0) {
-                subtraction = "+";
-            } else if(dValue == 0){
-                subtraction = "=";
+            String subtraction = "";
+
+            if (null != priceLinechartList && priceLinechartList.size() > 0) {
+                PriceLinechartEntity priceLinechart = priceLinechartList.get(0);
+
+                //计算比率,并保留两位小数
+                float ratio = (priceLinechartEntity.getPrice() - priceLinechart.getPrice()) / priceLinechart.getPrice();
+                float ratiof = Math.abs(ratio);
+                String ratioStr = String.format("%.2f",ratiof);
+
+                //比较今天和昨天是否增加
+                float dValue = priceLinechartEntity.getPrice() - priceLinechart.getPrice();
+                if(dValue > 0) {
+                    subtraction = "+";
+                    symbol = 1;
+
+                } else if(dValue == 0){
+                    subtraction = "=";
+                    symbol = 1;
+                } else {
+                    subtraction = "-";
+                    symbol = 0;
+                }
+                priceLinechartEntity.setSymbol(symbol);
+                priceLinechartEntity.setRateStr(subtraction + ratioStr + "%");
             } else {
-                subtraction = "-";
+                logger.info("无昨天汇率数据！");
+                //昨天数据为空则不能计算，默认为0.00
+                priceLinechartEntity.setRateStr("+0.00%");
+                priceLinechartEntity.setSymbol(symbol);
             }
         } else {
-            subtraction = "+";
-        }
-        priceLinechartEntity.setSubtraction(subtraction);
-
-        if (null != priceLinechartEntity) {
-            String rate = String.valueOf(priceLinechartEntity.getRate());
-            String[] rates = rate.split("\\.");
-            StringBuffer buf = new StringBuffer();
-            if (rates.length > 0) {
-                String rate1 = rates[1];
-                if (rate1.length() == 1) {
-                    buf.append(rates[0]);
-                    buf.append(".");
-                    buf.append(rate1);
-                    buf.append("0%");
-                } else if (rate1.length() == 0) {
-                    buf.append(rates[0]);
-                    buf.append(".00%");
-                }
-            } else {
-                buf.append(rate);
-                buf.append("%");
-            }
-            priceLinechartEntity.setRateStr(buf.toString());
+            logger.info("无当天汇率数据！");
+            PriceLinechartEntity priceLinechart = indexFeign.selectPriceLinechart();
+            //今天数据为空则不能计算，默认为0.00
+            priceLinechartEntity = new PriceLinechartEntity();
+            priceLinechartEntity.setRateStr("+0.00%");
+            priceLinechartEntity.setSymbol(symbol);
+            priceLinechartEntity.setCny(priceLinechart.getCny());
+            priceLinechartEntity.setUs(priceLinechart.getUs());
         }
         return R.ok().put("priceLinechart", priceLinechartEntity);
     }
@@ -111,6 +117,10 @@ public class PriceLinechartController {
 //        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
 //        String str = format.format(yesterday);
 //        System.out.println(str);
+
+        float s = 0.12f;
+        float r = Math.abs(s);
+        System.out.println(r);
 
         float a = 0.8f;
         float b = 0.8f;

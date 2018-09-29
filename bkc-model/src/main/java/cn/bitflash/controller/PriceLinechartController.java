@@ -84,7 +84,7 @@ public class PriceLinechartController {
      * @return
      */
     @PostMapping("/inner/priceLinechart/selectLineChartYesterDayByDate")
-    public List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") Date yesterday){
+    public List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") String yesterday){
         List<PriceLinechartEntity> priceLinechartEntitiesList = priceLinechartService.selectList(new EntityWrapper<PriceLinechartEntity>().eq("rate_time", yesterday));
         return priceLinechartEntitiesList;
     }

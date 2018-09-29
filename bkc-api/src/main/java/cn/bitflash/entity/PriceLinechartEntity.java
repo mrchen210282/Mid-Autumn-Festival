@@ -26,7 +26,7 @@ public class PriceLinechartEntity implements Serializable {
     //转换为String类型
     private String rateStr;
 
-    private String subtraction;
+    private int symbol;
 
     public LocalDateTime getRateTime() {
         return rateTime;
@@ -42,14 +42,6 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getSubtraction() {
-        return subtraction;
-    }
-
-    public void setSubtraction(String subtraction) {
-        this.subtraction = subtraction;
     }
 
     public float getRate() {
@@ -90,5 +82,13 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setRateStr(String rateStr) {
         this.rateStr = rateStr;
+    }
+
+    public int getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(int symbol) {
+        this.symbol = symbol;
     }
 }
