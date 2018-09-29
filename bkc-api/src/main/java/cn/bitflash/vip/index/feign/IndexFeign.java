@@ -83,4 +83,8 @@ public interface IndexFeign {
      */
     @PostMapping("/inner/priceLinechart/selectLineChartYesterDayByDate")
     public List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") String yesterday);
+
+
+    @PostMapping("/inner/userInvitationCode/selectInvitationCodeByCode")
+    UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 }

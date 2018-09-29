@@ -21,7 +21,7 @@ public interface UserFeign {
     @PostMapping("/inner/userLogin/updateById")
     Boolean updateUserById(@RequestBody UserLoginEntity loginEntity);
 
-    @PostMapping("/inner/userLogin/updateById")
+    @PostMapping("/inner/userLogin/updateByMobile")
     Boolean updateUserByMobile(@RequestBody UserLoginEntity loginEntity);
 
 
