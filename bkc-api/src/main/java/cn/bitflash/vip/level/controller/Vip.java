@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jnr.ffi.Struct;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,6 +103,11 @@ public class Vip {
             return R.ok();
         }
 
+        //初始化邀请码
+        UserInvitationCodeEntity codeEntity = new UserInvitationCodeEntity();
+        codeEntity.setUid(uid);
+        codeEntity.setCode(RandomStringUtils.randomAlphanumeric(8).toUpperCase());
+        levelFeign.insertInvitation(codeEntity);
         //没有排点，进行排点
         String code[] = userInfo.getInvitationCode().split("-");
         String invitCode = code[0];
