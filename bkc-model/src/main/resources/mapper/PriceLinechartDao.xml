@@ -7,4 +7,12 @@
       select us,rate,cny,price,bkc from price_linechart order by rate_time desc limit 1
     </select>
 
+    <select id="selectPriceUs" resultType="cn.bitflash.entity.PriceLinechartEntity">
+      select us,rate,cny,price,bkc from price_linechart where 1= 1 and us > 0 order by rate_time desc limit 1
+    </select>
+
+    <select id="selectPriceCny" resultType="cn.bitflash.entity.PriceLinechartEntity">
+      select us,rate,cny,price,bkc from price_linechart where 1= 1 and cny > 0 order by rate_time desc limit 1
+    </select>
+
 </mapper>

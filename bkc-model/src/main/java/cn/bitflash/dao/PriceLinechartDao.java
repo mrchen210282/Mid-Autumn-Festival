@@ -29,4 +29,8 @@ import java.util.List;
 public interface PriceLinechartDao extends BaseMapper<PriceLinechartEntity> {
 
     public PriceLinechartEntity selectPriceLinechart();
+
+    public PriceLinechartEntity selectPriceUs();
+
+    public PriceLinechartEntity selectPriceCny();
 }
