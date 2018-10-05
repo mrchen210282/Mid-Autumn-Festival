@@ -27,6 +27,10 @@ public interface LevelFeign {
     @PostMapping("/inner/userRelation/selectTreeNodes")
     List<UserRelationEntity> selectTreeNodes(@RequestParam("uid") String uid);
 
+    @PostMapping("/inner/userRelation/insertTreeNode")
+    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
+                           @RequestParam("code") String code,@RequestParam("area")String area);
+
     /**
      * user_invitation_code 表
      */
@@ -36,9 +40,8 @@ public interface LevelFeign {
     @PostMapping("/inner/userInvitationCode/selectInvitationCodeByCode")
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 
-    @PostMapping("/inner/userRelation/insertTreeNode")
-    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
-                           @RequestParam("code") String code,@RequestParam("area")String area);
+    @PostMapping("/inner/userInvitationCode/insert")
+    Boolean insertInvitation(@RequestBody UserInvitationCodeEntity code);
 
 
     /**
