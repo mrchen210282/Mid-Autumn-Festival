@@ -3,7 +3,7 @@ package cn.bitflash.entity;
 import java.util.Date;
 
 /**
- * npc兑换实体类
+ * npc兑换历史实体类
  */
 public class UserNpcTradeHistoryEntity {
 

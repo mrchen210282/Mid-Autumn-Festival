@@ -26,7 +26,7 @@ public class UserAssetsNpcEntity {
     private float totelRelease;
 
     //npc可用资产
-    private float npcAssets;
+    private float availableAssets;
 
     //npc购买价格
     private float npcPrice;
@@ -80,11 +80,11 @@ public class UserAssetsNpcEntity {
     }
 
     public float getNpcAssets() {
-        return npcAssets;
+        return availableAssets;
     }
 
     public void setNpcAssets(float npcAssets) {
-        this.npcAssets = npcAssets;
+        this.availableAssets = npcAssets;
     }
 
     public float getNpcPrice() {
