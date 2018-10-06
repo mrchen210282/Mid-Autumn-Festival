@@ -2,7 +2,7 @@ package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserInvitationCodeEntity;
-import cn.bitflash.entity.UserLoginEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.index.feign.IndexFeign;
@@ -33,7 +33,7 @@ public class RegisterApp {
     public R registerWeb(@RequestParam String mobile, @RequestParam String pwd,
                          @RequestParam("invitationCode") String invitationCode, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        UserLoginEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
+        UserSecretEntity oldUser = indexFeign.selectUserLoginEntityByMobile(mobile);
         if (oldUser != null) {
             return R.error(501, "手机号已经存在");
         }
@@ -41,10 +41,10 @@ public class RegisterApp {
         String invitCode = code[0];
         String area = code[1];
         UserInvitationCodeEntity pCode = indexFeign.selectInvitationCodeByCode(invitCode);
-        if (pCode == null || !area.equals("R") || !area.equals("C") || !area.equals("L")) {
+        if (pCode == null || !area.equals("R") || !area.equals("L")) {
             return R.error("邀请码错误！");
         }
-        UserLoginEntity us = new UserLoginEntity();
+        UserSecretEntity us = new UserSecretEntity();
         us.setMobile(mobile);
         String salt = RandomStringUtils.randomAlphanumeric(16);
         String finalPwd = Encrypt.SHA256(pwd + salt);
@@ -57,13 +57,11 @@ public class RegisterApp {
         info.setUid(uid);
         info.setInvitationCode(invitationCode);
         info.setIsInvited("Y");
-        Boolean flag2 = indexFeign.updateUserInfoById(info);
+        Boolean flag2 = indexFeign.insertUserInfoById(info);
+        //创建钱包地址
         WalletAddress walletAddress = new WalletAddress();
         try {
-            boolean stu = walletAddress.createWalletAddress(uid);
-            if (!stu) {
-                return R.error("注册失败");
-            }
+            walletAddress.createWalletAddress(uid);
         } catch (Exception e) {
             return R.error("注册失败");
         }
@@ -71,10 +69,8 @@ public class RegisterApp {
             return R.error("注册失败");
         }
 
-
         logger.info("注册手机号:" + mobile + ",邀请码：" + invitationCode);
         return R.ok("注册成功");
     }
-
 
 }

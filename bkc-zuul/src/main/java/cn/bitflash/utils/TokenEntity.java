@@ -28,15 +28,8 @@ public class TokenEntity implements Serializable {
      * 用户ID
      */
     private String uid;
+
     private String token;
-    /**
-     * 过期时间
-     */
-    private Date expireTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     private String mobile;
 
@@ -70,31 +63,6 @@ public class TokenEntity implements Serializable {
         return token;
     }
 
-    /**
-     * 设置：过期时间
-     */
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
-    }
 
-    /**
-     * 获取：过期时间
-     */
-    public Date getExpireTime() {
-        return expireTime;
-    }
 
-    /**
-     * 设置：更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
-     * 获取：更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
 }

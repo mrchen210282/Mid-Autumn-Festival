@@ -1,7 +1,7 @@
 package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserLoginEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.utils.*;
 import cn.bitflash.vip.index.entity.LoginForm;
@@ -37,7 +37,7 @@ public class LoginApp {
     public R login(@RequestBody LoginForm form) {
         // 表单校验
         ValidatorUtils.validateEntity(form);
-        UserLoginEntity user = indexFeign.selectUserLoginEntityByMobile(form.getMobile());
+        UserSecretEntity user = indexFeign.selectUserLoginEntityByMobile(form.getMobile());
         if (user == null) {
             return R.error("用户不存在");
         }
@@ -64,7 +64,7 @@ public class LoginApp {
 
     @Login
     @PostMapping("logout")
-    public R logout(@RequestAttribute(ApiLoginInterceptor.UID) String uid,@RequestHeader("token")String token) {
+    public R logout(@RequestAttribute(ApiLoginInterceptor.UID) String uid, @RequestHeader("token") String token) {
         String tokenKey = RedisDetail.REDIS_TOKEN + token;
         redisUtils.delete(tokenKey);
         return R.ok();

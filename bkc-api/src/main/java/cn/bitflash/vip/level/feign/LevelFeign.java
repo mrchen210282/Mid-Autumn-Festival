@@ -13,6 +13,11 @@ public interface LevelFeign {
 
 
     /**
+     * user_secret
+     */
+    @PostMapping
+    UserSecretEntity selectUserSecretById(@RequestParam("id") String id);
+    /**
      * user_info 表
      */
     @PostMapping("/inner/userInfo/selectById")
@@ -45,13 +50,11 @@ public interface LevelFeign {
 
 
     /**
-     * user_cash_Assets 表
+     * user_assets_hlb 表
      */
-    @PostMapping("/inner/userCashAssets/selectById")
-    UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
+    @PostMapping()
+    UserAssetsHlbEntity selectUserAssetsHlbByUid(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userCashAssets/updateById")
-    Boolean updateUserCashAssetsById(@RequestBody UserCashAssetsEntity cash);
 
     /**
      * user_performance 表
@@ -66,19 +69,28 @@ public interface LevelFeign {
     String getPath(@RequestParam("id")Integer id);
 
     /**
-     * dict_computer_power 表
+     * user_assets_hlb 表
      */
-    @PostMapping("/inner/dictComputingPower/selectComputerPowersById")
-    List<DictComputingPowerEntity> selectComputerPowersById(@RequestParam("level1")Integer level1,@RequestParam("level2")Integer level2);
+    @PostMapping
+    UserAssetsHlbEntity selectUserAssetsHlbById(@RequestParam("id")String id);
 
+    @PostMapping
+    Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
     /**
-     * user_digital_assets 表
+     * user_assets_npc 表
      */
-    @PostMapping("/inner/userDigitalAssets/selectById")
-    UserDigitalAssetsEntity selectDigitalAssetsByUid(@RequestParam("id")String id);
+    @PostMapping
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userDigitalAssets/updateById")
-    Boolean updateDigitalAssetsByUid(@RequestBody UserDigitalAssetsEntity dig);
+    @PostMapping
+    Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
+
+    /**
+     * system_param 表
+     */
+    @PostMapping
+    String getVal(@RequestParam("key") String key);
+
 
 }

@@ -4,22 +4,16 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.Common;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
-import cn.bitflash.vip.level.entity.Position;
+import cn.bitflash.vip.level.entity.NpcForm;
 import cn.bitflash.vip.level.feign.LevelFeign;
-import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jnr.ffi.Struct;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,81 +28,52 @@ public class Vip {
     private LevelFeign levelFeign;
 
     @Login
-    @PostMapping("getUserLevelInfo")
-    public R getUserLevelInfo(@RequestAttribute("uid") String uid) {
-        UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
-        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(), cash.getPowerLevel() + 1);
-        UserPerformanceEntity performance = levelFeign.selectPerformanceByUid(uid);
-        UserDigitalAssetsEntity digitalAssets = levelFeign.selectDigitalAssetsByUid(uid);
-        Map<String, Object> map = new HashMap<>();
-        //当前算力
-        map.put("power", power.get(0).getPower());
-        //当前贝壳数量
-        map.put("bkc", digitalAssets.getPurchase());
-        //当前业绩
-        map.put("nowPerformance", new ModelMap("left", performance.getLine1())
-                .addAttribute("center", performance.getLine2())
-                .addAttribute("right", performance.getLine3()));
-        //下一级业绩
-        if (power.size() < 2) {
-            map.put("nextPerformance", JSONObject.parse(power.get(0).getPerformanceBenchmark()));
-        }
-        map.put("nextPerformance", JSONObject.parse(power.get(1).getPerformanceBenchmark()));
-        return R.ok(map);
-    }
-
-    @Login
     @PostMapping("updateLevel")
     @ApiOperation("提升算力")
-    public R updateVipLevel(@RequestAttribute("uid") String uid) {
-
+    public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestBody NpcForm form) {
+        //1.验证 password
+        UserSecretEntity secretEntity = levelFeign.selectUserSecretById(uid);
+        if (!Encrypt.SHA256(form.getPassword() + secretEntity.getSalt()).equals(secretEntity.getPassword())) {
+            return R.error("密码错误");
+        }
+        //2.验证 邀请码
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
-
-        UserCashAssetsEntity cash = levelFeign.selectCashAssetsByUid(uid);
-        List<DictComputingPowerEntity> power = levelFeign.selectComputerPowersById(cash.getPowerLevel(), cash.getPowerLevel() + 1);
-        if (power.size() < 2) {
-            return R.error("更高算力暂未开放");
+        //3.验证 NPC数量 单价
+        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
+        if (npcEntity.getNpcAssets() < form.getNpc()) {
+            return R.error("NPC数量不足");
         }
-        UserDigitalAssetsEntity digitalAssets = levelFeign.selectDigitalAssetsByUid(uid);
-
-        /**
-         * 扣除冻结的bkc
-         * 提升vip  userinfo
-         */
-
-        JSONObject post1 = JSONObject.parseObject(power.get(1).getPerformanceBenchmark());
-        JSONObject post0 = JSONObject.parseObject(power.get(0).getPerformanceBenchmark());
-        Double leftcha = post1.getDouble("left") - post0.getDouble("left");
-        Double rightcha = post1.getDouble("right") - post0.getDouble("right");
-        Double centercha = post1.getDouble("center") - post0.getDouble("center");
-        Double sumcha = leftcha + rightcha + centercha;
-        if (sumcha > digitalAssets.getAvailable().doubleValue()) {
-            return R.error("bkc数量不够");
+        //4.赠送比例
+        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
+        float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
+        float hlb = npc * form.getNpc() * giveRate;
+        if (hlb != form.getHlb()) {
+            return R.error("可换取的HLB数量有误");
         }
-        //扣除可用的bkc
-        digitalAssets.setAvailable(digitalAssets.getAvailable().subtract(new BigDecimal(sumcha)));
-        digitalAssets.setPurchase(new BigDecimal(sumcha).add(digitalAssets.getPurchase()));
-        digitalAssets.setFrozen(digitalAssets.getFrozen().add(new BigDecimal(sumcha)));
-        levelFeign.updateDigitalAssetsByUid(digitalAssets);
+        //5.添加可冻结hlb和冻结npc数量
+        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbByUid(uid);
+        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
+        levelFeign.updateUserAssetsHlb(hlbEntity);
+        npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());
+        npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
+        levelFeign.updateUserAssetsNpc(npcEntity);
+        //6.TODO 增加人数
 
-        //更新算力
-        cash.setPowerLevel(power.get(1).getLevel());
-        levelFeign.updateUserCashAssetsById(cash);
-        //如果已经排过点了
+        //7.验证排点
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         if (relation != null) {
             return R.ok();
         }
 
-        //初始化邀请码
+        //8.初始化邀请码
         UserInvitationCodeEntity codeEntity = new UserInvitationCodeEntity();
         codeEntity.setUid(uid);
         codeEntity.setCode(RandomStringUtils.randomAlphanumeric(8).toUpperCase());
         levelFeign.insertInvitation(codeEntity);
-        //没有排点，进行排点
+        //9.没有排点，进行排点
         String code[] = userInfo.getInvitationCode().split("-");
         String invitCode = code[0];
         String area = code[1];
@@ -134,20 +99,20 @@ public class Vip {
                     }
                 }
                 break;
-            case "C":
+            case "R":
                 if (size == 1) {
                     //等于1 = 没有左区，需要先排左区
                     throw new RRException("邀请码不正确");
                 }
                 //等于2代表直接父类下面开辟中区,或者左区下面只有一个点
                 else if (size == 2) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "C");
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "R");
                 } else if (size > 3) {
                     if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                         //   o 情况1   实现 o
                         //  o             o o
                         // o             o
-                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "C");
+                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "R");
                         return R.ok();
                     }
                     //筛选出右区第一个子节点
@@ -158,13 +123,13 @@ public class Vip {
                         //    o  情况2  实现 o
                         //   o o           o  o
                         //                   o
-                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "C");
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "R");
                     } else {
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "C");
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "R");
                     }
                 }
                 break;
-            case "R":
+           /* case "R":
                 if (size < 3 || f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                     //等于2 = 没有左区，中区，需要先排左区和中区
                     throw new RRException("邀请码不正确");
@@ -195,11 +160,10 @@ public class Vip {
                     }
                 }
                 break;
+        }*/
         }
-
         return R.ok();
     }
-
 
     public String getChildNode(List<UserRelationEntity> p1_user, Map<String, UserRelationEntity> map) {
         /**

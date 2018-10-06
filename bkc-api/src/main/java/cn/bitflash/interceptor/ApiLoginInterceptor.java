@@ -1,7 +1,7 @@
 package cn.bitflash.interceptor;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserLoginEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.RedisDetail;
 import cn.bitflash.utils.RedisUtils;
@@ -43,7 +43,7 @@ public class ApiLoginInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isBlank(token)) {
             throw new RRException("参数不能为空");
         }
-        UserLoginEntity login = redisUtils.get(RedisDetail.REDIS_TOKEN+token, UserLoginEntity.class);
+        UserSecretEntity login = redisUtils.get(RedisDetail.REDIS_TOKEN + token, UserSecretEntity.class);
         if (login == null) {
             throw new RRException("用户信息失效，请重新登录");
         }

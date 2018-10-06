@@ -23,6 +23,16 @@ public class UserInfoEntity implements Serializable {
     //头像
     private String avatar;
 
+    private String powerLevel;
+
+    public String getPowerLevel() {
+        return powerLevel;
+    }
+
+    public void setPowerLevel(String powerLevel) {
+        this.powerLevel = powerLevel;
+    }
+
     public String getUid() {
         return uid;
     }

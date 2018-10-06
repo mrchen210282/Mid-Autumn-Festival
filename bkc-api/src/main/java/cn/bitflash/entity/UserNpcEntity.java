@@ -1,18 +1,19 @@
 package cn.bitflash.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class UserDrawingEntity {
+/**
+ * npc兑换实体类
+ */
+public class UserNpcEntity {
 
     private String id;
 
     private String uid;
 
-    private BigDecimal money;
+    private Float totalHlb;
 
-    //WeChat Alipay Bank
-    private String type;
+    private Float totalNpc;
 
     private Date createTime;
 
@@ -32,20 +33,20 @@ public class UserDrawingEntity {
         this.uid = uid;
     }
 
-    public BigDecimal getMoney() {
-        return money;
+    public Float getTotalHlb() {
+        return totalHlb;
     }
 
-    public void setMoney(BigDecimal money) {
-        this.money = money;
+    public void setTotalHlb(Float totalHlb) {
+        this.totalHlb = totalHlb;
     }
 
-    public String getType() {
-        return type;
+    public Float getTotalNpc() {
+        return totalNpc;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTotalNpc(Float totalNpc) {
+        this.totalNpc = totalNpc;
     }
 
     public Date getCreateTime() {

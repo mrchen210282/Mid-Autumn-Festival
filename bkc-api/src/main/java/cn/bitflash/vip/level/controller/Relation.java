@@ -1,7 +1,6 @@
 package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserCashAssetsEntity;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserPerformanceEntity;
 import cn.bitflash.utils.R;
@@ -30,20 +29,16 @@ public class Relation {
     @PostMapping("getRelation")
     @ApiOperation("显示社区详情")
     public R getRelation(@RequestAttribute("uid") String uid) {
-        UserCashAssetsEntity cashAssets = levelFeign.selectCashAssetsByUid(uid);
-        if (cashAssets.getPowerLevel() == null || cashAssets.getPowerLevel() == 0) {
-            return R.error("尚未加入社区");
-        }
         Map<String, Object> map = new HashMap<>();
         UserPerformanceEntity user = levelFeign.selectPerformanceByUid(uid);
 
-        BigDecimal[] lines = {user.getLine1(),user.getLine2(),user.getLine3()};
-        int i = 0 ;
-        map.put("show",i);
-        for(BigDecimal line:lines){
-           if(line.doubleValue()>0.0d){
-               map.put("show",++i);
-           }
+        BigDecimal[] lines = {user.getLine1(), user.getLine2(), user.getLine3()};
+        int i = 0;
+        map.put("show", i);
+        for (BigDecimal line : lines) {
+            if (line.doubleValue() > 0.0d) {
+                map.put("show", ++i);
+            }
         }
         map.put("line", user);
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
