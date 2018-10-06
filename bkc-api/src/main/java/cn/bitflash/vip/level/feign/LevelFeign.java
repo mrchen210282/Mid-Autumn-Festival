@@ -15,7 +15,7 @@ public interface LevelFeign {
     /**
      * user_secret
      */
-    @PostMapping
+    @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectUserSecretById(@RequestParam("id") String id);
     /**
      * user_info 表

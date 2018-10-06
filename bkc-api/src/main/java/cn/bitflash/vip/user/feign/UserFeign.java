@@ -14,7 +14,7 @@ import java.util.Map;
 public interface UserFeign {
 
     /**
-     * user_login表
+     * user_secret 表
      */
     @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectUserLoginByUid(@RequestParam("id") String id);
