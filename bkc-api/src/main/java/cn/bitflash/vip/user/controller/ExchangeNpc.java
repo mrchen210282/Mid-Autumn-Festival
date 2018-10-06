@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("npc")
@@ -67,6 +69,24 @@ public class ExchangeNpc {
         npcEntity.setTotalNpc(npcEntity.getTotalNpc()-npc);
         userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
+    }
+
+    @Login
+    @PostMapping("showNpcNum")
+    @ApiOperation("获取npc数量")
+    public R showNpcNum(@RequestAttribute("uid")String uid){
+        Date now = new DateTime().withTimeAtStartOfDay().toDate();
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+        Map<String,Object> map =new HashMap<>();
+        UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
+        UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
+        //当前拥有的hlb
+        map.put("hlb",hlbNumEntity.getHlbAssets());
+        //当前拥有的npc
+        map.put("npc",npcNumEntity.getNpcAssets());
+        //可兑换的npc
+        map.put("allNpc",npcEntity.getTotalNpc());
+        return R.ok(map);
     }
 
 
