@@ -107,4 +107,16 @@ public class PriceLinechartController {
         PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectPriceLinechart();
         return priceLinechartEntity;
     }
+
+    @PostMapping("/inner/priceLinechart/selectPriceUs")
+    public PriceLinechartEntity selectPriceUs(){
+        PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectPriceUs();
+        return priceLinechartEntity;
+    }
+
+    @PostMapping("/inner/priceLinechart/selectPriceCny")
+    public PriceLinechartEntity selectPriceCny(){
+        PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectPriceCny();
+        return priceLinechartEntity;
+    }
 }

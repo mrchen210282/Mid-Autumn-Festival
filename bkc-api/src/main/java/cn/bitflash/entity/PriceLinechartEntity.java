@@ -17,11 +17,13 @@ public class PriceLinechartEntity implements Serializable {
 
     private float rate;
 
-    private float cny;
+    private BigDecimal cny;
+    private String cnyStr;
 
     private float bkc;
 
     private BigDecimal us;
+    private String usStr;
 
     //转换为String类型
     private String rateStr;
@@ -52,11 +54,11 @@ public class PriceLinechartEntity implements Serializable {
         this.rate = rate;
     }
 
-    public float getCny() {
+    public BigDecimal getCny() {
         return cny;
     }
 
-    public void setCny(float cny) {
+    public void setCny(BigDecimal cny) {
         this.cny = cny;
     }
 
@@ -90,5 +92,21 @@ public class PriceLinechartEntity implements Serializable {
 
     public void setSymbol(int symbol) {
         this.symbol = symbol;
+    }
+
+    public String getCnyStr() {
+        return cnyStr;
+    }
+
+    public void setCnyStr(String cnyStr) {
+        this.cnyStr = cnyStr;
+    }
+
+    public String getUsStr() {
+        return usStr;
+    }
+
+    public void setUsStr(String usStr) {
+        this.usStr = usStr;
     }
 }

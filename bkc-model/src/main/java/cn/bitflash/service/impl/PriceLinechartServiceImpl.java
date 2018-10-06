@@ -28,4 +28,12 @@ public class PriceLinechartServiceImpl extends ServiceImpl<PriceLinechartDao, Pr
     public PriceLinechartEntity selectPriceLinechart() {
         return baseMapper.selectPriceLinechart();
     }
+
+    public PriceLinechartEntity selectPriceUs() {
+        return baseMapper.selectPriceUs();
+    }
+
+    public PriceLinechartEntity selectPriceCny() {
+        return baseMapper.selectPriceCny();
+    }
 }
