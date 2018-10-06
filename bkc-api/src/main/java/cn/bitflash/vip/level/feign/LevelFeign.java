@@ -75,13 +75,13 @@ public interface LevelFeign {
     @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**
      * system_param 表
      */
-    @PostMapping
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
 

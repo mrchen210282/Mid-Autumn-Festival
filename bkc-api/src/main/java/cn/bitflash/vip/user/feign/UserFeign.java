@@ -76,19 +76,23 @@ public interface UserFeign {
     /**
      * system_param 表
      */
-    @PostMapping
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
     /**
      * daily_total_npc 表
      */
-    @PostMapping
-     DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+    @PostMapping("/inner/dailytotalnpc/selectById")
+    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+
+    @PostMapping("/inner/dailytotalnpc/update")
+    Boolean updateDailyTotalNpc(@RequestBody DailyTotalNpcEntity daily);
+
 
     /**
      * user_npc 表
      */
-    @PostMapping
+    @PostMapping("/inner/usernpchistory/insert")
     Boolean insertUserNpcEntity(@RequestBody UserNpcTradeHistoryEntity npcEntity);
 
     /**

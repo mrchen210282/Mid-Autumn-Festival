@@ -54,15 +54,18 @@ public class ExchangeNpc {
         userNpcTradeHistoryEntity.setTotalNpc(npc);
         userNpcTradeHistoryEntity.setCreateTime(new Date());
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
-        //扣除hlb
+        //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets()-form.getHlb());
         userFeign.updateUserAssetsHlb(hlbNumEntity);
-        //增加npc数量
+        //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         npcNumEntity.setNpcAssets(npcNumEntity.getNpcAssets()+npc);
         npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets()+npc);
         userFeign.updateUserAssetsNpc(npcNumEntity);
+        //扣除可兑换npc
+        npcEntity.setTotalNpc(npcEntity.getTotalNpc()-npc);
+        userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
     }
 
