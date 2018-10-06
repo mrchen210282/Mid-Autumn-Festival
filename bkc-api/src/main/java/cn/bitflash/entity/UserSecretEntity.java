@@ -28,9 +28,8 @@ import java.util.Date;
  *
  * @author eric
  */
-public class UserLoginEntity implements Serializable {
+public class UserSecretEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
 
     private String uid;
     /**
@@ -43,12 +42,22 @@ public class UserLoginEntity implements Serializable {
     @JSONField(serialize = false)
     private String password;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
-
     private String salt;
 
     private String token;
+
+    private String payPassword;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getMobile() {
         return mobile;
@@ -66,22 +75,6 @@ public class UserLoginEntity implements Serializable {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
     public String getSalt() {
         return salt;
     }
@@ -96,5 +89,21 @@ public class UserLoginEntity implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

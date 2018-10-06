@@ -2,8 +2,8 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserBankPaymentInfoEntity;
-import cn.bitflash.entity.UserLoginEntity;
 import cn.bitflash.entity.UserMobilePaymentInfoEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
@@ -43,13 +43,13 @@ public class PayUrl {
             @ApiImplicitParam(name = "account", dataType = "String")
     })
     public R uploadPayment(@RequestBody ImgForm imgForm, @RequestAttribute("uid") String uid) {
-        UserLoginEntity login = userFeign.selectUserLoginByUid(uid);
+        UserSecretEntity login = userFeign.selectUserLoginByUid(uid);
         String finalPass = Encrypt.SHA256(imgForm.getPassword() + login.getSalt());
         if (!finalPass.equals(login.getPassword())) {
             return R.error("密码错误");
         }
         ValidatorUtils.validateEntity(imgForm);
-        UserLoginEntity user = userFeign.selectUserLoginByUid(uid);
+        UserSecretEntity user = userFeign.selectUserLoginByUid(uid);
         String path = "/home/statics/qrcode/";
         //String path = "D:/";
         String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
@@ -131,8 +131,8 @@ public class PayUrl {
     @Login
     @PostMapping("uploadBankMess")
     @ApiOperation("上传银行信息")
-    public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestParam String password,@RequestAttribute("uid") String uid) {
-        UserLoginEntity login = userFeign.selectUserLoginByUid(uid);
+    public R uploadBankMess(@RequestParam String bank, @RequestParam String cardNo, @RequestParam String password, @RequestAttribute("uid") String uid) {
+        UserSecretEntity login = userFeign.selectUserLoginByUid(uid);
         String finalPass = Encrypt.SHA256(password + login.getSalt());
         if (!finalPass.equals(login.getPassword())) {
             return R.error("密码错误");
