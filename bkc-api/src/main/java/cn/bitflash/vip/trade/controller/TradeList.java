@@ -2,7 +2,6 @@ package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.control
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.trade.entity.OrderListBean;
 import cn.bitflash.vip.trade.entity.TradeListBean;

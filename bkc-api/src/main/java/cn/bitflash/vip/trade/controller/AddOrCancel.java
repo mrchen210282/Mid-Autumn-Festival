@@ -8,6 +8,7 @@ import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RedisUtils;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
+import cn.bitflash.vip.trade.feign.RedisKey;
 import cn.bitflash.vip.trade.feign.TradeCommon;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import io.swagger.annotations.Api;

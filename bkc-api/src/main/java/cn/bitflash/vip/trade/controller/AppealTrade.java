@@ -5,6 +5,7 @@ import cn.bitflash.entity.UserComplaintEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.trade.feign.Assert;
 import cn.bitflash.vip.trade.feign.TradeCommon;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import io.swagger.annotations.Api;
