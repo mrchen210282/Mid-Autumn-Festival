@@ -28,9 +28,8 @@ import java.util.Date;
  *
  * @author eric
  */
-public class UserLoginEntity implements Serializable {
+public class UserSecretEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-
 
     private String uid;
     /**
@@ -49,6 +48,8 @@ public class UserLoginEntity implements Serializable {
     private String salt;
 
     private String token;
+
+    private String payPassword;
 
     public String getMobile() {
         return mobile;
@@ -80,6 +81,14 @@ public class UserLoginEntity implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
     }
 
     public String getSalt() {
