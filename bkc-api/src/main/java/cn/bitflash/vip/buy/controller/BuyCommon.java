@@ -22,4 +22,7 @@ public class BuyCommon {
     public final static String FAIL = "1";
     //交易不存在
     public final static String TRADEMISS = "2";
+
+    // redis缓存订单号key
+    public final static String ADD_LOCKNUM = "userBuy_";
 }

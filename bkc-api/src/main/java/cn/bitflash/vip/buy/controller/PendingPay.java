@@ -1,9 +1,8 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entities.BuyPoundageEntity;
-import cn.bitflash.entities.UserBuyEntity;
-import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.util.R;
+import cn.bitflash.entity.BuyPoundageEntity;
+import cn.bitflash.entity.UserMarketBuyEntity;
+import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 
-import static cn.bitflash.util.Common.ORDER_STATE_STEP2;
-import static cn.bitflash.util.Common.SUCCESS;
+import static cn.bitflash.vip.buy.controller.BuyCommon.*;
+
 
 @RestController
 @RequestMapping("/buy/pendingPay")
@@ -31,11 +30,11 @@ public class PendingPay {
     @PostMapping("pay")
     @Transactional(propagation = Propagation.REQUIRED)
     public R payMoney(@RequestParam("id") String id) {
-        UserBuyEntity userBuyEntity = feign.selectBuyById(id);
+        UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         //设置支付时间,user_buy订单状态
-        userBuyEntity.setPayTime(new Date());
-        userBuyEntity.setState(ORDER_STATE_STEP2);
-        feign.updateBuyById(userBuyEntity);
+        userMarketBuyEntity.setPayTime(new Date());
+        userMarketBuyEntity.setState(ORDER_STATE_STEP2);
+        feign.updateBuyById(userMarketBuyEntity);
         return R.ok().put("code", SUCCESS);
     }
 
@@ -46,10 +45,10 @@ public class PendingPay {
     @Transactional(propagation = Propagation.REQUIRED)
     public R recall(@RequestParam("id") String id) {
         //查询uid
-        UserBuyEntity userBuyEntity = feign.selectBuyById(id);
+        UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         //获取trade_poundage手续费，并返还，删除该信息
         BuyPoundageEntity buyPoundageEntity = feign.selectPoundageById(id);
-        UserAccountEntity userAccountEntity = feign.selectAccountById(userBuyEntity.getSellUid());
+        UserAccountEntity userAccountEntity = feign.selectAccountById(userMarketBuyEntity.getSellUid());
         userAccountEntity.setRegulateIncome(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getRegulateIncome()));
         userAccountEntity.setAvailableAssets(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getAvailableAssets()));
         feign.updateAccountById(userAccountEntity);

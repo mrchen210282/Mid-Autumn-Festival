@@ -2,6 +2,7 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserMarketBuyEntity;
+import cn.bitflash.entity.UserMarketBuyHistoryEntity;
 import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -50,23 +51,23 @@ public class Confirm {
         feign.updateAccountById(userAccountEntity);
 
         //添加手续费到user_brokerage中
-        UserBrokerageEntity userBrokerageEntity = feign.selectBrokerageById(1);
-        userBrokerageEntity.setSellBrokerage(userBrokerageEntity.getSellBrokerage().add(totalPoundage));
-        feign.updateBrokerageById(userBrokerageEntity);
+//        UserBrokerageEntity userBrokerageEntity = feign.selectBrokerageById(1);
+//        userBrokerageEntity.setSellBrokerage(userBrokerageEntity.getSellBrokerage().add(totalPoundage));
+//        feign.updateBrokerageById(userBrokerageEntity);
 
         //删除Buy_POUNDAGE
         feign.deletePoundage(id);
 
         //添加到user_buy_history
-        UserBuyHistoryEntity userBuyHistoryEntity = new UserBuyHistoryEntity();
-        userBuyHistoryEntity.setFinishTime(new Date());
-        userBuyHistoryEntity.setOrderState(ORDER_STATE_FINISH);
-        userBuyHistoryEntity.setPurchaseUid(userBuyEntity.getPurchaseUid());
-        userBuyHistoryEntity.setSellUid(uid);
-        userBuyHistoryEntity.setUserBuyId(id);
-        userBuyHistoryEntity.setQuantity(userBuyEntity.getQuantity());
-        userBuyHistoryEntity.setPrice(userBuyEntity.getPrice());
-        feign.insertHistory(userBuyHistoryEntity);
+        UserMarketBuyHistoryEntity userMarketBuyHistoryEntity = new UserMarketBuyHistoryEntity();
+        userMarketBuyHistoryEntity.setFinishTime(new Date());
+        userMarketBuyHistoryEntity.setOrderState(ORDER_STATE_FINISH);
+        userMarketBuyHistoryEntity.setPurchaseUid(userMarketBuyEntity.getPurchaseUid());
+        userMarketBuyHistoryEntity.setSellUid(uid);
+        userMarketBuyHistoryEntity.setUserBuyId(id);
+        userMarketBuyHistoryEntity.setQuantity(userMarketBuyEntity.getQuantity());
+        userMarketBuyHistoryEntity.setPrice(userMarketBuyEntity.getPrice());
+        feign.insertHistory(userMarketBuyHistoryEntity);
 
         //删除user_buy记录
         feign.deleteBuyById(id);
