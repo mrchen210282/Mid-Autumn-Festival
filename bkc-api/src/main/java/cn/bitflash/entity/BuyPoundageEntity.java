@@ -15,8 +15,8 @@ public class BuyPoundageEntity implements Serializable {
 
     private String userBuyId;
     private String sellUid;
-    private BigDecimal poundage;
-    private BigDecimal quantity;
+    private float poundage;
+    private float quantity;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
 
@@ -36,19 +36,19 @@ public class BuyPoundageEntity implements Serializable {
         this.sellUid = sellUid;
     }
 
-    public BigDecimal getPoundage() {
+    public float getPoundage() {
         return poundage;
     }
 
-    public void setPoundage(BigDecimal poundage) {
+    public void setPoundage(float poundage) {
         this.poundage = poundage;
     }
 
-    public BigDecimal getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(BigDecimal quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 

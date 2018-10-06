@@ -1,6 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketBuyHistoryEntity;
 import cn.bitflash.entity.UserSecretEntity;
@@ -40,17 +41,16 @@ public class Confirm {
         }
         //手续费
         Map<String, Float> map = tradeUtil.poundage(id);
-        BigDecimal buyQuantity = new BigDecimal(map.get("buyQuantity"));
-        BigDecimal totalPoundage = new BigDecimal(map.get("totalPoundage"));
+        float buyQuantity = map.get("buyQuantity");
 
         //充值
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
-        UserAccountEntity userAccountEntity = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
-        userAccountEntity.setRegulateIncome(userAccountEntity.getRegulateIncome().add(buyQuantity));
-        userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().add(buyQuantity));
-        feign.updateAccountById(userAccountEntity);
+        UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
+        userAssetsNpcEntity.setNpcAssets(userAssetsNpcEntity.getNpcAssets()+buyQuantity);
+        feign.updateAccountById(userAssetsNpcEntity);
 
         //添加手续费到user_brokerage中
+//        BigDecimal totalPoundage = new BigDecimal(map.get("totalPoundage"));
 //        UserBrokerageEntity userBrokerageEntity = feign.selectBrokerageById(1);
 //        userBrokerageEntity.setSellBrokerage(userBrokerageEntity.getSellBrokerage().add(totalPoundage));
 //        feign.updateBrokerageById(userBrokerageEntity);

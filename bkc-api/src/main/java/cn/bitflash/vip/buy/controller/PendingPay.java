@@ -1,6 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.BuyPoundageEntity;
+import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Date;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -48,10 +48,9 @@ public class PendingPay {
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         //获取trade_poundage手续费，并返还，删除该信息
         BuyPoundageEntity buyPoundageEntity = feign.selectPoundageById(id);
-        UserAccountEntity userAccountEntity = feign.selectAccountById(userMarketBuyEntity.getSellUid());
-        userAccountEntity.setRegulateIncome(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getRegulateIncome()));
-        userAccountEntity.setAvailableAssets(buyPoundageEntity.getPoundage().add(buyPoundageEntity.getQuantity()).add(userAccountEntity.getAvailableAssets()));
-        feign.updateAccountById(userAccountEntity);
+        UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(userMarketBuyEntity.getSellUid());
+        userAssetsNpcEntity.setNpcAssets(buyPoundageEntity.getPoundage()+buyPoundageEntity.getQuantity()+userAssetsNpcEntity.getNpcAssets());
+        feign.updateAccountById(userAssetsNpcEntity);
         feign.deletePoundage(id);
         //删除求购历史订单
         feign.deleteBuyById(id);

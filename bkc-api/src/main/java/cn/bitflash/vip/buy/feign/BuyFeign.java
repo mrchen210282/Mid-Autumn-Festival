@@ -1,14 +1,14 @@
 package cn.bitflash.vip.buy.feign;
 
-import cn.bitflash.entities.*;
-import cn.bitflash.entity.UserAccountEntity;
-import cn.bitflash.entity.UserBuyBean;
+import cn.bitflash.entity.*;
+import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
 
 @FeignClient(value = "bkc-model")
 public interface BuyFeign {
@@ -21,7 +21,7 @@ public interface BuyFeign {
      * @param entity
      */
     @PostMapping("/inner/userBuy/updateById")
-    void insertBuy(@RequestBody UserBuyEntity entity);
+    void insertBuy(@RequestBody UserMarketBuyEntity entity);
 
     /**
      * selectById
@@ -30,7 +30,7 @@ public interface BuyFeign {
      * @return
      */
     @PostMapping("/inner/userBuy/selectById")
-    UserBuyEntity selectBuyById(@RequestParam("id") String id);
+    UserMarketBuyEntity selectBuyById(@RequestParam("id") String id);
 
     /**
      * updateById
@@ -38,7 +38,7 @@ public interface BuyFeign {
      * @param entity
      */
     @PostMapping("/inner/userBuy/updateById")
-    void updateBuyById(@RequestBody UserBuyEntity entity);
+    void updateBuyById(@RequestBody UserMarketBuyEntity entity);
 
     /**
      * deleteById
@@ -103,7 +103,7 @@ public interface BuyFeign {
      * @param entity
      */
     @PostMapping("/inner/userBuyHistory/insert")
-    void insertHistory(@RequestBody UserBuyHistoryEntity entity);
+    void insertHistory(@RequestBody UserMarketBuyHistoryEntity entity);
 
     /**
      * selectById
@@ -112,7 +112,7 @@ public interface BuyFeign {
      * @return
      */
     @PostMapping("/inner/userBuyHistory/selectById")
-    UserBuyHistoryEntity selectHistoryById(@RequestParam("id") String id);
+    UserMarketBuyHistoryEntity selectHistoryById(@RequestParam("id") String id);
 
     /**
      * updateById
@@ -120,7 +120,7 @@ public interface BuyFeign {
      * @param entity
      */
     @PostMapping("/inner/userBuyHistory/updateById")
-    void updateHistoryById(@RequestBody UserBuyHistoryEntity entity);
+    void updateHistoryById(@RequestBody UserMarketBuyHistoryEntity entity);
 
     /**
      * deleteById
@@ -177,7 +177,7 @@ public interface BuyFeign {
      * @return
      */
     @PostMapping("/inner/userAccount/selectById")
-    UserAccountEntity selectAccountById(@RequestParam("id") String id);
+    UserAssetsNpcEntity selectAccountById(@RequestParam("id") String id);
 
     /**
      * updateAccountById
@@ -185,27 +185,27 @@ public interface BuyFeign {
      * @param entity
      */
     @PostMapping("/inner/userAccount/updateById")
-    void updateAccountById(@RequestBody UserAccountEntity entity);
+    void updateAccountById(@RequestBody UserAssetsNpcEntity entity);
 
 
 //-------------------------------------------------------userBrokerage-------------------------------------------------
-
-    /**
-     * updateById
-     *
-     * @param entity
-     */
-    @PostMapping("/inner/userBrokerage/updateById")
-    void updateBrokerageById(@RequestBody UserBrokerageEntity entity);
-
-    /**
-     * selectById
-     *
-     * @param id
-     * @return
-     */
-    @PostMapping("/inner/userBrokerage/selectById")
-    UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
+//
+//    /**
+//     * updateById
+//     *
+//     * @param entity
+//     */
+//    @PostMapping("/inner/userBrokerage/updateById")
+//    void updateBrokerageById(@RequestBody UserBrokerageEntity entity);
+//
+//    /**
+//     * selectById
+//     *
+//     * @param id
+//     * @return
+//     */
+//    @PostMapping("/inner/userBrokerage/selectById")
+//    UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
 
 
 //-------------------------------------------------------FINISH-------------------------------------------------
@@ -217,7 +217,7 @@ public interface BuyFeign {
      * @return
      */
     @PostMapping("/inner/userPayPwd/selectById")
-    UserPayPwdEntity selectUid(@RequestParam("id") String uid);
+    UserSecretEntity selectUid(@RequestParam("id") String uid);
 
     /**
      * getVal

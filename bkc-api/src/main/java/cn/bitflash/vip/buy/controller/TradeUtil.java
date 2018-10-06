@@ -1,12 +1,9 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entities.UserBuyEntity;
-import cn.bitflash.entity.UserAccountEntity;
+import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,20 +48,12 @@ public class TradeUtil {
     /**
      * --------------------------------扣款-------------------------------
      */
-    public boolean deduct(BigDecimal money, String uid) {
-        UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
-        if (userAccountEntity.getAvailableAssets().compareTo(money) != -1) {
-            if (userAccountEntity.getRegulateRelease().compareTo(money) != -1) {
-                userAccountEntity.setRegulateRelease(userAccountEntity.getRegulateRelease().subtract(money));
-                userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
-            } else {
-                userAccountEntity.setRegulateIncome(userAccountEntity.getRegulateIncome().subtract(money.subtract(userAccountEntity.getRegulateRelease())));
-                userAccountEntity.setRegulateRelease(new BigDecimal(0));
-                userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
-            }
-            feign.updateAccountById(userAccountEntity);
-            return true;
+    public boolean deduct(float money, String uid) {
+        UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(uid);
+        float deduction = userAssetsNpcEntity.getNpcAssets()-money;
+        if (deduction<0) {
+            return false;
         }
-        return false;
+        return true;
     }
 }
