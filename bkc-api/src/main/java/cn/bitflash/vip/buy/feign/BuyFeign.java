@@ -20,7 +20,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userBuy/updateById")
+    @PostMapping("/inner/userMarketBuy/insert")
     void insertBuy(@RequestBody UserMarketBuyEntity entity);
 
     /**
@@ -29,7 +29,7 @@ public interface BuyFeign {
      * @param id
      * @return
      */
-    @PostMapping("/inner/userBuy/selectById")
+    @PostMapping("/inner/userMarketBuy/selectById")
     UserMarketBuyEntity selectBuyById(@RequestParam("id") String id);
 
     /**
@@ -37,7 +37,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userBuy/updateById")
+    @PostMapping("/inner/userMarketBuy/updateById")
     void updateBuyById(@RequestBody UserMarketBuyEntity entity);
 
     /**
@@ -45,7 +45,7 @@ public interface BuyFeign {
      *
      * @param id
      */
-    @PostMapping("/inner/userBuy/deleteById")
+    @PostMapping("/inner/userMarketBuy/deleteById")
     void deleteBuyById(@RequestParam("id") String id);
 
     /**
@@ -55,7 +55,7 @@ public interface BuyFeign {
      * @param pages
      * @return
      */
-    @PostMapping("/inner/userBuy/showBuying")
+    @PostMapping("/inner/userMarketBuy/showBuying")
     List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
 
@@ -64,7 +64,7 @@ public interface BuyFeign {
      *
      * @return
      */
-    @PostMapping("/inner/userBuy/showBuyingCount")
+    @PostMapping("/inner/userMarketBuy/showBuyingCount")
     Integer showBuyingCount(@RequestParam("uid") String uid);
 
     /**
@@ -74,7 +74,7 @@ public interface BuyFeign {
      * @param pages
      * @return
      */
-    @PostMapping("/inner/userBuy/showOrder")
+    @PostMapping("/inner/userMarketBuy/showOrder")
     List<UserBuyBean> showOrder(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
 
@@ -84,14 +84,14 @@ public interface BuyFeign {
      * @param uid
      * @return
      */
-    @PostMapping("/inner/userBuy/showOrderCount")
+    @PostMapping("/inner/userMarketBuy/showOrderCount")
     Integer showOrderCount(@RequestParam("uid") String uid);
 
 
     /**
      * checkOrder
      */
-    @PostMapping("/inner/userBuy/checkOrder")
+    @PostMapping("/inner/userMarketBuy/checkOrder")
     UserBuyBean checkOrder(@RequestParam("id") String id);
 
 
@@ -102,7 +102,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userBuyHistory/insert")
+    @PostMapping("/inner/userMarketBuyHistory/insert")
     void insertHistory(@RequestBody UserMarketBuyHistoryEntity entity);
 
     /**
@@ -111,7 +111,7 @@ public interface BuyFeign {
      * @param id
      * @return
      */
-    @PostMapping("/inner/userBuyHistory/selectById")
+    @PostMapping("/inner/userMarketBuyHistory/selectById")
     UserMarketBuyHistoryEntity selectHistoryById(@RequestParam("id") String id);
 
     /**
@@ -119,7 +119,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userBuyHistory/updateById")
+    @PostMapping("/inner/userMarketBuyHistory/updateById")
     void updateHistoryById(@RequestBody UserMarketBuyHistoryEntity entity);
 
     /**
@@ -127,7 +127,7 @@ public interface BuyFeign {
      *
      * @param id
      */
-    @PostMapping("/inner/userBuyHistory/deleteById")
+    @PostMapping("/inner/userMarketBuyHistory/deleteById")
     void deleteHistoryById(@RequestParam("id") String id);
 
 
@@ -168,7 +168,7 @@ public interface BuyFeign {
     BuyPoundageEntity selectPoundageById(@RequestParam("id") String id);
 
 
-//-------------------------------------------------------userAccount-------------------------------------------------
+//-------------------------------------------------------userAssetsNpc-------------------------------------------------
 
     /**
      * selectById
@@ -176,7 +176,7 @@ public interface BuyFeign {
      * @param id
      * @return
      */
-    @PostMapping("/inner/userAccount/selectById")
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectAccountById(@RequestParam("id") String id);
 
     /**
@@ -184,7 +184,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userAccount/updateById")
+    @PostMapping("/inner/userAssetsNpc/updateById")
     void updateAccountById(@RequestBody UserAssetsNpcEntity entity);
 
 
@@ -216,7 +216,7 @@ public interface BuyFeign {
      * @param uid
      * @return
      */
-    @PostMapping("/inner/userPayPwd/selectById")
+    @PostMapping("/inner/userSecret/selectById")
     UserSecretEntity selectUid(@RequestParam("id") String uid);
 
     /**
@@ -240,6 +240,6 @@ public interface BuyFeign {
     /**
      * selectPoundage
      */
-    @PostMapping("/inner/userTradeConfig/selectById")
+    @PostMapping("/inner/userMarketConfig/selectById")
     Float selectPoundage(@RequestParam("id") int id);
 }
