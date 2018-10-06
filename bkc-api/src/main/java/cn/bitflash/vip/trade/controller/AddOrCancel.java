@@ -92,11 +92,13 @@ public class AddOrCancel {
                         // 2.卖出数量
                         BigDecimal quantityBig = new BigDecimal(quantity);
                         // 卖出量-调节释放
-                        BigDecimal subtract = quantityBig.subtract(new BigDecimal(userAssetsNpcEntity.getNpcAssets()));
-                        if(subtract.doubleValue() >= 0){
-                            BigDecimal availableAssets = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(new BigDecimal(quantity));
-                            userAssetsNpcEntity.setNpcAssets(availableAssets.subtract(percentB).floatValue());
-                        }
+                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(quantityBig);
+                        userAssetsNpcEntity.setNpcAssets(subtract.floatValue());
+//                        quantityBig.subtract(new BigDecimal(userAssetsNpcEntity.getNpcAssets()));
+//                        if(subtract.doubleValue() >= 0){
+//                            BigDecimal availableAssets = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(new BigDecimal(quantity));
+//                            userAssetsNpcEntity.setNpcAssets(availableAssets.subtract(percentB).floatValue());
+//                        }
 
 //                        if (subtract.doubleValue() > 0 || subtract.doubleValue() == 0) {
 //                            userAccount.setRegulateRelease(new BigDecimal(0.00));
