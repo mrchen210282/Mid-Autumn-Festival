@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserFeign {
 
     /**
-     * user_login表
+     * user_secret 表
      */
     @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectUserLoginByUid(@RequestParam("id") String id);
@@ -76,37 +76,41 @@ public interface UserFeign {
     /**
      * system_param 表
      */
-    @PostMapping
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
     /**
      * daily_total_npc 表
      */
-    @PostMapping
-     DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+    @PostMapping("/inner/dailytotalnpc/selectById")
+    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+
+    @PostMapping("/inner/dailytotalnpc/update")
+    Boolean updateDailyTotalNpc(@RequestBody DailyTotalNpcEntity daily);
+
 
     /**
      * user_npc 表
      */
-    @PostMapping
+    @PostMapping("/inner/usernpchistory/insert")
     Boolean insertUserNpcEntity(@RequestBody UserNpcTradeHistoryEntity npcEntity);
 
     /**
      * user_assets_hlb 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/selectById")
     UserAssetsHlbEntity selectUserAssetsHlbById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/update")
     Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
     /**
      * user_assets_npc 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

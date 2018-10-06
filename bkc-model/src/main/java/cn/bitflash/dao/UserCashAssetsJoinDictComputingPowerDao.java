@@ -1,7 +1,6 @@
 package cn.bitflash.dao;
 
 import cn.bitflash.bean.UserCashAssetsJoinDictComputingPowerBean;
-import cn.bitflash.entity.UserCashAssetsEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

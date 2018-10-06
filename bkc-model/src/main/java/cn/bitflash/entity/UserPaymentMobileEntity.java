@@ -10,8 +10,8 @@ import java.math.BigInteger;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_mobile_payment_info")
-public class UserMobilePaymentInfoEntity implements Serializable {
+@TableName("user_payment_mobile")
+public class UserPaymentMobileEntity implements Serializable {
     @TableId
     private BigInteger id;
 

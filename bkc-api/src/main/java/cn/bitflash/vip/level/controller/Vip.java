@@ -54,7 +54,7 @@ public class Vip {
             return R.error("可换取的HLB数量有误");
         }
         //5.添加可冻结hlb和冻结npc数量
-        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbByUid(uid);
+        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
         levelFeign.updateUserAssetsHlb(hlbEntity);
         npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());

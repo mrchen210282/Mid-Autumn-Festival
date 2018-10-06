@@ -15,40 +15,18 @@ public interface IndexFeign {
     /**
      * user_login表
      */
-
-    /**
-     * 根据手机号查询用户
-     * @param mobile
-     * @return
-     */
+    //根据手机号查询用户
     @PostMapping("/inner/userLogin/selectByMobile")
     UserSecretEntity selectUserLoginEntityByMobile(@RequestParam("mobile")String mobile);
 
-    /**
-     * 插入
-     * @param userEntity
-     * @return
-     */
     @PostMapping("/inner/userLogin/registerLogin")
     String registerLogin(@RequestBody UserSecretEntity userEntity);
 
-    /**
-     * 更新
-     * @param userEntity
-     * @return
-     */
     @PostMapping("/inner/userLogin/updateById")
     void updateUserLoginById(@RequestBody UserSecretEntity userEntity);
 
-
     /**
      * user_info表
-     */
-
-    /**
-     * 更新
-     * @param infoEntity
-     * @return
      */
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
@@ -57,46 +35,38 @@ public interface IndexFeign {
     Boolean insertUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
     /**
-     * insert
-     *
-     * @return
-     */
-    @PostMapping("/inner/systemAdvertisement/insertSystemAdvertisement")
-    Boolean insertSystemAdvertisement(@RequestParam("img")String img);
-
-    /**
-     * 查询轮播图片
-     * @return
+     * SystemAppBanner 表
      */
     @PostMapping("/inner/systemAppBanner/selectAppBanner")
     List<SystemAppBannerEntity> selectAppBanner();
 
     /**
-     * 首页贝壳信息
-     * @return
+     * price_line_chart 表
      */
     @PostMapping("/inner/priceLinechart/selectPriceLinechart")
-    public PriceLinechartEntity selectPriceLinechart();
+    PriceLinechartEntity selectPriceLinechart();
 
-    /**
-     * 查询昨天的汇率
-     * selectLineChartYesterDayByDate
-     * @param yesterday
-     * @return
-     */
+    //查询昨天的汇率
     @PostMapping("/inner/priceLinechart/selectLineChartYesterDayByDate")
-    public List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") String yesterday);
+    List<PriceLinechartEntity> selectLineChartYesterDayByDate(@RequestParam("yesterday") String yesterday);
 
     @PostMapping("/inner/priceLinechart/selectPriceUs")
-    public PriceLinechartEntity selectPriceUs();
+    PriceLinechartEntity selectPriceUs();
 
     @PostMapping("/inner/priceLinechart/selectPriceCny")
-    public PriceLinechartEntity selectPriceCny();
+    PriceLinechartEntity selectPriceCny();
 
+    /**
+     * user_invitation_code 表
+     */
     @PostMapping("/inner/userInvitationCode/selectInvitationCodeByCode")
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
 
-    @PostMapping("/inner/userRelation/insertTreeNode")
-    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
-                           @RequestParam("code") String code,@RequestParam("area")String area);
+    /**
+     * user_getui 表
+     */
+    @PostMapping
+    Boolean insertOrupdateGetui(@RequestBody UserGetuiEntity getui);
+
+
 }

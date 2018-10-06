@@ -25,11 +25,13 @@ import javax.validation.constraints.NotBlank;
  * @since 3.1.0 2018-01-25
  */
 public class LoginForm {
-    @NotBlank(message = "手机号不能为空" )
+    @NotBlank(message = "手机号不能为空")
     private String mobile;
 
-    @NotBlank(message = "密码不能为空" )
+    @NotBlank(message = "密码不能为空")
     private String password;
+
+    private String cid;
 
     public String getMobile() {
         return mobile;
@@ -45,5 +47,13 @@ public class LoginForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 }
