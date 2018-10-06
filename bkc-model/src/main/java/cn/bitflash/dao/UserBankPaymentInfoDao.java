@@ -16,13 +16,13 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.UserBankPaymentInfoEntity;
+import cn.bitflash.entity.UserPaymentBankEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-public interface UserBankPaymentInfoDao extends BaseMapper<UserBankPaymentInfoEntity> {
+public interface UserBankPaymentInfoDao extends BaseMapper<UserPaymentBankEntity> {
 
 }

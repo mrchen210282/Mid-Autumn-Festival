@@ -1,7 +1,7 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserMobilePaymentInfoEntity;
+import cn.bitflash.entity.UserPaymentMobileEntity;
 import cn.bitflash.service.UserMobilePaymentInfoService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -28,8 +28,8 @@ public class UserMobilePaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectById")
-    public UserMobilePaymentInfoEntity selectById(@RequestParam("id") int id) {
-        UserMobilePaymentInfoEntity entity = userMobilePaymentInfoService.selectById(id);
+    public UserPaymentMobileEntity selectById(@RequestParam("id") int id) {
+        UserPaymentMobileEntity entity = userMobilePaymentInfoService.selectById(id);
         return entity;
     }
 
@@ -40,7 +40,7 @@ public class UserMobilePaymentInfoController {
      */
     @PostMapping("/inner/userMobilePaymentInfo/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
-        UserMobilePaymentInfoEntity entity = (UserMobilePaymentInfoEntity) JSONObject.parseObject(json.toString(), UserMobilePaymentInfoEntity.class);
+        UserPaymentMobileEntity entity = (UserPaymentMobileEntity) JSONObject.parseObject(json.toString(), UserPaymentMobileEntity.class);
         return userMobilePaymentInfoService.updateById(entity);
     }
 
@@ -51,7 +51,7 @@ public class UserMobilePaymentInfoController {
      */
     @PostMapping("/inner/userMobilePaymentInfo/insert")
     public boolean insert(@RequestBody JSONObject json) throws Exception {
-        UserMobilePaymentInfoEntity entity = (UserMobilePaymentInfoEntity) JSONObject.parseObject(json.toString(), UserMobilePaymentInfoEntity.class);
+        UserPaymentMobileEntity entity = (UserPaymentMobileEntity) JSONObject.parseObject(json.toString(), UserPaymentMobileEntity.class);
         return userMobilePaymentInfoService.insert(entity);
     }
 
@@ -70,8 +70,8 @@ public class UserMobilePaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentByUidAndType")
-    public UserMobilePaymentInfoEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("type") String type){
-        UserMobilePaymentInfoEntity userMobilePaymentInfoEntity = userMobilePaymentInfoService.selectOne(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("uid",uid).eq("type",type));
+    public UserPaymentMobileEntity selectPaymentByUidAndType(@RequestParam("uid")String uid, @RequestParam("type") String type){
+        UserPaymentMobileEntity userMobilePaymentInfoEntity = userMobilePaymentInfoService.selectOne(new EntityWrapper<UserPaymentMobileEntity>().eq("uid",uid).eq("type",type));
         return userMobilePaymentInfoEntity;
     }
 
@@ -81,8 +81,8 @@ public class UserMobilePaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userMobilePaymentInfo/selectPaymentsByUid")
-    List<UserMobilePaymentInfoEntity> selectPaymentsByUid(@RequestParam("uid")String uid){
-        List<UserMobilePaymentInfoEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserMobilePaymentInfoEntity>().eq("uid",uid));
+    List<UserPaymentMobileEntity> selectPaymentsByUid(@RequestParam("uid")String uid){
+        List<UserPaymentMobileEntity> userMobilePaymentInfoEntities = userMobilePaymentInfoService.selectList(new EntityWrapper<UserPaymentMobileEntity>().eq("uid",uid));
         return userMobilePaymentInfoEntities;
     }
 

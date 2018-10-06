@@ -94,19 +94,19 @@ public interface UserFeign {
     /**
      * user_assets_hlb 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/selectById")
     UserAssetsHlbEntity selectUserAssetsHlbById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/update")
     Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
     /**
      * user_assets_npc 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

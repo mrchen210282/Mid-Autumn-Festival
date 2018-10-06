@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_bank_payment_info")
-public class UserBankPaymentInfoEntity implements Serializable {
+@TableName("user_payment_bank")
+public class UserPaymentBankEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String uid;
 
