@@ -1,5 +1,6 @@
 package cn.bitflash.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
@@ -12,20 +13,27 @@ import java.util.Date;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_login")
-public class UserLoginEntity implements Serializable {
-    @TableId(type = IdType.INPUT)
+@TableName("user_secret")
+public class UserSecretEntity implements Serializable {
+
     private String uid;
-
+    /**
+     * 手机号
+     */
     private String mobile;
-
+    /**
+     * 密码
+     */
+    @JSONField(serialize = false)
     private String password;
 
     private String salt;
 
     private String token;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    private String payPassword;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public String getUid() {
@@ -66,6 +74,14 @@ public class UserLoginEntity implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPayPassword() {
+        return payPassword;
+    }
+
+    public void setPayPassword(String payPassword) {
+        this.payPassword = payPassword;
     }
 
     public Date getCreateTime() {

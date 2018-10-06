@@ -19,13 +19,16 @@ public class UserInfoEntity implements Serializable {
 
     private String idNumber;
 
-    private String isInvited;
+    private String isAuth;
 
     private String invitationCode;
 
-    private String isAuth;
+    private String isInvited;
 
+    //头像
     private String avatar;
+
+    private String powerLevel;
 
     public String getUid() {
         return uid;
@@ -81,5 +84,13 @@ public class UserInfoEntity implements Serializable {
 
     public void setIsAuth(String isAuth) {
         this.isAuth = isAuth;
+    }
+
+    public String getPowerLevel() {
+        return powerLevel;
+    }
+
+    public void setPowerLevel(String powerLevel) {
+        this.powerLevel = powerLevel;
     }
 }

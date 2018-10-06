@@ -1,6 +1,7 @@
 package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.UserGetuiEntity;
 import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.utils.*;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +44,11 @@ public class LoginApp {
             return R.error("用户不存在");
         }
         String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
+        UserGetuiEntity getuiEntity = new UserGetuiEntity();
+        getuiEntity.setUid(user.getUid());
+        getuiEntity.setCid(form.getCid());
+        getuiEntity.setUpdateTime(new Date());
+        indexFeign.insertOrupdateGetui(getuiEntity);
         // 密码错误
         if (user.getPassword().equals(finalPwd)) {
             // 插入token

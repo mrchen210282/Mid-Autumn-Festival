@@ -1,7 +1,6 @@
 package cn.bitflash.service;
 
 import cn.bitflash.bean.UserCashAssetsJoinDictComputingPowerBean;
-import cn.bitflash.entity.UserBankPaymentInfoEntity;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

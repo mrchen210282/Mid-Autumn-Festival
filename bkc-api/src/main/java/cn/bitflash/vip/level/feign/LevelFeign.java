@@ -15,7 +15,7 @@ public interface LevelFeign {
     /**
      * user_secret
      */
-    @PostMapping
+    @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectUserSecretById(@RequestParam("id") String id);
     /**
      * user_info 表
@@ -48,14 +48,6 @@ public interface LevelFeign {
     @PostMapping("/inner/userInvitationCode/insert")
     Boolean insertInvitation(@RequestBody UserInvitationCodeEntity code);
 
-
-    /**
-     * user_assets_hlb 表
-     */
-    @PostMapping()
-    UserAssetsHlbEntity selectUserAssetsHlbByUid(@RequestParam("id")String id);
-
-
     /**
      * user_performance 表
      */
@@ -71,25 +63,25 @@ public interface LevelFeign {
     /**
      * user_assets_hlb 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/selectById")
     UserAssetsHlbEntity selectUserAssetsHlbById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsHlb/update")
     Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
     /**
      * user_assets_npc 表
      */
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**
      * system_param 表
      */
-    @PostMapping
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
 

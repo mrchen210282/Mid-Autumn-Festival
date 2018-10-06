@@ -17,11 +17,11 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.dao.UserBankPaymentInfoDao;
-import cn.bitflash.entity.UserBankPaymentInfoEntity;
+import cn.bitflash.entity.UserPaymentBankEntity;
 import cn.bitflash.service.UserBankPaymentInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service("userPaymentCodeService")
-public class UserBankPaymentInfoServiceImpl extends ServiceImpl<UserBankPaymentInfoDao, UserBankPaymentInfoEntity> implements UserBankPaymentInfoService {
+public class UserBankPaymentInfoServiceImpl extends ServiceImpl<UserBankPaymentInfoDao, UserPaymentBankEntity> implements UserBankPaymentInfoService {
 }

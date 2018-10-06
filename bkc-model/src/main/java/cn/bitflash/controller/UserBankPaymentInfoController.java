@@ -1,10 +1,8 @@
 package cn.bitflash.controller;
 
 
-import cn.bitflash.entity.UserBankPaymentInfoEntity;
-import cn.bitflash.entity.UserMobilePaymentInfoEntity;
+import cn.bitflash.entity.UserPaymentBankEntity;
 import cn.bitflash.service.UserBankPaymentInfoService;
-import cn.bitflash.service.UserMobilePaymentInfoService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,8 +25,8 @@ public class UserBankPaymentInfoController {
      * @return
      */
     @PostMapping("/inner/userBankPaymentInfo/selectById")
-    public UserBankPaymentInfoEntity selectById(@RequestParam("id") String id) {
-        UserBankPaymentInfoEntity entity = userBankPaymentInfoService.selectById(id);
+    public UserPaymentBankEntity selectById(@RequestParam("id") String id) {
+        UserPaymentBankEntity entity = userBankPaymentInfoService.selectById(id);
         return entity;
     }
 
@@ -39,7 +37,7 @@ public class UserBankPaymentInfoController {
      */
     @PostMapping("/inner/userBankPaymentInfo/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
-        UserBankPaymentInfoEntity entity = (UserBankPaymentInfoEntity) JSONObject.parseObject(json.toString(), UserBankPaymentInfoEntity.class);
+        UserPaymentBankEntity entity = (UserPaymentBankEntity) JSONObject.parseObject(json.toString(), UserPaymentBankEntity.class);
         return userBankPaymentInfoService.updateById(entity);
     }
 
@@ -50,7 +48,7 @@ public class UserBankPaymentInfoController {
      */
     @PostMapping("/inner/userBankPaymentInfo/insert")
     public boolean insert(@RequestBody JSONObject json) throws Exception {
-        UserBankPaymentInfoEntity entity = (UserBankPaymentInfoEntity) JSONObject.parseObject(json.toString(), UserBankPaymentInfoEntity.class);
+        UserPaymentBankEntity entity = (UserPaymentBankEntity) JSONObject.parseObject(json.toString(), UserPaymentBankEntity.class);
         return userBankPaymentInfoService.insert(entity);
     }
 
@@ -68,7 +66,7 @@ public class UserBankPaymentInfoController {
      * insertOrUpdateBank
      */
     @PostMapping("/inner/userBankPaymentInfo/insertOrUpdateBank")
-    public Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo){
+    public Boolean insertOrUpdateBank(@RequestBody UserPaymentBankEntity bankInfo) {
         return userBankPaymentInfoService.insertOrUpdate(bankInfo);
     }
 

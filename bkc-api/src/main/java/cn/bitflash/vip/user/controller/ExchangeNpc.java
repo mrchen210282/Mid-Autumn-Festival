@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("npc")
@@ -54,16 +56,37 @@ public class ExchangeNpc {
         userNpcTradeHistoryEntity.setTotalNpc(npc);
         userNpcTradeHistoryEntity.setCreateTime(new Date());
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
-        //扣除hlb
+        //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets()-form.getHlb());
         userFeign.updateUserAssetsHlb(hlbNumEntity);
-        //增加npc数量
+        //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         npcNumEntity.setNpcAssets(npcNumEntity.getNpcAssets()+npc);
         npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets()+npc);
         userFeign.updateUserAssetsNpc(npcNumEntity);
+        //扣除可兑换npc
+        npcEntity.setTotalNpc(npcEntity.getTotalNpc()-npc);
+        userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
+    }
+
+    @Login
+    @PostMapping("showNpcNum")
+    @ApiOperation("获取npc数量")
+    public R showNpcNum(@RequestAttribute("uid")String uid){
+        Date now = new DateTime().withTimeAtStartOfDay().toDate();
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+        Map<String,Object> map =new HashMap<>();
+        UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
+        UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
+        //当前拥有的hlb
+        map.put("hlb",hlbNumEntity.getHlbAssets());
+        //当前拥有的npc
+        map.put("npc",npcNumEntity.getNpcAssets());
+        //可兑换的npc
+        map.put("allNpc",npcEntity.getTotalNpc());
+        return R.ok(map);
     }
 
 
