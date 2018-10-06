@@ -1,6 +1,6 @@
 package cn.bitflash.vip.system.controller;
 
-import cn.bitflash.entity.UserLoginEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.SmsUtils;
 import cn.bitflash.vip.system.feign.SystemFeign;
@@ -19,7 +19,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/system")
-@Api(value = "短息Con",tags={"注册时发送短信验证"})
+@Api(value = "短息Con", tags = {"注册时发送短信验证"})
 public class VerifyCode {
 
     @Autowired
@@ -27,12 +27,12 @@ public class VerifyCode {
 
     @RequestMapping("getVerifyCode")
     @ApiOperation("获取短信验证码")
-    public R sent(@ApiParam  @RequestParam String mobile,@ApiParam(value = "reg 注册验证码 findPwd 找回密码") @RequestParam String type, HttpServletResponse response) {
+    public R sent(@ApiParam @RequestParam String mobile, @ApiParam(value = "reg 注册验证码 findPwd 找回密码") @RequestParam String type, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         if (StringUtils.isBlank(mobile)) {
             return R.error(501, "手机号不能为空");
         }
-        UserLoginEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
+        UserSecretEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
         String verifyCode = generateCode();
         if (type.equals("reg")) {
             if (userEntity != null) {
@@ -48,15 +48,15 @@ public class VerifyCode {
             return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_136065023");
         }
         //提现功能
-        if(type.equals("cashing")){
-            if(userEntity == null){
+        if (type.equals("cashing")) {
+            if (userEntity == null) {
                 return R.error("手机号不存在用户");
             }
             return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_146615963");
         }
         //钱包地址
-        if(type.equals("walletAdress")){
-            if(userEntity == null){
+        if (type.equals("walletAdress")) {
+            if (userEntity == null) {
                 return R.error("手机号不存在用户");
             }
             return SmsUtils.smsApi(mobile, RandomStringUtils.randomNumeric(6), "贝壳", "SMS_146611072");

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +17,13 @@ public interface UserFeign {
      * user_login表
      */
     @PostMapping("/inner/userLogin/selectById")
-    UserLoginEntity selectUserLoginByUid(@RequestParam("id") String id);
+    UserSecretEntity selectUserLoginByUid(@RequestParam("id") String id);
 
     @PostMapping("/inner/userLogin/updateById")
-    Boolean updateUserById(@RequestBody UserLoginEntity loginEntity);
+    Boolean updateUserById(@RequestBody UserSecretEntity loginEntity);
 
     @PostMapping("/inner/userLogin/updateByMobile")
-    Boolean updateUserByMobile(@RequestBody UserLoginEntity loginEntity);
+    Boolean updateUserByMobile(@RequestBody UserSecretEntity loginEntity);
 
 
     /**
@@ -64,39 +65,60 @@ public interface UserFeign {
     @PostMapping("/inner/userBankPaymentInfo/insertOrUpdateBank")
     Boolean insertOrUpdateBank(@RequestBody UserBankPaymentInfoEntity bankInfo);
 
-    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
-    UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid);
-
-    @PostMapping("/inner/userPerformance/selectById")
-    UserPerformanceEntity selectUserPerformanceById(@RequestParam("id") String id);
-
-    @PostMapping("/inner/userDigitalAssets/selectById")
-    UserDigitalAssetsEntity selectDigitalAssetsById(@RequestParam("id") String id);
     @PostMapping("/inner/userBankPaymentInfo/selectById")
     UserBankPaymentInfoEntity selectBankInfoByUid(@RequestParam("id")String id);
-
-    /**
-     * user_cash_assets 表
-     */
-    @PostMapping("/inner/userCashAssets/selectById")
-    UserCashAssetsEntity selectCashAssetsByUid(@RequestParam("id")String id);
-
-    @PostMapping("/inner/userCashAssets/updateById")
-    Boolean updateCashAssetsByUid(@RequestBody UserCashAssetsEntity cashAssets);
-
-    /**
-     * user_drawing 表
-     */
-    @PostMapping("/inner/userDrawing/insert")
-    Boolean insertDrawingInfo(@RequestBody UserDrawingEntity drawingInfo);
-
-    @PostMapping("/inner/userDrawing/deleteById")
-    void deleteDrawingInfo(@RequestParam("id")String id);
 
     /**
      * system_resource 表
      */
     @PostMapping("/inner/systemResource/getPath")
     String getPath(@RequestParam("id")Integer id);
+
+    /**
+     * system_param 表
+     */
+    @PostMapping
+    String getVal(@RequestParam("key") String key);
+
+    /**
+     * daily_total_npc 表
+     */
+    @PostMapping
+     DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+
+    /**
+     * user_npc 表
+     */
+    @PostMapping
+    Boolean insertUserNpcEntity(@RequestBody UserNpcEntity npcEntity);
+
+    /**
+     * user_assets_hlb 表
+     */
+    @PostMapping
+    UserAssetsHlbEntity selectUserAssetsHlbById(@RequestParam("id")String id);
+
+    @PostMapping
+    Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
+
+    /**
+     * user_assets_npc 表
+     */
+    @PostMapping
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
+
+    @PostMapping
+    Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
+
+    /**
+     * 首页资产
+     */
+//    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
+//    UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid);
+//
+//    @PostMapping("/inner/userDigitalAssets/selectById")
+//    UserDigitalAssetsEntity selectDigitalAssetsById(@RequestParam("id") String id);
+
+
 
 }

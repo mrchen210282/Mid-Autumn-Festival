@@ -22,7 +22,7 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/userLogin/selectByMobile")
-    UserLoginEntity selectUserLoginEntityByMobile(@RequestParam("mobile")String mobile);
+    UserSecretEntity selectUserLoginEntityByMobile(@RequestParam("mobile")String mobile);
 
     /**
      * 插入
@@ -30,7 +30,7 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/userLogin/registerLogin")
-    String registerLogin(@RequestBody UserLoginEntity userEntity);
+    String registerLogin(@RequestBody UserSecretEntity userEntity);
 
     /**
      * 更新
@@ -38,7 +38,7 @@ public interface IndexFeign {
      * @return
      */
     @PostMapping("/inner/userLogin/updateById")
-    void updateUserLoginById(@RequestBody UserLoginEntity userEntity);
+    void updateUserLoginById(@RequestBody UserSecretEntity userEntity);
 
 
     /**
@@ -52,6 +52,9 @@ public interface IndexFeign {
      */
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
+
+    @PostMapping
+    Boolean insertUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
     /**
      * insert
@@ -87,4 +90,8 @@ public interface IndexFeign {
 
     @PostMapping("/inner/userInvitationCode/selectInvitationCodeByCode")
     UserInvitationCodeEntity selectInvitationCodeByCode(@RequestParam("code") String code);
+
+    @PostMapping("/inner/userRelation/insertTreeNode")
+    Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
+                           @RequestParam("code") String code,@RequestParam("area")String area);
 }
