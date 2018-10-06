@@ -47,13 +47,13 @@ public class ExchangeNpc {
         }
 
 
-        UserNpcEntity userNpcEntity = new UserNpcEntity();
-        userNpcEntity.setId("00" + RandomStringUtils.randomNumeric(6));
-        userNpcEntity.setUid(uid);
-        userNpcEntity.setTotalHlb(hlb);
-        userNpcEntity.setTotalNpc(npc);
-        userNpcEntity.setCreateTime(new Date());
-        userFeign.insertUserNpcEntity(userNpcEntity);
+        UserNpcTradeHistoryEntity userNpcTradeHistoryEntity = new UserNpcTradeHistoryEntity();
+        userNpcTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
+        userNpcTradeHistoryEntity.setUid(uid);
+        userNpcTradeHistoryEntity.setTotalHlb(hlb);
+        userNpcTradeHistoryEntity.setTotalNpc(npc);
+        userNpcTradeHistoryEntity.setCreateTime(new Date());
+        userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets()-form.getHlb());

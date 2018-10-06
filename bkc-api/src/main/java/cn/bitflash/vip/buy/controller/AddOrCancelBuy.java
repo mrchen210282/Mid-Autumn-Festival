@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class AddOrCancelBuy {
     /**
      * --------------发布---------------
      *
-     * @param userBuyEntity 订单信息
+     * @param userMarketBuyEntity 订单信息
      * @return 交易状态
      */
     @Login
@@ -106,8 +105,8 @@ public class AddOrCancelBuy {
         //获取手续费
         Map<String, Float> map = tradeUtil.poundage(id);
         //扣除手续费
-        boolean dec = tradeUtil.deduct(new BigDecimal(map.get("totalQuantity")), uid);
-        if(dec == false){
+        boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
+        if(!dec){
             return R.ok().put("code", FAIL);
         }
 
@@ -115,8 +114,8 @@ public class AddOrCancelBuy {
         BuyPoundageEntity buyPoundageEntity = new BuyPoundageEntity();
         buyPoundageEntity.setUserBuyId(id);
         buyPoundageEntity.setSellUid(uid);
-        buyPoundageEntity.setPoundage(new BigDecimal(map.get("totalPoundage")));
-        buyPoundageEntity.setQuantity(new BigDecimal(map.get("buyQuantity")));
+        buyPoundageEntity.setPoundage(map.get("totalPoundage"));
+        buyPoundageEntity.setQuantity(map.get("buyQuantity"));
         buyPoundageEntity.setCreateTime(new Date());
         feign.insertPoundage(buyPoundageEntity);
 

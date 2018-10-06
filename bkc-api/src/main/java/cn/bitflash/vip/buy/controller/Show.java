@@ -1,15 +1,16 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserBuyBean;
-import cn.bitflash.util.R;
+import cn.bitflash.utils.R;
+import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static cn.bitflash.util.Common.*;
+import static cn.bitflash.vip.buy.controller.BuyCommon.*;
+
 
 @RestController
 @RequestMapping("/buy/show")

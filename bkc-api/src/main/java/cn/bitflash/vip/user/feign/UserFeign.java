@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @FeignClient(value = "bkc-model")
 public interface UserFeign {
@@ -90,7 +89,7 @@ public interface UserFeign {
      * user_npc 表
      */
     @PostMapping
-    Boolean insertUserNpcEntity(@RequestBody UserNpcEntity npcEntity);
+    Boolean insertUserNpcEntity(@RequestBody UserNpcTradeHistoryEntity npcEntity);
 
     /**
      * user_assets_hlb 表

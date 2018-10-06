@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * npc兑换实体类
  */
-public class UserNpcEntity {
+public class UserNpcTradeHistoryEntity {
 
     private String id;
 

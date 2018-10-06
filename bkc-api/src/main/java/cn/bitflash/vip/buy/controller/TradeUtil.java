@@ -1,11 +1,9 @@
 package cn.bitflash.vip.buy.controller;
 
-import cn.bitflash.entities.UserBuyEntity;
-import cn.bitflash.entity.UserAccountEntity;
+import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +17,13 @@ public class TradeUtil {
      * ----------------------------手续费+订单数量------------------------
      */
     public Map<String, Float> poundage(String id) {
-        UserBuyEntity userBuy = feign.selectBuyById(id);
-        if (userBuy == null) {
+        UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
+        if (userMarketBuyEntity == null) {
             return null;
         }
         DecimalFormat df = new DecimalFormat("#########.##");
         //交易数量
-        Float buyQuantity = Float.parseFloat(df.format(userBuy.getQuantity()));
+        Float buyQuantity = Float.parseFloat(df.format(userMarketBuyEntity.getQuantity()));
         //手续费比率
         Float poundage = feign.selectPoundage(2);
         //手续费数量
@@ -33,7 +31,7 @@ public class TradeUtil {
         //实际交易总数量
         Float totalQuantity = buyQuantity + totalPoundage;
         //单价
-        Float price = userBuy.getPrice();
+        Float price = userMarketBuyEntity.getPrice();
         //总价格
         Float totalMoney = buyQuantity * (price);
 
@@ -50,20 +48,12 @@ public class TradeUtil {
     /**
      * --------------------------------扣款-------------------------------
      */
-    public boolean deduct(BigDecimal money, String uid) {
-        UserAccountEntity userAccountEntity = feign.selectAccountById(uid);
-        if (userAccountEntity.getAvailableAssets().compareTo(money) != -1) {
-            if (userAccountEntity.getRegulateRelease().compareTo(money) != -1) {
-                userAccountEntity.setRegulateRelease(userAccountEntity.getRegulateRelease().subtract(money));
-                userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
-            } else {
-                userAccountEntity.setRegulateIncome(userAccountEntity.getRegulateIncome().subtract(money.subtract(userAccountEntity.getRegulateRelease())));
-                userAccountEntity.setRegulateRelease(new BigDecimal(0));
-                userAccountEntity.setAvailableAssets(userAccountEntity.getAvailableAssets().subtract(money));
-            }
-            feign.updateAccountById(userAccountEntity);
-            return true;
+    public boolean deduct(float money, String uid) {
+        UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(uid);
+        float deduction = userAssetsNpcEntity.getNpcAssets()-money;
+        if (deduction<0) {
+            return false;
         }
-        return false;
+        return true;
     }
 }
