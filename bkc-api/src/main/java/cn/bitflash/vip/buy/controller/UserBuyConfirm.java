@@ -19,7 +19,7 @@ import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 
 @RestController
 @RequestMapping("/buy")
-public class Confirm {
+public class UserBuyConfirm {
 
     private TradeUtil tradeUtil;
 

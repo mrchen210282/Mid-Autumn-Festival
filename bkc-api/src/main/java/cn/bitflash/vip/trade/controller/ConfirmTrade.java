@@ -1,26 +1,13 @@
 package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.controller;
-//
-//import cn.bitflash.annotation.Login;
-//import cn.bitflash.entities.*;
-//import cn.bitflash.util.Assert;
-//import cn.bitflash.util.Common;
-//import cn.bitflash.util.R;
-//import cn.bitflash.vip.trade.feign.TradeFeign;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-//import io.swagger.annotations.ApiParam;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.math.BigDecimal;
-//
-//@RestController
-//@RequestMapping("trade")
-//@Api(value = "查询列表数据")
-//public class ConfirmTrade {
-//
+
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("trade")
+@Api(value = "查询列表数据")
+public class ConfirmTrade {
+
 //    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 //
 //    @Autowired
@@ -77,6 +64,6 @@ package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.control
 //        return R.error("交易密码错误");
 //
 //    }
-//
-//
-//}
+
+
+}

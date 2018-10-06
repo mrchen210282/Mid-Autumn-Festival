@@ -57,7 +57,8 @@ public class TradeList {
             // 查询交易
             List<OrderListBean> listEntity = tradeFeign.selectOrderTrade(uid, pageNum, "6");
             Integer count = tradeFeign.selectTradeCount(uid, pageNum, "6");
-            param.put("availableAssets", userAccount.getNpcAssets());
+            BigDecimal npcAssets = new BigDecimal(userAccount.getNpcAssets());
+            param.put("availableAssets", TradeCommon.decimalFormat(npcAssets.doubleValue()));
             param.put("userAccountList", listEntity);
             param.put("totalRecord", count);
         } else {
