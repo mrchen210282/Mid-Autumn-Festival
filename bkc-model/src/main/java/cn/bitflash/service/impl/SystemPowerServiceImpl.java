@@ -16,12 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.DictComputingPowerDao;
-import cn.bitflash.entity.DictComputingPowerEntity;
-import cn.bitflash.service.DictComputingPowerService;
+import cn.bitflash.dao.SystemPowerDao;
+import cn.bitflash.entity.SystemPowerEntity;
+import cn.bitflash.service.SystemPowerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("dictComputingPowerService")
-public class DictComputingPowerServiceImpl extends ServiceImpl<DictComputingPowerDao, DictComputingPowerEntity> implements DictComputingPowerService {
+@Service("systemPowerService")
+public class SystemPowerServiceImpl extends ServiceImpl<SystemPowerDao, SystemPowerEntity> implements SystemPowerService {
 }

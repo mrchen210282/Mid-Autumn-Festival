@@ -16,24 +16,13 @@
 
 package cn.bitflash.dao;
 
-
-import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
-import cn.bitflash.entity.UserRelationEntity;
+import cn.bitflash.entity.SystemPowerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
-
-    List<UserRelationEntity> selectTreeNodes(String uid);
-
-    Boolean insertTreeNode(@Param("f_uid" ) String f_uid, @Param("c_uid" ) String c_uid, @Param("code" ) String code,@Param("area") String area);
-
-    List<UserRelationJoinNpcAndHlbean> selectTreeNood(@Param("f_uid" ) String f_uid);
+public interface SystemPowerDao extends BaseMapper<SystemPowerEntity> {
 
 }

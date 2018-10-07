@@ -60,7 +60,12 @@ public class Vip {
         npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
         levelFeign.updateUserAssetsNpc(npcEntity);
-        //6.TODO 增加人数
+        //6.增加人数
+        UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
+        if(relation==null){
+
+        }
+
 
         //6.5 加入兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
@@ -70,7 +75,7 @@ public class Vip {
         hlbTradeHistoryEntity.setTotalNpc(form.getNpc());
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
         //7.验证排点
-        UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
+
         if (relation != null) {
             return R.ok();
         }
