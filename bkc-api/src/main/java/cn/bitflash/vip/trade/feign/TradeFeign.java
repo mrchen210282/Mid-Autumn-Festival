@@ -98,10 +98,17 @@ public interface TradeFeign {
     void insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
 
     /**
-     * user_pay_pwd 表
      */
-    @PostMapping("")
-    UserSecretEntity selectUserPwdByUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userSecret/selectById")
+    UserSecretEntity selectById(@RequestParam("uid") String uid);
+
+    /**
+     * selectUserBrokerageById
+     *
+     * @return
+     */
+    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
 
     /**
      * user_account 表

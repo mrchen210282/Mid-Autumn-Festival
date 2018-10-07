@@ -1,3 +1,5 @@
+
+
 package cn.bitflash.entity;
 
 import java.io.Serializable;
@@ -5,7 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * @author soso
- * @date 2018å¹´5æœˆ22æ—¥ ä¸‹åˆ4:00:45
+ * @date 2018Äê5ÔÂ22ÈÕ ÏÂÎç4:00:45
  */
 
 public class UserBrokerageEntity implements Serializable {

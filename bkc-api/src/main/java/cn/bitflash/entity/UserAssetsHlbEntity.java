@@ -25,6 +25,10 @@ public class UserAssetsHlbEntity {
     //hlb购买价格
     private float hlbPrice;
 
+    private float lftAchievement;
+
+    private float rgtAchievement;
+
     public String getUid() {
         return uid;
     }
@@ -87,5 +91,29 @@ public class UserAssetsHlbEntity {
 
     public void setHlbPrice(float hlbPrice) {
         this.hlbPrice = hlbPrice;
+    }
+
+    public float getAvailableAssets() {
+        return availableAssets;
+    }
+
+    public void setAvailableAssets(float availableAssets) {
+        this.availableAssets = availableAssets;
+    }
+
+    public float getLftAchievement() {
+        return lftAchievement;
+    }
+
+    public void setLftAchievement(float lftAchievement) {
+        this.lftAchievement = lftAchievement;
+    }
+
+    public float getRgtAchievement() {
+        return rgtAchievement;
+    }
+
+    public void setRgtAchievement(float rgtAchievement) {
+        this.rgtAchievement = rgtAchievement;
     }
 }

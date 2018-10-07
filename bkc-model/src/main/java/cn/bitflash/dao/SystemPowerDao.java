@@ -14,14 +14,15 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.UserDrawCashDao;
-import cn.bitflash.entity.UserDrawCashEntity;
-import cn.bitflash.service.UserDrawCashService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.entity.SystemPowerEntity;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
-@Service("userDrawCashService")
-public class UserDrawCashServiceImpl extends ServiceImpl<UserDrawCashDao, UserDrawCashEntity> implements UserDrawCashService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface SystemPowerDao extends BaseMapper<SystemPowerEntity> {
+
 }

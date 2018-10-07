@@ -16,12 +16,12 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.UserDrawingDao;
-import cn.bitflash.entity.UserDrawingEntity;
-import cn.bitflash.service.UserDrawingService;
+import cn.bitflash.dao.SystemPowerDao;
+import cn.bitflash.entity.SystemPowerEntity;
+import cn.bitflash.service.SystemPowerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
-@Service("userDrawingService")
-public class UserDrawingServiceImpl extends ServiceImpl<UserDrawingDao, UserDrawingEntity> implements UserDrawingService {
+@Service("systemPowerService")
+public class SystemPowerServiceImpl extends ServiceImpl<SystemPowerDao, SystemPowerEntity> implements SystemPowerService {
 }
