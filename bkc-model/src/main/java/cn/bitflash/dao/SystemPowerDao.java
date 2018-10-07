@@ -16,7 +16,6 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.entity.SystemPowerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
