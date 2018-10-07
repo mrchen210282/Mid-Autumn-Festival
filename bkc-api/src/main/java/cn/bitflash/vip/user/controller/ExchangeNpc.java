@@ -58,15 +58,15 @@ public class ExchangeNpc {
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
-        hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets()-form.getHlb());
+        hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets() - form.getHlb());
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
-        npcNumEntity.setNpcAssets(npcNumEntity.getNpcAssets()+npc);
-        npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets()+npc);
+        npcNumEntity.setNpcAssets(npcNumEntity.getNpcAssets() + npc);
+        npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets() + npc);
         userFeign.updateUserAssetsNpc(npcNumEntity);
         //扣除可兑换npc
-        npcEntity.setTotalNpc(npcEntity.getTotalNpc()-npc);
+        npcEntity.setTotalNpc(npcEntity.getTotalNpc() - npc);
         userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
     }
@@ -74,18 +74,22 @@ public class ExchangeNpc {
     @Login
     @PostMapping("showNpcNum")
     @ApiOperation("获取npc数量")
-    public R showNpcNum(@RequestAttribute("uid")String uid){
+    public R showNpcNum(@RequestAttribute("uid") String uid) {
         Date now = new DateTime().withTimeAtStartOfDay().toDate();
         DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
-        Map<String,Object> map =new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         //当前拥有的hlb
-        map.put("hlb",hlbNumEntity.getHlbAssets());
+        map.put("hlb", hlbNumEntity.getHlbAssets());
         //当前拥有的npc
-        map.put("npc",npcNumEntity.getNpcAssets());
+        map.put("npc", npcNumEntity.getNpcAssets());
         //可兑换的npc
-        map.put("allNpc",npcEntity.getTotalNpc());
+        map.put("allNpc", npcEntity.getTotalNpc());
+        //100hlb：npc数量
+        float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
+        int rate = (int) (100 / npc_unit_price);
+        map.put("rate", rate);
         return R.ok(map);
     }
 

@@ -3,9 +3,9 @@ package cn.bitflash.entity;
 import java.util.Date;
 
 /**
- * npc兑换历史实体类
+ * hlb兑换历史实体类
  */
-public class UserNpcTradeHistoryEntity {
+public class UserHlbTradeHistoryEntity {
 
     private String id;
 

@@ -84,5 +84,10 @@ public interface LevelFeign {
     @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
+    /**
+     * user_hlb_trade_history 表
+     */
+    Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
+
 
 }

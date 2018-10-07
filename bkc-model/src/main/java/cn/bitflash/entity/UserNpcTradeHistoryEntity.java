@@ -1,12 +1,18 @@
 package cn.bitflash.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.util.Date;
 
 /**
- * npc兑换历史实体类
+ * npc兑换实体类
  */
+@TableName("user_npc_trade_history")
 public class UserNpcTradeHistoryEntity {
 
+    @TableId(type = IdType.INPUT)
     private String id;
 
     private String uid;
