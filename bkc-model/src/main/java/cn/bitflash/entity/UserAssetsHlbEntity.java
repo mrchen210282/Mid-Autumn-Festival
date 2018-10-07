@@ -10,9 +10,6 @@ public class UserAssetsHlbEntity {
     @TableId(type = IdType.INPUT)
     private String uid;
 
-    //总购买
-    private float purchase;
-
     //总收益
     private float totelAssets;
 
@@ -35,6 +32,8 @@ public class UserAssetsHlbEntity {
 
     private float rgtAchievement;
 
+    private float vipReleaseCash;
+
     public String getUid() {
         return uid;
     }
@@ -43,13 +42,6 @@ public class UserAssetsHlbEntity {
         this.uid = uid;
     }
 
-    public float getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(float purchase) {
-        this.purchase = purchase;
-    }
 
     public float getTotelAssets() {
         return totelAssets;
@@ -121,5 +113,13 @@ public class UserAssetsHlbEntity {
 
     public void setAvailableAssets(float availableAssets) {
         this.availableAssets = availableAssets;
+    }
+
+    public float getVipReleaseCash() {
+        return vipReleaseCash;
+    }
+
+    public void setVipReleaseCash(float vipReleaseCash) {
+        this.vipReleaseCash = vipReleaseCash;
     }
 }
