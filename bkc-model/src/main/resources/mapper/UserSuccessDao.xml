@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserComplaintDao">
+
+    <select id="selectSuccessList" resultType="cn.bitflash.bean.UserBuyBean">
+        SELECT
+            ui.nickname as nickname,
+            ub.price as userPrice,
+            ub.quantity as userQuantity,
+            ub.order_state as orderState,
+            uc.finish_time as createTime,
+            ub.id as orderId
+        FROM
+            user_market_buy_history ub
+        LEFT JOIN user_info ui ON uc.complaint_uid = ui.uid
+        WHERE
+            ub.purchase_uid = #{uid}
+            OR ub.sell_uid = #{uid}
+        UNION
+        SELECT
+            ui.nickname as nickname,
+            ut.price as userPrice,
+            ut.purchase_quantity as userQuantity,
+            ut.order_state as orderState,
+            ut.finish_time as createTime,
+            ut.user_trade_id as orderId
+        FROM
+            user_market_trade_history ut
+        LEFT JOIN user_info ui ON uc.complaint_uid = ui.uid
+        WHERE
+            ut.purchase_uid = #{uid}
+            OR ut.sell_uid = #{uid}
+        limit #{pages},6
+    </select>
+
+</mapper>
