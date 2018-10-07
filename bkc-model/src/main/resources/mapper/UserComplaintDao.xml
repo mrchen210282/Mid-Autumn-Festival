@@ -6,8 +6,8 @@
     <select id="selectAppealList" resultType="cn.bitflash.bean.UserBuyBean">
         SELECT
             ui.nickname as nickname,
-            uh.price as userPrice,
-            uh.quantity as userQuantity,
+            ub.price as userPrice,
+            ub.quantity as userQuantity,
             uc.order_state as orderState,
             uc.complaint_state as complaintState,
             uc.create_time as createTime,
@@ -30,11 +30,11 @@
             uc.order_id as orderId
         FROM
             user_complaint uc
-        LEFT JOIN user_market_trade uth ON uc.order_id = ut.id
+        LEFT JOIN user_market_trade ut ON uc.order_id = ut.id
         LEFT JOIN user_info ui ON uc.complaint_uid = ui.uid
         WHERE
             ut.purchase_uid = #{uid}
-            OR ut.sell_uid = #{uid}
+            OR ut.uid = #{uid}
         limit #{pages},6
     </select>
 
