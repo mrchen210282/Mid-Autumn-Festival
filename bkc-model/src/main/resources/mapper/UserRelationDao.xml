@@ -17,6 +17,14 @@
 		 ]]>
     </select>
 
+    <select id="selectTreeNood" parameterType="java.lang.String"
+            statementType="CALLABLE" useCache="false"
+            resultType="cn.bitflash.bean.UserRelationJoinNpcAndHlbean">
+        <![CDATA[
+		call selectTreeNood(#{f_uid,jdbcType=VARCHAR,mode=IN})
+		 ]]>
+    </select>
+
 
 
 

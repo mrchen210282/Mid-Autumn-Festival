@@ -1,6 +1,7 @@
 package cn.bitflash.controller;
 
 
+import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
@@ -75,5 +76,11 @@ public class UserRelationController {
         return userRelationService.insertTreeNode(pid,uid,code,area);
 
     }
+
+    @PostMapping("/inner/userRelation/selectTreeNood")
+    public List<UserRelationJoinNpcAndHlbean> selectTreeNood(@RequestParam("f_uid")String f_uid){
+        return userRelationService.selectTreeNood(f_uid);
+    }
+
 
 }

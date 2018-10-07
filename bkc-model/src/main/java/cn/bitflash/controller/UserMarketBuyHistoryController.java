@@ -36,7 +36,7 @@ public class UserMarketBuyHistoryController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketBuy/updateById")
+    @PostMapping("/inner/userMarketBuyHistory/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserMarketBuyHistoryEntity entity = (UserMarketBuyHistoryEntity) JSONObject.parseObject(json.toString(), UserMarketBuyHistoryEntity.class);
         return userMarketBuyHistoryService.updateById(entity);

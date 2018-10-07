@@ -14,14 +14,16 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.UserDrawingDao;
-import cn.bitflash.entity.UserDrawingEntity;
-import cn.bitflash.service.UserDrawingService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.entity.SystemPowerEntity;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
-@Service("userDrawingService")
-public class UserDrawingServiceImpl extends ServiceImpl<UserDrawingDao, UserDrawingEntity> implements UserDrawingService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface SystemPowerDao extends BaseMapper<SystemPowerEntity> {
+
 }
