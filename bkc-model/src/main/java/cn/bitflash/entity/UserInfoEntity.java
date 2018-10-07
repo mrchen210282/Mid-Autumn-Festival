@@ -30,6 +30,8 @@ public class UserInfoEntity implements Serializable {
 
     private String powerLevel;
 
+    private Integer upgradeNum;
+
     public String getUid() {
         return uid;
     }
@@ -92,5 +94,13 @@ public class UserInfoEntity implements Serializable {
 
     public void setPowerLevel(String powerLevel) {
         this.powerLevel = powerLevel;
+    }
+
+    public Integer getUpgradeNum() {
+        return upgradeNum;
+    }
+
+    public void setUpgradeNum(Integer upgradeNum) {
+        this.upgradeNum = upgradeNum;
     }
 }
