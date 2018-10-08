@@ -50,7 +50,7 @@ public class TradeUtil {
      */
     public boolean deduct(float money, String uid) {
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(uid);
-        float deduction = userAssetsNpcEntity.getNpcAssets()-money;
+        float deduction = userAssetsNpcEntity.getAvailableAssets()-money;
         if (deduction<0) {
             return false;
         }
