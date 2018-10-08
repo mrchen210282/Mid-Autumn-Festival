@@ -108,6 +108,7 @@ public interface LevelFeign {
     @PostMapping("/innner/systemvip/selectAll")
     List<SystemVipEntity> selectSystemVipes();
 
+    @PostMapping(".")
     SystemVipEntity selectSystemVipById(@RequestParam("id")int id);
 
 

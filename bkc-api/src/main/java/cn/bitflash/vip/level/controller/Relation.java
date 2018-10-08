@@ -72,11 +72,11 @@ public class Relation {
         UserAssetsHlbEntity hlbEntity =levelFeign.selectUserAssetsHlbById(uid);
         Map<String,Object> map =new HashMap<>();
         //npc可用
-        map.put("available_npc",npcEntity.getNpcAssets());
+        map.put("available_npc",npcEntity.getAvailableAssets());
         //HLB冻结数量
         map.put("hlb_frozen",hlbEntity.getFrozenAssets());
         //HLB可用量
-        map.put("available_hlb",hlbEntity.getHlbAssets());
+        map.put("available_hlb",hlbEntity.getAvailableAssets());
         String npc = levelFeign.getVal("npc_unit_price");
         String giveRate = levelFeign.getVal("hlb_give_rate");
         map.put("npc_unit_price",npc);
