@@ -33,17 +33,17 @@ public class UserSendServiceImpl extends ServiceImpl<UserSendDao, UserSendEntity
     }
 
     @Override
-    public List<UserSendEntity> selectaccept(String uid, Integer pages) {
+    public List<UserSendEntity> selectAccept(String uid, Integer pages) {
         return baseMapper.selectAccept(uid,pages);
     }
 
     @Override
-    public Integer selectaccountcount(String uid) {
+    public Integer selectAccountCount(String uid) {
         return baseMapper.selectAccountCount(uid);
     }
 
     @Override
-    public Integer selectacceptcount(String send_uid) {
+    public Integer selectAcceptCount(String send_uid) {
         return baseMapper.selectAcceptCount(send_uid);
     }
 }

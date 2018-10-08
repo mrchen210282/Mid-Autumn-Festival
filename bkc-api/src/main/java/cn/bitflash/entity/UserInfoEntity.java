@@ -27,7 +27,7 @@ public class UserInfoEntity implements Serializable {
 
     private Integer upgradeNum;
 
-    private String vipLevel;
+    private Integer vipLevel;
 
     public String getPowerLevel() {
         return powerLevel;
@@ -101,11 +101,11 @@ public class UserInfoEntity implements Serializable {
         this.upgradeNum = upgradeNum;
     }
 
-    public String getVipLevel() {
+    public Integer getVipLevel() {
         return vipLevel;
     }
 
-    public void setVipLevel(String vipLevel) {
+    public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
     }
 }

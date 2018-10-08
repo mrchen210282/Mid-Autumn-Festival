@@ -23,7 +23,7 @@ public interface LevelFeign {
     @PostMapping("/inner/userInfo/selectById")
     UserInfoEntity selectUserInfoByUid(@RequestParam("id") String uid);
 
-    @PostMapping
+    @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfo(@RequestBody UserInfoEntity userInfoEntity);
 
     /**
@@ -38,6 +38,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
                            @RequestParam("code") String code,@RequestParam("area")String area);
+
+    @PostMapping("/inner/userRelation/selectRelationByCode")
+    List<UserRelationEntity> selectRelationByCode(@RequestParam("code") String code);
 
     /**
      * user_invitation_code 表
@@ -60,6 +63,7 @@ public interface LevelFeign {
     /**
      * user_hlb_trade_history 表
      */
+    @PostMapping("")
     Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
 
     /**
@@ -98,6 +102,13 @@ public interface LevelFeign {
     @PostMapping("")
     SystemPowerEntity selectSystemPowerById(@RequestParam("id")String id);
 
+    /**
+     * system_vip 表
+     */
+    @PostMapping("/innner/systemvip/selectAll")
+    List<SystemVipEntity> selectSystemVipes();
+
+    SystemVipEntity selectSystemVipById(@RequestParam("id")int id);
 
 
 

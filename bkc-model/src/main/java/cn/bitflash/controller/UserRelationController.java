@@ -5,6 +5,7 @@ import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,6 +81,11 @@ public class UserRelationController {
     @PostMapping("/inner/userRelation/selectTreeNood")
     public List<UserRelationJoinNpcAndHlbean> selectTreeNood(@RequestParam("f_uid")String f_uid){
         return userRelationService.selectTreeNood(f_uid);
+    }
+
+    @PostMapping("/inner/userRelation/selectRelationByCode")
+    public List<UserRelationEntity> selectRelationByCode(@RequestParam("code") String code){
+        return userRelationService.selectList(new EntityWrapper<UserRelationEntity>().eq("father_code",code));
     }
 
 
