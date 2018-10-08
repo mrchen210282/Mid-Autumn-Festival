@@ -4,6 +4,7 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.UserWalletAddressEntity;
 import cn.bitflash.service.UserWalletAddressService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,4 +63,11 @@ public class UserWalletAddressController {
         return userWalletAddressService.deleteById(id);
     }
 
+    /**
+     * selectByAddress
+     */
+    @PostMapping("/inner/userWalletAddress/selectByAddress")
+    public UserWalletAddressEntity selectByAddress(@RequestParam("address") String address){
+        return userWalletAddressService.selectOne(new EntityWrapper<UserWalletAddressEntity>().eq("address",address));
+    }
 }

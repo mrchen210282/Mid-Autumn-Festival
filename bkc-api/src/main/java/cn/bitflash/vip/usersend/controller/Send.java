@@ -3,7 +3,6 @@ package cn.bitflash.vip.usersend.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
-import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.usersend.feign.SendFrign;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,47 +102,6 @@ public class Send {
             return R.ok().put("code", code);
         }
 
-//        if (user_quantitys.compareTo(sendAccount.getAvailableAssets()) == -1 || user_quantitys.compareTo(sendAccount.getAvailableAssets()) == 0) {
-//
-//            //如果regulateRelease数量足够扣款
-//            if (user_quantitys.compareTo(sendAccount.getRegulateRelease()) == -1 || user_quantitys.compareTo(sendAccount.getRegulateRelease()) == 0) {
-//                BigDecimal regulateRelease = sendAccount.getRegulateRelease().subtract(user_quantitys);
-//                BigDecimal availableAssets = sendAccount.getAvailableAssets().subtract(user_quantitys);
-//                sendAccount.setRegulateRelease(regulateRelease);
-//                sendAccount.setAvailableAssets(availableAssets);
-//                //更新数据
-//                sendFrign.updateAccountById(sendAccount);
-//                relation = true;
-//            } else {//如果regulateRelease数量不足够扣款
-//                //查询regulate_income
-//                BigDecimal surplus = user_quantitys.subtract(sendAccount.getRegulateRelease());
-//                BigDecimal regulate_income = sendAccount.getRegulateIncome().subtract(surplus);
-//                BigDecimal availableAssets = sendAccount.getAvailableAssets().subtract(user_quantitys);
-//                sendAccount.setRegulateRelease(new BigDecimal(0.00));
-//                sendAccount.setAvailableAssets(availableAssets);
-//                sendAccount.setRegulateIncome(regulate_income);
-//                //更新数据
-//                sendFrign.updateAccountById(sendAccount);
-//                relation = true;
-//            }
-            //Sendee在user——account中修改
-//            if (relation) {
-//                UserAccountEntity sendee_account = sendFrign.selectAccountByUid(sendee.getUid());
-//
-//                BigDecimal regulate_income = sendee_account.getRegulateIncome().add(user_quantity);
-//                BigDecimal availableAssets = sendee_account.getAvailableAssets().add(user_quantity);
-//                sendee_account.setRegulateIncome(regulate_income);
-//                sendee_account.setAvailableAssets(availableAssets);
-//                //更新数据
-//                sendFrign.updateAccountById(sendee_account);
-//            }
-
-//        } else {
-//            //数量不够扣款
-//            code = -1;
-//            //交易失败
-//            return R.ok().put("code", code);
-//        }
 
         //添加数据user_send,添加赠送记录
         if (relation) {
@@ -174,14 +132,14 @@ public class Send {
 
         //state = 1 :发送
         if (state == 1) {
-            List<UserSendEntity> usersendList = sendFrign.selectSendList(uid, Integer.valueOf(pages));
-            Integer count = sendFrign.selectSendcount(uid);
+            List<UserSendEntity> usersendList = sendFrign.selectAccount(uid, Integer.valueOf(pages));
+            Integer count = sendFrign.selectAccountCount(uid);
             return R.ok().put("usersendList", usersendList).put("count", count);
         }
         //state = 2 :接收
         else if (state == 2) {
-            List<UserSendEntity> useracceptList = sendFrign.selectSendList(uid, Integer.valueOf(pages));
-            Integer count = sendFrign.selectSendcount(uid);
+            List<UserSendEntity> useracceptList = sendFrign.selectAccept(uid, Integer.valueOf(pages));
+            Integer count = sendFrign.selectAcceptCount(uid);
             return R.ok().put("useracceptList", useracceptList).put("count", count);
         }
         return R.ok();
