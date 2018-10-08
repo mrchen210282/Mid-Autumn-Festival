@@ -82,16 +82,16 @@ public class Send {
         UserAssetsNpcEntity send_account = sendFrign.selectAssetsById(uid);
         //扣款数量
         BigDecimal user_quantitys = user_quantity.add(user_brokerage);
-        BigDecimal npcAssets = new BigDecimal(send_account.getNpcAssets());
+        BigDecimal npcAssets = new BigDecimal(send_account.getAvailableAssets());
         //账号总额大于扣款
         if (user_quantitys.compareTo(npcAssets) == -1 || user_quantitys.compareTo(npcAssets) == 0) {
-            send_account.setNpcAssets(npcAssets.subtract(user_quantitys).floatValue());
+            send_account.setAvailableAssets(npcAssets.subtract(user_quantitys).floatValue());
             sendFrign.updateAssetsById(send_account);
             relation = true;
 
             if (relation) {
                 UserAssetsNpcEntity sendee_account = sendFrign.selectAssetsById(sendee.getUid());
-                BigDecimal sendeeAssets = new BigDecimal(send_account.getNpcAssets());
+                BigDecimal sendeeAssets = new BigDecimal(send_account.getAvailableAssets());
                 sendee_account.setNpcAssets(sendeeAssets.add(user_quantity).floatValue());
                 //更新数据
                 sendFrign.updateAssetsById(sendee_account);

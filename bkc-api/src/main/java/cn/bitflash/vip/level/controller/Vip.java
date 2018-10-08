@@ -43,7 +43,7 @@ public class Vip {
         }
         //3.验证 NPC数量 单价
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        if (npcEntity.getNpcAssets() < form.getNpc()) {
+        if (npcEntity.getAvailableAssets() < form.getNpc()) {
             return R.error("NPC数量不足");
         }
         //4.赠送比例
@@ -57,7 +57,7 @@ public class Vip {
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
         levelFeign.updateUserAssetsHlb(hlbEntity);
-        npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());
+        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
         levelFeign.updateUserAssetsNpc(npcEntity);
         //6.增加人数

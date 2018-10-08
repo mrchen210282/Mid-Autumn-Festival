@@ -14,22 +14,19 @@
  * the License.
  */
 
-package cn.bitflash.service.impl;
+package cn.bitflash.dao;
 
-import cn.bitflash.dao.UserLoginDao;
+
 import cn.bitflash.entity.UserSecretEntity;
-import cn.bitflash.service.UserLoginService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 import java.util.Map;
 
-@Service("userLoginService")
-public class UserLoginServiceImpl extends ServiceImpl<UserLoginDao, UserSecretEntity> implements UserLoginService {
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+public interface UserSecretDao extends BaseMapper<UserSecretEntity> {
 
-    @Override
-    public String selectUid(Map<String, Object> map) {
-        String uid = baseMapper.selectUid(map);
-        return uid;
-    }
+    String selectUid(Map<String, Object> map);
 }

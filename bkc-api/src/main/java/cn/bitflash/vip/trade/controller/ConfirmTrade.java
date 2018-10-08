@@ -1,11 +1,7 @@
 package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.TradePoundageEntity;
-import cn.bitflash.entity.UserBrokerageEntity;
-import cn.bitflash.entity.UserMarketTradeEntity;
-import cn.bitflash.entity.UserSecretEntity;
-import cn.bitflash.utils.Common;
+import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.trade.feign.TradeCommon;
 import cn.bitflash.vip.trade.feign.TradeFeign;
@@ -18,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import java.util.Date;
 
 @RestController
 @RequestMapping("trade")
@@ -29,14 +25,6 @@ public class ConfirmTrade {
 
     @Autowired
     private TradeFeign tradeFeign;
-
-//    /**
-//     * selectUserBrokerageById
-//     *
-//     * @return
-//     */
-//    @PostMapping("/inner/userBroker/selectUserBrokerageById")
-//    public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") String id);
 
     @Login
     @PostMapping("purchase")
@@ -50,6 +38,7 @@ public class ConfirmTrade {
          * 4.系统手续费增加
          * 5.更新买家收益
          * 6.删除手续费表记录
+         * 7.添加交易记录
          */
         UserSecretEntity userPayPwd = tradeFeign.selectById(uid);
 
@@ -60,31 +49,53 @@ public class ConfirmTrade {
 
             Assert.isNull(trade,"订单不存在");
 
-            // 订单状态变为已付款
-            trade.setState(TradeCommon.STATE_PAY);
-            tradeFeign.insertOrUpdateTrade(trade);
             // 卖出数量
             Float quantity = trade.getQuantity();
             // 购买人uid
             String pUid = trade.getPurchaseUid();
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(orderId);
             Assert.isNull(tradePoundageEntity, "订单有误");
-            // 计算手续费
-            // 手续费=卖出数量*0.05
+
+            //手续费累加
             UserBrokerageEntity userBrokerageEntity = tradeFeign.selectUserBrokerageById(1);
-            BigDecimal multiplyB = userBrokerageEntity.getSellBrokerage().add(tradePoundageEntity.getPoundage());
+            Float multiplyB = userBrokerageEntity.getSellBrokerage() + tradePoundageEntity.getPoundage();
             userBrokerageEntity.setSellBrokerage(multiplyB);
             tradeFeign.updateUserBrokerage(userBrokerageEntity);
 
-            BigDecimal regulateIncome = userAccount.getRegulateIncome().add(quantity);
-            userAccount.setRegulateIncome(regulateIncome);
-            BigDecimal availableAssets = userAccount.getAvailableAssets().add(quantity);
-            userAccount.setAvailableAssets(availableAssets);
-            userAccount.setUid(pUid);
-            tradeFeign.updateUserAccount(userAccount);
+            UserMarketTradeEntity entity = tradeFeign.selectTradeById(trade.getId());
+            if(null != entity) {
+                float availableAssets = entity.getQuantity();
 
-            //删除手续费记录
-            tradeFeign.deleteTradePoundageById(orderId);
+                //查询出购买人
+                UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectAccountByUid(entity.getPurchaseUid());
+                if(null != userAssetsNpcEntity) {
+                    float purchaseAvailable = userAssetsNpcEntity.getAvailableAssets() + availableAssets;
+                    userAssetsNpcEntity.setAvailableAssets(purchaseAvailable);
+                    tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
+
+                    //删除手续费
+                    tradeFeign.deleteById(orderId);
+
+                    //删除交易记录
+                    tradeFeign.deleteUserMarketTradeById(orderId);
+
+                    //添加历史记录
+                    UserMarketTradeHistoryEntity userMarketTradeHistoryEntity = new UserMarketTradeHistoryEntity();
+                    userMarketTradeHistoryEntity.setUserTradeId(orderId);
+                    userMarketTradeHistoryEntity.setPurchaseUid(entity.getPurchaseUid());
+                    userMarketTradeHistoryEntity.setPrice(entity.getPrice());
+                    userMarketTradeHistoryEntity.setSellUid(entity.getSellUid());
+                    userMarketTradeHistoryEntity.setQuantity(trade.getQuantity());
+                    userMarketTradeHistoryEntity.setOrderState(TradeCommon.STATE_PAY);
+                    userMarketTradeHistoryEntity.setFinishTime(new Date());
+                    userMarketTradeHistoryEntity.setCreateTime(new Date());
+                    tradeFeign.insertUserMarketTradeHistory(userMarketTradeHistoryEntity);
+                } else {
+                    logger.info("购买人id:" + entity.getPurchaseUid() + "不存在！");
+                }
+            } else {
+                logger.info("订单号:" + entity.getId() + "不存在！");
+            }
             logger.info("购买人:" + uid + ",订单号:" + orderId);
             return R.ok();
         }

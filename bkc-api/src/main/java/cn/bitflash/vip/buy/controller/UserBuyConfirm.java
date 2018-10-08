@@ -46,7 +46,7 @@ public class UserBuyConfirm {
         //充值
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
-        userAssetsNpcEntity.setNpcAssets(userAssetsNpcEntity.getNpcAssets()+buyQuantity);
+        userAssetsNpcEntity.setAvailableAssets(userAssetsNpcEntity.getAvailableAssets() + buyQuantity);
         feign.updateAccountById(userAssetsNpcEntity);
 
         //添加手续费到user_brokerage中

@@ -2,7 +2,7 @@ package cn.bitflash.controller;
 
 
 import cn.bitflash.entity.UserSecretEntity;
-import cn.bitflash.service.UserLoginService;
+import cn.bitflash.service.UserSecretService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.commons.lang.RandomStringUtils;
@@ -19,10 +19,10 @@ import java.util.Map;
  * @author GAOYGUUO
  */
 @RestController
-public class UserLoginController {
+public class UserSecretController {
 
     @Autowired
-    private UserLoginService userLoginService;
+    private UserSecretService userSecretService;
 
 
     /**
@@ -32,7 +32,7 @@ public class UserLoginController {
      */
     @PostMapping("/inner/userLogin/selectById")
     public UserSecretEntity selectById(@RequestParam("id") String id) {
-        UserSecretEntity entity = userLoginService.selectById(id);
+        UserSecretEntity entity = userSecretService.selectById(id);
         return entity;
     }
 
@@ -44,7 +44,7 @@ public class UserLoginController {
     @PostMapping("/inner/userLogin/updateById")
     public boolean updateById(@RequestBody JSONObject json) throws Exception {
         UserSecretEntity entity = (UserSecretEntity) JSONObject.parseObject(json.toString(), UserSecretEntity.class);
-        return userLoginService.updateById(entity);
+        return userSecretService.updateById(entity);
     }
 
     /**
@@ -55,7 +55,7 @@ public class UserLoginController {
     @PostMapping("/inner/userLogin/updateByMobile")
     public boolean updateByMobile(@RequestBody JSONObject json) throws Exception {
         UserSecretEntity entity = (UserSecretEntity) JSONObject.parseObject(json.toString(), UserSecretEntity.class);
-        return userLoginService.update(entity, new EntityWrapper<UserSecretEntity>().eq("mobile", entity.getMobile()));
+        return userSecretService.update(entity, new EntityWrapper<UserSecretEntity>().eq("mobile", entity.getMobile()));
     }
 
     /**
@@ -66,7 +66,7 @@ public class UserLoginController {
     @PostMapping("/inner/userLogin/insert")
     public boolean insert(@RequestBody JSONObject json) throws Exception {
         UserSecretEntity entity = (UserSecretEntity) JSONObject.parseObject(json.toString(), UserSecretEntity.class);
-        return userLoginService.insert(entity);
+        return userSecretService.insert(entity);
     }
 
     /**
@@ -76,7 +76,7 @@ public class UserLoginController {
      */
     @PostMapping("/inner/userLogin/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
-        return userLoginService.deleteById(id);
+        return userSecretService.deleteById(id);
     }
 
     /**
@@ -86,24 +86,24 @@ public class UserLoginController {
      */
     @PostMapping("/inner/userLogin/selectByMobile")
     public UserSecretEntity selectByMobile(@RequestParam("mobile") String mobile) {
-        UserSecretEntity entity = userLoginService.selectOne(new EntityWrapper<UserSecretEntity>().eq("mobile", mobile));
+        UserSecretEntity entity = userSecretService.selectOne(new EntityWrapper<UserSecretEntity>().eq("mobile", mobile));
         return entity;
     }
 
     @PostMapping("/inner/userLogin/registerLogin")
     public String registerLogin(@RequestBody Map<String, Object> map) {
-        return userLoginService.selectUid(map);
+        return userSecretService.selectUid(map);
     }
 
     @PostMapping("updatepwd")
     public String updatepassword() {
-        List<UserSecretEntity> list = userLoginService.selectList(new EntityWrapper<UserSecretEntity>());
+        List<UserSecretEntity> list = userSecretService.selectList(new EntityWrapper<UserSecretEntity>());
         list.stream().forEach(u -> {
             String salt = RandomStringUtils.randomAlphanumeric(16);
             u.setSalt(salt);
             u.setPassword(Encrypt.SHA256(u.getPassword() + salt));
         });
-        userLoginService.updateBatchById(list);
+        userSecretService.updateBatchById(list);
         return "success";
     }
 

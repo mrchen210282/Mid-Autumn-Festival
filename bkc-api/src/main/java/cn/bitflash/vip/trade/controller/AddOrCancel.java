@@ -57,7 +57,7 @@ public class AddOrCancel {
 
         UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectAccountByUid(uid);
         // 先校验出售数量是否大于已有数量
-        BigDecimal total = new BigDecimal(userAssetsNpcEntity.getNpcAssets());
+        BigDecimal total = new BigDecimal(userAssetsNpcEntity.getAvailableAssets());
         logger.info("uid:" + userAssetsNpcEntity.getUid() + ",卖出数量:" + quantity + ",价格:" + price);
         if (StringUtils.isNotBlank(price) && StringUtils.isNotBlank(quantity)) {
 
@@ -92,8 +92,8 @@ public class AddOrCancel {
                         // 2.卖出数量
                         BigDecimal quantityBig = new BigDecimal(quantity);
                         // 卖出量-调节释放
-                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(quantityBig);
-                        userAssetsNpcEntity.setNpcAssets(subtract.floatValue());
+                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getAvailableAssets()).subtract(quantityBig);
+                        userAssetsNpcEntity.setAvailableAssets(subtract.floatValue());
 //                        quantityBig.subtract(new BigDecimal(userAssetsNpcEntity.getNpcAssets()));
 //                        if(subtract.doubleValue() >= 0){
 //                            BigDecimal availableAssets = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(new BigDecimal(quantity));
@@ -114,7 +114,7 @@ public class AddOrCancel {
 //                            userAccount.setRegulateRelease(RegulatRelease);
 //                        }
 
-                        tradeFeign.updateUserAccount(userAssetsNpcEntity);
+                        tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
                         // 添加卖出记录
                         UserMarketTradeEntity userTrade = new UserMarketTradeEntity();
@@ -160,10 +160,10 @@ public class AddOrCancel {
             returnMap = tradeFeign.responseTrade(userAccount.getUid());
             //可卖份数 = 可用额度 / 100
 
-            if (userAccount.getNpcAssets()<=0) {
+            if (userAccount.getAvailableAssets() <= 0) {
                 returnMap.put("number", "0");
             } else {
-                double number = Double.valueOf(userAccount.getNpcAssets()) / TradeCommon.MIN_NUMBER;
+                double number = Double.valueOf(userAccount.getAvailableAssets()) / TradeCommon.MIN_NUMBER;
                 returnMap.put("number", number);
             }
 //            if (userAccount.getNpcAssets().compareTo(new BigDecimal(0)) <= -1) {
@@ -174,7 +174,7 @@ public class AddOrCancel {
 //                returnMap.put("number", number);
 //            }
 
-            String availableAssets = TradeCommon.decimalFormat(Double.valueOf(userAccount.getNpcAssets()));
+            String availableAssets = TradeCommon.decimalFormat(Double.valueOf(userAccount.getAvailableAssets()));
             returnMap.put("availableAssets", availableAssets);
         }
         return R.ok().put("userAccount", returnMap);

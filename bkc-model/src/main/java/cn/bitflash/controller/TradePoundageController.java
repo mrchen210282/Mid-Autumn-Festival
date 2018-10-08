@@ -21,12 +21,12 @@ public class TradePoundageController {
     private TradePoundageService tradePoundageService;
 
     /**
-     * selectById
+     * selectTradePoundageById
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/selectById")
-    public TradePoundageEntity selectById(@RequestParam("id") String id) {
+    @PostMapping("/inner/tradePoundage/selectTradePoundageById")
+    public TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id) {
         TradePoundageEntity entity = tradePoundageService.selectById(id);
         return entity;
     }

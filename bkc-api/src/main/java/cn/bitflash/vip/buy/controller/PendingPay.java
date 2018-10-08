@@ -49,7 +49,7 @@ public class PendingPay {
         //获取trade_poundage手续费，并返还，删除该信息
         BuyPoundageEntity buyPoundageEntity = feign.selectPoundageById(id);
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(userMarketBuyEntity.getSellUid());
-        userAssetsNpcEntity.setNpcAssets(buyPoundageEntity.getPoundage()+buyPoundageEntity.getQuantity()+userAssetsNpcEntity.getNpcAssets());
+        userAssetsNpcEntity.setAvailableAssets(buyPoundageEntity.getPoundage()+buyPoundageEntity.getQuantity()+userAssetsNpcEntity.getAvailableAssets());
         feign.updateAccountById(userAssetsNpcEntity);
         feign.deletePoundage(id);
         //删除求购历史订单
