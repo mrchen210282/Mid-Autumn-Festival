@@ -99,7 +99,7 @@ public interface LevelFeign {
     /**
      * system_power
      */
-    @PostMapping("")
+    @PostMapping("/inner/systemPower/selectById")
     SystemPowerEntity selectSystemPowerById(@RequestParam("id")String id);
 
     /**
@@ -108,7 +108,7 @@ public interface LevelFeign {
     @PostMapping("/innner/systemvip/selectAll")
     List<SystemVipEntity> selectSystemVipes();
 
-    @PostMapping(".")
+    @PostMapping("/inner/systemvip/selectById")
     SystemVipEntity selectSystemVipById(@RequestParam("id")int id);
 
 
