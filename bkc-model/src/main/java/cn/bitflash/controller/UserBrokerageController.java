@@ -26,7 +26,7 @@ public class UserBrokerageController {
      */
     @PostMapping("/inner/userBroker/selectUserBrokerageById")
     public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id) {
-        UserBrokerageEntity entity = userBrokerageService.selectById(id);
+            UserBrokerageEntity entity = userBrokerageService.selectById(id);
         return entity;
     }
 }
