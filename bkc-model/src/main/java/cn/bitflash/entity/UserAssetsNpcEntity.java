@@ -79,12 +79,12 @@ public class UserAssetsNpcEntity {
         this.totelRelease = totelRelease;
     }
 
-    public float getNpcAssets() {
+    public float getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setNpcAssets(float npcAssets) {
-        this.availableAssets = npcAssets;
+    public void setAvailableAssets(float availableAssets) {
+        this.availableAssets = availableAssets;
     }
 
     public float getNpcPrice() {

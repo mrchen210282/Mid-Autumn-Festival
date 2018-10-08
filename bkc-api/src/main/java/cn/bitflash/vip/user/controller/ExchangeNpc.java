@@ -60,7 +60,7 @@ public class ExchangeNpc {
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
-        hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets() - form.getHlb());
+        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets() - form.getHlb());
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
@@ -83,7 +83,7 @@ public class ExchangeNpc {
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         //当前拥有的hlb
-        map.put("hlb", hlbNumEntity.getHlbAssets());
+        map.put("hlb", hlbNumEntity.getAvailableAssets());
         //当前拥有的npc
         map.put("npc", npcNumEntity.getAvailableAssets());
         //可兑换的npc

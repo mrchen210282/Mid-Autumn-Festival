@@ -35,6 +35,8 @@ public interface SendFrign {
     @PostMapping("/inner/userWalletAddress/selectByAddress")
     UserWalletAddressEntity selectAddress(@RequestParam("address") String address);
 
+    @PostMapping("/inner/userWalletAddress/selectById")
+    UserWalletAddressEntity selectAddressById(@RequestParam("id") String id);
     /**
      * user_secret
      */
@@ -65,5 +67,4 @@ public interface SendFrign {
 
     @PostMapping("/inner/userBroker/updateUserBrokerage")
     Boolean updateBrokerage(@RequestBody UserBrokerageEntity userBrokerageEntity);
-
 }

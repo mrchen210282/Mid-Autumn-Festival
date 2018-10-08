@@ -87,7 +87,7 @@ public class Vip {
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
         //4.赠送比例
         float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
-        if (npcEntity.getNpcAssets() < form.getNpc()) {
+        if (npcEntity.getAvailableAssets() < form.getNpc()) {
             return R.error("NPC数量不足");
         }
         //npc单价
@@ -100,7 +100,7 @@ public class Vip {
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
         levelFeign.updateUserAssetsHlb(hlbEntity);
-        npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());
+        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
         npcEntity.setNpcPrice(npcEntity.getNpcPrice() + (form.getNpc() / npc));
         levelFeign.updateUserAssetsNpc(npcEntity);
