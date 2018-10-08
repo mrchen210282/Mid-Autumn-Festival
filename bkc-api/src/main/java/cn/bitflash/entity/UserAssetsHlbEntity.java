@@ -77,12 +77,12 @@ public class UserAssetsHlbEntity {
         this.totelRelease = totelRelease;
     }
 
-    public float getHlbAssets() {
+    public float getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setHlbAssets(float hlbAssets) {
-        this.availableAssets = hlbAssets;
+    public void setAvailableAssets(float availableAssets) {
+        this.availableAssets = availableAssets;
     }
 
     public float getHlbPrice() {
@@ -91,14 +91,6 @@ public class UserAssetsHlbEntity {
 
     public void setHlbPrice(float hlbPrice) {
         this.hlbPrice = hlbPrice;
-    }
-
-    public float getAvailableAssets() {
-        return availableAssets;
-    }
-
-    public void setAvailableAssets(float availableAssets) {
-        this.availableAssets = availableAssets;
     }
 
     public float getLftAchievement() {
