@@ -63,7 +63,7 @@ public interface LevelFeign {
     /**
      * user_hlb_trade_history 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userHlbhistory/insert")
     Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
 
     /**
