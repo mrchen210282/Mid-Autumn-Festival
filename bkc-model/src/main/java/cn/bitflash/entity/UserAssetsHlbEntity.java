@@ -25,8 +25,6 @@ public class UserAssetsHlbEntity {
     //hlb可用资产
     private float availableAssets;
 
-    //hlb购买价格
-    private float hlbPrice;
 
     private float lftAchievement;
 
@@ -81,14 +79,6 @@ public class UserAssetsHlbEntity {
 
     public void setHlbAssets(float hlbAssets) {
         this.availableAssets = hlbAssets;
-    }
-
-    public float getHlbPrice() {
-        return hlbPrice;
-    }
-
-    public void setHlbPrice(float hlbPrice) {
-        this.hlbPrice = hlbPrice;
     }
 
     public float getLftAchievement() {

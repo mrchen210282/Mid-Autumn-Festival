@@ -28,13 +28,14 @@ public class Vip {
     private LevelFeign levelFeign;
 
     @Login
-    @PostMapping
+    @PostMapping("showVipMess")
     public R showVipMess(@RequestAttribute("uid") String uid) {
         //所有额度信息
         List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
+        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
         //用户目前额度等级
         int vipLevel = userInfo.getVipLevel();
         //最大额度信息
@@ -60,9 +61,9 @@ public class Vip {
             map.put("next_amount",userVips.get(1).getVipCash());
             float nextUpnpc =( userVips.get(1).getVipCash()-npcEntity.getNpcPrice())/npc;
             if((nextUpnpc*100)%100==0){
-                map.put("nextUpnpc",(int)nextUpnpc);
+                map.put("npc_amount",(int)nextUpnpc);
             }else{
-                map.put("nextUpnpc",(int)nextUpnpc+1);
+                map.put("npc_amount",(int)nextUpnpc+1);
             }
         }
         return R.ok(map);

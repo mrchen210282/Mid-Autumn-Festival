@@ -14,7 +14,7 @@ public class SystemParamEntity implements Serializable {
     @TableId
     private Integer id;
 
-    private String key;
+    private String param;
 
     private String value;
 
@@ -30,12 +30,12 @@ public class SystemParamEntity implements Serializable {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getParam() {
+        return param;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setParam(String param) {
+        this.param = param;
     }
 
     public String getValue() {
