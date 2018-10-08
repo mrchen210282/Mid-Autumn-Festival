@@ -46,10 +46,10 @@ public class WalletAddress {
     public boolean createWalletAddress(String uid) throws CipherException, IOException,
             InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
-        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
-        if(userWalletAddressEntity != null){
-            return false;
-        }
+//        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
+//        if(userWalletAddressEntity != null){
+//            return false;
+//        }
 
         //创建文件夹
         File file = new File(FILEADDRESS);
@@ -69,7 +69,7 @@ public class WalletAddress {
 
         UserWalletAddressEntity userWalletAddress = new UserWalletAddressEntity();
         userWalletAddress.setUid(uid);
-        userWalletAddress.setAddress(address);
+        userWalletAddress.setAddress(Encrypt.SHA256(address));
         userWalletAddress.setPrivateKey(privateKey.toString());
         return userFeign.insetUserWalletAddress(userWalletAddress);
     }
@@ -96,4 +96,6 @@ public class WalletAddress {
         }
         return R.ok();
     }
+
+
 }

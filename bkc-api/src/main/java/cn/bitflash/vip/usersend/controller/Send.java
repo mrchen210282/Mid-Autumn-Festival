@@ -15,13 +15,11 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("send")
 @Api(value = "发送Con", tags = {"发送货币"})
 public class Send {
 
     @Autowired
     private SendFrign sendFrign;
-
 
     /**
      * @param quantity 发送数量
@@ -32,8 +30,8 @@ public class Send {
      * 4.向user_brokeage表中添加手续费记录
      */
     @Login
-    @PostMapping("userSend")
-    public R userSend(@RequestParam("quantity") String quantity, @RequestParam("address") String address, @RequestParam("pwd") String user_pwd, @RequestAttribute("uid") String uid) {
+    @PostMapping("send")
+    public R userSend(@RequestParam("quantity") String quantity, @RequestParam("address") String address, @RequestParam("user_pwd") String user_pwd, @RequestAttribute("uid") String uid) {
 
         //交易状态：‘-1’余额不足错误；‘0’操作成功；‘1’用户不存在；‘2’其他错误；‘3’交易数量错误；‘4’交易密码错误
         int code = 2;
@@ -121,7 +119,7 @@ public class Send {
     }
 
     @Login
-    @PostMapping("record")
+    @PostMapping("send/record")
     public R record(@RequestAttribute("uid") String uid, @RequestParam int state, @RequestParam("pages") String pages) {
 
         //state = 1 :发送
@@ -138,4 +136,19 @@ public class Send {
         }
         return R.ok();
     }
+
+    @Login
+    @PostMapping("send/secretInfo")
+    public R secretInfo(@RequestAttribute("uid") String uid) {
+        //钱包地址
+        String address = sendFrign.selectAddressById(uid).getAddress();
+        //可用余额
+        float npcAssets = sendFrign.selectAssetsById(uid).getNpcAssets();
+        //手续费
+        Float poundage = sendFrign.selectConfigById(2).getPoundage();
+        String brokerage = new BigDecimal(100 * poundage).toString();
+        return R.ok().put("npcAssets",npcAssets).put("address",address).put("brokerage",brokerage);
+    }
+
+
 }
