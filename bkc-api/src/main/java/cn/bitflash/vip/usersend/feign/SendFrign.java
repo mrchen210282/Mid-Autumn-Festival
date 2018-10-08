@@ -38,30 +38,32 @@ public interface SendFrign {
     /**
      * user_secret
      */
-    @PostMapping("")
+    @PostMapping("/inner/userSecretService/selectById")
     UserSecretEntity selectSecretById(@RequestParam("id") String id);
 
     /**
      * user_market_config
      */
-    @PostMapping("")
+    @PostMapping("/inner/userMarketConfig/selectById")
     UserMarketConfigEntity selectConfigById(@RequestParam("id") int id);
 
     /**
      * user_assets_npc
      */
-    @PostMapping("")
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectAssetsById(@RequestParam("id") String id);
 
-    @PostMapping("")
-    UserAssetsNpcEntity updateAssetsById(@RequestBody UserAssetsNpcEntity userAssetsNpcEntity);
+    @PostMapping("/inner/userAssetsNpc/update")
+    boolean updateAssetsById(@RequestBody UserAssetsNpcEntity userAssetsNpcEntity);
 
 
     /**
      * UserBrokerageEntity 表
      */
+    @PostMapping("/inner/userBroker/selectUserBrokerageById")
     UserBrokerageEntity selectBrokerage(@RequestParam("id") int id);
 
+    @PostMapping("/inner/userBroker/updateUserBrokerage")
     Boolean updateBrokerage(@RequestBody UserBrokerageEntity userBrokerageEntity);
 
 }

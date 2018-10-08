@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @TableName("user_secret")
 public class UserSecretEntity implements Serializable {
-
+    @TableId
     private String uid;
     /**
      * 手机号

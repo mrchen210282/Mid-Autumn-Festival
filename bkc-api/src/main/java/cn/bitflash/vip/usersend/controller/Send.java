@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,10 +37,9 @@ public class Send {
 
         //交易状态：‘-1’余额不足错误；‘0’操作成功；‘1’用户不存在；‘2’其他错误；‘3’交易数量错误；‘4’交易密码错误
         int code = 2;
-        //业务状态
-        boolean relation = false;
 
-        //如果用户不存在,返回‘用户不存在’错误。
+        /*-------------校验---------------*/
+        //用户是否存在
         UserWalletAddressEntity sendee = sendFrign.selectAddress(address);
         if (sendee == null || "".equals(sendee)) {
             //用户不存在
@@ -47,7 +47,7 @@ public class Send {
             return R.ok().put("code", code);
         }
 
-        //如果交易密码不正确,返回错误
+        //交易密码
         UserSecretEntity userSecretEntity = sendFrign.selectSecretById(uid);
         if (!user_pwd.equals(userSecretEntity.getPayPassword())) {
             // 交易密码不正确
@@ -55,6 +55,7 @@ public class Send {
             return R.ok().put("code", code);
         }
 
+        //交易数量是否大于100且是100的倍数
         BigDecimal quantite = new BigDecimal(quantity);
         BigDecimal num = quantite.divide(new BigDecimal(100), 0, BigDecimal.ROUND_DOWN);
         BigDecimal result = num.subtract(quantite.divide(new BigDecimal(100)));
@@ -62,67 +63,60 @@ public class Send {
             code = 3;
             return R.ok().put("code", code);
         }
+
         //赠送数量
-        //String 转换成 float
-        DecimalFormat df = new DecimalFormat("#########.##");
-        Float quantitys = Float.parseFloat(quantity);
-        //赠送数量转换成BigDecimal
-        BigDecimal user_quantity = new BigDecimal(quantitys);
-
-        //手续费
-        UserMarketConfigEntity userMarketConfigEntity = sendFrign.selectConfigById(2);
-        Float poundage = userMarketConfigEntity.getPoundage();
-
+        Float quantity_f = Float.parseFloat(quantity);
+        BigDecimal trade_quantity = new BigDecimal(quantity);
 
         //2.5%手续费
-        BigDecimal user_brokerage = new BigDecimal(quantitys * poundage);
+        UserMarketConfigEntity userMarketConfigEntity = sendFrign.selectConfigById(2);
+        Float poundage = userMarketConfigEntity.getPoundage();
+        BigDecimal user_brokerage = new BigDecimal(quantity_f * poundage);
 
-        //Send在user——account中修改
+
+        /*--------在user_assets_npc中修改--------*/
         UserAssetsNpcEntity send_account = sendFrign.selectAssetsById(uid);
-        //扣款数量
-        BigDecimal user_quantitys = user_quantity.add(user_brokerage);
-        BigDecimal npcAssets = new BigDecimal(send_account.getNpcAssets());
-        //账号总额大于扣款
-        if (user_quantitys.compareTo(npcAssets) == -1 || user_quantitys.compareTo(npcAssets) == 0) {
-            send_account.setNpcAssets(npcAssets.subtract(user_quantitys).floatValue());
-            sendFrign.updateAssetsById(send_account);
-            relation = true;
 
-            if (relation) {
-                UserAssetsNpcEntity sendee_account = sendFrign.selectAssetsById(sendee.getUid());
-                BigDecimal sendeeAssets = new BigDecimal(send_account.getNpcAssets());
-                sendee_account.setNpcAssets(sendeeAssets.add(user_quantity).floatValue());
-                //更新数据
-                sendFrign.updateAssetsById(sendee_account);
-            }
-        }else {
+        //扣款数量=交易数量+手续费
+        BigDecimal deduction_quantity = trade_quantity.add(user_brokerage);
+        //可用余额
+        BigDecimal npcAssets = new BigDecimal(send_account.getNpcAssets());
+
+        //发送人账户扣款
+        if (deduction_quantity.compareTo(npcAssets) == -1 || deduction_quantity.compareTo(npcAssets) == 0) {
+            send_account.setNpcAssets(npcAssets.subtract(deduction_quantity).floatValue());
+            sendFrign.updateAssetsById(send_account);
+        } else {
             //数量不够扣款
             code = -1;
             //交易失败
             return R.ok().put("code", code);
         }
 
+        //接收人账户充值
+        UserAssetsNpcEntity sendee_account = sendFrign.selectAssetsById(sendee.getUid());
+        BigDecimal sendeeAssets = new BigDecimal(send_account.getNpcAssets());
+        sendee_account.setNpcAssets(sendeeAssets.add(trade_quantity).floatValue());
+        //更新数据
+        sendFrign.updateAssetsById(sendee_account);
 
-        //添加数据user_send,添加赠送记录
-        if (relation) {
-            UserSendEntity us = new UserSendEntity();
-            us.setQuantity(quantitys);
-            Date day = new Date();
-            us.setSendTime(day);
-            us.setSendUid(uid);
-            us.setSendeeUid(sendee.getUid());
-            sendFrign.insertUserSend(us);
-        }
+        //添加数据user_send
+        UserSendEntity us = new UserSendEntity();
+        us.setQuantity(quantity_f);
+        Date day = new Date();
+        us.setSendTime(day);
+        us.setSendUid(uid);
+        us.setSendeeUid(sendee.getUid());
+        sendFrign.insertUserSend(us);
 
-        //如果双方交易完成
-        if (relation) {
-            UserBrokerageEntity userbroker = sendFrign.selectBrokerage(1);
-            BigDecimal get_brokerages = user_brokerage.add(userbroker.getSellBrokerage());
-            userbroker.setSellBrokerage(get_brokerages);
-            //修改到user_brokerage
-            sendFrign.updateBrokerage(userbroker);
-            code = 0;
-        }
+        //UserBrokerage
+        UserBrokerageEntity userbroker = sendFrign.selectBrokerage(1);
+        BigDecimal get_brokerages = user_brokerage.add(userbroker.getSellBrokerage());
+        userbroker.setSellBrokerage(get_brokerages);
+        //修改到user_brokerage
+        sendFrign.updateBrokerage(userbroker);
+        code = 0;
+
         return R.ok().put("code", code);
     }
 
@@ -144,17 +138,4 @@ public class Send {
         }
         return R.ok();
     }
-
-//    /**
-//     * 查看手续费
-//     *
-//     * @return 发送手续费
-//     */
-//    @PostMapping("handingFee")
-//    public R handingFee() {
-//        //手续费
-//        UserTradeConfigEntity userTradeConfig = sendFrign.selectTradeConfigById(1);
-//        Float poundage = userTradeConfig.getPoundage();
-//        return R.ok().put("poundage", poundage);
-//    }
 }
