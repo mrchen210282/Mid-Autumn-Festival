@@ -1,32 +1,44 @@
+
+
 package cn.bitflash.entity;
 
-public class UserBrokerageEntity {
+import java.io.Serializable;
+import java.math.BigDecimal;
 
-    private String id;
-    private Float purchaseBrokerage;
-    private Float sellBrokerage;
+/**
+ * @author soso
+ * @date 2018年5月22日 下午4:00:45
+ */
 
-    public String getId() {
+public class UserBrokerageEntity implements Serializable {
+
+    private Integer id;
+
+    private BigDecimal purchaseBrokerage;
+
+    private BigDecimal sellBrokerage;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Float getPurchaseBrokerage() {
+    public BigDecimal getPurchaseBrokerage() {
         return purchaseBrokerage;
     }
 
-    public void setPurchaseBrokerage(Float purchaseBrokerage) {
+    public void setPurchaseBrokerage(BigDecimal purchaseBrokerage) {
         this.purchaseBrokerage = purchaseBrokerage;
     }
 
-    public Float getSellBrokerage() {
+    public BigDecimal getSellBrokerage() {
         return sellBrokerage;
     }
 
-    public void setSellBrokerage(Float sellBrokerage) {
+    public void setSellBrokerage(BigDecimal sellBrokerage) {
         this.sellBrokerage = sellBrokerage;
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.PriceLinechartDao">
+
+    <select id="selectAccount" resultType="cn.bitflash.entity.UserSendEntity">
+        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.address
+        from user_send us
+        left join user_wallet_address ua
+        on us.sendee_uid = ua.uid
+        where us.send_uid = #{uid}
+        limit #{pages},6
+    </select>
+
+    <select id="selectAccept" resultType="cn.bitflash.entity.UserSendEntity">
+        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.uuid
+        from user_send us
+        left join user_wallet_address ua
+        on us.send_uid = ua.uid
+        where us.sendee_uid = #{uid}
+        limit #{pages},6
+    </select>
+
+    <select id="selectAccountCount" resultType="java.lang.Integer">
+        SELECT
+            count(0)
+        FROM
+            user_send us
+        WHERE
+            us.send_uid = #{uid}
+    </select>
+
+    <select id="selectAcceptCount" resultType="java.lang.Integer">
+        SELECT
+            count(0)
+        FROM
+            user_send us
+        WHERE
+            us.sendee_uid = #{uid}
+    </select>
+
+</mapper>

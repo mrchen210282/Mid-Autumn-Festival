@@ -10,9 +10,6 @@ public class UserAssetsHlbEntity {
     @TableId(type = IdType.INPUT)
     private String uid;
 
-    //总购买
-    private float purchase;
-
     //总收益
     private float totelAssets;
 
@@ -31,6 +28,12 @@ public class UserAssetsHlbEntity {
     //hlb购买价格
     private float hlbPrice;
 
+    private float lftAchievement;
+
+    private float rgtAchievement;
+
+    private float vipReleaseCash;
+
     public String getUid() {
         return uid;
     }
@@ -39,13 +42,6 @@ public class UserAssetsHlbEntity {
         this.uid = uid;
     }
 
-    public float getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(float purchase) {
-        this.purchase = purchase;
-    }
 
     public float getTotelAssets() {
         return totelAssets;
@@ -93,5 +89,37 @@ public class UserAssetsHlbEntity {
 
     public void setHlbPrice(float hlbPrice) {
         this.hlbPrice = hlbPrice;
+    }
+
+    public float getLftAchievement() {
+        return lftAchievement;
+    }
+
+    public void setLftAchievement(float lftAchievement) {
+        this.lftAchievement = lftAchievement;
+    }
+
+    public float getRgtAchievement() {
+        return rgtAchievement;
+    }
+
+    public void setRgtAchievement(float rgtAchievement) {
+        this.rgtAchievement = rgtAchievement;
+    }
+
+    public float getAvailableAssets() {
+        return availableAssets;
+    }
+
+    public void setAvailableAssets(float availableAssets) {
+        this.availableAssets = availableAssets;
+    }
+
+    public float getVipReleaseCash() {
+        return vipReleaseCash;
+    }
+
+    public void setVipReleaseCash(float vipReleaseCash) {
+        this.vipReleaseCash = vipReleaseCash;
     }
 }

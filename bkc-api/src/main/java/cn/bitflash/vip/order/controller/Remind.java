@@ -31,14 +31,12 @@ public class Remind {
     @PostMapping("/appealList")
     @ApiOperation("申诉列表")
     public R selectAppealList(@RequestAttribute("uid") String uid, @ApiParam @RequestParam("pages") String pages) {
-
         List<UserBuyBean> ub = orderFeign.selectAppealList(uid, Integer.valueOf(pages));
         if (ub == null || ub.size() < 0) {
             return R.error("暂时没有申诉信息");
         }
         Integer count = orderFeign.selectAppealCount(uid);
-        UserAssetsNpcEntity userAssetsNpcEntity = orderFeign.selectAccountByUid(uid);
-        return R.ok().put("count", count).put("list", ub).put("npcAssets", userAssetsNpcEntity.getNpcAssets());
+        return R.ok().put("count", count).put("list", ub);
     }
 
     @Login
@@ -63,8 +61,8 @@ public class Remind {
         }
 
         Map<String, Float> map = this.poundage(id, userComplaintBean.getComplaintState());
-
-        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
+        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map",map);
+//        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
     }
 
     /**
