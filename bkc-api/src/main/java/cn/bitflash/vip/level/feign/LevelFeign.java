@@ -66,6 +66,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userHlbhistory/insert")
     Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
 
+    @PostMapping("/inner/userHlbhistory/selectHistorys")
+    List<UserHlbTradeHistoryEntity> selectHlbHistorys(@RequestParam("id")String id);
+
     /**
      * user_assets_hlb 表
      */
