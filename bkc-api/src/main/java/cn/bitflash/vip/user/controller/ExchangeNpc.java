@@ -40,7 +40,9 @@ public class ExchangeNpc {
         //兑换的hlb数量
         Float hlb = form.getHlb();
         //当前hlb可兑换的npc数量
-        Float npcNum = hlb / npc_unit_price;
+        Float hlb_handling_fee = Float.valueOf(userFeign.getVal("hlb_handling_fee"));
+        //减去手续费后
+        Float npcNum = (hlb-hlb*hlb_handling_fee) / npc_unit_price;
         if (npcEntity.getTotalNpc() < npc) {
             return R.error("可兑换npc数量不足");
         }

@@ -28,6 +28,22 @@ public class Vip {
     private LevelFeign levelFeign;
 
     @Login
+    @PostMapping
+    public R showVipMess(@RequestAttribute("uid") String uid){
+        List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
+        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
+        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
+        String
+        Map<String ,Object> map =new HashMap<>();
+        //vip额度信息
+        map.put("vips",vips);
+        //当前累计金额
+        map.put("now_cash",npcEntity.getNpcPrice());
+
+
+    }
+
+    @Login
     @PostMapping("updateLevel")
     @ApiOperation("提升算力")
     public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestBody NpcForm form) {
@@ -43,11 +59,11 @@ public class Vip {
         }
         //3.验证 NPC数量 单价
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
+        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
         if (npcEntity.getNpcAssets() < form.getNpc()) {
             return R.error("NPC数量不足");
         }
         //4.赠送比例
-        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
         float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
         float hlb = npc * form.getNpc() * giveRate;
         if (hlb != form.getHlb()) {
@@ -59,14 +75,8 @@ public class Vip {
         levelFeign.updateUserAssetsHlb(hlbEntity);
         npcEntity.setNpcAssets(npcEntity.getNpcAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
+        npcEntity.setNpcPrice(npcEntity.getNpcPrice()+(form.getNpc()/npc));
         levelFeign.updateUserAssetsNpc(npcEntity);
-        //6.增加人数
-        UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
-        if(relation==null){
-
-        }
-
-
         //6.5 加入兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
         hlbTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
@@ -74,10 +84,28 @@ public class Vip {
         hlbTradeHistoryEntity.setTotalHlb(hlb);
         hlbTradeHistoryEntity.setTotalNpc(form.getNpc());
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
-        //7.验证排点
 
+        UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
+        String code[] = userInfo.getInvitationCode().split("-");
+        String invitCode = code[0];
+        String area = code[1];
+        UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
+        //6.验证排点
         if (relation != null) {
             return R.ok();
+        }else{
+            //7.增加人数
+            UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
+            float peopleNum = f_info.getUpgradeNum();
+            //最大算力id
+            String power_id = levelFeign.getVal("max_power_id");
+            SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(power_id);
+            if(peopleNum<systemPowerEntity.getUpgradeNum()){
+                //邀请人数小于最大算力对应的人数
+                f_info.setUpgradeNum(peopleNum+1);
+                levelFeign.updateUserInfo(f_info);
+            }
+
         }
 
         //8.初始化邀请码
@@ -86,10 +114,6 @@ public class Vip {
         codeEntity.setCode(RandomStringUtils.randomAlphanumeric(8).toUpperCase());
         levelFeign.insertInvitation(codeEntity);
         //9.没有排点，进行排点
-        String code[] = userInfo.getInvitationCode().split("-");
-        String invitCode = code[0];
-        String area = code[1];
-        UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
         List<UserRelationEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
         //父类下所有的子类数量（包含父类）
         int size = f_user.size();

@@ -30,6 +30,16 @@ public class UserInfoEntity implements Serializable {
 
     private String powerLevel;
 
+    private float upgradeNum;
+
+    public float getUpgradeNum() {
+        return upgradeNum;
+    }
+
+    public void setUpgradeNum(float upgradeNum) {
+        this.upgradeNum = upgradeNum;
+    }
+
     public String getUid() {
         return uid;
     }
