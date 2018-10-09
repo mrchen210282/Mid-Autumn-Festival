@@ -17,6 +17,7 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.dao.UserAssetsHlbDao;
+import cn.bitflash.entity.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import cn.bitflash.service.UserAssetsHlbService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -24,4 +25,8 @@ import org.springframework.stereotype.Service;
 
 @Service("userAssetsHlbService")
 public class UserAssetsHlbServiceImpl extends ServiceImpl<UserAssetsHlbDao, UserAssetsHlbEntity> implements UserAssetsHlbService {
+
+    public UserAssetsHlbBean selectHlbCommunity(String id) {
+        return baseMapper.selectHlbCommunity(id);
+    }
 }
