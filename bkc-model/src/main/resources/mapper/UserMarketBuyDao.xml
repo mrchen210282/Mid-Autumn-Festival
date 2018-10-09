@@ -4,7 +4,7 @@
 <mapper namespace="cn.bitflash.dao.UserMarketBuyDao">
 
     <select id="showBuyingCount" resultType="java.lang.Integer">
-        select count(0) from user_market_buy where ub.purchase_uid != #{uid} and ub.state = '1'
+        select count(0) from user_market_buy ub where ub.purchase_uid != #{uid} and ub.state = '1'
     </select>
 
     <select id="showBuying" resultType="cn.bitflash.bean.UserBuyBean">
@@ -54,12 +54,12 @@
 	( SELECT ui.mobile
     FROM user_info ui
     WHERE
-    uh.purchase_uid=ui.uid
+    ub.purchase_uid=ui.uid
 	  ) AS purMobile,
 	( SELECT ui.mobile
     FROM user_info ui
     WHERE
-    uh.sell_uid=ui.uid
+    ub.sell_uid=ui.uid
 		) AS sellMobile
     FROM user_market_buy ub
     where ub.id = #{id}

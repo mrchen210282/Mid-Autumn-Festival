@@ -1,6 +1,7 @@
 package cn.bitflash.vip.usersend.feign;
 
 import cn.bitflash.entity.*;
+import cn.bitflash.vip.usersend.bean.UserSendBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +19,10 @@ public interface SendFrign {
     Boolean insertUserSend(@RequestBody UserSendEntity send);
 
     @PostMapping("/inner/userSend/selectAccount")
-    List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    List<UserSendBean> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
 
     @PostMapping("/inner/userSend/selectAccept")
-    List<UserSendEntity> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    List<UserSendBean> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
 
     @PostMapping("/inner/userSend/selectAccountCount")
     Integer selectAccountCount(@RequestParam("uid")String uid);

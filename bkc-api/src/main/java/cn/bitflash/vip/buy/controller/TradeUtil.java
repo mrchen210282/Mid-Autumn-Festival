@@ -2,12 +2,16 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
+import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-
+@Component
 public class TradeUtil {
 
     @Autowired
@@ -25,7 +29,8 @@ public class TradeUtil {
         //交易数量
         Float buyQuantity = Float.parseFloat(df.format(userMarketBuyEntity.getQuantity()));
         //手续费比率
-        Float poundage = feign.selectPoundage(2);
+        UserMarketConfigEntity userMarketConfigEntity = feign.selectPoundage(2);
+        float poundage = userMarketConfigEntity.getPoundage();
         //手续费数量
         Float totalPoundage = buyQuantity * poundage;
         //实际交易总数量

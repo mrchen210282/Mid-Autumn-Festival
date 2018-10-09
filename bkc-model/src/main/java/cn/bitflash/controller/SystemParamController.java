@@ -65,7 +65,7 @@ public class SystemParamController {
 
     @PostMapping("/inner/systemParam/getVal")
     public String getVal(@RequestParam("key")String key){
-        return systemParamService.selectOne(new EntityWrapper<SystemParamEntity>().eq("key",key)).getValue();
+        return systemParamService.selectOne(new EntityWrapper<SystemParamEntity>().eq("param",key)).getValue();
     }
 
 }

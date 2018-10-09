@@ -1,5 +1,6 @@
 package cn.bitflash.service;
 
+import cn.bitflash.bean.UserSendBean;
 import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.entity.UserSendEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -12,9 +13,10 @@ import java.util.List;
  * @date 2018年9月22日
  */
 public interface UserSendService extends IService<UserSendEntity> {
-    List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    
+    List<UserSendBean> selectAccount(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
-    List<UserSendEntity> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    List<UserSendBean> selectAccept(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
     Integer selectAccountCount(@RequestParam("uid")String uid);
 

@@ -10,7 +10,7 @@ public class UserMarketConfigEntity implements Serializable {
 
     private int id;
 
-    private float poundage;
+    private Float poundage;
 
     private String remark;
 
@@ -25,11 +25,11 @@ public class UserMarketConfigEntity implements Serializable {
         this.id = id;
     }
 
-    public float getPoundage() {
+    public Float getPoundage() {
         return poundage;
     }
 
-    public void setPoundage(float poundage) {
+    public void setPoundage(Float poundage) {
         this.poundage = poundage;
     }
 

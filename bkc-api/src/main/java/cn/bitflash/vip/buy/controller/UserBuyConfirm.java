@@ -29,7 +29,7 @@ public class UserBuyConfirm {
      * --------------点击确认(待确认)-----------
      */
     @Login
-    @PostMapping("")
+    @PostMapping("orderConfirm")
     @Transactional(propagation = Propagation.REQUIRED)
     public R payCoin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, @RequestAttribute("uid") String uid) {
 

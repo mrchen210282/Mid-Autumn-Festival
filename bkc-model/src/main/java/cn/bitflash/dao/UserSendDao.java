@@ -16,9 +16,10 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.AppStatusEntity;
+import cn.bitflash.bean.UserSendBean;
 import cn.bitflash.entity.UserSendEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -29,11 +30,11 @@ import java.util.List;
  */
 public interface UserSendDao extends BaseMapper<UserSendEntity> {
 
-    List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    List<UserSendBean> selectAccount(@Param("uid")String uid, @Param("pages")Integer pages);
 
-    List<UserSendEntity> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+    List<UserSendBean> selectAccept(@Param("uid")String uid, @Param("pages")Integer pages);
 
-    Integer selectAccountCount(@RequestParam("uid")String uid);
+    Integer selectAccountCount(@Param("uid")String uid);
 
-    Integer selectAcceptCount(@RequestParam("uid")String send_uid);
+    Integer selectAcceptCount(@Param("uid")String send_uid);
 }

@@ -4,15 +4,19 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.BuyPoundageEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketBuyHistoryEntity;
+import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -21,10 +25,11 @@ import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 @RequestMapping("/buy")
 public class AddOrCancelBuy {
 
-    private TradeUtil tradeUtil;
-
     @Autowired
     private BuyFeign feign;
+
+    @Autowired
+    private TradeUtil tradeUtil;
 
     /**
      * --------------发布---------------
@@ -126,4 +131,5 @@ public class AddOrCancelBuy {
 
         return R.ok().put("code", SUCCESS);
     }
+
 }
