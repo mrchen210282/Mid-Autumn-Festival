@@ -33,6 +33,16 @@ public class UserInfoEntity implements Serializable {
 
     private Integer vipLevel;
 
+    private String area;
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
     public String getUid() {
         return uid;
     }

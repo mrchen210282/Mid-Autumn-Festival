@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.UserSendBean;
 import cn.bitflash.dao.UserSendDao;
 import cn.bitflash.entity.UserSendEntity;
 import cn.bitflash.service.UserSendService;
@@ -28,12 +29,12 @@ import java.util.List;
 public class UserSendServiceImpl extends ServiceImpl<UserSendDao, UserSendEntity> implements UserSendService {
 
     @Override
-    public List<UserSendEntity> selectAccount(String uid, Integer pages) {
+    public List<UserSendBean> selectAccount(String uid, Integer pages) {
         return baseMapper.selectAccount(uid,pages);
     }
 
     @Override
-    public List<UserSendEntity> selectAccept(String uid, Integer pages) {
+    public List<UserSendBean> selectAccept(String uid, Integer pages) {
         return baseMapper.selectAccept(uid,pages);
     }
 

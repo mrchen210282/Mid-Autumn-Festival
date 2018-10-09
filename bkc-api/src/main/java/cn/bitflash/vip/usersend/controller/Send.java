@@ -3,6 +3,7 @@ package cn.bitflash.vip.usersend.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.usersend.bean.UserSendBean;
 import cn.bitflash.vip.usersend.feign.SendFrign;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,15 +125,15 @@ public class Send {
 
         //state = 1 :发送
         if (state == 1) {
-            List<UserSendEntity> usersendList = sendFrign.selectAccount(uid, Integer.valueOf(pages));
+            List<UserSendBean> usersendList = sendFrign.selectAccount(uid, Integer.valueOf(pages));
             Integer count = sendFrign.selectAccountCount(uid);
-            return R.ok().put("usersendList", usersendList).put("count", count);
+            return R.ok().put("userSendList", usersendList).put("count", count);
         }
         //state = 2 :接收
         else if (state == 2) {
-            List<UserSendEntity> useracceptList = sendFrign.selectAccept(uid, Integer.valueOf(pages));
+            List<UserSendBean> useracceptList = sendFrign.selectAccept(uid, Integer.valueOf(pages));
             Integer count = sendFrign.selectAcceptCount(uid);
-            return R.ok().put("useracceptList", useracceptList).put("count", count);
+            return R.ok().put("userAcceptList", useracceptList).put("count", count);
         }
         return R.ok();
     }

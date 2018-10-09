@@ -6,17 +6,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @author soso
- * @date 2018年5月22日 下午4:00:45
+ * @author wangjun
+ * @date 2018.10.8
  */
 
 public class UserBrokerageEntity implements Serializable {
 
     private Integer id;
 
-    private BigDecimal purchaseBrokerage;
+    private Float purchaseBrokerage;
 
-    private BigDecimal sellBrokerage;
+    private Float sellBrokerage;
 
     public Integer getId() {
         return id;
@@ -26,19 +26,19 @@ public class UserBrokerageEntity implements Serializable {
         this.id = id;
     }
 
-    public BigDecimal getPurchaseBrokerage() {
+    public Float getPurchaseBrokerage() {
         return purchaseBrokerage;
     }
 
-    public void setPurchaseBrokerage(BigDecimal purchaseBrokerage) {
+    public void setPurchaseBrokerage(Float purchaseBrokerage) {
         this.purchaseBrokerage = purchaseBrokerage;
     }
 
-    public BigDecimal getSellBrokerage() {
+    public Float getSellBrokerage() {
         return sellBrokerage;
     }
 
-    public void setSellBrokerage(BigDecimal sellBrokerage) {
+    public void setSellBrokerage(Float sellBrokerage) {
         this.sellBrokerage = sellBrokerage;
     }
 }

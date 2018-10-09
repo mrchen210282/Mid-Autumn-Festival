@@ -16,9 +16,11 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.entity.BuyPoundageEntity;
+
 import cn.bitflash.entity.UserSecretEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.Map;
 
 /**
  * @author gaoyuguo
@@ -26,4 +28,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserSecretDao extends BaseMapper<UserSecretEntity> {
 
+    String selectUid(Map<String, Object> map);
 }

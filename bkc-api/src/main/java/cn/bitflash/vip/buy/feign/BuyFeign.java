@@ -225,7 +225,7 @@ public interface BuyFeign {
      * @param key
      * @return
      */
-    @PostMapping("/inner/platFormConfig/getVal")
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
     /**
@@ -233,13 +233,13 @@ public interface BuyFeign {
      *
      * @return
      */
-    @PostMapping("/inner/userGTCidEntity/selectOne")
-    String selectCid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userGetui/selectById")
+    String selectCid(@RequestParam("id") String uid);
 
 
     /**
      * selectPoundage
      */
     @PostMapping("/inner/userMarketConfig/selectById")
-    Float selectPoundage(@RequestParam("id") int id);
+    UserMarketConfigEntity selectPoundage(@RequestParam("id") int id);
 }

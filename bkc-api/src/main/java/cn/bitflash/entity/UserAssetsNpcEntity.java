@@ -4,9 +4,6 @@ public class UserAssetsNpcEntity {
 
     private String uid;
 
-    //总购买
-    private float purchase;
-
     //总收益
     private float totelAssets;
 
@@ -31,14 +28,6 @@ public class UserAssetsNpcEntity {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public float getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(float purchase) {
-        this.purchase = purchase;
     }
 
     public float getTotelAssets() {

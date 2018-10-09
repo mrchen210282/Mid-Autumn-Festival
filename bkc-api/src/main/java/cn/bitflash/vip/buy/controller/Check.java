@@ -1,6 +1,7 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserMarketBuyEntity;
+import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.Map;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -19,10 +22,11 @@ import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 @RequestMapping("/buy/check")
 public class Check {
 
-    private TradeUtil tradeUtil;
-
     @Autowired
     private BuyFeign feign;
+
+    @Autowired
+    private TradeUtil tradeUtil;
 
     /**
      * -------------查看交易详情-------------
@@ -62,5 +66,6 @@ public class Check {
                 .put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity"))
                 .put("totalMoney", map.get("totalMoney"));
     }
+
 
 }

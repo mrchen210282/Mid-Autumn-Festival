@@ -71,7 +71,7 @@ public class UserMarketBuyController {
      * @param pages
      * @return
      */
-    @PostMapping("/inner/userBuy/showBuying")
+    @PostMapping("/inner/userMarketBuy/showBuying")
     List<UserBuyBean> showBuying(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages) {
         List<UserBuyBean> userBuyBeans = userMarketBuyService.showBuying(uid, pages);
         return userBuyBeans;
@@ -84,7 +84,7 @@ public class UserMarketBuyController {
      * @param pages
      * @return
      */
-    @PostMapping("/inner/userBuy/showOrder")
+    @PostMapping("/inner/userMarketBuy/showOrder")
     List<UserBuyBean> showOrder(@RequestParam("uid") String uid,@RequestParam("pages") Integer pages){
         List<UserBuyBean> userBuyBeans = userMarketBuyService.showOrder(uid, pages);
         return userBuyBeans;
@@ -95,7 +95,7 @@ public class UserMarketBuyController {
      *
      * @return
      */
-    @PostMapping("/inner/userBuy/showBuyingCount")
+    @PostMapping("/inner/userMarketBuy/showBuyingCount")
     Integer showBuyingCount(@RequestParam("uid") String uid){
         int count = userMarketBuyService.showBuyingCount(uid);
         return count;
@@ -107,7 +107,7 @@ public class UserMarketBuyController {
      * @param uid
      * @return
      */
-    @PostMapping("/inner/userBuy/showOrderCount")
+    @PostMapping("/inner/userMarketBuy/showOrderCount")
     Integer showOrderCount(@RequestParam("uid") String uid){
         int count = userMarketBuyService.showOrderCount(uid);
         return count;
@@ -117,7 +117,7 @@ public class UserMarketBuyController {
      * checkOrder
      *
      */
-    @PostMapping("/inner/userBuy/checkOrder")
+    @PostMapping("/inner/userMarketBuy/checkOrder")
     UserBuyBean checkOrder(@RequestParam("id")String id){
         UserBuyBean userBuyBean = userMarketBuyService.checkOrder(id);
         return userBuyBean;

@@ -42,8 +42,8 @@ public class UserMarketTradeHistoryController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketTradeHistory/insert")
-    public boolean insert(@RequestBody JSONObject json) throws Exception {
+    @PostMapping("/inner/userMarketTradeHistory/insertUserMarketTradeHistory")
+    public boolean insertUserMarketTradeHistory(@RequestBody JSONObject json) throws Exception {
         UserMarketTradeHistoryEntity entity = (UserMarketTradeHistoryEntity) JSONObject.parseObject(json.toString(), UserMarketTradeHistoryEntity.class);
         return userMarketTradeHistoryService.insert(entity);
     }

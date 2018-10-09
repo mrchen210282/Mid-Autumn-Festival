@@ -51,9 +51,8 @@ public class UserMarketTradeController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketTrade/deleteById")
-    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+    @PostMapping("/inner/userMarketTrade/deleteUserMarketTradeById")
+    public boolean deleteUserMarketTradeById(@RequestParam("id") String id) throws Exception {
         return userMarketTradeService.deleteById(id);
     }
-
 }

@@ -2,6 +2,7 @@ package cn.bitflash.vip.trade.feign;
 
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.*;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userTrade/deleteById")
     void deleteTrade(@RequestParam("id") String id);
 
-    @PostMapping("/inner/userTrade/selectById")
+    @PostMapping("/inner/userMarketTrade/selectById")
     UserMarketTradeEntity selectTradeById(@RequestParam("id") String id);
 
     @PostMapping("/inner/userTrade/selectTradeByIdAndState")
@@ -85,12 +86,6 @@ public interface TradeFeign {
     @PostMapping("")
     UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") Integer id);
 
-    /**
-     * trade_poundage 表
-     */
-    @PostMapping("")
-    TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id);
-
     @PostMapping("")
     void deleteTradePoundageById(@RequestParam("id") String id);
 
@@ -107,17 +102,54 @@ public interface TradeFeign {
      *
      * @return
      */
-    @PostMapping("/inner/userBroker/selectUserBrokerageById")
-    public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
+    @PostMapping("/inner/userBroker/updateUserBrokerage")
+    boolean updateUserBrokerage(@RequestBody UserBrokerageEntity userBrokerageEntity);
 
     /**
-     * user_account 表
+     * user_assets_npc 表
      */
     @PostMapping("")
     UserAssetsNpcEntity selectAccountByUid(@RequestParam("uid") String uid);
 
-    @PostMapping("")
-    void updateUserAccount(@RequestBody UserAssetsNpcEntity account);
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    public Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npc);
+
+    @PostMapping("/inner/tradePoundage/deleteById")
+    boolean deleteById(@RequestParam("id") String id);
+
+
+    /**
+     * deleteUserMarketTradeById
+     *
+     * @return
+     */
+    @PostMapping("/inner/userMarketTrade/deleteUserMarketTradeById")
+    public boolean deleteUserMarketTradeById(@RequestParam("id") String id);
+
+    /**
+     * insert
+     *
+     * @return
+     */
+    @PostMapping("/inner/userMarketTradeHistory/insertUserMarketTradeHistory")
+    public boolean insertUserMarketTradeHistory(@RequestBody UserMarketTradeHistoryEntity userMarketTradeHistoryEntity);
+
+    /**
+     * selectTradePoundageById
+     *
+     * @return
+     */
+    @PostMapping("/inner/tradePoundage/selectTradePoundageById")
+    TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id);
+
+    /**
+     * selectUserBrokerageById
+     *
+     * @return
+     */
+    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
+
 
     @PostMapping("")
     Map<String, Object> responseTrade(@RequestParam("uid") String uid);
@@ -135,7 +167,7 @@ public interface TradeFeign {
      * user_getui_cid 表
      */
     @PostMapping("")
-    UserGTCidEntity selectGT(@RequestParam("uid") String uid);
+    UserGetuiEntity selectGT(@RequestParam("uid") String uid);
 
     /**
      * platform_config

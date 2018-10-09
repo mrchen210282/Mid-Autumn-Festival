@@ -1,5 +1,6 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.UserSendBean;
 import cn.bitflash.entity.UserSendEntity;
 import cn.bitflash.service.UserSendService;
 import com.alibaba.fastjson.JSONObject;
@@ -71,8 +72,8 @@ public class UserSendController {
      * @return
      */
     @PostMapping("/inner/userSend/selectAccount")
-    public List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
-        List<UserSendEntity> userSendEntities = userSendService.selectAccount(uid,pages);
+    public List<UserSendBean> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
+        List<UserSendBean> userSendEntities = userSendService.selectAccount(uid,pages);
         return userSendEntities;
     }
 
@@ -83,8 +84,8 @@ public class UserSendController {
      * @return
      */
     @PostMapping("/inner/userSend/selectAccept")
-    public List<UserSendEntity> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
-        List<UserSendEntity> userSendEntities = userSendService.selectAccept(uid,pages);
+    public List<UserSendBean> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages){
+        List<UserSendBean> userSendEntities = userSendService.selectAccept(uid,pages);
         return userSendEntities;
     }
 

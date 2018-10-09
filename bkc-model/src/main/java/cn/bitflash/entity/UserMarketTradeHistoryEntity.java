@@ -19,13 +19,13 @@ public class UserMarketTradeHistoryEntity implements Serializable {
     private String purchaseUid;
     private float price;
     private String sellUid;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
-    private Date createTime;
-    private float purchaseQuantity;
-    private float sellQuantity;
+    private float quantity;
+    private String orderState;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date finishTime;
-    private String orderState;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    private Date createTime;
 
     public String getUserTradeId() {
         return userTradeId;
@@ -65,22 +65,6 @@ public class UserMarketTradeHistoryEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public float getPurchaseQuantity() {
-        return purchaseQuantity;
-    }
-
-    public void setPurchaseQuantity(float purchaseQuantity) {
-        this.purchaseQuantity = purchaseQuantity;
-    }
-
-    public float getSellQuantity() {
-        return sellQuantity;
-    }
-
-    public void setSellQuantity(float sellQuantity) {
-        this.sellQuantity = sellQuantity;
     }
 
     public Date getFinishTime() {

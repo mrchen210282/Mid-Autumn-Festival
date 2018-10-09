@@ -34,10 +34,10 @@ public interface UserMarketBuyDao extends BaseMapper<UserMarketBuyEntity> {
 
     List<UserBuyBean> showBuying(@Param("uid") String uid, @Param("pages") Integer pages);
 
-    List<UserBuyBean> showOrder(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
+    List<UserBuyBean> showOrder(@Param("uid") String uid, @Param("pages") Integer pages);
 
-    Integer showOrderCount(@RequestParam("uid") String uid);
+    Integer showOrderCount(@Param("uid") String uid);
 
-    UserBuyBean checkOrder(@RequestParam("id")String id);
+    UserBuyBean checkOrder(@Param("id")String id);
 
 }

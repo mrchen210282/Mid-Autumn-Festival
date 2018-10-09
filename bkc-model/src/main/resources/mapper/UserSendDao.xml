@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.bitflash.dao.PriceLinechartDao">
+<mapper namespace="cn.bitflash.dao.UserSendDao">
 
-    <select id="selectAccount" resultType="cn.bitflash.entity.UserSendEntity">
-        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.address
+    <select id="selectAccount" resultType="cn.bitflash.bean.UserSendBean">
+        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.address as address
         from user_send us
         left join user_wallet_address ua
         on us.sendee_uid = ua.uid
@@ -12,8 +12,8 @@
         limit #{pages},6
     </select>
 
-    <select id="selectAccept" resultType="cn.bitflash.entity.UserSendEntity">
-        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.uuid
+    <select id="selectAccept" resultType="cn.bitflash.bean.UserSendBean">
+        select us.send_uid , us.sendee_uid ,us.quantity, us.send_time, ua.address as address
         from user_send us
         left join user_wallet_address ua
         on us.send_uid = ua.uid

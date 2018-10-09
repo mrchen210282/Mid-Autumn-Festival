@@ -29,7 +29,7 @@ public class UserBuyConfirm {
      * --------------点击确认(待确认)-----------
      */
     @Login
-    @PostMapping("")
+    @PostMapping("orderConfirm")
     @Transactional(propagation = Propagation.REQUIRED)
     public R payCoin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, @RequestAttribute("uid") String uid) {
 
@@ -46,7 +46,7 @@ public class UserBuyConfirm {
         //充值
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
-        userAssetsNpcEntity.setAvailableAssets(userAssetsNpcEntity.getAvailableAssets()+buyQuantity);
+        userAssetsNpcEntity.setAvailableAssets(userAssetsNpcEntity.getAvailableAssets() + buyQuantity);
         feign.updateAccountById(userAssetsNpcEntity);
 
         //添加手续费到user_brokerage中

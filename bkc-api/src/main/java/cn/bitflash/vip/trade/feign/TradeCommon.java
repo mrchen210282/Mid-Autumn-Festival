@@ -29,7 +29,7 @@ public class TradeCommon {
     // 撤消
     public final static String STATE_CANCEL = "3";
 
-    // 已付款
+    // 已完成
     public final static String STATE_PAY = "4";
 
     // 已锁定
