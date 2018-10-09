@@ -34,8 +34,8 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
     }
 
     @Override
-    public Boolean insertTreeNode(String pid, String uid, String code, String area) {
-        return baseMapper.insertTreeNode(pid,uid,code,area);
+    public Boolean insertTreeNode(String pid, String uid, String code) {
+        return baseMapper.insertTreeNode(pid,uid,code);
     }
 
     @Override

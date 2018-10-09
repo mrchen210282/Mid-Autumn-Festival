@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +36,9 @@ public class ExchangeNpc {
             return R.error("密码验证错误");
         }
         Float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
-        Date now = new DateTime().withTimeAtStartOfDay().toDate();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+        Date now = new Date();
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(sdf.format(now));
         //兑换的npc数量
         Float npc = form.getNpc();
         //兑换的hlb数量
@@ -80,8 +82,9 @@ public class ExchangeNpc {
     @PostMapping("showNpcNum")
     @ApiOperation("获取npc数量")
     public R showNpcNum(@RequestAttribute("uid") String uid) {
-        Date now = new DateTime().withTimeAtStartOfDay().toDate();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+        Date now = new Date();
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(sdf.format(now));
         Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
@@ -95,6 +98,9 @@ public class ExchangeNpc {
         float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
         int rate = (int) (100 / npc_unit_price);
         map.put("rate", rate);
+        //手续费
+        String hlb_handling_fee = userFeign.getVal("hlb_handling_fee");
+        map.put("hlb_handling_fee",Float.valueOf(hlb_handling_fee));
         return R.ok(map);
     }
 

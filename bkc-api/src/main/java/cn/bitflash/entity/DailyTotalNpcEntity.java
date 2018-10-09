@@ -1,9 +1,12 @@
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class DailyTotalNpcEntity {
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     private Float totalNpc;

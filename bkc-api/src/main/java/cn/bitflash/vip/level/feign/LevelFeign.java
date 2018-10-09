@@ -41,7 +41,7 @@ public interface LevelFeign {
 
     @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
-                           @RequestParam("code") String code,@RequestParam("area")String area);
+                           @RequestParam("code") String code);
 
     @PostMapping("/inner/userRelation/selectRelationByCode")
     List<UserRelationEntity> selectRelationByCode(@RequestParam("code") String code);

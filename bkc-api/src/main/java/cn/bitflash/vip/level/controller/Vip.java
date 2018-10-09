@@ -39,7 +39,7 @@ public class Vip {
         //用户目前额度等级
         int vipLevel = userInfo.getVipLevel();
         //最大额度信息
-        SystemVipEntity maxVip = vips.get(vips.size()-1);
+        SystemVipEntity maxVip = vips.get(vips.size() - 1);
         //返回值集合
         Map<String, Object> map = new HashMap<>();
         //额度信息
@@ -48,22 +48,22 @@ public class Vip {
         map.put("now_cash", npcEntity.getNpcPrice());
         //下一级额度信息
         //当前额度信息和下一级额度信息
-        List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() ==vipLevel || u.getId()==vipLevel+1).collect(Collectors.toList());
-        if(userVips.size()==1){
+        List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
+        if (userVips.size() == 1) {
             //最大算力
-            map.put("now_amount",maxVip.getVipCash());
-            map.put("next_amount",maxVip.getVipCash());
-            map.put("npc_amount",0);
+            map.put("now_amount", maxVip.getVipCash());
+            map.put("next_amount", maxVip.getVipCash());
+            map.put("npc_amount", 0);
 
 
-        }else{
-            map.put("now_amount",userVips.get(0).getVipCash());
-            map.put("next_amount",userVips.get(1).getVipCash());
-            float nextUpnpc =( userVips.get(1).getVipCash()-npcEntity.getNpcPrice())/npc;
-            if((nextUpnpc*100)%100==0){
-                map.put("npc_amount",(int)nextUpnpc);
-            }else{
-                map.put("npc_amount",(int)nextUpnpc+1);
+        } else {
+            map.put("now_amount", userVips.get(0).getVipCash());
+            map.put("next_amount", userVips.get(1).getVipCash());
+            float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice()) / npc;
+            if ((nextUpnpc * 100) % 100 == 0) {
+                map.put("npc_amount", (int) nextUpnpc);
+            } else {
+                map.put("npc_amount", (int) nextUpnpc + 1);
             }
         }
         return R.ok(map);
@@ -114,9 +114,8 @@ public class Vip {
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
 
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
-        String code[] = userInfo.getInvitationCode().split("-");
-        String invitCode = code[0];
-        String area = code[1];
+        String invitCode = userInfo.getInvitationCode();
+        String area = userInfo.getArea();
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
         //6.验证排点
         if (relation != null) {
@@ -148,18 +147,18 @@ public class Vip {
         switch (area) {
             case "L":
                 if (size == 1) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "L");
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
                 } else if (size == 2) {
-                    levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitCode, "L");
+                    levelFeign.insertTreeNode(f_user.get(1).getUid(), uid, invitCode);
                 } else if (size > 2) {
                     //筛选出左区第一个子节点
                     UserRelationEntity ue = f_user.stream().filter((u) -> u.getLft() == f_user.get(0).getLft() + 1).findFirst().get();
                     List<UserRelationEntity> child2_user = f_user.stream().filter((u) ->
                             u.getLft() >= ue.getLft() && u.getRgt() <= ue.getRgt()).collect(Collectors.toList());
                     if (child2_user.size() == 1) {
-                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "L");
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
                     } else if (child2_user.size() > 1) {
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "L");
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
                     }
                 }
                 break;
@@ -170,13 +169,13 @@ public class Vip {
                 }
                 //等于2代表直接父类下面开辟中区,或者左区下面只有一个点
                 else if (size == 2) {
-                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "R");
+                    levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
                 } else if (size > 3) {
                     if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                         //   o 情况1   实现 o
                         //  o             o o
                         // o             o
-                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode, "R");
+                        levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
                         return R.ok();
                     }
                     //筛选出右区第一个子节点
@@ -187,9 +186,9 @@ public class Vip {
                         //    o  情况2  实现 o
                         //   o o           o  o
                         //                   o
-                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode, "R");
+                        levelFeign.insertTreeNode(child2_user.get(0).getUid(), uid, invitCode);
                     } else {
-                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode, "R");
+                        levelFeign.insertTreeNode(this.getChildNode(child2_user, new HashMap<>()), uid, invitCode);
                     }
                 }
                 break;

@@ -74,8 +74,8 @@ public class UserRelationController {
 
     @PostMapping("/inner/userRelation/insertTreeNode")
     public Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
-                           @RequestParam("code") String code,@RequestParam("area")String area){
-        return userRelationService.insertTreeNode(pid,uid,code,area);
+                           @RequestParam("code") String code){
+        return userRelationService.insertTreeNode(pid,uid,code);
 
     }
 

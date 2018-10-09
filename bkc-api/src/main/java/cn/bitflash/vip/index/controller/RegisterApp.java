@@ -55,8 +55,9 @@ public class RegisterApp {
         UserInfoEntity info = new UserInfoEntity();
         info.setRealname(uid);
         info.setUid(uid);
-        info.setInvitationCode(invitationCode);
+        info.setInvitationCode(invitCode);
         info.setIsInvited("Y");
+        info.setArea(area);
         Boolean flag2 = indexFeign.insertUserInfoById(info);
         //创建钱包地址
         WalletAddress walletAddress = new WalletAddress();

@@ -5,7 +5,7 @@
     <update id="insertTreeNode" statementType="CALLABLE">
         <![CDATA[
  		call insertTreeNode_vip(#{f_uid,jdbcType=VARCHAR,mode=IN},#{c_uid,jdbcType=VARCHAR,mode=IN},
- 		#{code,jdbcType=VARCHAR,mode=IN},#{area,jdbcType=VARCHAR,mode=IN})
+ 		#{code,jdbcType=VARCHAR,mode=IN})
  		 ]]>
     </update>
 
