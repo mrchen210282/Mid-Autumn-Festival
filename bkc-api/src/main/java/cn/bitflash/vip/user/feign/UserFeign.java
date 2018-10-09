@@ -24,6 +24,12 @@ public interface UserFeign {
     @PostMapping("/inner/userLogin/updateByMobile")
     Boolean updateUserByMobile(@RequestBody UserSecretEntity loginEntity);
 
+    /**
+     * user_assets_npc 表
+     */
+    @PostMapping("/inner/userAssetsNpc/selectById")
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
+
 
     /**
      * user_payment_code表
