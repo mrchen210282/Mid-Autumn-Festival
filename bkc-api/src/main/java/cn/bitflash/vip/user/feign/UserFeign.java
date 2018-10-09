@@ -107,11 +107,14 @@ public interface UserFeign {
     @PostMapping("/inner/userAssetsHlb/update")
     Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
+    @PostMapping("/inner/userAssetsHlb/selectHlbCommunity")
+    UserAssetsHlbBean selectHlbCommunity(@RequestParam("id")String id);
+
     /**
      * user_assets_npc 表
      */
     @PostMapping("/inner/userAssetsNpc/selectById")
-    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
+    public UserAssetsNpcEntity selectbyid(@RequestParam("id")String id);
 
     @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);

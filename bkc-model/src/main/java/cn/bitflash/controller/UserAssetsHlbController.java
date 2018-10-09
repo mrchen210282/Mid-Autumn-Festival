@@ -1,5 +1,6 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.entity.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import cn.bitflash.service.UserAssetsHlbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class UserAssetsHlbController {
     @PostMapping("/inner/userAssetsHlb/update")
     public Boolean update(@RequestBody UserAssetsHlbEntity npc) {
         return userAssetsHlbService.updateById(npc);
+    }
+
+    @PostMapping("/inner/userAssetsHlb/selectHlbCommunity")
+    public UserAssetsHlbBean selectHlbCommunity(String id) {
+        return userAssetsHlbService.selectHlbCommunity(id);
     }
 }
