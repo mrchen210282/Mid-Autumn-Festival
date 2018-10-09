@@ -10,10 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -49,7 +51,6 @@ public class ExchangeNpc {
         if (npcNum != npc) {
             return R.error("可兑换hlb数量发生变化，请重新兑换");
         }
-
 
         UserNpcTradeHistoryEntity userNpcTradeHistoryEntity = new UserNpcTradeHistoryEntity();
         userNpcTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
@@ -93,6 +94,14 @@ public class ExchangeNpc {
         int rate = (int) (100 / npc_unit_price);
         map.put("rate", rate);
         return R.ok(map);
+    }
+
+    @Login
+    @PostMapping("getNpcHistory")
+    @ApiOperation("获取npc兑换历史记录")
+    public R getNpcHistory(@RequestAttribute("uid") String uid){
+        List<UserNpcTradeHistoryEntity> list = userFeign.selectNpchistory(uid);
+        return R.ok(new ModelMap("hostorys",list));
     }
 
 

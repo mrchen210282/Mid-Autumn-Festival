@@ -8,6 +8,16 @@ public class SystemVipEntity {
 
     private String vipLevel;
 
+    private float hlbAmount;
+
+    public float getHlbAmount() {
+        return hlbAmount;
+    }
+
+    public void setHlbAmount(float hlbAmount) {
+        this.hlbAmount = hlbAmount;
+    }
+
     public int getId() {
         return id;
     }

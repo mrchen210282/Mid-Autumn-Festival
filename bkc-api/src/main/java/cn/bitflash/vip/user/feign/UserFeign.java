@@ -90,10 +90,13 @@ public interface UserFeign {
 
 
     /**
-     * user_npc 表
+     * user_npc_trade_hostory 表
      */
     @PostMapping("/inner/usernpchistory/insert")
     Boolean insertUserNpcEntity(@RequestBody UserNpcTradeHistoryEntity npcEntity);
+
+    @PostMapping("/inner/usernpchistory/selectNpchistory")
+    List<UserNpcTradeHistoryEntity> selectNpchistory(@RequestParam("uid")String uid);
 
     /**
      * user_assets_hlb 表

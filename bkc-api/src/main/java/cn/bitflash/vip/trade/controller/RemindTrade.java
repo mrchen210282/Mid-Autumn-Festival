@@ -1,7 +1,7 @@
 package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserGTCidEntity;
+import cn.bitflash.entity.UserGetuiEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.GeTuiSendMessage;
 import cn.bitflash.utils.R;
@@ -39,7 +39,7 @@ public class RemindTrade {
         String idVal = redisUtils.get(redisKey);
         Assert.isNotBlank(idVal, "501");
         try {
-            UserGTCidEntity gtCidEntity = tradeFeign.selectGT(uid);
+            UserGetuiEntity gtCidEntity = tradeFeign.selectGT(uid);
             String text = tradeFeign.getVal(TradeCommon.MSG_TEXT);
             GeTuiSendMessage.sendSingleMessage(text, gtCidEntity.getCid());
             redisUtils.set(redisKey, id, 60 * 60);

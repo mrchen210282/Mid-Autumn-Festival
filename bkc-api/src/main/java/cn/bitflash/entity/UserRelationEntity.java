@@ -35,8 +35,6 @@ public class UserRelationEntity implements Serializable {
      */
     private Integer layer;
 
-    private String area;
-
 
     public String getUid() {
         return uid;
@@ -78,11 +76,4 @@ public class UserRelationEntity implements Serializable {
         this.layer = layer;
     }
 
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
 }

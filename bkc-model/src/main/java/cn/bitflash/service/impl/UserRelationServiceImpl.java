@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.dao.UserRelationDao;
 import cn.bitflash.entity.UserRelationEntity;
@@ -40,5 +41,10 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
     @Override
     public List<UserRelationJoinNpcAndHlbean> selectTreeNood(String f_uid) {
         return baseMapper.selectTreeNood(f_uid);
+    }
+
+    @Override
+    public List<UserInfoBean> selectRelationAndMobileByCode(String code) {
+        return baseMapper.selectRelationAndMobileByCode(code);
     }
 }

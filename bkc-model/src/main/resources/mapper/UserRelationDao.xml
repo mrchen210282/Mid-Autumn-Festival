@@ -25,6 +25,19 @@
 		 ]]>
     </select>
 
+    <select id="selectRelationAndMobileByCode" resultType="cn.bitflash.bean.UserInfoBean" parameterType="java.lang.String">
+      select
+        us.mobile ,
+        us.create_time
+      FROM
+        user_relation ur
+      LEFT JOIN
+        user_secret us
+      on
+        ur.uid = us.uid
+      where ur.code = #{code }
+    </select>
+
 
 
 
