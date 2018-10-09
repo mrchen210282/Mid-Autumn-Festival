@@ -35,14 +35,19 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtils {
     @Autowired
     private RedisTemplate redisTemplate;
+
     @Resource(name = "redisTemplate" )
     private ValueOperations<String, String> valueOperations;
+
     @Resource(name = "redisTemplate" )
     private HashOperations<String, String, Object> hashOperations;
+
     @Resource(name = "redisTemplate" )
     private ListOperations<String, Object> listOperations;
+
     @Resource(name = "redisTemplate" )
     private SetOperations<String, Object> setOperations;
+
     @Resource(name = "redisTemplate" )
     private ZSetOperations<String, Object> zSetOperations;
     /**

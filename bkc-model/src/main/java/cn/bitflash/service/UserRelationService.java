@@ -17,7 +17,7 @@ public interface UserRelationService extends IService<UserRelationEntity> {
 
     List<UserRelationEntity> selectTreeNodes(String uid);
 
-    Boolean insertTreeNode(String pid,String uid, String code,String area);
+    Boolean insertTreeNode(String pid,String uid, String code);
 
     List<UserRelationJoinNpcAndHlbean> selectTreeNood(String f_uid);
 
