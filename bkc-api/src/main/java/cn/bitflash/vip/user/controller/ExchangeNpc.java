@@ -40,7 +40,9 @@ public class ExchangeNpc {
         //兑换的hlb数量
         Float hlb = form.getHlb();
         //当前hlb可兑换的npc数量
-        Float npcNum = hlb / npc_unit_price;
+        Float hlb_handling_fee = Float.valueOf(userFeign.getVal("hlb_handling_fee"));
+        //减去手续费后
+        Float npcNum = (hlb-hlb*hlb_handling_fee) / npc_unit_price;
         if (npcEntity.getTotalNpc() < npc) {
             return R.error("可兑换npc数量不足");
         }
@@ -58,7 +60,7 @@ public class ExchangeNpc {
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
-        hlbNumEntity.setHlbAssets(hlbNumEntity.getHlbAssets() - form.getHlb());
+        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets() - form.getHlb());
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
@@ -81,7 +83,7 @@ public class ExchangeNpc {
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         //当前拥有的hlb
-        map.put("hlb", hlbNumEntity.getHlbAssets());
+        map.put("hlb", hlbNumEntity.getAvailableAssets());
         //当前拥有的npc
         map.put("npc", npcNumEntity.getAvailableAssets());
         //可兑换的npc

@@ -23,6 +23,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userInfo/selectById")
     UserInfoEntity selectUserInfoByUid(@RequestParam("id") String uid);
 
+    @PostMapping("/inner/userInfo/updateById")
+    Boolean updateUserInfo(@RequestBody UserInfoEntity userInfoEntity);
+
     /**
      * user_relation 表
      */
@@ -35,6 +38,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userRelation/insertTreeNode")
     Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
                            @RequestParam("code") String code,@RequestParam("area")String area);
+
+    @PostMapping("/inner/userRelation/selectRelationByCode")
+    List<UserRelationEntity> selectRelationByCode(@RequestParam("code") String code);
 
     /**
      * user_invitation_code 表
@@ -55,10 +61,13 @@ public interface LevelFeign {
     UserPerformanceEntity selectPerformanceByUid(@RequestParam("id")String id);
 
     /**
-     * system_resource 表
+     * user_hlb_trade_history 表
      */
-    @PostMapping("/inner/systemResource/getPath")
-    String getPath(@RequestParam("id")Integer id);
+    @PostMapping("/inner/userHlbhistory/insert")
+    Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
+
+    @PostMapping("/inner/userHlbhistory/selectHistorys")
+    List<UserHlbTradeHistoryEntity> selectHlbHistorys(@RequestParam("id")String id);
 
     /**
      * user_assets_hlb 表
@@ -85,9 +94,26 @@ public interface LevelFeign {
     String getVal(@RequestParam("key") String key);
 
     /**
-     * user_hlb_trade_history 表
+     * system_resource 表
      */
-    Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
+    @PostMapping("/inner/systemResource/getPath")
+    String getPath(@RequestParam("id")Integer id);
+
+    /**
+     * system_power
+     */
+    @PostMapping("/inner/systemPower/selectById")
+    SystemPowerEntity selectSystemPowerById(@RequestParam("id")String id);
+
+    /**
+     * system_vip 表
+     */
+    @PostMapping("/innner/systemvip/selectAll")
+    List<SystemVipEntity> selectSystemVipes();
+
+    @PostMapping("/inner/systemvip/selectById")
+    SystemVipEntity selectSystemVipById(@RequestParam("id")int id);
+
 
 
 }

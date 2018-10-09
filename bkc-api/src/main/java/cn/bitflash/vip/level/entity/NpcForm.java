@@ -1,5 +1,8 @@
 package cn.bitflash.vip.level.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NpcForm {
 
     private Float npc;
@@ -31,4 +34,6 @@ public class NpcForm {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }

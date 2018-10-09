@@ -2,7 +2,6 @@ package cn.bitflash.entity;
 
 public class UserAssetsNpcEntity {
 
-
     private String uid;
 
     //总收益

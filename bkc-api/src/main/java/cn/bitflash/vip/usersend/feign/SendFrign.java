@@ -11,101 +11,60 @@ import java.util.List;
 @FeignClient(value = "bkc-model")
 public interface SendFrign {
 
+    /**
+     * user_send 表
+     */
+    @PostMapping("/inner/userSend/insert")
+    Boolean insertUserSend(@RequestBody UserSendEntity send);
 
-//    /**
-//     * tb_user表
-//     */
-//    @PostMapping("/inner/user/selectByUuid")
-//    UserEntity selectUserByUuid(@RequestParam("uuid") String uuid);
-//
-//    /**
-//     * user_pay_pwd 表
-//     */
-//    @PostMapping("/inner/userPayPwd/selectById")
-//    UserPayPwdEntity selectUserPwdByUid(@RequestParam("id") String uid);
-//
-//    /**
-//     * user_trade_config 表
-//     */
-//    @PostMapping("/inner/userTradeConfig/selectById")
-//    UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") int id);
-//
-//    /**
-//     * user_brokerage表
-//     */
-//    @PostMapping("/inner/userBrokerage/selectById")
-//    UserBrokerageEntity selectUserBrokerage(@RequestParam("id") int id);
-//
-//    @PostMapping("/inner/userBrokerage/updateById")
-//    Boolean updateUserBrokerageById(@RequestBody UserBrokerageEntity brokerage);
-//
-//
-//    /**
-//     * user_account表
-//     */
-//    @PostMapping("/inner/userAccount/selectById")
-//    UserAccountEntity selectAccountByUid(@RequestParam("id") String uid);
-//
-//    @PostMapping("/inner/userAccount/updateById")
-//    Boolean updateAccountById(@RequestBody UserAccountEntity account);
-//
-//    /**
-//     * user_send 表
-//     */
-//    @PostMapping("/inner/userSend/insert")
-//    Boolean insertUserSend(@RequestBody UserSendEntity send);
-//
-//    @PostMapping("/inner/userSend/selectAccount")
-//    List<UserSendEntity> selectAccountByPages(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
-//
-//    @PostMapping("/inner/userSend/selectaccept")
-//    List<UserSendEntity> selectaccept(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
-//
-//    @PostMapping("/inner/userSend/selectaccountcount")
-//    Integer selectaccountcount(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userSend/selectAccount")
+    List<UserSendEntity> selectAccount(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+
+    @PostMapping("/inner/userSend/selectAccept")
+    List<UserSendEntity> selectAccept(@RequestParam("uid")String uid, @RequestParam("pages")Integer pages);
+
+    @PostMapping("/inner/userSend/selectAccountCount")
+    Integer selectAccountCount(@RequestParam("uid")String uid);
+
+    @PostMapping("/inner/userSend/selectAcceptCount")
+    Integer selectAcceptCount(@RequestParam("uid")String send_uid);
 
     /**
      * user_wallet_address
      */
-    @PostMapping("")
+    @PostMapping("/inner/userWalletAddress/selectByAddress")
     UserWalletAddressEntity selectAddress(@RequestParam("address") String address);
 
+    @PostMapping("/inner/userWalletAddress/selectById")
+    UserWalletAddressEntity selectAddressById(@RequestParam("id") String id);
     /**
      * user_secret
      */
-    @PostMapping("")
+    @PostMapping("/inner/userSecretService/selectById")
     UserSecretEntity selectSecretById(@RequestParam("id") String id);
 
     /**
      * user_market_config
      */
-    @PostMapping("")
+    @PostMapping("/inner/userMarketConfig/selectById")
     UserMarketConfigEntity selectConfigById(@RequestParam("id") int id);
 
     /**
      * user_assets_npc
      */
-    @PostMapping("")
+    @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectAssetsById(@RequestParam("id") String id);
 
-    @PostMapping("")
-    UserAssetsNpcEntity updateAssetsById(@RequestBody UserAssetsNpcEntity userAssetsNpcEntity);
+    @PostMapping("/inner/userAssetsNpc/update")
+    boolean updateAssetsById(@RequestBody UserAssetsNpcEntity userAssetsNpcEntity);
 
-    /**
-    * user_send 表
-    */
-    @PostMapping("/inner/userSend/insert")
-    Boolean insertUserSend(@RequestBody UserSendEntity send);
 
     /**
      * UserBrokerageEntity 表
      */
+    @PostMapping("/inner/userBroker/selectUserBrokerageById")
     UserBrokerageEntity selectBrokerage(@RequestParam("id") int id);
 
+    @PostMapping("/inner/userBroker/updateUserBrokerage")
     Boolean updateBrokerage(@RequestBody UserBrokerageEntity userBrokerageEntity);
-
-    int selectSendcount(@RequestParam("uid") String uid);
-
-    List<UserSendEntity> selectSendList(@RequestParam("uid") String uid,@RequestParam("pages") int pages);
-
 }

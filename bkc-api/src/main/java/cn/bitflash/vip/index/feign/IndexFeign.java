@@ -65,7 +65,7 @@ public interface IndexFeign {
     /**
      * user_getui 表
      */
-    @PostMapping
+    @PostMapping("/inner/userGetui/insertOrUpdate")
     Boolean insertOrupdateGetui(@RequestBody UserGetuiEntity getui);
 
 

@@ -189,23 +189,23 @@ public interface BuyFeign {
 
 
 //-------------------------------------------------------userBrokerage-------------------------------------------------
-//
-//    /**
-//     * updateById
-//     *
-//     * @param entity
-//     */
-//    @PostMapping("/inner/userBrokerage/updateById")
-//    void updateBrokerageById(@RequestBody UserBrokerageEntity entity);
-//
-//    /**
-//     * selectById
-//     *
-//     * @param id
-//     * @return
-//     */
-//    @PostMapping("/inner/userBrokerage/selectById")
-//    UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
+
+    /**
+     * updateById
+     *
+     * @param entity
+     */
+    @PostMapping("/inner/userBroker/updateUserBrokerage")
+    void updateBrokerageById(@RequestBody UserBrokerageEntity entity);
+
+    /**
+     * selectById
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
 
 
 //-------------------------------------------------------FINISH-------------------------------------------------

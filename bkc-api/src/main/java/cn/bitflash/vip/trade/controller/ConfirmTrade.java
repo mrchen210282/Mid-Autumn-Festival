@@ -102,6 +102,5 @@ public class ConfirmTrade {
         return R.error("交易密码错误");
 
     }
-
-
 }
+
