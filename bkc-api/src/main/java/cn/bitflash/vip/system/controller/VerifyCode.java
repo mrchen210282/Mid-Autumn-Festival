@@ -33,7 +33,7 @@ public class VerifyCode {
             return R.error(501, "手机号不能为空");
         }
         UserSecretEntity userEntity = systemFeign.selectUserEntityByMobile(mobile);
-        String verifyCode = generateCode();
+        String verifyCode =  RandomStringUtils.randomNumeric(6);
         if (type.equals("reg")) {
             if (userEntity != null) {
                 return R.error("用户已注册，请直接登录");
@@ -59,7 +59,7 @@ public class VerifyCode {
             if (userEntity == null) {
                 return R.error("手机号不存在用户");
             }
-            return SmsUtils.smsApi(mobile, RandomStringUtils.randomNumeric(6), "贝壳", "SMS_146611072");
+            return SmsUtils.smsApi(mobile,verifyCode, "贝壳", "SMS_146611072");
         }
         return R.error("系统错误");
     }
