@@ -14,9 +14,9 @@ public class UserBrokerageEntity implements Serializable {
 
     private Integer id;
 
-    private Float purchaseBrokerage;
+    private BigDecimal purchaseBrokerage;
 
-    private Float sellBrokerage;
+    private BigDecimal sellBrokerage;
 
     public Integer getId() {
         return id;
@@ -26,19 +26,19 @@ public class UserBrokerageEntity implements Serializable {
         this.id = id;
     }
 
-    public Float getPurchaseBrokerage() {
+    public BigDecimal getPurchaseBrokerage() {
         return purchaseBrokerage;
     }
 
-    public void setPurchaseBrokerage(Float purchaseBrokerage) {
+    public void setPurchaseBrokerage(BigDecimal purchaseBrokerage) {
         this.purchaseBrokerage = purchaseBrokerage;
     }
 
-    public Float getSellBrokerage() {
+    public BigDecimal getSellBrokerage() {
         return sellBrokerage;
     }
 
-    public void setSellBrokerage(Float sellBrokerage) {
+    public void setSellBrokerage(BigDecimal sellBrokerage) {
         this.sellBrokerage = sellBrokerage;
     }
 }
