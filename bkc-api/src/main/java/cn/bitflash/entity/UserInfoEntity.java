@@ -12,13 +12,17 @@ public class UserInfoEntity implements Serializable {
 
     private String realname;
 
+    private String mobile;
+
+    private String nickname;
+
     private String idNumber;
 
-    private String isAuth;
+    private String isInvited;
 
     private String invitationCode;
 
-    private String isInvited;
+    private String isAuth;
 
     //头像
     private String avatar;
@@ -28,14 +32,6 @@ public class UserInfoEntity implements Serializable {
     private Integer upgradeNum;
 
     private Integer vipLevel;
-
-    public String getPowerLevel() {
-        return powerLevel;
-    }
-
-    public void setPowerLevel(String powerLevel) {
-        this.powerLevel = powerLevel;
-    }
 
     public String getUid() {
         return uid;
@@ -53,6 +49,22 @@ public class UserInfoEntity implements Serializable {
         this.realname = realname;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public String getIdNumber() {
         return idNumber;
     }
@@ -61,12 +73,12 @@ public class UserInfoEntity implements Serializable {
         this.idNumber = idNumber;
     }
 
-    public String getIsAuth() {
-        return isAuth;
+    public String getIsInvited() {
+        return isInvited;
     }
 
-    public void setIsAuth(String isAuth) {
-        this.isAuth = isAuth;
+    public void setIsInvited(String isInvited) {
+        this.isInvited = isInvited;
     }
 
     public String getInvitationCode() {
@@ -77,6 +89,14 @@ public class UserInfoEntity implements Serializable {
         this.invitationCode = invitationCode;
     }
 
+    public String getIsAuth() {
+        return isAuth;
+    }
+
+    public void setIsAuth(String isAuth) {
+        this.isAuth = isAuth;
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -85,12 +105,12 @@ public class UserInfoEntity implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getIsInvited() {
-        return isInvited;
+    public String getPowerLevel() {
+        return powerLevel;
     }
 
-    public void setIsInvited(String isInvited) {
-        this.isInvited = isInvited;
+    public void setPowerLevel(String powerLevel) {
+        this.powerLevel = powerLevel;
     }
 
     public Integer getUpgradeNum() {

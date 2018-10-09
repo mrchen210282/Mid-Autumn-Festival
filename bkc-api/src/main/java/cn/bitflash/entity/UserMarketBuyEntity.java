@@ -13,13 +13,20 @@ import java.util.Date;
 public class UserMarketBuyEntity implements Serializable {
 
     private String id;
+
     private String purchaseUid;
+
     private String state;
+
     private float quantity;
+
     private float price;
+
     private String sellUid;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date payTime;
 

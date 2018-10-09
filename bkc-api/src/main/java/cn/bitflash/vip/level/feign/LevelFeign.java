@@ -1,6 +1,7 @@
 package cn.bitflash.vip.level.feign;
 
 import cn.bitflash.entity.*;
+import cn.bitflash.vip.level.entity.UserInfoBean;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfo(@RequestBody UserInfoEntity userInfoEntity);
 
+    @PostMapping("/inner/userinfo/selectUserInfoLikeCode")
+    List<UserInfoBean> selectUserInfoLikeCode(@RequestParam("code")String code);
+
     /**
      * user_relation 表
      */
@@ -41,6 +45,11 @@ public interface LevelFeign {
 
     @PostMapping("/inner/userRelation/selectRelationByCode")
     List<UserRelationEntity> selectRelationByCode(@RequestParam("code") String code);
+
+    @PostMapping("/inner/userRelation/selectRelationAndMobileByCode")
+    List<UserInfoBean> selectRelationAndMobileByCode(@RequestParam("code") String code);
+
+
 
     /**
      * user_invitation_code 表

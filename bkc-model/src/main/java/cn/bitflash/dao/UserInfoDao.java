@@ -17,13 +17,18 @@
 package cn.bitflash.dao;
 
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.entity.UserInfoEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
 public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
+    List<UserInfoBean> selectUserInfoLikeCode(@Param("code") String code);
 
 }

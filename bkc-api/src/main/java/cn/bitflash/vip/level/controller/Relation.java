@@ -3,6 +3,7 @@ package cn.bitflash.vip.level.controller;
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.level.entity.UserInfoBean;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/level")
@@ -91,6 +94,30 @@ public class Relation {
     public R getHlbLog(@RequestAttribute("uid") String uid){
         List<UserHlbTradeHistoryEntity> list = levelFeign.selectHlbHistorys(uid);
         return R.ok(new ModelMap("historys",list));
+    }
+
+    @Login
+    @PostMapping("getInviationAdress")
+    @ApiOperation("分享邀请地址")
+    public R getInviationAdress(@RequestAttribute("uid") String uid) {
+        Map<String, Object> map = new HashMap<>();
+        UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
+        String address = levelFeign.getPath(4);
+        //1.分享地址
+        map.put("address", address + code.getCode());
+        List<UserInfoBean> relationEntities = levelFeign.selectRelationAndMobileByCode(code.getCode());
+        //实际邀请人数
+        map.put("realNum",relationEntities.size());
+        //真实人数信息
+        map.put("realMes",relationEntities);
+        List<UserInfoBean> infoEntities = levelFeign.selectUserInfoLikeCode("%"+code.getCode()+"%");
+        //总人数
+        map.put("allNum",infoEntities.size());
+        //总人数信息
+        map.put("allMes",infoEntities);
+        return R.ok(map);
+
+
     }
 
 }

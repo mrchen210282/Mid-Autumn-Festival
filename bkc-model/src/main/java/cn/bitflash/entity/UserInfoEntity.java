@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author gaoyuguo
@@ -17,13 +18,17 @@ public class UserInfoEntity implements Serializable {
 
     private String realname;
 
+    private String mobile;
+
+    private String nickname;
+
     private String idNumber;
 
-    private String isAuth;
+    private String isInvited;
 
     private String invitationCode;
 
-    private String isInvited;
+    private String isAuth;
 
     //头像
     private String avatar;
@@ -32,7 +37,7 @@ public class UserInfoEntity implements Serializable {
 
     private Integer upgradeNum;
 
-    private String vipLevel;
+    private Integer vipLevel;
 
     public String getUid() {
         return uid;
@@ -48,6 +53,22 @@ public class UserInfoEntity implements Serializable {
 
     public void setRealname(String realname) {
         this.realname = realname;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getIdNumber() {
@@ -74,20 +95,20 @@ public class UserInfoEntity implements Serializable {
         this.invitationCode = invitationCode;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getIsAuth() {
         return isAuth;
     }
 
     public void setIsAuth(String isAuth) {
         this.isAuth = isAuth;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getPowerLevel() {
@@ -106,11 +127,11 @@ public class UserInfoEntity implements Serializable {
         this.upgradeNum = upgradeNum;
     }
 
-    public String getVipLevel() {
+    public Integer getVipLevel() {
         return vipLevel;
     }
 
-    public void setVipLevel(String vipLevel) {
+    public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
     }
 }

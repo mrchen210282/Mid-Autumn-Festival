@@ -25,11 +25,13 @@ public class UserAssetsHlbEntity {
     //hlb可用资产
     private float availableAssets;
 
-
+    //左业绩
     private float lftAchievement;
 
+    //右业绩
     private float rgtAchievement;
 
+    //当前vip等级释放量
     private float vipReleaseCash;
 
     public String getUid() {

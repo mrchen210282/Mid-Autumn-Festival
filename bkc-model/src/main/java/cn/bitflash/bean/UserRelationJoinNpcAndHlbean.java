@@ -22,8 +22,6 @@ public class UserRelationJoinNpcAndHlbean {
 
     private String isInvited;
 
-    private float hlbPurchase;
-
     private float hlbTotelAssets;
 
     private float hlbFrozenAssets;
@@ -128,13 +126,6 @@ public class UserRelationJoinNpcAndHlbean {
         this.isInvited = isInvited;
     }
 
-    public float getHlbPurchase() {
-        return hlbPurchase;
-    }
-
-    public void setHlbPurchase(float hlbPurchase) {
-        this.hlbPurchase = hlbPurchase;
-    }
 
     public float getHlbTotelAssets() {
         return hlbTotelAssets;
