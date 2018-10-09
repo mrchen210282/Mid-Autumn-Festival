@@ -1,6 +1,7 @@
 package cn.bitflash.controller;
 
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.service.UserRelationService;
@@ -73,8 +74,8 @@ public class UserRelationController {
 
     @PostMapping("/inner/userRelation/insertTreeNode")
     public Boolean insertTreeNode(@RequestParam("pid") String pid, @RequestParam("uid") String uid,
-                           @RequestParam("code") String code,@RequestParam("area")String area){
-        return userRelationService.insertTreeNode(pid,uid,code,area);
+                           @RequestParam("code") String code){
+        return userRelationService.insertTreeNode(pid,uid,code);
 
     }
 
@@ -88,5 +89,9 @@ public class UserRelationController {
         return userRelationService.selectList(new EntityWrapper<UserRelationEntity>().eq("father_code",code));
     }
 
+    @PostMapping("/inner/userRelation/selectRelationAndMobileByCode")
+    public List<UserInfoBean> selectRelationAndMobileByCode(@RequestParam("code") String code){
+        return userRelationService.selectRelationAndMobileByCode(code);
+    }
 
 }

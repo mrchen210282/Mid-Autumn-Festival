@@ -1,6 +1,7 @@
 package cn.bitflash.service;
 
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserRelationEntity;
 import com.baomidou.mybatisplus.service.IService;
@@ -16,9 +17,11 @@ public interface UserRelationService extends IService<UserRelationEntity> {
 
     List<UserRelationEntity> selectTreeNodes(String uid);
 
-    Boolean insertTreeNode(String pid,String uid, String code,String area);
+    Boolean insertTreeNode(String pid,String uid, String code);
 
     List<UserRelationJoinNpcAndHlbean> selectTreeNood(String f_uid);
+
+    List<UserInfoBean> selectRelationAndMobileByCode(String code);
 
 
 }

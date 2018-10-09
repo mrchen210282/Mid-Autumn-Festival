@@ -5,7 +5,7 @@
     <update id="insertTreeNode" statementType="CALLABLE">
         <![CDATA[
  		call insertTreeNode_vip(#{f_uid,jdbcType=VARCHAR,mode=IN},#{c_uid,jdbcType=VARCHAR,mode=IN},
- 		#{code,jdbcType=VARCHAR,mode=IN},#{area,jdbcType=VARCHAR,mode=IN})
+ 		#{code,jdbcType=VARCHAR,mode=IN})
  		 ]]>
     </update>
 
@@ -23,6 +23,19 @@
         <![CDATA[
 		call selectTreeNood(#{f_uid,jdbcType=VARCHAR,mode=IN})
 		 ]]>
+    </select>
+
+    <select id="selectRelationAndMobileByCode" resultType="cn.bitflash.bean.UserInfoBean" parameterType="java.lang.String">
+      select
+        us.mobile ,
+        us.create_time
+      FROM
+        user_relation ur
+      LEFT JOIN
+        user_secret us
+      on
+        ur.uid = us.uid
+      where ur.code = #{code }
     </select>
 
 

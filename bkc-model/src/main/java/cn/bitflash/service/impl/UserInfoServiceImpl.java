@@ -16,12 +16,20 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.dao.UserInfoDao;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.service.UserInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("userInfoService")
 public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity> implements UserInfoService {
+    @Override
+    public List<UserInfoBean> selectUserInfoLikeCode(String code) {
+        return baseMapper.selectUserInfoLikeCode(code);
+
+    }
 }

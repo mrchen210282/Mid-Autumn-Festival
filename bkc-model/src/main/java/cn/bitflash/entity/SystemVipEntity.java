@@ -19,6 +19,16 @@ public class SystemVipEntity implements Serializable {
 
     private String vipLevel;
 
+    private float hlbAmount;
+
+    public float getHlbAmount() {
+        return hlbAmount;
+    }
+
+    public void setHlbAmount(float hlbAmount) {
+        this.hlbAmount = hlbAmount;
+    }
+
     private String remark;
 
     public Integer getId() {

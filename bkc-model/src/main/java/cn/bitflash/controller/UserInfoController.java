@@ -1,13 +1,17 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author GAOYGUUO
@@ -59,6 +63,11 @@ public class UserInfoController {
     @PostMapping("/inner/userInfo/deleteById")
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userInfoService.deleteById(id);
+    }
+
+    @PostMapping("/inner/userinfo/selectUserInfoLikeCode")
+    public List<UserInfoBean> selectUserInfoLikeCode(@RequestParam("code")String code){
+        return userInfoService.selectUserInfoLikeCode(code);
     }
 
 }

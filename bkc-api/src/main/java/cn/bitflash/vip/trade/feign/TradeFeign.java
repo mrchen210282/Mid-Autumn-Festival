@@ -167,7 +167,7 @@ public interface TradeFeign {
      * user_getui_cid 表
      */
     @PostMapping("")
-    UserGTCidEntity selectGT(@RequestParam("uid") String uid);
+    UserGetuiEntity selectGT(@RequestParam("uid") String uid);
 
     /**
      * platform_config

@@ -7,11 +7,12 @@ import cn.bitflash.vip.usersend.bean.UserSendBean;
 import cn.bitflash.vip.usersend.feign.SendFrign;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -111,6 +112,7 @@ public class Send {
         //UserBrokerage
         UserBrokerageEntity userbroker = sendFrign.selectBrokerage(1);
         BigDecimal get_brokerages = user_brokerage.add(userbroker.getSellBrokerage());
+
         userbroker.setSellBrokerage(get_brokerages);
         //修改到user_brokerage
         sendFrign.updateBrokerage(userbroker);

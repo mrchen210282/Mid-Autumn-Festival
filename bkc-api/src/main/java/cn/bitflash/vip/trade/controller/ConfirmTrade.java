@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @RestController
@@ -58,7 +59,10 @@ public class ConfirmTrade {
 
             //手续费累加
             UserBrokerageEntity userBrokerageEntity = tradeFeign.selectUserBrokerageById(1);
-            Float multiplyB = userBrokerageEntity.getSellBrokerage() + tradePoundageEntity.getPoundage();
+            BigDecimal poundage = new BigDecimal(tradePoundageEntity.getPoundage());
+
+            BigDecimal multiplyB = userBrokerageEntity.getSellBrokerage().add(poundage);
+
             userBrokerageEntity.setSellBrokerage(multiplyB);
             tradeFeign.updateUserBrokerage(userBrokerageEntity);
 

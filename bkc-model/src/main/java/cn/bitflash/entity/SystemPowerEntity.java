@@ -12,8 +12,6 @@ public class SystemPowerEntity {
 
     private int  upgradeNum;
 
-    private int  degradeNum;
-
     private String remark;
 
     public int getId() {
@@ -38,14 +36,6 @@ public class SystemPowerEntity {
 
     public void setUpgradeNum(int upgradeNum) {
         this.upgradeNum = upgradeNum;
-    }
-
-    public int getDegradeNum() {
-        return degradeNum;
-    }
-
-    public void setDegradeNum(int degradeNum) {
-        this.degradeNum = degradeNum;
     }
 
     public String getRemark() {

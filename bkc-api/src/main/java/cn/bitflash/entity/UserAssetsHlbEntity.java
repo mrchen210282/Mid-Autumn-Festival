@@ -4,9 +4,6 @@ public class UserAssetsHlbEntity {
 
     private String uid;
 
-    //总购买
-    private float purchase;
-
     //总收益
     private float totelAssets;
 
@@ -22,12 +19,14 @@ public class UserAssetsHlbEntity {
     //hlb可用资产
     private float availableAssets;
 
-    //hlb购买价格
-    private float hlbPrice;
-
+    //左业绩
     private float lftAchievement;
 
+    //右业绩
     private float rgtAchievement;
+
+    //当前vip等级释放量
+    private float vipReleaseCash;
 
     public String getUid() {
         return uid;
@@ -35,14 +34,6 @@ public class UserAssetsHlbEntity {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public float getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(float purchase) {
-        this.purchase = purchase;
     }
 
     public float getTotelAssets() {
@@ -85,14 +76,6 @@ public class UserAssetsHlbEntity {
         this.availableAssets = availableAssets;
     }
 
-    public float getHlbPrice() {
-        return hlbPrice;
-    }
-
-    public void setHlbPrice(float hlbPrice) {
-        this.hlbPrice = hlbPrice;
-    }
-
     public float getLftAchievement() {
         return lftAchievement;
     }
@@ -107,5 +90,13 @@ public class UserAssetsHlbEntity {
 
     public void setRgtAchievement(float rgtAchievement) {
         this.rgtAchievement = rgtAchievement;
+    }
+
+    public float getVipReleaseCash() {
+        return vipReleaseCash;
+    }
+
+    public void setVipReleaseCash(float vipReleaseCash) {
+        this.vipReleaseCash = vipReleaseCash;
     }
 }
