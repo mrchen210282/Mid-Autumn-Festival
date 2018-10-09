@@ -17,7 +17,7 @@ public class DailyTotalNpcController {
     private DailyTotalNpcService dailyTotalNpcService;
 
     @PostMapping("/inner/dailytotalnpc/selectById")
-    public DailyTotalNpcEntity selectById(@RequestParam("id")Date id){
+    public DailyTotalNpcEntity selectById(@RequestParam("id")String id){
         return dailyTotalNpcService.selectById(id);
     }
 

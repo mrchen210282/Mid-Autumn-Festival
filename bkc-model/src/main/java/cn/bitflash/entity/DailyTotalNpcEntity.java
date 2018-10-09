@@ -3,12 +3,14 @@ package cn.bitflash.entity;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 @TableName("daily_total_npc")
 public class DailyTotalNpcEntity {
 
     @TableId(type = IdType.INPUT)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
 
     private Float totalNpc;
