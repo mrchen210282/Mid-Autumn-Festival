@@ -114,7 +114,7 @@ public class AddOrCancel {
 //                            userAccount.setRegulateRelease(RegulatRelease);
 //                        }
 
-                        tradeFeign.updateUserAccount(userAssetsNpcEntity);
+                        tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
                         // 添加卖出记录
                         UserMarketTradeEntity userTrade = new UserMarketTradeEntity();
@@ -160,7 +160,7 @@ public class AddOrCancel {
             returnMap = tradeFeign.responseTrade(userAccount.getUid());
             //可卖份数 = 可用额度 / 100
 
-            if (userAccount.getAvailableAssets()<=0) {
+            if (userAccount.getAvailableAssets() <= 0) {
                 returnMap.put("number", "0");
             } else {
                 double number = Double.valueOf(userAccount.getAvailableAssets()) / TradeCommon.MIN_NUMBER;

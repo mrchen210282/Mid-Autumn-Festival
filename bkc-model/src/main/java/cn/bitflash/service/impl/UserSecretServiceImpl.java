@@ -16,15 +16,20 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.BuyPoundageDao;
 import cn.bitflash.dao.UserSecretDao;
-import cn.bitflash.entity.BuyPoundageEntity;
 import cn.bitflash.entity.UserSecretEntity;
-import cn.bitflash.service.BuyPoundageService;
 import cn.bitflash.service.UserSecretService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service("userSecretService")
 public class UserSecretServiceImpl extends ServiceImpl<UserSecretDao, UserSecretEntity> implements UserSecretService {
+
+    @Override
+    public String selectUid(Map<String, Object> map) {
+        String uid = baseMapper.selectUid(map);
+        return uid;
+    }
 }

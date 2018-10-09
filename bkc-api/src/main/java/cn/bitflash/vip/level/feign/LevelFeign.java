@@ -63,8 +63,11 @@ public interface LevelFeign {
     /**
      * user_hlb_trade_history 表
      */
-    @PostMapping("")
+    @PostMapping("/inner/userHlbhistory/insert")
     Boolean insertUserHlbTradeHistory(@RequestBody UserHlbTradeHistoryEntity hlbTradeHistoryEntity);
+
+    @PostMapping("/inner/userHlbhistory/selectHistorys")
+    List<UserHlbTradeHistoryEntity> selectHlbHistorys(@RequestParam("id")String id);
 
     /**
      * user_assets_hlb 表
@@ -99,7 +102,7 @@ public interface LevelFeign {
     /**
      * system_power
      */
-    @PostMapping("")
+    @PostMapping("/inner/systemPower/selectById")
     SystemPowerEntity selectSystemPowerById(@RequestParam("id")String id);
 
     /**
@@ -108,7 +111,7 @@ public interface LevelFeign {
     @PostMapping("/innner/systemvip/selectAll")
     List<SystemVipEntity> selectSystemVipes();
 
-    @PostMapping(".")
+    @PostMapping("/inner/systemvip/selectById")
     SystemVipEntity selectSystemVipById(@RequestParam("id")int id);
 
 

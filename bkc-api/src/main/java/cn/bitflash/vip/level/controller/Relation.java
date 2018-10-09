@@ -7,6 +7,7 @@ import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,5 +85,12 @@ public class Relation {
         return R.ok(map);
     }
 
+    @Login
+    @PostMapping("getHlbLog")
+    @ApiOperation("获取欢乐币赠送记录")
+    public R getHlbLog(@RequestAttribute("uid") String uid){
+        List<UserHlbTradeHistoryEntity> list = levelFeign.selectHlbHistorys(uid);
+        return R.ok(new ModelMap("historys",list));
+    }
 
 }

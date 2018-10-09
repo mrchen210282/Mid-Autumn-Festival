@@ -1,9 +1,7 @@
 package cn.bitflash.controller;
 
 import cn.bitflash.entity.UserBrokerageEntity;
-import cn.bitflash.entity.UserPaymentBankEntity;
 import cn.bitflash.service.UserBrokerageService;
-import cn.bitflash.service.UserCashAssetsJoinDictComputingPowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +28,6 @@ public class UserBrokerageController {
         UserBrokerageEntity entity = userBrokerageService.selectById(id);
         return entity;
     }
-
     /**
      * updateUserBrokerage
      */

@@ -17,7 +17,7 @@ public class SystemPowerController {
     private SystemPowerService systemPowerService;
 
     @PostMapping("/inner/systemPower/selectById")
-    public SystemPowerEntity selectById(@RequestParam("id") int id){
+    public SystemPowerEntity selectById(@RequestParam("id") String id){
         return systemPowerService.selectById(id);
     }
 

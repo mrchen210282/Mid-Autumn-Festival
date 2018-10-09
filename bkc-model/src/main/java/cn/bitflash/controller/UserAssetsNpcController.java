@@ -1,7 +1,9 @@
 package cn.bitflash.controller;
 
 import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserBrokerageEntity;
 import cn.bitflash.service.UserAssetsNpcService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +21,10 @@ public class UserAssetsNpcController {
         return userAssetsNpcService.selectById(id);
     }
 
-    @PostMapping("/inner/userAssetsNpc/update")
-    public Boolean update(@RequestBody UserAssetsNpcEntity npc){
-        return userAssetsNpcService.updateById(npc);
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    public Boolean updateUserAssetsNpc(@RequestBody JSONObject json){
+        UserAssetsNpcEntity entity = (UserAssetsNpcEntity) JSONObject.parseObject(json.toString(), UserAssetsNpcEntity.class);
+        return userAssetsNpcService.updateById(entity);
     }
 
 }
