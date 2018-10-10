@@ -1,12 +1,10 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.entity.UserMarketBuyEntity;
-import cn.bitflash.entity.UserMarketBuyHistoryEntity;
-import cn.bitflash.entity.UserSecretEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +19,10 @@ import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 @RequestMapping("/buy")
 public class UserBuyConfirm {
 
+    @Autowired
     private TradeUtil tradeUtil;
 
+    @Autowired
     private BuyFeign feign;
 
     /**
@@ -30,7 +30,6 @@ public class UserBuyConfirm {
      */
     @Login
     @PostMapping("orderConfirm")
-    @Transactional(propagation = Propagation.REQUIRED)
     public R payCoin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, @RequestAttribute("uid") String uid) {
 
         //判断交易密码是否正确
@@ -39,6 +38,13 @@ public class UserBuyConfirm {
         if (!pwd.equals(userSecretEntity.getPayPassword())) {
             return R.ok().put("code", "3");
         }
+
+        //判断对方是否点击申诉
+        UserComplaintEntity userComplaintEntity = feign.selectComplaintById(id);
+        if (userComplaintEntity != null) {
+            feign.deleteComplaint(id);
+        }
+
         //手续费
         Map<String, Float> map = tradeUtil.poundage(id);
         float buyQuantity = map.get("buyQuantity");
@@ -50,10 +56,10 @@ public class UserBuyConfirm {
         feign.updateAccountById(userAssetsNpcEntity);
 
         //添加手续费到user_brokerage中
-//        BigDecimal totalPoundage = new BigDecimal(map.get("totalPoundage"));
-//        UserBrokerageEntity userBrokerageEntity = feign.selectBrokerageById(1);
-//        userBrokerageEntity.setSellBrokerage(userBrokerageEntity.getSellBrokerage().add(totalPoundage));
-//        feign.updateBrokerageById(userBrokerageEntity);
+        BigDecimal totalPoundage = new BigDecimal(map.get("totalPoundage"));
+        UserBrokerageEntity userBrokerageEntity = feign.selectBrokerageById(1);
+        userBrokerageEntity.setSellBrokerage(userBrokerageEntity.getSellBrokerage().add(totalPoundage));
+        feign.updateBrokerageById(userBrokerageEntity);
 
         //删除Buy_POUNDAGE
         feign.deletePoundage(id);

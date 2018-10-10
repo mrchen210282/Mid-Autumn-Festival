@@ -128,6 +128,31 @@ public class PayUrl {
         return R.ok(new ModelMap("msg", list));
     }
 
+
+    @PostMapping("getPaymentUrl")
+    @ApiOperation("获取支付方式")
+    public R getPaymentUrl(@RequestParam("otherUid") String uid) {
+        List<UserMobilePaymentInfoEntity> payment = userFeign.selectPaymentsByUid(uid);
+        if (payment == null) {
+            return R.error("未上传收款信息");
+        }
+        List<Map<String, Object>> list = new ArrayList<>();
+        payment.stream().forEach(u -> {
+            if (u.getType().equals(Common.ALIPAY)) {
+                list.add(new ModelMap("name", "支付宝").addAttribute("type", Common.ALIPAY));
+            }
+            if (u.getType().equals(Common.WECHAT)) {
+                list.add(new ModelMap("name", "微信").addAttribute("type", Common.WECHAT));
+            }
+        });
+        UserBankPaymentInfoEntity paymentInfo = userFeign.selectBankInfoByUid(uid);
+        if (paymentInfo != null) {
+            list.add(new ModelMap("name", "银行卡").addAttribute("type", Common.BANK));
+        }
+        return R.ok(new ModelMap("msg", list));
+    }
+
+
     @Login
     @PostMapping("uploadBankMess")
     @ApiOperation("上传银行信息")
@@ -156,7 +181,7 @@ public class PayUrl {
     @Login
     @PostMapping("getMobilePaymentInfo")
     @ApiOperation("获取手机支付方式")
-    public R getMobilePaymentInfo(@RequestAttribute("uid") String uid, @RequestParam String type) {
+    public R getMobilePaymentInfo(@RequestAttribute("uid") String uid, @RequestParam("type") String type) {
         UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
         String address = userFeign.getPath(2);
         return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));

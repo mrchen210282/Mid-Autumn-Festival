@@ -1,11 +1,10 @@
 package cn.bitflash.vip.order.feign;
 
-import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.entity.UserMarketBuyEntity;
-import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import cn.bitflash.vip.order.entity.OrderTradeDetail;
 import cn.bitflash.vip.order.entity.UserComplaintBean;
+import cn.bitflash.vip.order.entity.UserSuccessBean;
 import cn.bitflash.vip.order.entity.UserTradeJoinBuyEntity;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -52,18 +51,25 @@ public interface OrderFeign {
     UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") int id);
 
     /**
+     * user_success
+     */
+    @PostMapping("/inner/userSuccess/selectSuccessList")
+    List<UserSuccessBean> selectSuccessList(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
+
+    @PostMapping("/inner/userSuccess/selectSuccessCount")
+    Integer selectSuccessCount(@RequestParam("uid") String uid);
+
+    @PostMapping("/inner/userSuccess/getSuccessMessage")
+    UserSuccessBean getSuccessMessage(@RequestParam("id") String uid,@RequestParam("state") String state);
+
+    /**
      * user_trade_history
      */
-    @PostMapping("")
-    List<UserTradeJoinBuyEntity> selectFinishOrder(@RequestParam("uid") String uid,
-                                                   @RequestParam("pageNum") String pageNum,
-                                                   @RequestParam("pageTotal") String pageTotal);
-
-    @PostMapping("")
-    Integer selectFinishOrderCount(@RequestParam("uid") String uid,
-                                   @RequestParam("pageNum") String pageNum,
-                                   @RequestParam("pageTotal") String pageTotal);
-
-    @PostMapping("")
-    OrderTradeDetail checkSuccess(@RequestParam("id") String id);
+    @PostMapping("/inner/userMarketTradeHistory/selectById")
+    UserMarketTradeHistoryEntity selectTradeHistoryById(@RequestParam("id") String id);
+    /**
+     * user_buy_history
+     */
+    @PostMapping("/inner/userMarketBuyHistory/selectById")
+    UserMarketBuyHistoryEntity selectBuyHistoryById(@RequestParam("id") String id);
 }

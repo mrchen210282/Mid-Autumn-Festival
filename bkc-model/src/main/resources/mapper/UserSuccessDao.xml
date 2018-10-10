@@ -1,37 +1,131 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cn.bitflash.dao.UserComplaintDao">
+<mapper namespace="cn.bitflash.dao.UserSuccessDao">
 
-    <select id="selectSuccessList" resultType="cn.bitflash.bean.UserBuyBean">
+    <select id="selectSuccessList" resultType="cn.bitflash.bean.UserSuccessBean">
         SELECT
             ui.nickname as nickname,
-            ub.price as userPrice,
-            ub.quantity as userQuantity,
-            ub.order_state as orderState,
-            uc.finish_time as createTime,
-            ub.id as orderId
+            ub.price as price,
+            ub.quantity as quantity,
+            ub.finish_time as createTime,
+            ub.user_buy_id as orderId,
+            '1' as state
         FROM
             user_market_buy_history ub
-        LEFT JOIN user_info ui ON uc.complaint_uid = ui.uid
+        LEFT JOIN user_info ui ON ub.purchase_uid = ui.uid
         WHERE
-            ub.purchase_uid = #{uid}
-            OR ub.sell_uid = #{uid}
+            ub.purchase_uid = #{uid} and ub.order_state = '6'
+            OR ub.sell_uid = #{uid} and ub.order_state = '6'
         UNION
         SELECT
             ui.nickname as nickname,
             ut.price as userPrice,
-            ut.purchase_quantity as userQuantity,
-            ut.order_state as orderState,
+            ut.quantity as userQuantity,
             ut.finish_time as createTime,
-            ut.user_trade_id as orderId
+            ut.user_trade_id as orderId,
+            '2' as state
         FROM
             user_market_trade_history ut
-        LEFT JOIN user_info ui ON uc.complaint_uid = ui.uid
+        LEFT JOIN user_info ui ON ut.sell_uid = ui.uid
         WHERE
-            ut.purchase_uid = #{uid}
-            OR ut.sell_uid = #{uid}
+            ut.purchase_uid = #{uid} and ut.order_state = '6'
+            OR ut.sell_uid = #{uid} and ut.order_state = '6'
         limit #{pages},6
     </select>
+
+    <select id="selectSuccessCount" resultType="java.lang.Integer">
+        SELECT
+            count(0)
+        FROM
+            (SELECT ub.user_buy_id as orderId from user_market_buy_history ub where ub.purchase_uid = #{uid} and ub.order_state = '6'
+            OR ub.sell_uid = #{uid} and ub.order_state = '6'
+             UNION
+             SELECT ut.user_trade_id as orderId from user_market_trade_history ut where ut.purchase_uid = #{uid} and ut.order_state = '6'
+            OR ut.sell_uid = #{uid} and ut.order_state = '6'
+            )t
+    </select>
+
+    <select id="getSuccessMessage" resultType="cn.bitflash.bean.UserSuccessBean">
+    <if test="state == 1">
+        SELECT
+        ub.user_buy_id as orderId,
+        ub.purchase_uid as purchaseUid,
+        ub.quantity as quantity,
+        ub.price as price,
+        ub.sell_uid as sellUid,
+        ub.order_state as state,
+        ui.nickname as purchaseNickname,
+        tem.nickname as sellNickname,
+        ui.mobile as purMobile,
+        tem.mobile as sellMobile
+        FROM
+        user_market_buy_history ub
+        LEFT JOIN user_info ui on ui.uid = ub.purchase_uid
+        LEFT JOIN user_info tem on tem.uid = ub.sell_uid
+        WHERE ub.user_buy_id = #{id}
+    </if>
+    <if test="state == 2">
+        SELECT
+        ub.user_trade_id as orderId,
+        ub.purchase_uid as purchaseUid,
+        ub.quantity as quantity,
+        ub.price as price,
+        ub.sell_uid as sellUid,
+        ub.order_state as state,
+        ui.nickname as purchaseNickname,
+        tem.nickname as sellNickname,
+        ui.mobile as purMobile,
+        tem.mobile as sellMobile
+        FROM
+        user_market_trade_history ub
+        LEFT JOIN user_info ui on ui.uid = ub.sell_uid
+        LEFT JOIN user_info tem on tem.uid = ub.purchase_uid
+        WHERE ub.user_trade_id = #{id}
+    </if>
+    </select>
+
+    <!--<select id="getSuccessMessage" resultType="cn.bitflash.bean.UserSuccessBean">-->
+	<!--SELECT-->
+    <!--ub.user_buy_id as orderId,-->
+    <!--ub.purchase_uid as purchaseUid,-->
+    <!--ub.quantity as quantity,-->
+    <!--ub.price as price,-->
+    <!--ub.sell_uid as sellUid,-->
+    <!--ub.order_state as state,-->
+     <!--(SELECT-->
+			<!--ui.nickname-->
+		<!--FROM-->
+			<!--user_info ui-->
+		<!--WHERE-->
+			<!--ui.uid = ub.purchase_uid-->
+	<!--) AS contactsUname,-->
+	<!--(SELECT-->
+			<!--ui.mobile-->
+		<!--FROM-->
+			<!--user_info ui-->
+		<!--WHERE-->
+			<!--ui.uid = ub.purchase_uid-->
+	<!--) AS contactsMobile,-->
+    <!--(SELECT-->
+			<!--ui.nickname-->
+		<!--FROM-->
+			<!--user_info ui-->
+		<!--WHERE-->
+			<!--ui.uid = ub.sell_uid-->
+	<!--) AS complaintUname,-->
+	<!--(SELECT-->
+			<!--ui.mobile-->
+		<!--FROM-->
+			<!--user_info ui-->
+		<!--WHERE-->
+			<!--ui.uid = ub.sell_uid-->
+	<!--) AS complaintMobile-->
+	<!--FROM-->
+		<!--user_market_buy_history ub-->
+	<!--WHERE-->
+		<!--ub.user_buy_id = #{id}-->
+    <!--</select>-->
+
 
 </mapper>

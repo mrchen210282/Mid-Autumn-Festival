@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class UserMarketTradeHistoryController {
 
     @Autowired
@@ -22,8 +24,7 @@ public class UserMarketTradeHistoryController {
      */
     @PostMapping("/inner/userMarketTradeHistory/selectById")
     public UserMarketTradeHistoryEntity selectById(@RequestParam("id") String id) {
-        UserMarketTradeHistoryEntity entity = userMarketTradeHistoryService.selectById(id);
-        return entity;
+        return userMarketTradeHistoryService.selectById(id);
     }
 
     /**

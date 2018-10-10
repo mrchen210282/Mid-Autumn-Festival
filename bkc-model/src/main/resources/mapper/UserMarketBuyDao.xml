@@ -25,6 +25,7 @@
     and ub.state != '0' and ub.state != '6' and ub.state != '9'
     or
     ub.sell_uid = #{uid}
+    and ub.state != '0' and ub.state != '6' and ub.state != '9'
     limit #{pages},6
     </select>
 
