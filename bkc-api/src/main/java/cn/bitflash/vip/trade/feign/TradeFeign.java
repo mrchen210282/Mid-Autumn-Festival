@@ -33,9 +33,6 @@ public interface TradeFeign {
     @PostMapping("/inner/userTrade/deleteById")
     void deleteTrade(@RequestParam("id") String id);
 
-    @PostMapping("/inner/userMarketTrade/selectById")
-    UserMarketTradeEntity selectTradeById(@RequestParam("id") String id);
-
     @PostMapping("/inner/userTrade/selectTradeByIdAndState")
     UserMarketTradeEntity selectTradeByIdAndState(@RequestParam("id") String id, @RequestParam("state") String state);
 
@@ -43,7 +40,7 @@ public interface TradeFeign {
     UserTradeDetail selectDetail(@RequestParam("id") String id);
 
     @PostMapping("/inner/userMarketTrade/queryDetail")
-    AllUserTradeBean queryDetail(Map<String,Object> map);
+    AllUserTradeBean queryDetail(@RequestParam Map<String,Object> map);
 
     @PostMapping("")
     List<TradeListBean> selectTradeHistory(@RequestBody Map<String, Object> param);
@@ -86,7 +83,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userMarketConfig/selectUserMarketConfigById")
     UserTradeConfigEntity selectUserMarketConfigById(@RequestParam("id") Integer id);
 
-    @PostMapping("")
+    @PostMapping("/inner/tradePoundage/deleteTradePoundageById")
     void deleteTradePoundageById(@RequestParam("id") String id);
 
     @PostMapping("/inner/tradePoundage/insertTradePoundage")

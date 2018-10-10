@@ -66,7 +66,7 @@ public class ConfirmTrade {
             userBrokerageEntity.setSellBrokerage(multiplyB);
             tradeFeign.updateUserBrokerage(userBrokerageEntity);
 
-            UserMarketTradeEntity entity = tradeFeign.selectTradeById(trade.getId());
+            UserMarketTradeEntity entity = tradeFeign.selectUserMarketTradeById(trade.getId());
             if(null != entity) {
                 float availableAssets = entity.getQuantity();
 

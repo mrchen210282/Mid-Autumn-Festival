@@ -54,12 +54,12 @@ public class TradePoundageController {
     }
 
     /**
-     * deleteById
+     * deleteTradePoundageById
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/deleteById")
-    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+    @PostMapping("/inner/tradePoundage/deleteTradePoundageById")
+    public boolean deleteTradePoundageById(@RequestParam("id") String id) throws Exception {
         return tradePoundageService.deleteById(id);
     }
 

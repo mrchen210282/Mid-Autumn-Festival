@@ -35,7 +35,7 @@ public class AppealTrade {
         userComplaintEntity = new UserComplaintEntity();
         userComplaintEntity.setComplaintState(complaintState);
         //设置交易订单状态为9申诉
-        UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectTradeById(orderId);
+        UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
         //订单发布人uid
         userComplaintEntity.setComplaintUid(userMarketTradeEntity.getPurchaseUid());
         //订单购买人uid
