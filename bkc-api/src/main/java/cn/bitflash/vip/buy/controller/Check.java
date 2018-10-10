@@ -57,7 +57,7 @@ public class Check {
      */
     @PostMapping("order")
     public R checkOrder(@RequestParam("id") String id) {
-       UserBuyBean userBuyBean = feign.checkOrder(id);
+        UserBuyBean userBuyBean = feign.checkOrder(id);
         if (userBuyBean == null) {
             return R.ok().put("code", "订单不存在");
         }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
+
 @Component
 public class TradeUtil {
 
@@ -55,8 +56,8 @@ public class TradeUtil {
      */
     public boolean deduct(float money, String uid) {
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(uid);
-        float deduction = userAssetsNpcEntity.getAvailableAssets()-money;
-        if (deduction<0) {
+        float deduction = userAssetsNpcEntity.getAvailableAssets() - money;
+        if (deduction < 0) {
             return false;
         }
         return true;

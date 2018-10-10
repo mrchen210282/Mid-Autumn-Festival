@@ -16,8 +16,8 @@ public class UserAssetsNpcController {
     @Autowired
     private UserAssetsNpcService userAssetsNpcService;
 
-    @PostMapping("/inner/userAssetsNpc/selectUserAssetsNpcById")
-    public UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("uid")String uid){
+    @PostMapping("/inner/userAssetsNpc/selectById")
+    public UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String uid){
         return userAssetsNpcService.selectById(uid);
     }
 

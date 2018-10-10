@@ -25,7 +25,7 @@ public class TradePoundageController {
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/selectTradePoundageById")
+    @PostMapping("/inner/tradePoundage/selectById")
     public TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id) {
         TradePoundageEntity entity = tradePoundageService.selectById(id);
         return entity;
@@ -54,12 +54,12 @@ public class TradePoundageController {
     }
 
     /**
-     * deleteById
+     * deleteTradePoundageById
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/deleteById")
-    public boolean deleteById(@RequestParam("id") String id) throws Exception {
+    @PostMapping("/inner/tradePoundage/deleteTradePoundageById")
+    public boolean deleteTradePoundageById(@RequestParam("id") String id) throws Exception {
         return tradePoundageService.deleteById(id);
     }
 

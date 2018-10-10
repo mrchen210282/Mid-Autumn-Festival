@@ -41,7 +41,7 @@ public interface SendFrign {
     /**
      * user_secret
      */
-    @PostMapping("/inner/userSecretService/selectById")
+    @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectSecretById(@RequestParam("id") String id);
 
     /**

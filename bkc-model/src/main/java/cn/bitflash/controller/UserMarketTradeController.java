@@ -26,7 +26,7 @@ public class UserMarketTradeController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
+    @PostMapping("/inner/userMarketTrade/selectById")
     public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id) {
         UserMarketTradeEntity entity = userMarketTradeService.selectById(id);
         return entity;
