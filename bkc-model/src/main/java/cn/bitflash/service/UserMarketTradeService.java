@@ -1,5 +1,6 @@
 package cn.bitflash.service;
 
+import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
@@ -23,6 +24,5 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
 
     Integer tradeListCount(@RequestParam Map<String,Object> map);
 
-
-
+    AllUserTradeBean queryDetail(Map<String,Object> map);
 }

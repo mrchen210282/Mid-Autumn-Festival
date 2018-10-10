@@ -16,6 +16,7 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
@@ -37,4 +38,6 @@ public interface UserMarketTradeDao extends BaseMapper<UserMarketTradeEntity> {
     List<TradeListBean> tradeList(Map<String,Object> map);
 
     Integer tradeListCount(Map<String,Object> map);
+
+    AllUserTradeBean queryDetail(Map<String,Object> map);
 }

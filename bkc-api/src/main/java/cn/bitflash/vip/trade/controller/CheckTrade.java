@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/trade")
@@ -57,7 +59,9 @@ public class CheckTrade {
     @ApiOperation(value = "查看买入订单明细")
     public R viewDetail(@ApiParam(value = "订单id") @RequestParam String id) {
         if (StringUtils.isNotBlank(id)) {
-            AllUserTradeBean alltrade = tradeFeign.queryDetail(id);
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("id",id);
+            AllUserTradeBean alltrade = tradeFeign.queryDetail(map);
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
             if (null != tradePoundageEntity) {
                 //扣除交易额=交易额+手续费

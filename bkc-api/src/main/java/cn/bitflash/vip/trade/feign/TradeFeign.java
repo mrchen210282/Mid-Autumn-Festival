@@ -2,7 +2,6 @@ package cn.bitflash.vip.trade.feign;
 
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.*;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,8 +44,8 @@ public interface TradeFeign {
     @PostMapping("")
     UserTradeDetail selectDetail(@RequestParam("id") String id);
 
-    @PostMapping("")
-    AllUserTradeBean queryDetail(@RequestParam("id") String id);
+    @PostMapping("/inner/userMarketTrade/queryDetail")
+    AllUserTradeBean queryDetail(Map<String,Object> map);
 
     @PostMapping("")
     List<TradeListBean> selectTradeHistory(@RequestBody Map<String, Object> param);
@@ -178,5 +177,6 @@ public interface TradeFeign {
     @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
-    
+    @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
+    public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
 }

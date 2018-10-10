@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.dao.UserMarketTradeDao;
@@ -51,5 +52,8 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
         return integer;
     }
 
-
+    public AllUserTradeBean queryDetail(Map<String,Object> map) {
+        AllUserTradeBean userTradeBean = baseMapper.queryDetail(map);
+        return userTradeBean;
+    }
 }

@@ -27,5 +27,12 @@
 		 ]]>
     </select>
 
+    <select id="queryDetail" statementType="CALLABLE" resultType="cn.bitflash.bean.AllUserTradeBean" parameterType="java.util.Map">
+        <![CDATA[
+		  call queryDetail(#{id,jdbcType=VARCHAR,mode=IN},#{state,jdbcType=VARCHAR,mode=IN})
+		 ]]>
+    </select>
+
+
 
 </mapper>

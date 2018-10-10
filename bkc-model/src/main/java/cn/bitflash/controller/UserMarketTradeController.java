@@ -1,5 +1,6 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
@@ -21,12 +22,12 @@ public class UserMarketTradeController {
     private UserMarketTradeService userMarketTradeService;
 
     /**
-     * selectById
+     * selectUserMarketTradeById
      *
      * @return
      */
-    @PostMapping("/inner/userMarketTrade/selectById")
-    public UserMarketTradeEntity selectById(@RequestParam("id") String id) {
+    @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
+    public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id) {
         UserMarketTradeEntity entity = userMarketTradeService.selectById(id);
         return entity;
     }
@@ -83,9 +84,8 @@ public class UserMarketTradeController {
         return userMarketTradeService.tradeListCount(map);
     }
 
-
     @PostMapping("/inner/userMarketTrade/queryDetail")
-    Integer queryDetail(@RequestParam Map<String,Object> map) {
-        return userMarketTradeService.tradeListCount(map);
+    AllUserTradeBean queryDetail(@RequestParam Map<String,Object> map) {
+        return userMarketTradeService.queryDetail(map);
     }
 }
