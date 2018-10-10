@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class UserAssetsHlbServiceImpl extends ServiceImpl<UserAssetsHlbDao, UserAssetsHlbEntity> implements UserAssetsHlbService {
 
     public UserAssetsHlbBean selectHlbCommunity(String id) {
-        return baseMapper.selectHlbCommunity(id);
+        UserAssetsHlbBean userAssetsHlbBean = baseMapper.selectHlbCommunity(id);
+        return userAssetsHlbBean;
     }
 }
