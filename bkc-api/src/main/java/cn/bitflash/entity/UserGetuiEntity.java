@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class UserGetuiEntity {
@@ -8,6 +10,7 @@ public class UserGetuiEntity {
 
     private String cid;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date updateTime;
 
     public String getUid() {
