@@ -2,6 +2,7 @@ package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.BuyPoundageEntity;
 import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserComplaintEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -35,6 +36,11 @@ public class PendingPay {
         userMarketBuyEntity.setPayTime(new Date());
         userMarketBuyEntity.setState(ORDER_STATE_STEP2);
         buyFeign.updateBuyById(userMarketBuyEntity);
+        //判断对方是否点击申诉
+        UserComplaintEntity userComplaintEntity = buyFeign.selectComplaintById(id);
+        if(userComplaintEntity != null){
+            buyFeign.deleteComplaint(id);
+        }
         return R.ok().put("code", SUCCESS);
     }
 
@@ -52,6 +58,11 @@ public class PendingPay {
         userAssetsNpcEntity.setAvailableAssets(buyPoundageEntity.getPoundage()+buyPoundageEntity.getQuantity()+userAssetsNpcEntity.getAvailableAssets());
         buyFeign.updateAccountById(userAssetsNpcEntity);
         buyFeign.deletePoundage(id);
+        //判断对方是否点击申诉
+        UserComplaintEntity userComplaintEntity = buyFeign.selectComplaintById(id);
+        if(userComplaintEntity != null){
+            buyFeign.deleteComplaint(id);
+        }
         //删除求购历史订单
         buyFeign.deleteBuyById(id);
         return R.ok().put("code", SUCCESS);

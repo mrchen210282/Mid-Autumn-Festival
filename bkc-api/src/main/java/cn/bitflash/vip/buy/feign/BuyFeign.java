@@ -141,6 +141,12 @@ public interface BuyFeign {
     @PostMapping("/inner/userComplaint/insert")
     void insertComplaint(@RequestBody UserComplaintEntity entity);
 
+    @PostMapping("/inner/userComplaint/selectById")
+    UserComplaintEntity selectComplaintById(@RequestParam("id") String id);
+
+    @PostMapping("/inner/userComplaint/deleteById")
+    boolean deleteComplaint(@RequestParam("id") String id);
+
 
 //-------------------------------------------------------buyPoundage-------------------------------------------------
 
@@ -184,7 +190,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userAssetsNpc/updateById")
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     void updateAccountById(@RequestBody UserAssetsNpcEntity entity);
 
 
@@ -216,7 +222,7 @@ public interface BuyFeign {
      * @param uid
      * @return
      */
-    @PostMapping("/inner/userSecret/selectById")
+    @PostMapping("/inner/userLogin/selectById")
     UserSecretEntity selectUid(@RequestParam("id") String uid);
 
     /**

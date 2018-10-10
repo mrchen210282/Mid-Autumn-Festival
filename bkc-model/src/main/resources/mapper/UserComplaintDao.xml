@@ -6,12 +6,12 @@
     <select id="selectAppealList" resultType="cn.bitflash.bean.UserBuyBean">
         SELECT
             ui.nickname as nickname,
-            ub.price as userPrice,
-            ub.quantity as userQuantity,
-            uc.order_state as orderState,
-            uc.complaint_state as complaintState,
+            ub.price as price,
+            ub.quantity as quantity,
+            uc.order_state as OrderState,
+            uc.complaint_state as state,
             uc.create_time as createTime,
-            uc.order_id as orderId
+            uc.order_id as id
         FROM
             user_complaint uc
         LEFT JOIN user_market_buy ub ON uc.order_id = ub.id
@@ -22,8 +22,8 @@
         UNION
         SELECT
             ui.nickname as nickname,
-            uth.price as userPrice,
-            uth.purchase_quantity as userQuantity,
+            ut.price as userPrice,
+            ut.quantity as userQuantity,
             uc.order_state as orderState,
             uc.complaint_state as complaintState,
             uc.create_time as createTime,

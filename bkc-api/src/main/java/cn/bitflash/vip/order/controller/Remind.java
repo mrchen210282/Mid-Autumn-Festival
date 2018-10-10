@@ -25,6 +25,9 @@ import java.util.Map;
 public class Remind {
 
     @Autowired
+    private OrderUtil orderUtil;
+
+    @Autowired
     private OrderFeign orderFeign;
 
     @Login
@@ -40,9 +43,9 @@ public class Remind {
     }
 
     @Login
-    @PostMapping("/check")
+    @PostMapping("/appealCheck")
     @ApiOperation("申诉详情")
-    public R checkAppeal(@ApiParam @RequestParam("id") String id, @RequestAttribute("uid") String uid) {
+    public R checkAppeal(@ApiParam @RequestParam("id") String id, @RequestAttribute("uid") String uid,@RequestParam("state") String state) {
         String name = null;
         String mobile = null;
 
@@ -60,48 +63,9 @@ public class Remind {
             return R.ok().put("code", "订单不存在");
         }
 
-        Map<String, Float> map = this.poundage(id, userComplaintBean.getComplaintState());
+        Map<String, Float> map = orderUtil.poundage(id, state ,"REMIND");
         return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map",map);
 //        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
     }
 
-    /**
-     * 手续费
-     * @param id
-     * @param state
-     * @return
-     */
-    public Map<String, Float> poundage(String id, String state) {
-
-        DecimalFormat df = new DecimalFormat("#########.##");
-        Float buyQuantity = 0f;
-        Float price = 0f;
-        if (state.equals("0")) {
-            UserMarketTradeEntity userTradeEntity = orderFeign.selectTradeById(id);
-            price = Float.parseFloat(df.format(userTradeEntity.getPrice()));
-            buyQuantity = Float.parseFloat(df.format(userTradeEntity.getQuantity()));
-        } else if (state.equals("1")) {
-            UserMarketBuyEntity userBuy = orderFeign.selectUserBuyById(id);
-            price = Float.parseFloat(df.format(userBuy.getPrice()));
-            buyQuantity = Float.parseFloat(df.format(userBuy.getQuantity()));
-        }
-
-        //手续费比率
-        Float poundage = orderFeign.selectTradeConfigById(1).getPoundage();
-        //手续费数量
-        Float totalPoundage = buyQuantity * poundage;
-        //实际交易总数量
-        Float totalQuantity = buyQuantity + totalPoundage;
-        //总价格
-        Float totalMoney = buyQuantity * (price);
-
-        Map<String, Float> map = new HashMap<String, Float>();
-        map.put("buyQuantity", buyQuantity);
-        map.put("poundage", poundage);
-        map.put("totalPoundage", totalPoundage);
-        map.put("totalQuantity", totalQuantity);
-        map.put("price", price);
-        map.put("totalMoney", totalMoney);
-        return map;
-    }
 }
