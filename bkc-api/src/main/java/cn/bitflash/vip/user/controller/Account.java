@@ -30,20 +30,20 @@ public class Account {
     /**
      * 首页资产信息
      *
-     * @param id
+     * @param uid
      * @return
      */
     @Login
     @PostMapping("getIndexAssets")
-    public R getIndexAssets(@RequestAttribute("id") String id) {
+    public R getIndexAssets(@RequestAttribute("uid") String uid) {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
         //我的NPC
-        UserAssetsNpcEntity userAssetsNpcEntity = userFeign.selectbyid(id);
+        UserAssetsNpcEntity userAssetsNpcEntity = userFeign.selectbyid(uid);
 
         //我的HLB
-        UserAssetsHlbBean userAssetsHlbBean = userFeign.selectHlbCommunity(id);
+        UserAssetsHlbBean userAssetsHlbBean = userFeign.selectHlbCommunity(uid);
 
         if (null != userAssetsNpcEntity) {
             map.put("NPCtotalAssets", userAssetsNpcEntity.getTotelAssets());
@@ -53,7 +53,7 @@ public class Account {
             map.put("NPCtotalAssets", 0.00f);
             map.put("NPCfrozen", 0.00f);
             map.put("NPCavailable", 0.00f);
-            logger.info("查询NPC资产用户:" + id + "为空！");
+            logger.info("查询NPC资产用户:" + uid + "为空！");
         }
 
         if (null != userAssetsHlbBean) {
@@ -73,7 +73,7 @@ public class Account {
             map.put("daliyRelease",0.00f);
             map.put("powerRelease","0.00%");
 
-            logger.info("查询HLB资产用户:" + id + "为空！");
+            logger.info("查询HLB资产用户:" + uid + "为空！");
         }
         return R.ok(map);
     }
