@@ -29,7 +29,7 @@ public class PayPassword {
                 return R.error("修改失败：原交易密码错误");
             }
         }
-        if(login!=null){ 
+        if(login!=null){
             if(!secretEntity.getPassword().equals(Encrypt.SHA256(login+secretEntity.getSalt()))){
                 return R.error("修改失败：登录密码错误");
             }

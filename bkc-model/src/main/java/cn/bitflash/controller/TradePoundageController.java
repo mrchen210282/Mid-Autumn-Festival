@@ -47,8 +47,8 @@ public class TradePoundageController {
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/insert")
-    public boolean insert(@RequestBody JSONObject json) throws Exception {
+    @PostMapping("/inner/tradePoundage/insertTradePoundage")
+    public boolean insertTradePoundage(@RequestBody JSONObject json) throws Exception {
         TradePoundageEntity entity = (TradePoundageEntity) JSONObject.parseObject(json.toString(), TradePoundageEntity.class);
         return tradePoundageService.insert(entity);
     }
