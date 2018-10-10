@@ -25,7 +25,7 @@ public class TradePoundageController {
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/selectTradePoundageById")
+    @PostMapping("/inner/tradePoundage/selectById")
     public TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id) {
         TradePoundageEntity entity = tradePoundageService.selectById(id);
         return entity;

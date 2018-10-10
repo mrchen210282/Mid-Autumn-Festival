@@ -208,7 +208,7 @@ public interface BuyFeign {
      * @param id
      * @return
      */
-    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    @PostMapping("/inner/userBroker/selectById")
     UserBrokerageEntity selectBrokerageById(@RequestParam("id") int id);
 
 
