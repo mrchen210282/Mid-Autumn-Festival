@@ -98,25 +98,6 @@ public class AddOrCancel {
                         // 卖出量-调节释放
                         BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getAvailableAssets()).subtract(quantityBig);
                         userAssetsNpcEntity.setAvailableAssets(subtract.floatValue());
-//                        quantityBig.subtract(new BigDecimal(userAssetsNpcEntity.getNpcAssets()));
-//                        if(subtract.doubleValue() >= 0){
-//                            BigDecimal availableAssets = new BigDecimal(userAssetsNpcEntity.getNpcAssets()).subtract(new BigDecimal(quantity));
-//                            userAssetsNpcEntity.setNpcAssets(availableAssets.subtract(percentB).floatValue());
-//                        }
-
-//                        if (subtract.doubleValue() > 0 || subtract.doubleValue() == 0) {
-//                            userAccount.setRegulateRelease(new BigDecimal(0.00));
-//                            BigDecimal regulateIncome = userAccount.getRegulateIncome().subtract(subtract);
-//                            userAccount.setRegulateIncome(regulateIncome.subtract(percentB));
-//                            BigDecimal availableAssets = userAccount.getAvailableAssets().subtract(new BigDecimal(quantity));
-//                            userAccount.setAvailableAssets(availableAssets.subtract(percentB));
-//                        } else {
-//                            BigDecimal release = quantityBig.add(percentB);
-//                            BigDecimal availableAssets = userAccount.getAvailableAssets().subtract(new BigDecimal(quantity));
-//                            userAccount.setAvailableAssets(availableAssets.subtract(percentB));
-//                            BigDecimal RegulatRelease = userAccount.getRegulateRelease().subtract(release);
-//                            userAccount.setRegulateRelease(RegulatRelease);
-//                        }
 
                         tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
@@ -180,7 +161,7 @@ public class AddOrCancel {
     @PostMapping("addLock")
     @ApiOperation("下单")
     public R addLock(@ApiParam(value = "订单id") @RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
-        UserMarketTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
+        UserMarketTradeEntity userTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
         if (userTradeEntity.getState().equals(TradeCommon.STATE_CANCEL)) {
             return R.error(501, "订单已经被撤销,无法锁定");
         }
@@ -231,7 +212,7 @@ public class AddOrCancel {
     @Login
     @PostMapping("cancelTrade")
     @ApiOperation("cancelTrade")
-    public R cancelOrder(@ApiParam(value = "订单id") @RequestParam String orderId)  {
+    public R cancelTrade(@ApiParam(value = "订单id") @RequestParam String orderId)  {
         if(StringUtils.isNotBlank(orderId)) {
             Map<String,Object> map = new HashMap<String,Object>();
             map.put("id",orderId);
@@ -246,7 +227,24 @@ public class AddOrCancel {
                     //查询交易费
                     UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
                     if(null != userMarketTradeEntity) {
-                        //
+                        //查询账号信息
+                        UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(userMarketTradeEntity.getUid());
+                        if(null != userAssetsNpcEntity) {
+                            //账户总额=当前剩余额度 + 交易额度 + 手续费
+                            float availableAssets = userAssetsNpcEntity.getAvailableAssets() + userMarketTradeEntity.getQuantity() + poundage;
+                            userAssetsNpcEntity.setAvailableAssets(availableAssets);
+                            tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
+
+                            //更新交易记录
+                            userMarketTradeEntity.setState(TradeCommon.STATE_CANCEL);
+                            userMarketTradeEntity.setId(orderId);
+                            tradeFeign.insertOrUpdateUserMarketTrade(userMarketTradeEntity);
+
+                            //删除手续费记录
+                            tradeFeign.deleteTradePoundageById(orderId);
+                        } else {
+                            logger.info("uid:" + userMarketTradeEntity.getUid() + "账户信息不存在！");
+                        }
                     } else {
                         logger.info("订单号:" + orderId + "交易记录不存在！");
                     }

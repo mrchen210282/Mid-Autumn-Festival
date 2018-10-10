@@ -33,7 +33,7 @@ public class PendingPayTrade {
     @ApiOperation(value = "我已付款")
     public R payTrade(@ApiParam @RequestParam String orderId, @RequestAttribute("uid") String uid) {
         // 更新为已购买
-        UserMarketTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
+        UserMarketTradeEntity userTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
         if (!userTradeEntity.getState().equals(TradeCommon.STATE_LOCK)) {
             return R.error("订单状态有误，请稍后再试");
         }
