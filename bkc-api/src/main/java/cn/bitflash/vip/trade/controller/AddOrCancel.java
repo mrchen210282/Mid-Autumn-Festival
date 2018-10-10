@@ -1,6 +1,7 @@
 package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
+import cn.bitflash.entity.SystemParamEntity;
 import cn.bitflash.entity.TradePoundageEntity;
 import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
@@ -55,7 +56,7 @@ public class AddOrCancel {
     @ApiOperation(value = "卖出操作")
     public R publish(@RequestAttribute("uid") String uid, @ApiParam @RequestParam String quantity, @ApiParam @RequestParam String price) {
 
-        UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectAccountByUid(uid);
+        UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(uid);
         // 先校验出售数量是否大于已有数量
         BigDecimal total = new BigDecimal(userAssetsNpcEntity.getAvailableAssets());
         logger.info("uid:" + userAssetsNpcEntity.getUid() + ",卖出数量:" + quantity + ",价格:" + price);
@@ -75,8 +76,8 @@ public class AddOrCancel {
             double quantityD = Double.parseDouble(quantity);
             //必须为100的整数倍
             if (quantityD % 100 == 0) {
-
-                UserTradeConfigEntity userTradeConfigEntity = tradeFeign.selectTradeConfigById(1);
+                Integer id = 1;
+                UserTradeConfigEntity userTradeConfigEntity = tradeFeign.selectUserMarketConfigById(id);
                 if (null != userTradeConfigEntity) {
 
                     float poundage = userTradeConfigEntity.getPoundage();
@@ -117,15 +118,15 @@ public class AddOrCancel {
                         tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
                         // 添加卖出记录
-                        UserMarketTradeEntity userTrade = new UserMarketTradeEntity();
+                        UserMarketTradeEntity userMarketTrade = new UserMarketTradeEntity();
                         String orderId = "00"+ RandomStringUtils.randomNumeric(6);
-                        userTrade.setId(orderId);
-                        userTrade.setPrice(Float.parseFloat(price));
-                        userTrade.setState(TradeCommon.STATE_SELL);
-                        userTrade.setQuantity(Float.parseFloat(quantity));
-                        userTrade.setPurchaseUid(userAssetsNpcEntity.getUid());
-                        userTrade.setCreateTime(new Date());
-                        tradeFeign.insertOrUpdateTrade(userTrade);
+                        userMarketTrade.setId(orderId);
+                        userMarketTrade.setUid(uid);
+                        userMarketTrade.setPrice(Float.parseFloat(price));
+                        userMarketTrade.setState(TradeCommon.STATE_SELL);
+                        userMarketTrade.setQuantity(Float.parseFloat(quantity));
+                        userMarketTrade.setCreateTime(new Date());
+                        tradeFeign.insertOrUpdateUserMarketTrade(userMarketTrade);
 
                         // 1.先扣除手续费，可用于撤消
                         TradePoundageEntity tradePoundageEntity = new TradePoundageEntity();
@@ -154,7 +155,7 @@ public class AddOrCancel {
     @ApiOperation(value = "卖出记录")
     public R responseTrade(@RequestAttribute("uid") String uid) {
 
-        UserAssetsNpcEntity userAccount = tradeFeign.selectAccountByUid(uid);
+        UserAssetsNpcEntity userAccount = tradeFeign.selectUserAssetsNpcById(uid);
         Map<String, Object> returnMap = null;
         if (null != userAccount) {
             returnMap = tradeFeign.responseTrade(userAccount.getUid());
@@ -166,14 +167,6 @@ public class AddOrCancel {
                 double number = Double.valueOf(userAccount.getAvailableAssets()) / TradeCommon.MIN_NUMBER;
                 returnMap.put("number", number);
             }
-//            if (userAccount.getNpcAssets().compareTo(new BigDecimal(0)) <= -1) {
-//                returnMap.put("number", "0");
-//            } else {
-//                // BigDecimal bigDecimal = userAccount.getAvailableAssets().divide(new BigDecimal(Common.MIN_PRICE));
-//                double number = Double.valueOf(userAccount.getAvailableAssets().toString()) / Common.MIN_NUMBER;
-//                returnMap.put("number", number);
-//            }
-
             String availableAssets = TradeCommon.decimalFormat(Double.valueOf(userAccount.getAvailableAssets()));
             returnMap.put("availableAssets", availableAssets);
         }
@@ -192,7 +185,9 @@ public class AddOrCancel {
         String countKey = RedisKey.COUNT_LOCK + uid;
         Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
         //下单最大次数
-        int trade = Integer.valueOf(tradeFeign.getVal(TradeCommon.LOCK_TRADE));
+        String key = TradeCommon.LOCK_TRADE;
+        String param =  tradeFeign.getVal(key);
+        int trade = Integer.valueOf(param);
         if (count < trade) {
             String[] str = redisUtils.get(orderId, String[].class);
             if (str == null || str.length == 0) {
@@ -222,7 +217,67 @@ public class AddOrCancel {
             return R.error(503, "订单已经被锁定");
         }
         return R.error(504, "当天锁定数量已到上限");
-
-
     }
+
+
+    /**
+     * 撤消交易
+     * @param orderId
+     * @return
+     */
+    @Login
+    @PostMapping("cancelTrade")
+    @ApiOperation("cancelTrade")
+    public R cancelOrder(@ApiParam(value = "订单id") @RequestParam String orderId)  {
+        if(StringUtils.isNotBlank(orderId)) {
+
+
+        } else {
+            logger.info("撤消交易cancelTrade:订单号" + orderId);
+        }
+
+
+
+        UserMarketTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
+        if (userTradeEntity.getState().equals(TradeCommon.STATE_CANCEL)) {
+            return R.error(501, "订单已经被撤销,无法锁定");
+        }
+        //下单次数缓存key
+        String countKey = RedisKey.COUNT_LOCK + uid;
+        Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
+        //下单最大次数
+        String key = TradeCommon.LOCK_TRADE;
+        String param =  tradeFeign.getVal(key);
+        int trade = Integer.valueOf(param);
+        if (count < trade) {
+            String[] str = redisUtils.get(orderId, String[].class);
+            if (str == null || str.length == 0) {
+                //统计锁定数量
+                str = new String[2];
+                str[0] = orderId;
+                str[1] = uid;
+                redisUtils.set(orderId, str, 60 * 60);
+                //当天时间凌晨23:59:59的秒数
+                long tomorrow = LocalDateTime.now().withHour(23)
+                        .withMinute(59)
+                        .withSecond(59).toEpochSecond(ZoneOffset.of("+8"));
+                //当前时间秒数
+                long now = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
+                //设置过期时间为当天剩余时间的秒数
+                redisUtils.set(countKey, ++count, (tomorrow - now));
+                //更新订单状态
+                userTradeEntity.setState(TradeCommon.STATE_LOCK);
+                userTradeEntity.setPurchaseUid(uid);
+                tradeFeign.updateTrade(userTradeEntity);
+                logger.info("当前锁定订单的数量为：" + count);
+                logger.info("下单addLock:订单号" + orderId);
+                return R.ok();
+            } else if (str[1].equals(uid)) {
+                return R.error(502, "订单被锁定,本人锁定");
+            }
+            return R.error(503, "订单已经被锁定");
+        }
+        return R.error(504, "当天锁定数量已到上限");
+    }
+
 }

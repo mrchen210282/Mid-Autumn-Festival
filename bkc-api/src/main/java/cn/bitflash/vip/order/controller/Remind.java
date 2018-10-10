@@ -61,12 +61,13 @@ public class Remind {
         }
 
         Map<String, Float> map = this.poundage(id, userComplaintBean.getComplaintState());
-        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map",map);
+        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map", map);
 //        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
     }
 
     /**
      * 手续费
+     *
      * @param id
      * @param state
      * @return

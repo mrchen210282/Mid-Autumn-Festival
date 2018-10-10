@@ -18,7 +18,6 @@ public class UserMarketTradeEntity implements Serializable {
     private float price;
     private String state;
     private String purchaseUid;
-    private String sellUid;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
 
@@ -28,6 +27,14 @@ public class UserMarketTradeEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getPurchaseUid() {
@@ -60,14 +67,6 @@ public class UserMarketTradeEntity implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
-    }
-
-    public String getSellUid() {
-        return sellUid;
-    }
-
-    public void setSellUid(String sellUid) {
-        this.sellUid = sellUid;
     }
 
     public Date getCreateTime() {

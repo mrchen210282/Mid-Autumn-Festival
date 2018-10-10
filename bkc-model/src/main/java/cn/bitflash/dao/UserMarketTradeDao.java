@@ -16,8 +16,13 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.OrderListBean;
+import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author gaoyuguo
@@ -25,4 +30,11 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserMarketTradeDao extends BaseMapper<UserMarketTradeEntity> {
 
+    List<OrderListBean> selectOrderTrade(Map<String,Object> map);
+
+    Integer selectOrderCount(Map<String,Object> map);
+
+    List<TradeListBean> tradeList(Map<String,Object> map);
+
+    Integer tradeListCount(Map<String,Object> map);
 }

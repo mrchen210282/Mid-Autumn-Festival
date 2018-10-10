@@ -1,5 +1,7 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.OrderListBean;
+import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserMarketTradeService;
 import com.alibaba.fastjson.JSONObject;
@@ -7,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
+@RestController
 public class UserMarketTradeController {
 
     @Autowired
@@ -40,10 +47,10 @@ public class UserMarketTradeController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketTrade/insert")
-    public boolean insert(@RequestBody JSONObject json) throws Exception {
+    @PostMapping("/inner/userMarketTrade/insertOrUpdateUserMarketTrade")
+    public boolean insertOrUpdateUserMarketTrade(@RequestBody JSONObject json) throws Exception {
         UserMarketTradeEntity entity = (UserMarketTradeEntity) JSONObject.parseObject(json.toString(), UserMarketTradeEntity.class);
-        return userMarketTradeService.insert(entity);
+        return userMarketTradeService.insertOrUpdate(entity);
     }
 
     /**
@@ -54,5 +61,31 @@ public class UserMarketTradeController {
     @PostMapping("/inner/userMarketTrade/deleteUserMarketTradeById")
     public boolean deleteUserMarketTradeById(@RequestParam("id") String id) throws Exception {
         return userMarketTradeService.deleteById(id);
+    }
+
+    @PostMapping("/inner/userMarketTrade/selectOrderTrade")
+    public List<OrderListBean> selectOrderTrade(@RequestParam Map<String,Object> map) throws Exception {
+        return userMarketTradeService.selectOrderTrade(map);
+    }
+
+    @PostMapping("/inner/userMarketTrade/selectOrderCount")
+    public Integer selectOrderCount(@RequestParam Map<String,Object> map) {
+        return userMarketTradeService.selectOrderCount(map);
+    }
+
+    @PostMapping("/inner/userMarketTrade/tradeList")
+    public List<TradeListBean> tradeList(@RequestParam Map<String,Object> map) {
+        return userMarketTradeService.tradeList(map);
+    }
+
+    @PostMapping("/inner/userMarketTrade/tradeListCount")
+    Integer tradeListCount(@RequestParam Map<String,Object> map) {
+        return userMarketTradeService.tradeListCount(map);
+    }
+
+
+    @PostMapping("/inner/userMarketTrade/queryDetail")
+    Integer queryDetail(@RequestParam Map<String,Object> map) {
+        return userMarketTradeService.tradeListCount(map);
     }
 }

@@ -25,8 +25,8 @@ public class UserMarketConfigController {
      *
      * @return
      */
-    @PostMapping("/inner/userMarketConfig/selectById")
-    public UserMarketConfigEntity selectById(@RequestParam("id") int id) {
+    @PostMapping("/inner/userMarketConfig/selectUserMarketConfigById")
+    public UserMarketConfigEntity selectUserMarketConfigById(@RequestParam("id") int id) {
         UserMarketConfigEntity entity = userMarketConfigService.selectById(id);
         return entity;
     }

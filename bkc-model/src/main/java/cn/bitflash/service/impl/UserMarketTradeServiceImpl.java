@@ -16,15 +16,40 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.dao.UserMarketBuyDao;
+import cn.bitflash.bean.OrderListBean;
+import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.dao.UserMarketTradeDao;
-import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
-import cn.bitflash.service.UserMarketBuyService;
 import cn.bitflash.service.UserMarketTradeService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 @Service("userMarketTradeService")
 public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, UserMarketTradeEntity> implements UserMarketTradeService {
+
+    public List<OrderListBean> selectOrderTrade(Map<String,Object> map) {
+        List<OrderListBean> orderListBean = baseMapper.selectOrderTrade(map);
+        return orderListBean;
+    }
+
+    public Integer selectOrderCount(Map<String,Object> map) {
+        Integer count = baseMapper.selectOrderCount(map);
+        return count;
+    }
+
+    public List<TradeListBean> tradeList(Map<String,Object> map) {
+        List<TradeListBean> list = baseMapper.tradeList(map);
+        return list;
+    }
+
+    public Integer tradeListCount(@RequestParam Map<String,Object> map) {
+        Integer integer = baseMapper.tradeListCount(map);
+        return integer;
+    }
+
+
 }
