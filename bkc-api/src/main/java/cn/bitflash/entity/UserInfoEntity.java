@@ -35,6 +35,16 @@ public class UserInfoEntity implements Serializable {
 
     private String area;
 
+    private String nicklock;
+
+    public String getNicklock() {
+        return nicklock;
+    }
+
+    public void setNicklock(String nicklock) {
+        this.nicklock = nicklock;
+    }
+
     public String getArea() {
         return area;
     }

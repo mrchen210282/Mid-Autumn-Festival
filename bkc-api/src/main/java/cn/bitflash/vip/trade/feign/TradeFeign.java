@@ -4,9 +4,7 @@ import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -172,8 +170,8 @@ public interface TradeFeign {
     /**
      * platform_config
      */
-    @PostMapping("")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
 
 }

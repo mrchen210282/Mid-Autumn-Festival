@@ -6,10 +6,7 @@ import cn.bitflash.service.SystemParamService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author GAOYGUUO
@@ -63,8 +60,13 @@ public class SystemParamController {
         return systemParamService.deleteById(id);
     }
 
-    @PostMapping("/inner/systemParam/getVal")
-    public String getVal(@RequestParam("key")String key){
+//    @PostMapping("/inner/systemParam/getVal")
+//    public String getVal(@RequestParam("key")String key){
+//        return systemParamService.selectOne(new EntityWrapper<SystemParamEntity>().eq("param",key)).getValue();
+//    }
+
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    public String getVal2(@PathVariable("key")String key){
         return systemParamService.selectOne(new EntityWrapper<SystemParamEntity>().eq("param",key)).getValue();
     }
 

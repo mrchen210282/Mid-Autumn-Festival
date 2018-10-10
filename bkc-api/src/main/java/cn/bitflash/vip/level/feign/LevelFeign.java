@@ -3,9 +3,7 @@ package cn.bitflash.vip.level.feign;
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.level.entity.UserInfoBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -93,14 +91,14 @@ public interface LevelFeign {
     @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userAssetsNpc/update")
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**
      * system_param 表
      */
-    @PostMapping("/inner/systemParam/getVal")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
     /**
      * system_resource 表

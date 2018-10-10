@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_relation")
+@TableName("user_relation_copy")
 public class UserRelationEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String uid;
@@ -22,8 +22,6 @@ public class UserRelationEntity implements Serializable {
     private Integer rgt;
 
     private Integer layer;
-
-    private String area;
 
     public String getUid() {
         return uid;
@@ -63,13 +61,5 @@ public class UserRelationEntity implements Serializable {
 
     public void setLayer(Integer layer) {
         this.layer = layer;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 }
