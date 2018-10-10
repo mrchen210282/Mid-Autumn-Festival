@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +90,7 @@ public interface UserFeign {
      * daily_total_npc 表
      */
     @PostMapping("/inner/dailytotalnpc/selectById")
-    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")String id);
+    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")LocalDate id);
 
     @PostMapping("/inner/dailytotalnpc/update")
     Boolean updateDailyTotalNpc(@RequestBody DailyTotalNpcEntity daily);
@@ -122,7 +123,7 @@ public interface UserFeign {
     @PostMapping("/inner/userAssetsNpc/selectById")
     public UserAssetsNpcEntity selectbyid(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userAssetsNpc/update")
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

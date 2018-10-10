@@ -5,21 +5,21 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 @TableName("daily_total_npc")
 public class DailyTotalNpcEntity {
 
     @TableId(type = IdType.INPUT)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createTime;
+    private LocalDate createTime;
 
     private Float totalNpc;
 
-    public Date getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 
