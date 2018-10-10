@@ -2,10 +2,9 @@ package cn.bitflash.vip.user.feign;
 
 import cn.bitflash.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +22,12 @@ public interface UserFeign {
 
     @PostMapping("/inner/userLogin/updateByMobile")
     Boolean updateUserByMobile(@RequestBody UserSecretEntity loginEntity);
+
+    /**
+     * user_assets_npc 表
+     */
+    @PostMapping("/inner/userAssetsNpc/selectById")
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
 
     /**
@@ -76,14 +81,14 @@ public interface UserFeign {
     /**
      * system_param 表
      */
-    @PostMapping("/inner/systemParam/getVal")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
     /**
      * daily_total_npc 表
      */
     @PostMapping("/inner/dailytotalnpc/selectById")
-    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")Date id);
+    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")LocalDate id);
 
     @PostMapping("/inner/dailytotalnpc/update")
     Boolean updateDailyTotalNpc(@RequestBody DailyTotalNpcEntity daily);
@@ -107,13 +112,16 @@ public interface UserFeign {
     @PostMapping("/inner/userAssetsHlb/update")
     Boolean updateUserAssetsHlb(@RequestBody UserAssetsHlbEntity hlbEntity);
 
+    @PostMapping("/inner/userAssetsHlb/selectHlbCommunity")
+    UserAssetsHlbBean selectHlbCommunity(@RequestParam("id")String id);
+
     /**
      * user_assets_npc 表
      */
     @PostMapping("/inner/userAssetsNpc/selectById")
-    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
+    public UserAssetsNpcEntity selectbyid(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userAssetsNpc/update")
+    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

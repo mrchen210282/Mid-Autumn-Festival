@@ -5,6 +5,7 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserBankPaymentInfoEntity;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserMobilePaymentInfoEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
@@ -33,7 +34,7 @@ public class Validate {
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
         List<UserMobilePaymentInfoEntity> mobiles = userFeign.selectPaymentsByUid(uid);
         UserBankPaymentInfoEntity bank = userFeign.selectBankInfoByUid(uid);
-
+        UserSecretEntity secretEntity = userFeign.selectUserLoginByUid(uid);
         Map<String, Object> map = new HashMap<>();
         //是否有支付方式
         map.put("payment", Common.UNAUTHENTICATION);
@@ -50,10 +51,14 @@ public class Validate {
         map.put("level", info.getPowerLevel());
         //uid
         map.put("uid", uid);
-
+        //是否设置了支付密码
+        map.put("setPaypasswd",secretEntity.getIsSetPaypwd());
+        //昵称
+        map.put("nickname",info.getNicklock());
         return R.ok(map);
 
     }
+
 
 
 }

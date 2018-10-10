@@ -1,18 +1,22 @@
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DailyTotalNpcEntity {
 
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate createTime;
 
     private Float totalNpc;
 
-    public Date getCreateTime() {
+    public LocalDate getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 

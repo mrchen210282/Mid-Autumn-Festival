@@ -28,25 +28,25 @@ public class AppealTrade {
     @PostMapping("complaint")
     @ApiOperation(value = "添加申诉")
     public R complaint(@RequestAttribute("uid") String uid, @ApiParam(value = "订单id") @RequestParam String orderId,
-                       @ApiParam(value = "买入/卖出0/1") @RequestParam String complaintState) {
+                       @ApiParam(value = "买入/卖出2/1") @RequestParam String complaintState) {
         UserComplaintEntity userComplaintEntity = tradeFeign.selectUserCompById(orderId);
         Assert.isNotNull(userComplaintEntity, "订单已经申诉");
         //添加申诉
         userComplaintEntity = new UserComplaintEntity();
         userComplaintEntity.setComplaintState(complaintState);
         //设置交易订单状态为9申诉
-        UserMarketTradeEntity userTradeEntity = tradeFeign.selectTradeById(orderId);
+        UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectTradeById(orderId);
         //订单发布人uid
-        userComplaintEntity.setComplaintUid(userTradeEntity.getPurchaseUid());
+        userComplaintEntity.setComplaintUid(userMarketTradeEntity.getPurchaseUid());
         //订单购买人uid
-        userComplaintEntity.setContactsUid(userTradeEntity.getPurchaseUid());
+        userComplaintEntity.setContactsUid(userMarketTradeEntity.getPurchaseUid());
         userComplaintEntity.setOrderId(orderId);
-        userComplaintEntity.setOrderState(userTradeEntity.getState());
+        userComplaintEntity.setOrderState(userMarketTradeEntity.getState());
         userComplaintEntity.setCreateTime(new Date());
         tradeFeign.insertUserComplaint(userComplaintEntity);
         //状态更新为申诉
-        userTradeEntity.setState(TradeCommon.STATE_COMPLAINT);
-        tradeFeign.insertOrUpdateTrade(userTradeEntity);
+        userMarketTradeEntity.setState(TradeCommon.STATE_COMPLAINT);
+        tradeFeign.insertOrUpdateUserMarketTrade(userMarketTradeEntity);
         return R.ok();
     }
 

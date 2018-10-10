@@ -33,11 +33,15 @@ public class TradeList {
     @PostMapping("/tradeList")
     @ApiOperation(value = "交易列表")
     public R tradeList(@RequestAttribute("uid") String uid, @ApiParam @RequestParam String pageNum) {
-        UserAssetsNpcEntity userAccount = tradeFeign.selectAccountByUid(uid);
+        UserAssetsNpcEntity userAccount = tradeFeign.selectUserAssetsNpcById(uid);
         Assert.isNull(userAccount, "无此用户");
         // 查询自身用户信息
-        List<TradeListBean> listEntity = tradeFeign.tradeList(uid, pageNum, "6");
-        Integer count = tradeFeign.tradeListCount(uid, pageNum, "6");
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("uid",uid);
+        map.put("pageNum",pageNum);
+        map.put("pageTotal",6);
+        List<TradeListBean> listEntity = tradeFeign.tradeList(map);
+        Integer count = tradeFeign.tradeListCount(map);
         Map<String, Object> param = new HashMap<>();
         param.put("availableAssets", BigDecimalUtils.DecimalFormat(new BigDecimal(userAccount.getAvailableAssets())));
         param.put("userAccountList", listEntity);
@@ -50,13 +54,17 @@ public class TradeList {
     @PostMapping("/orderList")
     @ApiOperation(value = "订单列表")
     public R orderList(@RequestAttribute("uid") String uid, @ApiParam @RequestParam String pageNum) {
-        UserAssetsNpcEntity userAccount = tradeFeign.selectAccountByUid(uid);
+        UserAssetsNpcEntity userAccount = tradeFeign.selectUserAssetsNpcById(uid);
         int pageTotal = 6;
         Map<String, Object> param = new HashMap<String, Object>();
         if (StringUtils.isNotBlank(userAccount.getUid())) {
             // 查询交易
-            List<OrderListBean> listEntity = tradeFeign.selectOrderTrade(uid, pageNum, "6");
-            Integer count = tradeFeign.selectTradeCount(uid, pageNum, "6");
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("uid",uid);
+            map.put("pageNum",pageNum);
+            map.put("pageTotal",pageTotal);
+            List<OrderListBean> listEntity = tradeFeign.selectOrderTrade(map);
+            Integer count = tradeFeign.selectOrderCount(map);
             BigDecimal npcAssets = new BigDecimal(userAccount.getAvailableAssets());
             param.put("availableAssets", TradeCommon.decimalFormat(npcAssets.doubleValue()));
             param.put("userAccountList", listEntity);

@@ -45,7 +45,7 @@ public class Remind {
     @Login
     @PostMapping("/appealCheck")
     @ApiOperation("申诉详情")
-    public R checkAppeal(@ApiParam @RequestParam("id") String id, @RequestAttribute("uid") String uid,@RequestParam("state") String state) {
+    public R checkAppeal(@ApiParam @RequestParam("id") String id, @RequestAttribute("uid") String uid, @RequestParam("state") String state) {
         String name = null;
         String mobile = null;
 
@@ -62,10 +62,9 @@ public class Remind {
         if (userComplaintBean == null) {
             return R.ok().put("code", "订单不存在");
         }
-
-        Map<String, Float> map = orderUtil.poundage(id, state ,"REMIND");
-        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map",map);
-//        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("totalQuantity", map.get("totalQuantity")).put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity")).put("totalMoney", map.get("totalMoney"));
+        Map<String, Float> map = orderUtil.poundage(id, state, "REMIND");
+        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map", map);
     }
-
 }
+
+

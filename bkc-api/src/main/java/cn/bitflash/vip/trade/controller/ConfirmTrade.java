@@ -71,7 +71,7 @@ public class ConfirmTrade {
                 float availableAssets = entity.getQuantity();
 
                 //查询出购买人
-                UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectAccountByUid(entity.getPurchaseUid());
+                UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(entity.getPurchaseUid());
                 if(null != userAssetsNpcEntity) {
                     float purchaseAvailable = userAssetsNpcEntity.getAvailableAssets() + availableAssets;
                     userAssetsNpcEntity.setAvailableAssets(purchaseAvailable);
@@ -88,7 +88,6 @@ public class ConfirmTrade {
                     userMarketTradeHistoryEntity.setUserTradeId(orderId);
                     userMarketTradeHistoryEntity.setPurchaseUid(entity.getPurchaseUid());
                     userMarketTradeHistoryEntity.setPrice(entity.getPrice());
-                    userMarketTradeHistoryEntity.setSellUid(entity.getSellUid());
                     userMarketTradeHistoryEntity.setQuantity(trade.getQuantity());
                     userMarketTradeHistoryEntity.setOrderState(TradeCommon.STATE_PAY);
                     userMarketTradeHistoryEntity.setFinishTime(new Date());

@@ -48,6 +48,8 @@ public class UserSecretEntity implements Serializable {
 
     private String payPassword;
 
+    private String isSetPaypwd;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
@@ -93,6 +95,14 @@ public class UserSecretEntity implements Serializable {
 
     public String getPayPassword() {
         return payPassword;
+    }
+
+    public String getIsSetPaypwd() {
+        return isSetPaypwd;
+    }
+
+    public void setIsSetPaypwd(String isSetPaypwd) {
+        this.isSetPaypwd = isSetPaypwd;
     }
 
     public void setPayPassword(String payPassword) {

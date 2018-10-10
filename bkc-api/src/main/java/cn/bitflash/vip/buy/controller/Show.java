@@ -53,19 +53,19 @@ public class Show {
         for (UserBuyBean userBuyBean : userBuyBeans) {
             //卖家
             if (uid.equals(userBuyBean.getSellUid())) {
-                if(ORDER_STATE_STEP1.equals(userBuyBean.getState())){
+                if (ORDER_STATE_STEP1.equals(userBuyBean.getState())) {
                     userBuyBean.setState("待收款");
-                } else if(ORDER_STATE_STEP2.equals(userBuyBean.getState())){
+                } else if (ORDER_STATE_STEP2.equals(userBuyBean.getState())) {
                     userBuyBean.setState("待确认");
                 }
             }
             //买家
             if (uid.equals(userBuyBean.getPurchaseUid())) {
-                if(ORDER_STATE_PUBLISH.equals(userBuyBean.getState())){
+                if (ORDER_STATE_PUBLISH.equals(userBuyBean.getState())) {
                     userBuyBean.setState("可撤销");
-                } else if(ORDER_STATE_STEP1.equals(userBuyBean.getState())){
+                } else if (ORDER_STATE_STEP1.equals(userBuyBean.getState())) {
                     userBuyBean.setState("待付款");
-                } else if(ORDER_STATE_STEP2.equals(userBuyBean.getState())){
+                } else if (ORDER_STATE_STEP2.equals(userBuyBean.getState())) {
                     userBuyBean.setState("待收币");
                 }
             }

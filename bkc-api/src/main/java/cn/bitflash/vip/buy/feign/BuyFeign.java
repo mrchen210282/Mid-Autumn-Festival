@@ -3,9 +3,7 @@ package cn.bitflash.vip.buy.feign;
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -231,8 +229,8 @@ public interface BuyFeign {
      * @param key
      * @return
      */
-    @PostMapping("/inner/systemParam/getVal")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
     /**
      * selectCid

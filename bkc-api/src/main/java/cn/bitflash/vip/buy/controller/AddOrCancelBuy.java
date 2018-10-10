@@ -49,7 +49,7 @@ public class AddOrCancelBuy {
             return R.error(502, "求购数量最低为100，且为100的倍数");
         }
 
-        String orderId = "00"+RandomStringUtils.randomNumeric(6);
+        String orderId = "00" + RandomStringUtils.randomNumeric(6);
         userMarketBuyEntity.setId(orderId);
         userMarketBuyEntity.setPurchaseUid(uid);
         userMarketBuyEntity.setCreateTime(new Date());
@@ -111,7 +111,7 @@ public class AddOrCancelBuy {
         Map<String, Float> map = tradeUtil.poundage(id);
         //扣除手续费
         boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
-        if(!dec){
+        if (!dec) {
             return R.ok().put("code", FAIL);
         }
 

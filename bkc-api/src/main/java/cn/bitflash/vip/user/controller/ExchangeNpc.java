@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,20 +37,26 @@ public class ExchangeNpc {
             return R.error("密码验证错误");
         }
         Float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
-        Date now = new DateTime().withTimeAtStartOfDay().toDate();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+        LocalDate localDate = LocalDate.now();
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
         //兑换的npc数量
-        Float npc = form.getNpc();
+        float npc = form.getNpc();
         //兑换的hlb数量
-        Float hlb = form.getHlb();
+        float hlb = form.getHlb();
         //当前hlb可兑换的npc数量
         Float hlb_handling_fee = Float.valueOf(userFeign.getVal("hlb_handling_fee"));
-        //减去手续费后
-        Float npcNum = (hlb-hlb*hlb_handling_fee) / npc_unit_price;
         if (npcEntity.getTotalNpc() < npc) {
             return R.error("可兑换npc数量不足");
         }
-        if (npcNum != npc) {
+        if(form.getHlb()%100!=0){
+            return R.error("HLB兑换数量必须为100的倍数");
+        }
+        Float fee = hlb_handling_fee*form.getHlb();
+        if(!fee.equals(form.getExpense())){
+            return R.error("手续费出现异常");
+        }
+        int npcNum = (int) (hlb/npc_unit_price);
+        if (npcNum!=(int) npc) {
             return R.error("可兑换hlb数量发生变化，请重新兑换");
         }
 
@@ -61,10 +69,12 @@ public class ExchangeNpc {
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
-        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets() - form.getHlb());
+        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets() -( form.getHlb()+form.getExpense()));
+
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
+
         npcNumEntity.setAvailableAssets(npcNumEntity.getAvailableAssets() + npc);
         npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets() + npc);
         userFeign.updateUserAssetsNpc(npcNumEntity);
@@ -78,8 +88,11 @@ public class ExchangeNpc {
     @PostMapping("showNpcNum")
     @ApiOperation("获取npc数量")
     public R showNpcNum(@RequestAttribute("uid") String uid) {
-        Date now = new DateTime().withTimeAtStartOfDay().toDate();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(now);
+       // Date now = new Date();
+
+        //SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.now();
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
         Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
@@ -93,6 +106,9 @@ public class ExchangeNpc {
         float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
         int rate = (int) (100 / npc_unit_price);
         map.put("rate", rate);
+        //手续费
+        String hlb_handling_fee = userFeign.getVal("hlb_handling_fee");
+        map.put("hlb_handling_fee",Float.valueOf(hlb_handling_fee));
         return R.ok(map);
     }
 

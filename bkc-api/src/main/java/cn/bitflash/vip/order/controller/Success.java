@@ -50,11 +50,11 @@ public class Success {
     @Login
     @PostMapping("/successCheck")
     @ApiOperation("查看买入订单明细")
-    public R viewSuccess(@ApiParam ("订单id")@RequestParam("id") String id,@RequestParam("state") String state, @RequestAttribute("uid") String uid) {
+    public R viewSuccess(@ApiParam("订单id") @RequestParam("id") String id, @RequestParam("state") String state, @RequestAttribute("uid") String uid) {
         String name = null;
         String mobile = null;
 
-        UserSuccessBean userSuccessBean = orderFeign.getSuccessMessage(id,state);
+        UserSuccessBean userSuccessBean = orderFeign.getSuccessMessage(id, state);
         //判定订单不存在
         if (userSuccessBean == null) {
             return R.ok().put("code", "订单不存在");
@@ -68,10 +68,7 @@ public class Success {
             mobile = userSuccessBean.getPurMobile();
         }
 
-        Map<String, Float> map = orderUtil.poundage(id, state,"SUCCESS");
-        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map",map);
+        Map<String, Float> map = orderUtil.poundage(id, state, "SUCCESS");
+        return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map", map);
     }
-
-
-
 }

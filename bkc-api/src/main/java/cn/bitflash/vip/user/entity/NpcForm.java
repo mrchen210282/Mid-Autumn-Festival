@@ -6,6 +6,8 @@ public class NpcForm {
 
     private Float hlb;
 
+    private Float expense;
+
     private String password;
 
     public Float getNpc() {
@@ -30,5 +32,13 @@ public class NpcForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Float getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Float expense) {
+        this.expense = expense;
     }
 }

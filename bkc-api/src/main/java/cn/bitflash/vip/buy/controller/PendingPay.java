@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Date;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -38,7 +39,7 @@ public class PendingPay {
         buyFeign.updateBuyById(userMarketBuyEntity);
         //判断对方是否点击申诉
         UserComplaintEntity userComplaintEntity = buyFeign.selectComplaintById(id);
-        if(userComplaintEntity != null){
+        if (userComplaintEntity != null) {
             buyFeign.deleteComplaint(id);
         }
         return R.ok().put("code", SUCCESS);
@@ -55,12 +56,12 @@ public class PendingPay {
         //获取trade_poundage手续费，并返还，删除该信息
         BuyPoundageEntity buyPoundageEntity = buyFeign.selectPoundageById(id);
         UserAssetsNpcEntity userAssetsNpcEntity = buyFeign.selectAccountById(userMarketBuyEntity.getSellUid());
-        userAssetsNpcEntity.setAvailableAssets(buyPoundageEntity.getPoundage()+buyPoundageEntity.getQuantity()+userAssetsNpcEntity.getAvailableAssets());
+        userAssetsNpcEntity.setAvailableAssets(buyPoundageEntity.getPoundage() + buyPoundageEntity.getQuantity() + userAssetsNpcEntity.getAvailableAssets());
         buyFeign.updateAccountById(userAssetsNpcEntity);
         buyFeign.deletePoundage(id);
         //判断对方是否点击申诉
         UserComplaintEntity userComplaintEntity = buyFeign.selectComplaintById(id);
-        if(userComplaintEntity != null){
+        if (userComplaintEntity != null) {
             buyFeign.deleteComplaint(id);
         }
         //删除求购历史订单

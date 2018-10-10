@@ -10,6 +10,7 @@ import cn.bitflash.vip.level.entity.NpcForm;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Info;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -74,11 +75,7 @@ public class Vip {
     @PostMapping("updateLevel")
     @ApiOperation("提升算力")
     public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestBody NpcForm form) {
-        //1.验证 password
-        UserSecretEntity secretEntity = levelFeign.selectUserSecretById(uid);
-        if (!Encrypt.SHA256(form.getPassword() + secretEntity.getSalt()).equals(secretEntity.getPassword())) {
-            return R.error("密码错误");
-        }
+
         //2.验证 邀请码
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
@@ -103,7 +100,7 @@ public class Vip {
         levelFeign.updateUserAssetsHlb(hlbEntity);
         npcEntity.setAvailableAssets(npcEntity.getAvailableAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
-        npcEntity.setNpcPrice(npcEntity.getNpcPrice() + (form.getNpc() / npc));
+        npcEntity.setNpcPrice(npcEntity.getNpcPrice() + form.getNpc() * npc);
         levelFeign.updateUserAssetsNpc(npcEntity);
         //6.5 加入兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
@@ -112,10 +109,20 @@ public class Vip {
         hlbTradeHistoryEntity.setTotalHlb(hlb);
         hlbTradeHistoryEntity.setTotalNpc(form.getNpc());
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
+        //6.6提升vip等级
+        //用户当前vip额度信息
+        SystemVipEntity userVip = levelFeign.selectSystemVipById(userInfo.getVipLevel());
+        //最大的vip等级id
+        String max_vip_id = levelFeign.getVal("max_vip_id");
+        //最大的vip等级信息
+        SystemVipEntity maxVip = levelFeign.selectSystemVipById(Integer.valueOf(max_vip_id));
+        if(npcEntity.getNpcPrice()>=userVip.getVipCash() && userInfo.getVipLevel()<maxVip.getId()){
+            userInfo.setVipLevel(userInfo.getVipLevel()+1);
+            levelFeign.updateUserInfo(userInfo);
+        }
 
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         String invitCode = userInfo.getInvitationCode();
-        String area = userInfo.getArea();
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
         //6.验证排点
         if (relation != null) {
@@ -144,6 +151,7 @@ public class Vip {
         List<UserRelationEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
         //父类下所有的子类数量（包含父类）
         int size = f_user.size();
+        String area = userInfo.getArea();
         switch (area) {
             case "L":
                 if (size == 1) {

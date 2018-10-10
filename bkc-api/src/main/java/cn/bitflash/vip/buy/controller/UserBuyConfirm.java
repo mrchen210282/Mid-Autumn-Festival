@@ -41,7 +41,7 @@ public class UserBuyConfirm {
 
         //判断对方是否点击申诉
         UserComplaintEntity userComplaintEntity = feign.selectComplaintById(id);
-        if(userComplaintEntity != null){
+        if (userComplaintEntity != null) {
             feign.deleteComplaint(id);
         }
 

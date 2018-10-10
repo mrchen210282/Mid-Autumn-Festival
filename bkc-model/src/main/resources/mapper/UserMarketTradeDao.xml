@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserMarketTradeDao">
+
+    <select id="selectOrderTrade" statementType="CALLABLE" resultType="java.util.List"  parameterType="java.util.Map">
+        <![CDATA[
+		  call selectOrderTrade(#{uid,jdbcType=VARCHAR,mode=IN},#{pageNum,jdbcType=INTEGER,mode=IN},#{pageTotal,jdbcType=INTEGER,mode=IN})
+		 ]]>
+    </select>
+
+    <select id="selectOrderCount" statementType="CALLABLE" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <![CDATA[
+		  call selectOrderCount(#{uid,jdbcType=VARCHAR,mode=IN},#{count,jdbcType=VARCHAR,mode=OUT})
+		 ]]>
+    </select>
+
+    <select id="tradeList" statementType="CALLABLE" resultType="java.util.List" parameterType="java.util.Map">
+        <![CDATA[
+		  call tradeList(#{uid,jdbcType=VARCHAR,mode=IN},#{pageNum,jdbcType=INTEGER,mode=IN},#{pageTotal,jdbcType=INTEGER,mode=IN})
+		 ]]>
+    </select>
+
+    <select id="tradeListCount" statementType="CALLABLE" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <![CDATA[
+		  call tradeListCount(#{uid,jdbcType=VARCHAR,mode=IN},#{count,jdbcType=VARCHAR,mode=OUT})
+		 ]]>
+    </select>
+
+    <select id="queryDetail" statementType="CALLABLE" resultType="cn.bitflash.bean.AllUserTradeBean" parameterType="java.util.Map">
+        <![CDATA[
+		  call queryDetail(#{id,jdbcType=VARCHAR,mode=IN},#{state,jdbcType=VARCHAR,mode=IN})
+		 ]]>
+    </select>
+
+
+
+</mapper>

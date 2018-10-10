@@ -50,10 +50,10 @@ public class PendingPayTrade {
         //删除锁定状态
         redisUtils.delete(orderId);
         // 更新状态为交易中
-        UserMarketTradeEntity userTradeEntity = new UserMarketTradeEntity();
-        userTradeEntity.setId(orderId);
-        userTradeEntity.setState(TradeCommon.STATE_SELL);
-        tradeFeign.insertOrUpdateTrade(userTradeEntity);
+        UserMarketTradeEntity userMarketTradeEntity = new UserMarketTradeEntity();
+        userMarketTradeEntity.setId(orderId);
+        userMarketTradeEntity.setState(TradeCommon.STATE_SELL);
+        tradeFeign.insertOrUpdateUserMarketTrade(userMarketTradeEntity);
         logger.info("取消订单号:" + orderId);
         return R.ok();
     }

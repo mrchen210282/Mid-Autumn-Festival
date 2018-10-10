@@ -2,11 +2,8 @@ package cn.bitflash.vip.trade.feign;
 
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.*;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,12 +21,13 @@ public interface TradeFeign {
     void insertUserComplaint(@RequestBody UserComplaintEntity complaint);
 
     /**
-     * user_trade 表
+     * user_market_trade 表
      */
-    @PostMapping("/inner/userTrade/insertOrUpdateTrade")
-    boolean insertOrUpdateTrade(@RequestBody UserMarketTradeEntity trade);
+    @PostMapping("/inner/userMarketTrade/insertOrUpdateUserMarketTrade")
+    boolean insertOrUpdateUserMarketTrade(@RequestBody UserMarketTradeEntity trade);
 
-    @PostMapping("/inner/userTrade/updateById")
+
+    @PostMapping("/inner/userMarketTrade/updateById")
     void updateTrade(@RequestBody UserMarketTradeEntity trade);
 
     @PostMapping("/inner/userTrade/deleteById")
@@ -44,26 +42,28 @@ public interface TradeFeign {
     @PostMapping("")
     UserTradeDetail selectDetail(@RequestParam("id") String id);
 
-    @PostMapping("")
-    AllUserTradeBean queryDetail(@RequestParam("id") String id);
+    @PostMapping("/inner/userMarketTrade/queryDetail")
+    AllUserTradeBean queryDetail(Map<String,Object> map);
 
     @PostMapping("")
     List<TradeListBean> selectTradeHistory(@RequestBody Map<String, Object> param);
 
-    @PostMapping("")
-    List<TradeListBean> tradeList(@RequestParam("uid") String uid, @RequestParam("pageNum") String pageNum, @RequestParam("pageTotal") String pageTotal);
+    @PostMapping("/inner/userMarketTrade/tradeList")
+    List<TradeListBean> tradeList(@RequestParam Map<String,Object> map);
+
+    @PostMapping("/inner/userMarketTrade/tradeListCount")
+    Integer tradeListCount(@RequestParam Map<String,Object> map);
 
     @PostMapping("")
     List<UserMarketTradeEntity> selectTradeByState(@RequestParam("state") String state);
 
-    @PostMapping("")
-    List<OrderListBean> selectOrderTrade(@RequestParam("uid") String uid, @RequestParam("pageNum") String pageNum, @RequestParam("pageTotal") String pageTotal);
+    @PostMapping("/inner/userMarketTrade/selectOrderTrade")
+    List<OrderListBean> selectOrderTrade(@RequestParam Map<String,Object> map);
 
-    @PostMapping("")
-    Integer selectTradeCount(@RequestParam("uid") String uid, @RequestParam("pageNum") String pageNum, @RequestParam("pageTotal") String pageTotal);
+    @PostMapping("/inner/userMarketTrade/selectOrderCount")
+    Integer selectOrderCount(@RequestParam Map<String,Object> map);
 
-    @PostMapping("")
-    Integer tradeListCount(@RequestParam("uid") String uid, @RequestParam("pageNum") String pageNum, @RequestParam("pageTotal") String pageTotal);
+
 
     /**
      * user_trade_history 表
@@ -83,13 +83,13 @@ public interface TradeFeign {
     /**
      * user_trade_config 表
      */
-    @PostMapping("")
-    UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") Integer id);
+    @PostMapping("/inner/userMarketConfig/selectUserMarketConfigById")
+    UserTradeConfigEntity selectUserMarketConfigById(@RequestParam("id") Integer id);
 
     @PostMapping("")
     void deleteTradePoundageById(@RequestParam("id") String id);
 
-    @PostMapping("")
+    @PostMapping("/inner/tradePoundage/insertTradePoundage")
     void insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
 
     /**
@@ -108,8 +108,8 @@ public interface TradeFeign {
     /**
      * user_assets_npc 表
      */
-    @PostMapping("")
-    UserAssetsNpcEntity selectAccountByUid(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userAssetsNpc/selectUserAssetsNpcById")
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("uid") String uid);
 
     @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     public Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npc);
@@ -170,10 +170,14 @@ public interface TradeFeign {
     UserGetuiEntity selectGT(@RequestParam("uid") String uid);
 
     /**
-     * platform_config
+     * system_param
      */
-    @PostMapping("")
+    @PostMapping("/inner/systemParam/getVal")
     String getVal(@RequestParam("key") String key);
 
+    @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
+    public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
+
+    
 
 }

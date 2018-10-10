@@ -16,6 +16,7 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.entity.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
@@ -25,4 +26,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserAssetsHlbDao extends BaseMapper<UserAssetsHlbEntity> {
 
+    UserAssetsHlbBean selectHlbCommunity(String uid);
 }
