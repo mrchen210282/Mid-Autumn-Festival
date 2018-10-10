@@ -9,7 +9,6 @@ public class NpcForm {
 
     private Float hlb;
 
-    private String password;
 
     public Float getNpc() {
         return npc;
@@ -27,13 +26,7 @@ public class NpcForm {
         this.hlb = hlb;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
 
 }

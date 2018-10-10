@@ -35,7 +35,7 @@
         user_secret us
       on
         ur.uid = us.uid
-      where ur.code = #{code }
+      where ur.father_code = #{code }
     </select>
 
 

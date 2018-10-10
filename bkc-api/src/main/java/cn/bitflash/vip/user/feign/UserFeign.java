@@ -2,9 +2,7 @@ package cn.bitflash.vip.user.feign;
 
 import cn.bitflash.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -83,8 +81,8 @@ public interface UserFeign {
     /**
      * system_param 表
      */
-    @PostMapping("/inner/systemParam/getVal")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
     /**
      * daily_total_npc 表

@@ -3,9 +3,7 @@ package cn.bitflash.vip.trade.feign;
 import cn.bitflash.entity.*;
 import cn.bitflash.vip.trade.entity.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -179,4 +177,7 @@ public interface TradeFeign {
 
     @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
     public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
+
+    
+
 }
