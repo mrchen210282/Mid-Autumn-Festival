@@ -29,15 +29,13 @@ public class AppealTrade {
     @ApiOperation(value = "添加申诉")
     public R complaint(@RequestAttribute("uid") String uid, @ApiParam(value = "订单id") @RequestParam String orderId,
                        @ApiParam(value = "买入/卖出2/1") @RequestParam String complaintState) {
-        UserComplaintEntity userComplaintEntity = tradeFeign.selectUserCompById(orderId);
-        Assert.isNotNull(userComplaintEntity, "订单已经申诉");
         //添加申诉
-        userComplaintEntity = new UserComplaintEntity();
+        UserComplaintEntity userComplaintEntity = new UserComplaintEntity();
         userComplaintEntity.setComplaintState(complaintState);
         //设置交易订单状态为9申诉
         UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
         //订单发布人uid
-        userComplaintEntity.setComplaintUid(userMarketTradeEntity.getPurchaseUid());
+        userComplaintEntity.setComplaintUid(userMarketTradeEntity.getUid());
         //订单购买人uid
         userComplaintEntity.setContactsUid(userMarketTradeEntity.getPurchaseUid());
         userComplaintEntity.setOrderId(orderId);

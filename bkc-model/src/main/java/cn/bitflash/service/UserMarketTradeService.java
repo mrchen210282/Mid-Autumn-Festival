@@ -3,6 +3,7 @@ package cn.bitflash.service;
 import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
+import cn.bitflash.bean.UserTradeDetail;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import com.baomidou.mybatisplus.service.IService;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,4 +26,8 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
     Integer tradeListCount(@RequestParam Map<String,Object> map);
 
     AllUserTradeBean queryDetail(Map<String,Object> map);
+
+    Map<String,Object> responseTrade(Map<String,Object> map);
+
+    UserTradeDetail selectDetail(Map<String,Object> map);
 }

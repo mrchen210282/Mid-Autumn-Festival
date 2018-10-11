@@ -17,7 +17,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userComplaint/selectById")
     UserComplaintEntity selectUserCompById(@RequestParam("id") String orderId);
 
-    @PostMapping("/inner/userComplaint/updateById")
+    @PostMapping("/inner/userComplaint/insert")
     void insertUserComplaint(@RequestBody UserComplaintEntity complaint);
 
     /**
@@ -36,8 +36,8 @@ public interface TradeFeign {
     @PostMapping("/inner/userMarketTrade/selectTradeByIdAndState")
     UserMarketTradeEntity selectTradeByIdAndState(@RequestParam("id") String id, @RequestParam("state") String state);
 
-    @PostMapping("")
-    UserTradeDetail selectDetail(@RequestParam("id") String id);
+    @PostMapping("/inner/userMarketTrade/selectDetail")
+    UserTradeDetail selectDetail(@RequestParam Map<String,Object> map);
 
     @PostMapping("/inner/userMarketTrade/queryDetail")
     AllUserTradeBean queryDetail(@RequestParam Map<String,Object> map);
@@ -147,10 +147,6 @@ public interface TradeFeign {
     @PostMapping("/inner/userBroker/selectById")
     public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
 
-
-    @PostMapping("")
-    Map<String, Object> responseTrade(@RequestParam("uid") String uid);
-
     /**
      * user_brokerage 表
      */
@@ -175,4 +171,7 @@ public interface TradeFeign {
 
     @PostMapping("/inner/userMarketTrade/selectById")
     public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
+
+    @PostMapping("/inner/userMarketTrade/responseTrade")
+    Map<String,Object> responseTrade(@RequestParam("uid") String uid);
 }
