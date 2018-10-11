@@ -22,12 +22,23 @@ public class UserMarketBuyHistoryEntity implements Serializable {
     private Date finishTime;
     private String orderState;
 
+    //Y:已查看,N未查看
+    private String isRead;
+
     public String getUserBuyId() {
         return userBuyId;
     }
 
     public void setUserBuyId(String userBuyId) {
         this.userBuyId = userBuyId;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
     }
 
     public String getPurchaseUid() {

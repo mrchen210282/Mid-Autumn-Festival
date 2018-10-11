@@ -33,7 +33,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userTrade/deleteById")
     void deleteTrade(@RequestParam("id") String id);
 
-    @PostMapping("/inner/userTrade/selectTradeByIdAndState")
+    @PostMapping("/inner/userMarketTrade/selectTradeByIdAndState")
     UserMarketTradeEntity selectTradeByIdAndState(@RequestParam("id") String id, @RequestParam("state") String state);
 
     @PostMapping("")
@@ -68,6 +68,9 @@ public interface TradeFeign {
     @PostMapping("/inner/userTradeHistory/selectById")
     UserMarketTradeHistoryEntity selectTradeHistoryById(@RequestParam("id") String orderId);
 
+    @PostMapping("/inner/userLogin/selectById")
+    UserSecretEntity selectUserSecretById(@RequestParam("id") String id);
+
     @PostMapping("")
     void updateUserTradeHistory(@RequestBody UserMarketTradeHistoryEntity history);
 
@@ -80,11 +83,8 @@ public interface TradeFeign {
     /**
      * user_trade_config 表
      */
-    @PostMapping("/inner/userMarketConfig/selectUserMarketConfigById")
+    @PostMapping("/inner/userMarketConfig/selectById")
     UserTradeConfigEntity selectUserMarketConfigById(@RequestParam("id") Integer id);
-
-    @PostMapping("/inner/tradePoundage/deleteTradePoundageById")
-    void deleteTradePoundageById(@RequestParam("id") String id);
 
     @PostMapping("/inner/tradePoundage/insertTradePoundage")
     void insertTradePoundage(@RequestBody TradePoundageEntity poundageEntity);
@@ -105,20 +105,20 @@ public interface TradeFeign {
     /**
      * user_assets_npc 表
      */
-    @PostMapping("/inner/userAssetsNpc/selectUserAssetsNpcById")
-    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userAssetsNpc/selectById")
+    UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id") String uid);
 
     @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
     public Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npc);
 
-    @PostMapping("/inner/tradePoundage/deleteById")
-    boolean deleteById(@RequestParam("id") String id);
+    @PostMapping("/inner/tradePoundage/deleteTradePoundageById")
+    boolean deleteTradePoundageById(@RequestParam("id") String id);
 
 
     /**
      * deleteUserMarketTradeById
      *
-     * @return
+     * @returnselectById
      */
     @PostMapping("/inner/userMarketTrade/deleteUserMarketTradeById")
     public boolean deleteUserMarketTradeById(@RequestParam("id") String id);
@@ -136,7 +136,7 @@ public interface TradeFeign {
      *
      * @return
      */
-    @PostMapping("/inner/tradePoundage/selectTradePoundageById")
+    @PostMapping("/inner/tradePoundage/selectById")
     TradePoundageEntity selectTradePoundageById(@RequestParam("id") String id);
 
     /**
@@ -144,7 +144,7 @@ public interface TradeFeign {
      *
      * @return
      */
-    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    @PostMapping("/inner/userBroker/selectById")
     public UserBrokerageEntity selectUserBrokerageById(@RequestParam("id") Integer id);
 
 
@@ -167,14 +167,12 @@ public interface TradeFeign {
     UserGetuiEntity selectGT(@RequestParam("uid") String uid);
 
     /**
-     * system_param
+     * system_param 表
      */
-    @PostMapping("/inner/systemParam/getVal")
-    String getVal(@RequestParam("key") String key);
+    @GetMapping("/inner/systemParam/getVal/{key}")
+    String getVal(@PathVariable("key") String key);
 
-    @PostMapping("/inner/userMarketTrade/selectUserMarketTradeById")
+
+    @PostMapping("/inner/userMarketTrade/selectById")
     public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
-
-    
-
 }

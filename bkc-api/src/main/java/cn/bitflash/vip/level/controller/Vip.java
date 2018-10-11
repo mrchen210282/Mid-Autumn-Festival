@@ -76,14 +76,13 @@ public class Vip {
     @ApiOperation("提升算力")
     public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestBody NpcForm form) {
 
-        //2.验证 邀请码
+        //1.验证 邀请码
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
-        //3.验证 NPC数量 单价
+        //2.验证 NPC数量 单价
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        //4.赠送比例
         float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
         if (npcEntity.getAvailableAssets() < form.getNpc()) {
             return R.error("NPC数量不足");
@@ -94,41 +93,45 @@ public class Vip {
         if (hlb != form.getHlb()) {
             return R.error("可换取的HLB数量有误");
         }
-        //5.添加可冻结hlb和冻结npc数量
-        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
-        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
-        levelFeign.updateUserAssetsHlb(hlbEntity);
+
+
+        //4.更新npc数量
         npcEntity.setAvailableAssets(npcEntity.getAvailableAssets() - form.getNpc());
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
         npcEntity.setNpcPrice(npcEntity.getNpcPrice() + form.getNpc() * npc);
         levelFeign.updateUserAssetsNpc(npcEntity);
-        //6.5 加入兑换历史
+        //5.加入hlb兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
         hlbTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
         hlbTradeHistoryEntity.setUid(uid);
         hlbTradeHistoryEntity.setTotalHlb(hlb);
         hlbTradeHistoryEntity.setTotalNpc(form.getNpc());
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
-        //6.6提升vip等级
-        //用户当前vip额度信息
+
+        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
+        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
+        //6.提升vip等级
+            //用户当前vip额度信息
         SystemVipEntity userVip = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        //最大的vip等级id
+            //最大的vip等级id
         String max_vip_id = levelFeign.getVal("max_vip_id");
-        //最大的vip等级信息
+            //最大的vip等级信息
         SystemVipEntity maxVip = levelFeign.selectSystemVipById(Integer.valueOf(max_vip_id));
         if(npcEntity.getNpcPrice()>=userVip.getVipCash() && userInfo.getVipLevel()<maxVip.getId()){
             userInfo.setVipLevel(userInfo.getVipLevel()+1);
+            hlbEntity.setVipReleaseCash(0);
             levelFeign.updateUserInfo(userInfo);
         }
-
+        //7.添加可冻结hlb和冻结npc数量
+        levelFeign.updateUserAssetsHlb(hlbEntity);
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         String invitCode = userInfo.getInvitationCode();
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
-        //6.验证排点
+        //8.验证排点
         if (relation != null) {
             return R.ok();
         } else {
-            //7.增加人数
+            //9.增加父邀请码人数
             UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
             int peopleNum = f_info.getUpgradeNum();
             //最大算力id
@@ -142,12 +145,12 @@ public class Vip {
 
         }
 
-        //8.初始化邀请码
+        //10.初始化邀请码
         UserInvitationCodeEntity codeEntity = new UserInvitationCodeEntity();
         codeEntity.setUid(uid);
         codeEntity.setCode(RandomStringUtils.randomAlphanumeric(8).toUpperCase());
         levelFeign.insertInvitation(codeEntity);
-        //9.没有排点，进行排点
+        //11.没有排点，进行排点
         List<UserRelationEntity> f_user = levelFeign.selectTreeNodes(pCode.getUid());
         //父类下所有的子类数量（包含父类）
         int size = f_user.size();
