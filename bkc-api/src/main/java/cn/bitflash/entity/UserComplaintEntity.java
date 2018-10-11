@@ -17,6 +17,7 @@ public class UserComplaintEntity implements Serializable {
     private String contactsUid;
     private String complaintState;
     private String orderState;
+    private String isRead;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
 
@@ -66,5 +67,13 @@ public class UserComplaintEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
     }
 }

@@ -32,28 +32,33 @@ import java.util.Map;
 @Service("userMarketTradeService")
 public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, UserMarketTradeEntity> implements UserMarketTradeService {
 
+    @Override
     public List<OrderListBean> selectOrderTrade(Map<String,Object> map) {
         List<OrderListBean> orderListBean = baseMapper.selectOrderTrade(map);
         return orderListBean;
     }
-
+    @Override
     public Integer selectOrderCount(Map<String,Object> map) {
         Integer count = baseMapper.selectOrderCount(map);
         return count;
     }
-
+    @Override
     public List<TradeListBean> tradeList(Map<String,Object> map) {
         List<TradeListBean> list = baseMapper.tradeList(map);
         return list;
     }
-
+    @Override
     public Integer tradeListCount(@RequestParam Map<String,Object> map) {
         Integer integer = baseMapper.tradeListCount(map);
         return integer;
     }
-
+    @Override
     public AllUserTradeBean queryDetail(Map<String,Object> map) {
         AllUserTradeBean userTradeBean = baseMapper.queryDetail(map);
         return userTradeBean;
+    }
+    @Override
+    public int selectTradePrompt(String uid){
+        return selectTradePrompt(uid);
     }
 }

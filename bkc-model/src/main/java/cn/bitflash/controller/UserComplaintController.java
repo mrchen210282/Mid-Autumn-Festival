@@ -91,4 +91,9 @@ public class UserComplaintController {
         return userComplaintService.getComplaintMessage(id);
     }
 
+    @PostMapping("/inner/userMarketBuyHistory/selectAppealPrompt")
+    int selectAppealPrompt(@RequestParam("uid") String uid){
+        return userComplaintService.selectAppealPrompt(uid);
+    }
+
 }

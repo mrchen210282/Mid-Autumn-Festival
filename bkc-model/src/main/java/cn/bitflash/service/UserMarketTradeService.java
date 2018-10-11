@@ -20,9 +20,11 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
 
     Integer selectOrderCount(Map<String,Object> map);
 
-    public List<TradeListBean> tradeList(Map<String,Object> map);
+    List<TradeListBean> tradeList(Map<String,Object> map);
 
     Integer tradeListCount(@RequestParam Map<String,Object> map);
 
     AllUserTradeBean queryDetail(Map<String,Object> map);
+
+    int selectTradePrompt(String uid);
 }

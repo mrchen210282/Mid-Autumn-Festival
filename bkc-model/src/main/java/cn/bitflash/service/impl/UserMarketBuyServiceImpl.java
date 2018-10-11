@@ -78,4 +78,9 @@ public class UserMarketBuyServiceImpl extends ServiceImpl<UserMarketBuyDao, User
     public UserBuyBean checkOrder(@RequestParam("id")String id){
         return  baseMapper.checkOrder(id);
     }
+
+    @Override
+    public int selectBuyPrompt(String uid){
+        return  baseMapper.selectBuyPrompt(uid);
+    }
 }

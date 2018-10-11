@@ -43,4 +43,9 @@ public class UserComplaintServiceImpl extends ServiceImpl<UserComplaintDao, User
     public UserComplaintBean getComplaintMessage(String id) {
         return baseMapper.getComplaintMessage(id);
     }
+
+    @Override
+    public int selectAppealPrompt(String uid){
+        return baseMapper.selectAppealPrompt(uid);
+    }
 }

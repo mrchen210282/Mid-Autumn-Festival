@@ -95,4 +95,10 @@ public class UserMarketTradeController {
         UserMarketTradeEntity userMarketTradeEntity = userMarketTradeService.selectOne(new EntityWrapper<UserMarketTradeEntity>().eq("id",id).eq("state",state));
         return userMarketTradeEntity;
     }
+
+    @PostMapping("/inner/userMarketTrade/selectTradePrompt")
+    public int selectTradePrompt(@RequestParam("uid") String uid){
+        return userMarketTradeService.selectTradePrompt(uid);
+    }
+
 }

@@ -75,6 +75,7 @@ public class UserBuyConfirm {
         userMarketBuyHistoryEntity.setPurchaseUid(userMarketBuyEntity.getPurchaseUid());
         userMarketBuyHistoryEntity.setSellUid(uid);
         userMarketBuyHistoryEntity.setUserBuyId(id);
+        userMarketBuyHistoryEntity.setIsRead(IS_NOT_READED);
         userMarketBuyHistoryEntity.setQuantity(userMarketBuyEntity.getQuantity());
         userMarketBuyHistoryEntity.setPrice(userMarketBuyEntity.getPrice());
         feign.insertHistory(userMarketBuyHistoryEntity);

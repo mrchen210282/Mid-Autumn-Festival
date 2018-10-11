@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("order")
 @Api("申诉")
-public class Remind {
+public class Appeal {
 
     @Autowired
     private OrderUtil orderUtil;

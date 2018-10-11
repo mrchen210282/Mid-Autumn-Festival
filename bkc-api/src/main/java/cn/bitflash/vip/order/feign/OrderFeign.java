@@ -17,6 +17,9 @@ import java.util.List;
 @FeignClient(value = "bkc-model")
 public interface OrderFeign {
 
+    /**
+     * userComplaint
+     */
     @PostMapping("/inner/userComplaint/selectAppealList")
     List<UserBuyBean> selectAppealList(@RequestParam("uid") String uid, @RequestParam("pages") Integer pages);
 
@@ -27,25 +30,19 @@ public interface OrderFeign {
     UserComplaintBean getComplaintMessage(@RequestParam("id") String id);
 
     /**
-     * user_account表
+     * userMarketTrade
      */
-    @PostMapping("/inner/userMarketBuy/selectById")
-    UserAssetsNpcEntity selectAccountByUid(@RequestParam("uid") String uid);
-
-    /**
-     * user_trade 表
-     */
-    @PostMapping("/inner/userMarketBuy/selectById")
+    @PostMapping("/inner/userMarketTrade/selectById")
     UserMarketTradeEntity selectTradeById(@RequestParam("id") String id);
 
     /**
-     * user_buy 表
+     * userMarketBuy
      */
     @PostMapping("/inner/userMarketBuy/selectById")
     UserMarketBuyEntity selectUserBuyById(@RequestParam("id") String id);
 
     /**
-     * user_trade_config 表
+     * user_trade_config
      */
     @PostMapping("/inner/userMarketConfig/selectById")
     UserTradeConfigEntity selectTradeConfigById(@RequestParam("id") int id);
@@ -72,4 +69,17 @@ public interface OrderFeign {
      */
     @PostMapping("/inner/userMarketBuyHistory/selectById")
     UserMarketBuyHistoryEntity selectBuyHistoryById(@RequestParam("id") String id);
+
+    /**
+     * Prompt
+     */
+    @PostMapping("/inner/userMarketTrade/selectTradePrompt")
+    int selectTradePrompt(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userMarketBuy/selectBuyPrompt")
+    int selectBuyPrompt(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userMarketBuyHistory/selectAppealPrompt")
+    int selectAppealPrompt(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userMarketBuyHistory/selectSuccessPrompt")
+    int selectSuccessPrompt(@RequestParam("uid") String uid);
+
 }

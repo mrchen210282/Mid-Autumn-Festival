@@ -15,6 +15,11 @@ public class BuyCommon {
     //订单申诉
     public final static String ORDER_STATE_APPEAL = "9";
 
+    //是否读取
+    public final static String IS_READED = "Y";
+    public final static String IS_NOT_READED = "N";
+
+
     //----------------code值---------------------
 
     public final static String SUCCESS = "0";

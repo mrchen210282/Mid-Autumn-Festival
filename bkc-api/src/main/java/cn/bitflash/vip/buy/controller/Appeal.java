@@ -40,6 +40,7 @@ public class Appeal {
         userComplaintEntity.setContactsUid(userMarketBuyEntity.getSellUid());
         userComplaintEntity.setCreateTime(new Date());
         userComplaintEntity.setOrderId(id);
+        userComplaintEntity.setIsRead(IS_NOT_READED);
         userComplaintEntity.setOrderState(userMarketBuyEntity.getState());
         feign.insertComplaint(userComplaintEntity);
         return R.ok().put("code", SUCCESS);
