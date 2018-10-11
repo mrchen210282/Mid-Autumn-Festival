@@ -18,7 +18,7 @@ import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 
 @RestController
 @RequestMapping("/buy")
-public class Appeal {
+public class BuyAppeal {
 
     @Autowired
     private BuyFeign feign;
