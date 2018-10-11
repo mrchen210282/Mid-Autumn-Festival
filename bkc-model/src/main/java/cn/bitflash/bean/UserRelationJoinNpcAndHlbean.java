@@ -2,49 +2,89 @@ package cn.bitflash.bean;
 
 public class UserRelationJoinNpcAndHlbean {
 
+    //用户uid
     private String uid;
 
+    //用户关系图谱左边界值
     private int lft;
 
+    //用户关系图谱右边界值
     private int rgt;
 
+    //用户父亲邀请码
     private String fatherCode;
 
+    //用户关系图谱区域表示 L:左区(太阳线1线) R:右区(太阳线2线)
     private String area;
 
+    //用户在图谱树深度
     private String layer;
 
+    //用户姓名
     private String realname;
 
+    //身证号
     private String idNumber;
 
+    //是否实名
     private String isAuth;
 
+    //是否有邀请码
     private String isInvited;
 
+    //实际邀请人数
+    private int realUpgradeNum;
+
+    //hlb总收益
     private float hlbTotelAssets;
 
+    //hlb冻结数量
     private float hlbFrozenAssets;
 
+    //hlb每天释放
     private float hlbDailyRelease;
 
+    //hlb总释放量
     private float hlbTotelRelease;
 
-    private float hlbAssets;
+    //hlb可用值
+    private float hlbAvailableAssets;
 
+    //当前档位的hlb释放量
+    private float vipReleaseCash;
+
+    //npc总购买
     private float npcPurchase;
 
+    //npc总收益
     private float npcTotelAssets;
 
+    //npc冻结数量
     private float npcFrozenAssets;
 
-    private float npcailyRelease;
+    //npc每天释放
+    private float npcdailyRelease;
 
+    //npc总释放量
     private float npcTotelRelease;
 
-    private float npcAssets;
+    //npc可用值
+    private float npcAvailableAssets;
 
+    //npc购买价格
     private float npcPrice;
+
+    //当前算力
+    private float power;
+
+    //当前算力对应的邀请人数
+    private int upgradeNum;
+
+    //当前vip现金条件
+    private float vipCash;
+
+    //当前vip释放额度
+    private float vipHlbAmount;
 
     public String getUid() {
         return uid;
@@ -126,6 +166,13 @@ public class UserRelationJoinNpcAndHlbean {
         this.isInvited = isInvited;
     }
 
+    public int getRealUpgradeNum() {
+        return realUpgradeNum;
+    }
+
+    public void setRealUpgradeNum(int realUpgradeNum) {
+        this.realUpgradeNum = realUpgradeNum;
+    }
 
     public float getHlbTotelAssets() {
         return hlbTotelAssets;
@@ -159,12 +206,20 @@ public class UserRelationJoinNpcAndHlbean {
         this.hlbTotelRelease = hlbTotelRelease;
     }
 
-    public float getHlbAssets() {
-        return hlbAssets;
+    public float getHlbAvailableAssets() {
+        return hlbAvailableAssets;
     }
 
-    public void setHlbAssets(float hlbAssets) {
-        this.hlbAssets = hlbAssets;
+    public void setHlbAvailableAssets(float hlbAvailableAssets) {
+        this.hlbAvailableAssets = hlbAvailableAssets;
+    }
+
+    public float getVipReleaseCash() {
+        return vipReleaseCash;
+    }
+
+    public void setVipReleaseCash(float vipReleaseCash) {
+        this.vipReleaseCash = vipReleaseCash;
     }
 
     public float getNpcPurchase() {
@@ -191,12 +246,12 @@ public class UserRelationJoinNpcAndHlbean {
         this.npcFrozenAssets = npcFrozenAssets;
     }
 
-    public float getNpcailyRelease() {
-        return npcailyRelease;
+    public float getNpcdailyRelease() {
+        return npcdailyRelease;
     }
 
-    public void setNpcailyRelease(float npcailyRelease) {
-        this.npcailyRelease = npcailyRelease;
+    public void setNpcdailyRelease(float npcdailyRelease) {
+        this.npcdailyRelease = npcdailyRelease;
     }
 
     public float getNpcTotelRelease() {
@@ -207,12 +262,12 @@ public class UserRelationJoinNpcAndHlbean {
         this.npcTotelRelease = npcTotelRelease;
     }
 
-    public float getNpcAssets() {
-        return npcAssets;
+    public float getNpcAvailableAssets() {
+        return npcAvailableAssets;
     }
 
-    public void setNpcAssets(float npcAssets) {
-        this.npcAssets = npcAssets;
+    public void setNpcAvailableAssets(float npcAvailableAssets) {
+        this.npcAvailableAssets = npcAvailableAssets;
     }
 
     public float getNpcPrice() {
@@ -221,5 +276,37 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setNpcPrice(float npcPrice) {
         this.npcPrice = npcPrice;
+    }
+
+    public float getPower() {
+        return power;
+    }
+
+    public void setPower(float power) {
+        this.power = power;
+    }
+
+    public int getUpgradeNum() {
+        return upgradeNum;
+    }
+
+    public void setUpgradeNum(int upgradeNum) {
+        this.upgradeNum = upgradeNum;
+    }
+
+    public float getVipCash() {
+        return vipCash;
+    }
+
+    public void setVipCash(float vipCash) {
+        this.vipCash = vipCash;
+    }
+
+    public float getVipHlbAmount() {
+        return vipHlbAmount;
+    }
+
+    public void setVipHlbAmount(float vipHlbAmount) {
+        this.vipHlbAmount = vipHlbAmount;
     }
 }
