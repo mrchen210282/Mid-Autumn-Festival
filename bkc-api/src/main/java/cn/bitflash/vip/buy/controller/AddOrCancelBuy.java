@@ -56,6 +56,8 @@ public class AddOrCancelBuy {
         userMarketBuyEntity.setState(ORDER_STATE_PUBLISH);
         feign.insertBuy(userMarketBuyEntity);
 
+        tradeUtil.remindMessageAdd();
+
         return R.ok().put("code", SUCCESS);
     }
 
