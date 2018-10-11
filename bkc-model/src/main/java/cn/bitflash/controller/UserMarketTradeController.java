@@ -6,6 +6,7 @@ import cn.bitflash.bean.TradeListBean;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserMarketTradeService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,5 +88,11 @@ public class UserMarketTradeController {
     @PostMapping("/inner/userMarketTrade/queryDetail")
     AllUserTradeBean queryDetail(@RequestParam Map<String,Object> map) {
         return userMarketTradeService.queryDetail(map);
+    }
+
+    @PostMapping("/inner/userMarketTrade/selectTradeByIdAndState")
+    public UserMarketTradeEntity selectTradeByIdAndState(@RequestParam("id") String id, @RequestParam("state") String state) {
+        UserMarketTradeEntity userMarketTradeEntity = userMarketTradeService.selectOne(new EntityWrapper<UserMarketTradeEntity>().eq("id",id).eq("state",state));
+        return userMarketTradeEntity;
     }
 }

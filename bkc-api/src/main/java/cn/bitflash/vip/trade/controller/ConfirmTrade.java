@@ -41,63 +41,68 @@ public class ConfirmTrade {
          * 6.删除手续费表记录
          * 7.添加交易记录
          */
-        UserSecretEntity userPayPwd = tradeFeign.selectById(uid);
+        UserSecretEntity userPayPwd = tradeFeign.selectUserSecretById(uid);
 
         if (userPayPwd.getPayPassword().equals(payPwd)) {
 
-            // 查询订单状态为已锁定(state:5)
-            UserMarketTradeEntity trade = tradeFeign.selectTradeByIdAndState(orderId, TradeCommon.STATE_LOCK);
+            // 查询订单状态为待确认(state:6)
+            UserMarketTradeEntity trade = tradeFeign.selectTradeByIdAndState(orderId, TradeCommon.STATE_CONFIRM);
+            if (null != trade) {
+                // 卖出数量
+                Float quantity = trade.getQuantity();
+                TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(orderId);
+                if(null != tradePoundageEntity) {
 
-            Assert.isNull(trade,"订单不存在");
+                    //手续费累加
+                    Integer id = 1;
+                    UserBrokerageEntity userBrokerageEntity = tradeFeign.selectUserBrokerageById(id);
+                    BigDecimal poundage = new BigDecimal(tradePoundageEntity.getPoundage());
 
-            // 卖出数量
-            Float quantity = trade.getQuantity();
-            // 购买人uid
-            String pUid = trade.getPurchaseUid();
-            TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(orderId);
-            Assert.isNull(tradePoundageEntity, "订单有误");
+                    BigDecimal multiplyB = userBrokerageEntity.getSellBrokerage().add(poundage);
 
-            //手续费累加
-            UserBrokerageEntity userBrokerageEntity = tradeFeign.selectUserBrokerageById(1);
-            BigDecimal poundage = new BigDecimal(tradePoundageEntity.getPoundage());
+                    userBrokerageEntity.setSellBrokerage(multiplyB);
+                    tradeFeign.updateUserBrokerage(userBrokerageEntity);
 
-            BigDecimal multiplyB = userBrokerageEntity.getSellBrokerage().add(poundage);
+                    UserMarketTradeEntity entity = tradeFeign.selectUserMarketTradeById(trade.getId());
+                    if (null != entity) {
+                        float availableAssets = entity.getQuantity();
 
-            userBrokerageEntity.setSellBrokerage(multiplyB);
-            tradeFeign.updateUserBrokerage(userBrokerageEntity);
+                        //查询出购买人
+                        UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(entity.getPurchaseUid());
+                        if (null != userAssetsNpcEntity) {
+                            float purchaseAvailable = userAssetsNpcEntity.getAvailableAssets() + availableAssets;
+                            userAssetsNpcEntity.setAvailableAssets(purchaseAvailable);
+                            tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
-            UserMarketTradeEntity entity = tradeFeign.selectUserMarketTradeById(trade.getId());
-            if(null != entity) {
-                float availableAssets = entity.getQuantity();
+                            //删除手续费
+                            tradeFeign.deleteTradePoundageById(orderId);
 
-                //查询出购买人
-                UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(entity.getPurchaseUid());
-                if(null != userAssetsNpcEntity) {
-                    float purchaseAvailable = userAssetsNpcEntity.getAvailableAssets() + availableAssets;
-                    userAssetsNpcEntity.setAvailableAssets(purchaseAvailable);
-                    tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
+                            //删除交易记录
+                            tradeFeign.deleteUserMarketTradeById(orderId);
 
-                    //删除手续费
-                    tradeFeign.deleteById(orderId);
-
-                    //删除交易记录
-                    tradeFeign.deleteUserMarketTradeById(orderId);
-
-                    //添加历史记录
-                    UserMarketTradeHistoryEntity userMarketTradeHistoryEntity = new UserMarketTradeHistoryEntity();
-                    userMarketTradeHistoryEntity.setUserTradeId(orderId);
-                    userMarketTradeHistoryEntity.setPurchaseUid(entity.getPurchaseUid());
-                    userMarketTradeHistoryEntity.setPrice(entity.getPrice());
-                    userMarketTradeHistoryEntity.setQuantity(trade.getQuantity());
-                    userMarketTradeHistoryEntity.setOrderState(TradeCommon.STATE_PAY);
-                    userMarketTradeHistoryEntity.setFinishTime(new Date());
-                    userMarketTradeHistoryEntity.setCreateTime(new Date());
-                    tradeFeign.insertUserMarketTradeHistory(userMarketTradeHistoryEntity);
+                            //添加历史记录
+                            UserMarketTradeHistoryEntity userMarketTradeHistoryEntity = new UserMarketTradeHistoryEntity();
+                            userMarketTradeHistoryEntity.setUserTradeId(orderId);
+                            userMarketTradeHistoryEntity.setSellUid(trade.getUid());
+                            userMarketTradeHistoryEntity.setPurchaseUid(entity.getPurchaseUid());
+                            userMarketTradeHistoryEntity.setPrice(entity.getPrice());
+                            userMarketTradeHistoryEntity.setQuantity(trade.getQuantity());
+                            userMarketTradeHistoryEntity.setOrderState(TradeCommon.STATE_PAY);
+                            userMarketTradeHistoryEntity.setFinishTime(new Date());
+                            userMarketTradeHistoryEntity.setCreateTime(new Date());
+                            tradeFeign.insertUserMarketTradeHistory(userMarketTradeHistoryEntity);
+                        } else {
+                            logger.info("购买人id:" + entity.getPurchaseUid() + "不存在！");
+                        }
+                    } else {
+                        logger.info("订单号:" + entity.getId() + "不存在！");
+                    }
                 } else {
-                    logger.info("购买人id:" + entity.getPurchaseUid() + "不存在！");
+                    logger.info("订单号:" + orderId + "手续费不存在！");
                 }
+
             } else {
-                logger.info("订单号:" + entity.getId() + "不存在！");
+                logger.info("订单号:" + orderId + "不存在！");
             }
             logger.info("购买人:" + uid + ",订单号:" + orderId);
             return R.ok();

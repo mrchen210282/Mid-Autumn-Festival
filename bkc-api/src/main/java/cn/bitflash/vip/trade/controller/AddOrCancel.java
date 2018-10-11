@@ -63,6 +63,7 @@ public class AddOrCancel {
         // 先校验出售数量是否大于已有数量
         BigDecimal total = new BigDecimal(userAssetsNpcEntity.getAvailableAssets());
         logger.info("uid:" + userAssetsNpcEntity.getUid() + ",卖出数量:" + quantity + ",价格:" + price);
+
         if (StringUtils.isNotBlank(price) && StringUtils.isNotBlank(quantity)) {
 
             BigDecimal priceB = new BigDecimal(price);
@@ -93,10 +94,8 @@ public class AddOrCancel {
                     BigDecimal purchase = quantityB.add(percentB);
                     // 等于1表示total大于percentB,可以交易
                     if (total.compareTo(purchase) == 1 || total.compareTo(purchase) == 0) {
-                        // 2.卖出数量
-                        BigDecimal quantityBig = new BigDecimal(quantity);
                         // 卖出量-调节释放
-                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getAvailableAssets()).subtract(quantityBig);
+                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getAvailableAssets()).subtract(purchase);
                         userAssetsNpcEntity.setAvailableAssets(subtract.floatValue());
 
                         tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
@@ -121,7 +120,7 @@ public class AddOrCancel {
                         tradeFeign.insertTradePoundage(tradePoundageEntity);
                         return R.ok();
                     } else {
-                        return R.error().put("code", "1");
+                        return R.error().put("code", "1").put("msg","额度不够！");
                     }
                 }
 
@@ -191,6 +190,7 @@ public class AddOrCancel {
                 //更新订单状态
                 userTradeEntity.setState(TradeCommon.STATE_LOCK);
                 userTradeEntity.setPurchaseUid(uid);
+                userTradeEntity.setId(orderId);
                 tradeFeign.updateTrade(userTradeEntity);
                 logger.info("当前锁定订单的数量为：" + count);
                 logger.info("下单addLock:订单号" + orderId);
