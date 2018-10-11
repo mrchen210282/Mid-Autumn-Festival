@@ -63,6 +63,8 @@ public class Relation {
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
         List<UserRelationEntity> reles = levelFeign.selectRelationByCode(code.getCode());
         map.put("counts", reles.size());
+        String point = levelFeign.getVal("power_point");
+        map.put("point",point);
         return R.ok(map);
     }
 

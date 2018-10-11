@@ -11,25 +11,25 @@ public class UserAssetsNpcEntity {
     private String uid;
 
     //总购买
-    private float purchase;
+    private Float purchase;
 
     //总收益
-    private float totelAssets;
+    private Float totelAssets;
 
     //冻结
-    private float frozenAssets;
+    private Float frozenAssets;
 
     //每天释放
-    private float dailyRelease;
+    private Float dailyRelease;
 
     //总释放量
-    private float totelRelease;
+    private Float totelRelease;
 
     //npc可用资产
-    private float availableAssets;
+    private Float availableAssets;
 
     //npc购买价格
-    private float npcPrice;
+    private Float npcPrice;
 
     public String getUid() {
         return uid;
@@ -39,59 +39,59 @@ public class UserAssetsNpcEntity {
         this.uid = uid;
     }
 
-    public float getPurchase() {
+    public Float getPurchase() {
         return purchase;
     }
 
-    public void setPurchase(float purchase) {
+    public void setPurchase(Float purchase) {
         this.purchase = purchase;
     }
 
-    public float getTotelAssets() {
+    public Float getTotelAssets() {
         return totelAssets;
     }
 
-    public void setTotelAssets(float totelAssets) {
+    public void setTotelAssets(Float totelAssets) {
         this.totelAssets = totelAssets;
     }
 
-    public float getFrozenAssets() {
+    public Float getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(Float frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
-    public float getDailyRelease() {
+    public Float getDailyRelease() {
         return dailyRelease;
     }
 
-    public void setDailyRelease(float dailyRelease) {
+    public void setDailyRelease(Float dailyRelease) {
         this.dailyRelease = dailyRelease;
     }
 
-    public float getTotelRelease() {
+    public Float getTotelRelease() {
         return totelRelease;
     }
 
-    public void setTotelRelease(float totelRelease) {
+    public void setTotelRelease(Float totelRelease) {
         this.totelRelease = totelRelease;
     }
 
-    public float getAvailableAssets() {
+    public Float getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(Float availableAssets) {
         this.availableAssets = availableAssets;
     }
 
-    public float getNpcPrice() {
+    public Float getNpcPrice() {
         return npcPrice;
     }
 
-    public void setNpcPrice(float npcPrice) {
+    public void setNpcPrice(Float npcPrice) {
         this.npcPrice = npcPrice;
     }
 }

@@ -11,28 +11,28 @@ public class UserAssetsHlbEntity {
     private String uid;
 
     //总收益
-    private float totelAssets;
+    private Float totelAssets;
 
     //冻结
-    private float frozenAssets;
+    private Float frozenAssets;
 
     //每天释放
-    private float dailyRelease;
+    private Float dailyRelease;
 
     //总释放量
-    private float totelRelease;
+    private Float totelRelease;
 
     //hlb可用资产
-    private float availableAssets;
+    private Float availableAssets;
 
     //左业绩
-    private float lftAchievement;
+    private Float lftAchievement;
 
     //右业绩
-    private float rgtAchievement;
+    private Float rgtAchievement;
 
     //当前vip等级释放量
-    private float vipReleaseCash;
+    private Float vipReleaseCash;
 
     public String getUid() {
         return uid;
@@ -42,76 +42,67 @@ public class UserAssetsHlbEntity {
         this.uid = uid;
     }
 
-
-    public float getTotelAssets() {
+    public Float getTotelAssets() {
         return totelAssets;
     }
 
-    public void setTotelAssets(float totelAssets) {
+    public void setTotelAssets(Float totelAssets) {
         this.totelAssets = totelAssets;
     }
 
-    public float getFrozenAssets() {
+    public Float getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(Float frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
-    public float getDailyRelease() {
+    public Float getDailyRelease() {
         return dailyRelease;
     }
 
-    public void setDailyRelease(float dailyRelease) {
+    public void setDailyRelease(Float dailyRelease) {
         this.dailyRelease = dailyRelease;
     }
 
-    public float getTotelRelease() {
+    public Float getTotelRelease() {
         return totelRelease;
     }
 
-    public void setTotelRelease(float totelRelease) {
+    public void setTotelRelease(Float totelRelease) {
         this.totelRelease = totelRelease;
     }
 
-    public float getHlbAssets() {
+    public Float getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setHlbAssets(float hlbAssets) {
-        this.availableAssets = hlbAssets;
-    }
-
-    public float getLftAchievement() {
-        return lftAchievement;
-    }
-
-    public void setLftAchievement(float lftAchievement) {
-        this.lftAchievement = lftAchievement;
-    }
-
-    public float getRgtAchievement() {
-        return rgtAchievement;
-    }
-
-    public void setRgtAchievement(float rgtAchievement) {
-        this.rgtAchievement = rgtAchievement;
-    }
-
-    public float getAvailableAssets() {
-        return availableAssets;
-    }
-
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(Float availableAssets) {
         this.availableAssets = availableAssets;
     }
 
-    public float getVipReleaseCash() {
+    public Float getLftAchievement() {
+        return lftAchievement;
+    }
+
+    public void setLftAchievement(Float lftAchievement) {
+        this.lftAchievement = lftAchievement;
+    }
+
+    public Float getRgtAchievement() {
+        return rgtAchievement;
+    }
+
+    public void setRgtAchievement(Float rgtAchievement) {
+        this.rgtAchievement = rgtAchievement;
+    }
+
+    public Float getVipReleaseCash() {
         return vipReleaseCash;
     }
 
-    public void setVipReleaseCash(float vipReleaseCash) {
+    public void setVipReleaseCash(Float vipReleaseCash) {
         this.vipReleaseCash = vipReleaseCash;
     }
 }

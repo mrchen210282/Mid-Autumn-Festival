@@ -121,7 +121,7 @@ public interface UserFeign {
     @PostMapping("/inner/userAssetsNpc/selectById")
     public UserAssetsNpcEntity selectbyid(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

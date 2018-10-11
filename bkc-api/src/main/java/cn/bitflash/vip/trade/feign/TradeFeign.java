@@ -108,7 +108,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userAssetsNpc/selectUserAssetsNpcById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("uid") String uid);
 
-    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    @PostMapping("/inner/userAssetsNpc/update")
     public Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npc);
 
     @PostMapping("/inner/tradePoundage/deleteById")

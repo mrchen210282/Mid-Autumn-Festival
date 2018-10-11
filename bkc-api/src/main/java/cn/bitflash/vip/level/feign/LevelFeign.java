@@ -91,7 +91,7 @@ public interface LevelFeign {
     @PostMapping("/inner/userAssetsNpc/selectById")
     UserAssetsNpcEntity selectUserAssetsNpcById(@RequestParam("id")String id);
 
-    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    @PostMapping("/inner/userAssetsNpc/update")
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**

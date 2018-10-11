@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class UserAssetsHlbController {
 
@@ -29,4 +31,10 @@ public class UserAssetsHlbController {
     public UserAssetsHlbBean selectHlbCommunity(String id) {
         return userAssetsHlbService.selectHlbCommunity(id);
     }
+
+    @PostMapping("/inner/userAssetsHlb/updateList")
+    public boolean updateuserAssetsHlbList(@RequestBody List<UserAssetsHlbEntity> assetsHlbEntities) {
+        return userAssetsHlbService.updateBatchById(assetsHlbEntities);
+    }
+
 }
