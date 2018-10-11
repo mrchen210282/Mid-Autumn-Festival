@@ -178,10 +178,25 @@ public class PayUrl {
         return R.ok(new ModelMap("bank", bankInfo));
     }
 
+    @PostMapping("getOtherBankPaymentInfo")
+    @ApiOperation("获取银行信息")
+    public R getOtherBankPaymentInfo(@RequestParam("uid") String uid) {
+        UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
+        return R.ok(new ModelMap("bank", bankInfo));
+    }
+
     @Login
     @PostMapping("getMobilePaymentInfo")
     @ApiOperation("获取手机支付方式")
     public R getMobilePaymentInfo(@RequestAttribute("uid") String uid, @RequestParam("type") String type) {
+        UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
+        String address = userFeign.getPath(2);
+        return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));
+    }
+
+    @PostMapping("getOtherMobilePaymentInfo")
+    @ApiOperation("获取手机支付方式")
+    public R getOtherMobilePaymentInfo(@RequestParam("uid") String uid, @RequestParam("type") String type) {
         UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
         String address = userFeign.getPath(2);
         return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));

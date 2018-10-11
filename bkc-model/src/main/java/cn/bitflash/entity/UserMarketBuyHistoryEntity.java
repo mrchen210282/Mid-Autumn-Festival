@@ -20,6 +20,9 @@ public class UserMarketBuyHistoryEntity implements Serializable {
     private float quantity;
     private float price;
     private String sellUid;
+
+    //Y:已查看,N未查看
+    private String isRead;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
     private String orderState;
@@ -30,6 +33,14 @@ public class UserMarketBuyHistoryEntity implements Serializable {
 
     public void setUserBuyId(String userBuyId) {
         this.userBuyId = userBuyId;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
     }
 
     public String getPurchaseUid() {

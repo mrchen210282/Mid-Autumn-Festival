@@ -38,6 +38,7 @@ public class PendingPayTrade {
             return R.error("订单状态有误，请稍后再试");
         }
         userTradeEntity.setState(TradeCommon.STATE_CONFIRM);
+        userTradeEntity.setId(orderId);
         tradeFeign.updateTrade(userTradeEntity);
         logger.info("方法payTrade(我已付款)，订单号:" + orderId);
         return R.ok();

@@ -62,4 +62,18 @@ public class TradeUtil {
         }
         return true;
     }
+
+    /**
+     * 添加提醒红点
+     */
+    public void remindMessageAdd(){
+
+    }
+
+    /**
+     * 删除提醒红点
+     */
+    public void remindMessageDel(){
+
+    }
 }

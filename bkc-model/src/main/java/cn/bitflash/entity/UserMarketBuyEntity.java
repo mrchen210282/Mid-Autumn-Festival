@@ -21,6 +21,9 @@ public class UserMarketBuyEntity implements Serializable {
     private float quantity;
     private float price;
     private String sellUid;
+    //Y:已查看,N未查看
+    private String isRead;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -72,6 +75,14 @@ public class UserMarketBuyEntity implements Serializable {
 
     public void setSellUid(String sellUid) {
         this.sellUid = sellUid;
+    }
+
+    public String getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead) {
+        this.isRead = isRead;
     }
 
     public Date getCreateTime() {

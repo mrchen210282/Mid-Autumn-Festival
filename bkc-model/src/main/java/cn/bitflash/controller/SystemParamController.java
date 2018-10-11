@@ -61,10 +61,7 @@ public class SystemParamController {
         return systemParamService.deleteById(id);
     }
 
-//    @PostMapping("/inner/systemParam/getVal")
-//    public String getVal(@RequestParam("key")String key){
-//        return systemParamService.selectOne(new EntityWrapper<SystemParamEntity>().eq("param",key)).getValue();
-//    }
+
 
     @GetMapping("/inner/systemParam/getVal/{key}")
     public String getVal2(@PathVariable("key")String key){
