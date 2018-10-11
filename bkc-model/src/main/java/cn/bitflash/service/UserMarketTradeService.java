@@ -3,6 +3,7 @@ package cn.bitflash.service;
 import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
+import cn.bitflash.bean.UserTradeDetail;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import com.baomidou.mybatisplus.service.IService;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 /**
  * @author gaoyuguo
- * @date 2018å¹´9æœˆ22æ—¥
+ * @date 2018Äê9ÔÂ22ÈÕ
  */
 public interface UserMarketTradeService extends IService<UserMarketTradeEntity> {
 
@@ -27,4 +28,8 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
     AllUserTradeBean queryDetail(Map<String,Object> map);
 
     int selectTradePrompt(String uid);
+
+    Map<String,Object> responseTrade(Map<String,Object> map);
+
+    UserTradeDetail selectDetail(Map<String,Object> map);
 }

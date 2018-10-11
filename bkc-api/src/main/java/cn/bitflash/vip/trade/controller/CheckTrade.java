@@ -32,8 +32,11 @@ public class CheckTrade {
     @PostMapping("selectDetail")
     @ApiOperation(value = "查看买入订单明细")
     public R selectDetail(@ApiParam(value = "订单id") @RequestParam String id) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        map.put("state",null);
         if (StringUtils.isNotBlank(id)) {
-            UserTradeDetail userTradeDetail = tradeFeign.selectDetail(id);
+            UserTradeDetail userTradeDetail = tradeFeign.selectDetail(map);
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
             if (null != tradePoundageEntity) {
                 //扣除交易额=交易额+手续费

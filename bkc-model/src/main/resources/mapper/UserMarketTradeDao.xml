@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.bitflash.dao.UserMarketTradeDao">
 
-    <select id="selectOrderTrade" statementType="CALLABLE" resultType="java.util.List"  parameterType="java.util.Map">
+    <select id="selectOrderTrade" statementType="CALLABLE" resultType="cn.bitflash.bean.OrderListBean"  parameterType="java.util.Map">
         <![CDATA[
 		  call selectOrderTrade(#{uid,jdbcType=VARCHAR,mode=IN},#{pageNum,jdbcType=INTEGER,mode=IN},#{pageTotal,jdbcType=INTEGER,mode=IN})
 		 ]]>
@@ -15,7 +15,7 @@
 		 ]]>
     </select>
 
-    <select id="tradeList" statementType="CALLABLE" resultType="java.util.List" parameterType="java.util.Map">
+    <select id="tradeList" statementType="CALLABLE" resultType="cn.bitflash.bean.TradeListBean" parameterType="java.util.Map">
         <![CDATA[
 		  call tradeList(#{uid,jdbcType=VARCHAR,mode=IN},#{pageNum,jdbcType=INTEGER,mode=IN},#{pageTotal,jdbcType=INTEGER,mode=IN})
 		 ]]>
@@ -42,6 +42,17 @@
     or
     ub.sell_uid = #{uid}
     and is_read = 'N'
+    </select>
+    <select id="selectTrade" statementType="CALLABLE" resultType="cn.bitflash.entity.UserMarketTradeEntity" parameterType="java.util.Map">
+        <![CDATA[
+		  call selectTrade(#{uid,jdbcType=VARCHAR,mode=IN})
+		 ]]>
+    </select>
+
+    <select id="selectDetail" statementType="CALLABLE" resultType="cn.bitflash.bean.UserTradeDetail" parameterType="java.util.Map">
+        <![CDATA[
+		  call selectDetail(#{id,jdbcType=VARCHAR,mode=IN},#{state,jdbcType=VARCHAR,mode=IN})
+		 ]]>
     </select>
 
 </mapper>
