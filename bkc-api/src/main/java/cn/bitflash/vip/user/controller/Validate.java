@@ -38,7 +38,7 @@ public class Validate {
         Map<String, Object> map = new HashMap<>();
         //是否有支付方式
         map.put("payment", Common.UNAUTHENTICATION);
-        if (mobiles != null || bank != null) {
+        if (mobiles.size()>0 || bank != null) {
             map.put("payment", Common.AUTHENTICATION);
         }
         //真实姓名

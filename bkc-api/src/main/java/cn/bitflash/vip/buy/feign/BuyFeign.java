@@ -188,7 +188,7 @@ public interface BuyFeign {
      *
      * @param entity
      */
-    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    @PostMapping("/inner/userAssetsNpc/update")
     void updateAccountById(@RequestBody UserAssetsNpcEntity entity);
 
 

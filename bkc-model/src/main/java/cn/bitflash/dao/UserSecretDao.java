@@ -28,5 +28,5 @@ import java.util.Map;
  */
 public interface UserSecretDao extends BaseMapper<UserSecretEntity> {
 
-    Map<String,Object> selectUid(Map<String, Object> map);
+    void selectUid(Map<String, Object> map);
 }

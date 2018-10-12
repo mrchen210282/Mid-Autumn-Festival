@@ -41,37 +41,43 @@ public class RegisterApp {
         String invitCode = code[0];
         String area = code[1];
         UserInvitationCodeEntity pCode = indexFeign.selectInvitationCodeByCode(invitCode);
-        if (pCode == null || !area.equals("R") || !area.equals("L")) {
+        logger.info("邀请码：------"+invitationCode+",--------------左右区："+area);
+        if (pCode == null) {
             return R.error("邀请码错误！");
         }
-        UserSecretEntity us = new UserSecretEntity();
-        us.setMobile(mobile);
-        String salt = RandomStringUtils.randomAlphanumeric(16);
-        String finalPwd = Encrypt.SHA256(pwd + salt);
-        us.setPassword(finalPwd);
-        us.setSalt(salt);
-        //初始化user_login表
-        String uid = indexFeign.registerLogin(us);
-        UserInfoEntity info = new UserInfoEntity();
-        info.setRealname(uid);
-        info.setUid(uid);
-        info.setInvitationCode(invitCode);
-        info.setIsInvited("Y");
-        info.setArea(area);
-        Boolean flag2 = indexFeign.insertUserInfoById(info);
-        //创建钱包地址
-        WalletAddress walletAddress = new WalletAddress();
-        try {
-            walletAddress.createWalletAddress(uid);
-        } catch (Exception e) {
-            return R.error("注册失败");
-        }
-        if (!flag2) {
-            return R.error("注册失败");
+        if(area.equals("R") || area.equals("L")){
+            UserSecretEntity us = new UserSecretEntity();
+            us.setMobile(mobile);
+            String salt = RandomStringUtils.randomAlphanumeric(16);
+            String finalPwd = Encrypt.SHA256(pwd + salt);
+            us.setPassword(finalPwd);
+            us.setSalt(salt);
+            //初始化user_login表
+            String uid = indexFeign.registerLogin(us);
+            UserInfoEntity info = new UserInfoEntity();
+            info.setRealname(uid);
+            info.setUid(uid);
+            info.setInvitationCode(invitCode);
+            info.setIsInvited("Y");
+            info.setArea(area);
+            Boolean flag2 = indexFeign.insertUserInfoById(info);
+            //创建钱包地址
+            WalletAddress walletAddress = new WalletAddress();
+            try {
+                walletAddress.createWalletAddress(uid);
+            } catch (Exception e) {
+                return R.error("注册失败");
+            }
+            if (!flag2) {
+                return R.error("注册失败");
+            }
+
+            logger.info("注册手机号:" + mobile + ",邀请码：" + invitationCode);
+            return R.ok("注册成功");
+        }else{
+            return R.error("分区邀请码错误");
         }
 
-        logger.info("注册手机号:" + mobile + ",邀请码：" + invitationCode);
-        return R.ok("注册成功");
     }
 
 }
