@@ -37,29 +37,28 @@ public interface TradeFeign {
     UserMarketTradeEntity selectTradeByIdAndState(@RequestParam("id") String id, @RequestParam("state") String state);
 
     @PostMapping("/inner/userMarketTrade/selectDetail")
-    UserTradeDetail selectDetail(@RequestParam Map<String,Object> map);
+    UserTradeDetail selectDetail(@RequestParam Map<String, Object> map);
 
     @PostMapping("/inner/userMarketTrade/queryDetail")
-    AllUserTradeBean queryDetail(@RequestParam Map<String,Object> map);
+    AllUserTradeBean queryDetail(@RequestParam Map<String, Object> map);
 
     @PostMapping("")
     List<TradeListBean> selectTradeHistory(@RequestBody Map<String, Object> param);
 
     @PostMapping("/inner/userMarketTrade/tradeList")
-    List<TradeListBean> tradeList(@RequestParam Map<String,Object> map);
+    List<TradeListBean> tradeList(@RequestParam Map<String, Object> map);
 
     @PostMapping("/inner/userMarketTrade/tradeListCount")
-    Integer tradeListCount(@RequestParam Map<String,Object> map);
+    Integer tradeListCount(@RequestParam Map<String, Object> map);
 
     @PostMapping("")
     List<UserMarketTradeEntity> selectTradeByState(@RequestParam("state") String state);
 
     @PostMapping("/inner/userMarketTrade/selectOrderTrade")
-    List<OrderListBean> selectOrderTrade(@RequestParam Map<String,Object> map);
+    List<OrderListBean> selectOrderTrade(@RequestParam Map<String, Object> map);
 
     @PostMapping("/inner/userMarketTrade/selectOrderCount")
-    Integer selectOrderCount(@RequestParam Map<String,Object> map);
-
+    Integer selectOrderCount(@RequestParam Map<String, Object> map);
 
 
     /**
@@ -159,8 +158,8 @@ public interface TradeFeign {
     /**
      * user_getui_cid 表
      */
-    @PostMapping("")
-    UserGetuiEntity selectGT(@RequestParam("uid") String uid);
+    @PostMapping("/inner/userGetui/selectById")
+    UserGetuiEntity selectGT(@RequestParam("id") String uid);
 
     /**
      * system_param 表
@@ -173,5 +172,8 @@ public interface TradeFeign {
     public UserMarketTradeEntity selectUserMarketTradeById(@RequestParam("id") String id);
 
     @PostMapping("/inner/userMarketTrade/responseTrade")
-    Map<String,Object> responseTrade(@RequestParam("uid") String uid);
+    Map<String, Object> responseTrade(@RequestParam("uid") String uid);
+
+    @PostMapping("/inner/userMarketTrade/cancelOrder")
+    void cancelOrder(@RequestParam Map<String, Object> map);
 }

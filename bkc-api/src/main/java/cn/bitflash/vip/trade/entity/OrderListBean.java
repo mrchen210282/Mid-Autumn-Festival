@@ -24,12 +24,22 @@ public class OrderListBean {
 
     private String uid;
 
+    private String purchaseUid;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     private String state;
 
     private String isMySelf;
+
+    public String getPurchaseUid() {
+        return purchaseUid;
+    }
+
+    public void setPurchaseUid(String purchaseUid) {
+        this.purchaseUid = purchaseUid;
+    }
 
     public String getRealname() {
         return realname;

@@ -43,7 +43,7 @@ public class TradeCommon {
 
 
     // 发送信息标题内容值
-    public final static String MSG_TEXT = "text_msg";
+    public final static String MSG_TEXT = "paymoney";
 
     public final static double poundage = 0.025;
 

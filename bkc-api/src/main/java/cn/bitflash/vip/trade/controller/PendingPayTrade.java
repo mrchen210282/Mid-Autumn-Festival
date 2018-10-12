@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("trade")
 @Api(value = "交易流程", tags = "付款，取消订单")
@@ -48,13 +51,14 @@ public class PendingPayTrade {
     @PostMapping("cancelOrder")
     @ApiOperation(value = "取消订单(买家操作)")
     public R cancelOrder(@ApiParam @RequestParam String orderId) {
+
         //删除锁定状态
         redisUtils.delete(orderId);
         // 更新状态为交易中
-        UserMarketTradeEntity userMarketTradeEntity = new UserMarketTradeEntity();
-        userMarketTradeEntity.setId(orderId);
-        userMarketTradeEntity.setState(TradeCommon.STATE_SELL);
-        tradeFeign.insertOrUpdateUserMarketTrade(userMarketTradeEntity);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",orderId);
+        map.put("state",TradeCommon.STATE_SELL);
+        tradeFeign.cancelOrder(map);
         logger.info("取消订单号:" + orderId);
         return R.ok();
     }

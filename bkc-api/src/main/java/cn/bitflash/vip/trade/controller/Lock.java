@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("trade")
@@ -51,6 +53,10 @@ public class Lock {
                 if (t.getState().equals(TradeCommon.STATE_LOCK)) {
                     t.setState(TradeCommon.STATE_SELL);
                     tradeFeign.updateTrade(t);
+                    Map<String,Object> map = new HashMap<String,Object>();
+                    map.put("id",t.getId());
+                    map.put("state",TradeCommon.STATE_SELL);
+                    tradeFeign.cancelOrder(map);
                 }
             }
         });

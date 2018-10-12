@@ -29,7 +29,8 @@ public class UserSecretServiceImpl extends ServiceImpl<UserSecretDao, UserSecret
 
     @Override
     public String selectUid(Map<String, Object> map) {
-        String uid = baseMapper.selectUid(map);
+        Map<String,Object> returnMap = baseMapper.selectUid(map);
+        String uid = returnMap.get("uid_out").toString();
         return uid;
     }
 }

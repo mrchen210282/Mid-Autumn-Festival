@@ -16,12 +16,8 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserSuccessBean;
-import cn.bitflash.dao.AppStatusDao;
 import cn.bitflash.dao.UserSuccessDao;
-import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.service.AppStatusService;
 import cn.bitflash.service.UserSuccessService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
