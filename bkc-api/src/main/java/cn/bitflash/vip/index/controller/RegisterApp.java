@@ -27,6 +27,9 @@ public class RegisterApp {
     @Autowired
     private IndexFeign indexFeign;
 
+    @Autowired
+    private WalletAddress walletAddress;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @GetMapping("registerWeb")
@@ -60,18 +63,15 @@ public class RegisterApp {
             info.setInvitationCode(invitCode);
             info.setIsInvited("Y");
             info.setArea(area);
+            info.setMobile(mobile);
+            info.setNickname(uid);
             Boolean flag2 = indexFeign.insertUserInfoById(info);
             //创建钱包地址
-            WalletAddress walletAddress = new WalletAddress();
             try {
                 walletAddress.createWalletAddress(uid);
             } catch (Exception e) {
                 return R.error("注册失败");
             }
-            if (!flag2) {
-                return R.error("注册失败");
-            }
-
             logger.info("注册手机号:" + mobile + ",邀请码：" + invitationCode);
             return R.ok("注册成功");
         }else{

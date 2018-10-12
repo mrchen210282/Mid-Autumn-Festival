@@ -35,6 +35,7 @@ public class WalletAddress {
 
     /**
      * 生成钱包地址
+     *
      * @param uid
      * @return
      * @throws CipherException
@@ -46,10 +47,10 @@ public class WalletAddress {
     public boolean createWalletAddress(String uid) throws CipherException, IOException,
             InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException {
 
-//        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
-//        if(userWalletAddressEntity != null){
-//            return false;
-//        }
+        UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
+        if (userWalletAddressEntity != null) {
+            return false;
+        }
 
         //创建文件夹
         File file = new File(FILEADDRESS);
@@ -76,12 +77,12 @@ public class WalletAddress {
 
     @Login
     @PostMapping("getAddress")
-    public R getAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid){
+    public R getAddress(@RequestAttribute(ApiLoginInterceptor.UID) String uid) {
         UserWalletAddressEntity userWalletAddressEntity = userFeign.selectUserWalletAddressById(uid);
-        if(userWalletAddressEntity == null){
+        if (userWalletAddressEntity == null) {
             return R.error("钱包不存在！");
         }
-        return R.ok().put("userWalletAddressEntity",userWalletAddressEntity);
+        return R.ok().put("userWalletAddressEntity", userWalletAddressEntity);
     }
 
     /**
@@ -89,7 +90,7 @@ public class WalletAddress {
      */
     @Login
     @PostMapping("verifyPwd")
-    public R verifyPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, String pwd){
+    public R verifyPwd(@RequestAttribute(ApiLoginInterceptor.UID) String uid, String pwd) {
         UserSecretEntity user = userFeign.selectUserLoginByUid(uid);
         if (!user.getPassword().equals(Encrypt.SHA256(pwd + user.getSalt()))) {
             return R.error("登录密码错误");
