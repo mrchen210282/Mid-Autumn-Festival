@@ -28,6 +28,9 @@ public interface LevelFeign {
     @PostMapping("/inner/userinfo/selectUserInfoLikeCode")
     List<UserInfoBean> selectUserInfoLikeCode(@RequestParam("code")String code);
 
+    @PostMapping("/inner/userinfo/selectUserInfoesLikeCode")
+    List<UserInfoEntity> selectUserInfoesLikeCode(@RequestParam("code")String code);
+
     /**
      * user_relation 表
      */

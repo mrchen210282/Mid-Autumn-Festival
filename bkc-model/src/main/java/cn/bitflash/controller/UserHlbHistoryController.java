@@ -26,6 +26,6 @@ public class UserHlbHistoryController {
 
     @PostMapping("/inner/userHlbhistory/selectHistorys")
     public List<UserHlbTradeHistoryEntity> selectHistorys(@RequestParam("id")String id){
-        return userHlbTradeHistoryService.selectList(new EntityWrapper<UserHlbTradeHistoryEntity>().eq("uid",id));
+        return userHlbTradeHistoryService.selectList(new EntityWrapper<UserHlbTradeHistoryEntity>().eq("uid",id).orderBy("create_time",true));
     }
 }

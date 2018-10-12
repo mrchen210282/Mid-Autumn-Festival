@@ -2,6 +2,7 @@ package cn.bitflash.vip.level.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
+import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.level.entity.UserInfoBean;
 import cn.bitflash.vip.level.feign.LevelFeign;
@@ -115,6 +116,15 @@ public class Relation {
         map.put("allNum", infoEntities.size());
         //总人数信息
         map.put("allMes", infoEntities);
+        //判断左区邀请码是否存在
+        List<UserInfoEntity> infoEntityList = levelFeign.selectUserInfoesLikeCode("%" + code.getCode() + "%");
+        List<UserRelationEntity> userRelationEntities = levelFeign.selectRelationByCode(code.getCode());
+        map.put("showRgt",Common.UNAUTHENTICATION);
+        infoEntityList.stream().forEach(u->{
+            if(u.getArea().equals("L") && userRelationEntities.size()>1){
+                map.put("showRgt",Common.AUTHENTICATION);
+            }
+        });
         return R.ok(map);
 
 
