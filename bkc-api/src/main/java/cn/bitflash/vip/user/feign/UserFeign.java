@@ -125,6 +125,12 @@ public interface UserFeign {
     Boolean updateUserAssetsNpc(@RequestBody UserAssetsNpcEntity npcEntity);
 
     /**
+     * user_invitation_code 表
+     */
+    @PostMapping("/inner/userInvitationCode/selectById")
+    UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("id") String uid);
+
+    /**
      * 首页资产
      */
 //    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")

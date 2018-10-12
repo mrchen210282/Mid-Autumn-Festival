@@ -2,10 +2,7 @@ package cn.bitflash.vip.user.controller;
 
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.UserBankPaymentInfoEntity;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserMobilePaymentInfoEntity;
-import cn.bitflash.entity.UserSecretEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.user.feign.UserFeign;
@@ -55,6 +52,12 @@ public class Validate {
         map.put("setPaypasswd",secretEntity.getIsSetPaypwd());
         //昵称
         map.put("nickname",info.getNicklock());
+        //是否有邀请码
+        UserInvitationCodeEntity invitationCodeEntity = userFeign.selectInvitationCodeByUid(uid);
+        map.put("invitationCode",Common.UNAUTHENTICATION);
+        if(invitationCodeEntity!=null){
+            map.put("invitationCode",Common.AUTHENTICATION);
+        }
         return R.ok(map);
 
     }
