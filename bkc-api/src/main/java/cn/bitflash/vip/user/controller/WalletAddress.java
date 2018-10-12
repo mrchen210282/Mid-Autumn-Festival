@@ -27,7 +27,8 @@ import java.security.NoSuchProviderException;
 @RequestMapping("/user/walletAddress")
 public class WalletAddress {
 
-    private static final String FILEADDRESS = "D:\\BitFlash-WalletAddress";
+    //private static final String FILEADDRESS = "D:\\BitFlash-WalletAddress";
+    private static final String FILEADDRESS = "/home/statics/walletAddress";
     private static final String PASSWORD = "123456";
 
     @Autowired
