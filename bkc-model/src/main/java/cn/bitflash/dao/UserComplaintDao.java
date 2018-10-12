@@ -21,6 +21,7 @@ import cn.bitflash.bean.UserComplaintBean;
 import cn.bitflash.entity.UserComplaintEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -34,4 +35,6 @@ public interface UserComplaintDao extends BaseMapper<UserComplaintEntity> {
     List<UserBuyBean> selectAppealList(@Param("uid") String uid, @Param("pages") Integer pages);
 
     UserComplaintBean getComplaintMessage(String id);
+
+    int selectAppealPrompt(String uid);
 }

@@ -123,4 +123,9 @@ public class UserMarketBuyController {
         return userBuyBean;
     }
 
+    @PostMapping("/inner/userMarketBuy/selectBuyPrompt")
+    int selectBuyPrompt(@RequestParam("uid") String uid){
+        return userMarketBuyService.selectBuyPrompt(uid);
+    }
+
 }

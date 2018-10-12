@@ -21,4 +21,6 @@ public interface UserMarketBuyService extends IService<UserMarketBuyEntity> {
     Integer showOrderCount(@RequestParam("uid") String uid);
 
     UserBuyBean checkOrder(@RequestParam("id")String id);
+
+    int selectBuyPrompt(String uid);
 }

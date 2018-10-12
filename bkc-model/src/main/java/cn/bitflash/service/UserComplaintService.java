@@ -20,4 +20,6 @@ public interface UserComplaintService extends IService<UserComplaintEntity> {
 
     UserComplaintBean getComplaintMessage(String id);
 
+    int selectAppealPrompt(String uid);
+
 }

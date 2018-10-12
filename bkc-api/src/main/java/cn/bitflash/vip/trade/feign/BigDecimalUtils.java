@@ -7,7 +7,7 @@ public class BigDecimalUtils {
     public static String DecimalFormat(BigDecimal big) {
         String avaliable = "";
         if (null != big) {
-            DecimalFormat df = new DecimalFormat("#.000");
+            DecimalFormat df = new DecimalFormat("#.00");
             Double availableAssets = Double.valueOf(big.toString());
             avaliable = df.format(availableAssets);
         }

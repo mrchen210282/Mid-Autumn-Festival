@@ -35,6 +35,7 @@ public class PendingPay {
         UserMarketBuyEntity userMarketBuyEntity = buyFeign.selectBuyById(id);
         //设置支付时间,user_buy订单状态
         userMarketBuyEntity.setPayTime(new Date());
+        userMarketBuyEntity.setIsRead(IS_NOT_READED);
         userMarketBuyEntity.setState(ORDER_STATE_STEP2);
         buyFeign.updateBuyById(userMarketBuyEntity);
         //判断对方是否点击申诉

@@ -54,10 +54,8 @@ public class AddOrCancelBuy {
         userMarketBuyEntity.setPurchaseUid(uid);
         userMarketBuyEntity.setCreateTime(new Date());
         userMarketBuyEntity.setState(ORDER_STATE_PUBLISH);
+        userMarketBuyEntity.setIsRead(IS_NOT_READED);
         feign.insertBuy(userMarketBuyEntity);
-
-        tradeUtil.remindMessageAdd();
-
         return R.ok().put("code", SUCCESS);
     }
 
@@ -128,6 +126,7 @@ public class AddOrCancelBuy {
 
         //修改user_buy
         userMarketBuyEntity.setSellUid(uid);
+        userMarketBuyEntity.setIsRead(IS_NOT_READED);
         userMarketBuyEntity.setState(ORDER_STATE_STEP1);
         feign.updateBuyById(userMarketBuyEntity);
 

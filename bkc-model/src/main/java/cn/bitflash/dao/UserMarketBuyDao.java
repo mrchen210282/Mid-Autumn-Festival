@@ -40,4 +40,6 @@ public interface UserMarketBuyDao extends BaseMapper<UserMarketBuyEntity> {
 
     UserBuyBean checkOrder(@Param("id")String id);
 
+    int selectBuyPrompt(String uid);
+
 }

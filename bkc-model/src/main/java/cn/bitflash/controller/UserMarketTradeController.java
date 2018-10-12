@@ -3,6 +3,7 @@ package cn.bitflash.controller;
 import cn.bitflash.bean.AllUserTradeBean;
 import cn.bitflash.bean.OrderListBean;
 import cn.bitflash.bean.TradeListBean;
+import cn.bitflash.bean.UserTradeDetail;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserMarketTradeService;
 import com.alibaba.fastjson.JSONObject;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,4 +97,26 @@ public class UserMarketTradeController {
         UserMarketTradeEntity userMarketTradeEntity = userMarketTradeService.selectOne(new EntityWrapper<UserMarketTradeEntity>().eq("id",id).eq("state",state));
         return userMarketTradeEntity;
     }
+
+    @PostMapping("/inner/userMarketTrade/selectTradePrompt")
+    public int selectTradePrompt(@RequestParam("uid") String uid) {
+        return userMarketTradeService.selectTradePrompt(uid);
+    }
+
+
+    @PostMapping("/inner/userMarketTrade/responseTrade")
+    public Map<String,Object> responseTrade(@RequestParam("uid") String uid) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("uid",uid);
+        Map<String,Object> returnMap = userMarketTradeService.responseTrade(map);
+        return returnMap;
+    }
+
+    @PostMapping("/inner/userMarketTrade/selectDetail")
+    public UserTradeDetail selectDetail(@RequestParam Map<String,Object> map) {
+        UserTradeDetail userTradeDetail = userMarketTradeService.selectDetail(map);
+        return userTradeDetail;
+    }
+
 }
+
