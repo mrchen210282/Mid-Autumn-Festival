@@ -70,4 +70,9 @@ public class UserInfoController {
         return userInfoService.selectUserInfoLikeCode(code);
     }
 
+    @PostMapping("/inner/userinfo/selectUserInfoesLikeCode")
+    public List<UserInfoEntity> selectUserInfoesLikeCode(@RequestParam("code")String code){
+        return userInfoService.selectList(new EntityWrapper<UserInfoEntity>().like("invitation_code",code));
+    }
+
 }

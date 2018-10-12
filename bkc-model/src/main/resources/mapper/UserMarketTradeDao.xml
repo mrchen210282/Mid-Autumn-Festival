@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.bitflash.dao.UserMarketTradeDao">
 
-    <select id="selectOrderTrade" statementType="CALLABLE" resultType="cn.bitflash.bean.OrderListBean"  parameterType="java.util.Map">
+    <select id="selectOrderTrade" statementType="CALLABLE" resultType="cn.bitflash.bean.OrderListBean" parameterType="java.util.Map">
         <![CDATA[
 		  call selectOrderTrade(#{uid,jdbcType=VARCHAR,mode=IN},#{pageNum,jdbcType=INTEGER,mode=IN},#{pageTotal,jdbcType=INTEGER,mode=IN})
 		 ]]>
@@ -54,5 +54,9 @@
 		  call selectDetail(#{id,jdbcType=VARCHAR,mode=IN},#{state,jdbcType=VARCHAR,mode=IN})
 		 ]]>
     </select>
+
+    <update id="cancelOrder">
+        update user_market_trade set state = #{state},purchase_uid = null where id = #{id}
+    </update>
 
 </mapper>

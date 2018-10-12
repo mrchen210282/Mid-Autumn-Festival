@@ -12,6 +12,7 @@ import cn.bitflash.vip.trade.feign.TradeCommon;
 import cn.bitflash.vip.trade.feign.TradeFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,12 +36,13 @@ public class RemindTrade {
     @PostMapping("singleMsg")
     public R sendSingleMsg(@ApiParam(value = "被催单人的uid") @RequestParam String uid,
                            @ApiParam(value = "订单id") @RequestParam String id) throws Exception {
-        String redisKey = RedisKey.SEND_TRADE_MESSAGE;
+        String redisKey = RedisKey.SEND_TRADE_MESSAGE + id;
         String idVal = redisUtils.get(redisKey);
         Assert.isNotBlank(idVal, "501");
         try {
             UserGetuiEntity gtCidEntity = tradeFeign.selectGT(uid);
-            String text = tradeFeign.getVal(TradeCommon.MSG_TEXT);
+            String key = TradeCommon.MSG_TEXT;
+            String text = tradeFeign.getVal(key);
             GeTuiSendMessage.sendSingleMessage(text, gtCidEntity.getCid());
             redisUtils.set(redisKey, id, 60 * 60);
             return R.ok();
@@ -50,7 +52,7 @@ public class RemindTrade {
         }
     }
 
-    /*@Login
+    @Login
     @PostMapping("validateSendMessage")
     public R validateSendMessage(@RequestParam String id) throws Exception {
         String idVal = redisUtils.get(RedisKey.SEND_TRADE_MESSAGE + id);
@@ -59,5 +61,5 @@ public class RemindTrade {
         } else {
             return R.ok().put("state", "1");
         }
-    }*/
+    }
 }

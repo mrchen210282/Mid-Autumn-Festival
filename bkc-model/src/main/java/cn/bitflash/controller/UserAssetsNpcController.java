@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class UserAssetsNpcController {
 
@@ -21,10 +23,15 @@ public class UserAssetsNpcController {
         return userAssetsNpcService.selectById(uid);
     }
 
-    @PostMapping("/inner/userAssetsNpc/updateUserAssetsNpc")
+    @PostMapping("/inner/userAssetsNpc/update")
     public Boolean updateUserAssetsNpc(@RequestBody JSONObject json){
         UserAssetsNpcEntity entity = (UserAssetsNpcEntity) JSONObject.parseObject(json.toString(), UserAssetsNpcEntity.class);
         return userAssetsNpcService.updateById(entity);
+    }
+
+    @PostMapping("/inner/userAssetsNpc/updateList")
+    public boolean updateUserAssetsNpcList(@RequestBody List<UserAssetsNpcEntity> assetsNpcEntities){
+        return userAssetsNpcService.updateBatchById(assetsNpcEntities);
     }
 
 }

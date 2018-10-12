@@ -13,7 +13,8 @@ import java.util.Map;
 
 /**
  * @author gaoyuguo
- * @date 2018ï¿½ï¿½9ï¿½ï¿½22ï¿½ï¿½
+ * @date 2018Äê9ÔÂ22ÈÕ
+ * @date 2018.10.11
  */
 public interface UserMarketTradeService extends IService<UserMarketTradeEntity> {
 
@@ -32,4 +33,6 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
     Map<String,Object> responseTrade(Map<String,Object> map);
 
     UserTradeDetail selectDetail(Map<String,Object> map);
+
+    void cancelOrder(Map<String,Object> map);
 }

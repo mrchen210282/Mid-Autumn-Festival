@@ -1,8 +1,6 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.AppStatusEntity;
 import cn.bitflash.entity.UserGetuiEntity;
-import cn.bitflash.service.AppStatusService;
 import cn.bitflash.service.UserGetuiService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

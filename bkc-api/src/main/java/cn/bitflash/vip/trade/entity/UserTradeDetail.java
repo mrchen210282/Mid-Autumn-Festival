@@ -6,6 +6,8 @@ public class UserTradeDetail {
 
     private BigDecimal price;
 
+    private String uid;
+
     /**
      * 卖出数量
      */
@@ -58,5 +60,13 @@ public class UserTradeDetail {
 
     public void setPoundage(BigDecimal poundage) {
         this.poundage = poundage;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

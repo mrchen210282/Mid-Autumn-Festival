@@ -47,5 +47,7 @@ public interface UserMarketTradeDao extends BaseMapper<UserMarketTradeEntity> {
     List<UserMarketTradeEntity> selectTrade(Map<String,Object> map);
 
     UserTradeDetail selectDetail(Map<String,Object> map);
+
+    void cancelOrder(Map<String,Object> map);
 }
 

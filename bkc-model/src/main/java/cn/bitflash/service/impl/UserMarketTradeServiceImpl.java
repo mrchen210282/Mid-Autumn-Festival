@@ -42,27 +42,31 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
     private UserMarketConfigService userMarketConfigService;
 
     @Override
-    public List<OrderListBean> selectOrderTrade(Map<String,Object> map) {
+    public List<OrderListBean> selectOrderTrade(Map<String, Object> map) {
         List<OrderListBean> orderListBean = baseMapper.selectOrderTrade(map);
         return orderListBean;
     }
+
     @Override
-    public Integer selectOrderCount(Map<String,Object> map) {
+    public Integer selectOrderCount(Map<String, Object> map) {
         Integer count = baseMapper.selectOrderCount(map);
         return count;
     }
+
     @Override
-    public List<TradeListBean> tradeList(Map<String,Object> map) {
+    public List<TradeListBean> tradeList(Map<String, Object> map) {
         List<TradeListBean> list = baseMapper.tradeList(map);
         return list;
     }
+
     @Override
-    public Integer tradeListCount(@RequestParam Map<String,Object> map) {
+    public Integer tradeListCount(@RequestParam Map<String, Object> map) {
         Integer integer = baseMapper.tradeListCount(map);
         return integer;
     }
+
     @Override
-    public AllUserTradeBean queryDetail(Map<String,Object> map) {
+    public AllUserTradeBean queryDetail(Map<String, Object> map) {
         AllUserTradeBean userTradeBean = baseMapper.queryDetail(map);
         return userTradeBean;
     }
@@ -71,6 +75,7 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
     public int selectTradePrompt(String uid) {
         return selectTradePrompt(uid);
     }
+
     @Override
     public Map<String, Object> responseTrade(Map<String, Object> param) {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -108,9 +113,14 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
         }
         return map;
     }
+
     @Override
-    public UserTradeDetail selectDetail(Map<String,Object> map) {
+    public UserTradeDetail selectDetail(Map<String, Object> map) {
         return baseMapper.selectDetail(map);
+    }
+
+    public void cancelOrder(Map<String, Object> map) {
+        baseMapper.cancelOrder(map);
     }
 }
 

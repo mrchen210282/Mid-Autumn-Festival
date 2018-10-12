@@ -31,7 +31,7 @@ public interface IndexFeign {
     @PostMapping("/inner/userInfo/updateById")
     Boolean updateUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
-    @PostMapping
+    @PostMapping("/inner/userInfo/insert")
     Boolean insertUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
     /**

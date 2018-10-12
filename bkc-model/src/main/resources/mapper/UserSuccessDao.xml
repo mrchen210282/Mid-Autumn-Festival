@@ -29,8 +29,8 @@
             user_market_trade_history ut
         LEFT JOIN user_info ui ON ut.sell_uid = ui.uid
         WHERE
-            ut.purchase_uid = #{uid} and ut.order_state = '6'
-            OR ut.sell_uid = #{uid} and ut.order_state = '6'
+            ut.purchase_uid = #{uid} and ut.order_state = '4'
+            OR ut.sell_uid = #{uid} and ut.order_state = '4'
         limit #{pages},6
     </select>
 
@@ -41,8 +41,8 @@
             (SELECT ub.user_buy_id as orderId from user_market_buy_history ub where ub.purchase_uid = #{uid} and ub.order_state = '6'
             OR ub.sell_uid = #{uid} and ub.order_state = '6'
              UNION
-             SELECT ut.user_trade_id as orderId from user_market_trade_history ut where ut.purchase_uid = #{uid} and ut.order_state = '6'
-            OR ut.sell_uid = #{uid} and ut.order_state = '6'
+             SELECT ut.user_trade_id as orderId from user_market_trade_history ut where ut.purchase_uid = #{uid} and ut.order_state = '4'
+            OR ut.sell_uid = #{uid} and ut.order_state = '4'
             )t
     </select>
 

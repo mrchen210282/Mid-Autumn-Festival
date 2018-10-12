@@ -118,5 +118,10 @@ public class UserMarketTradeController {
         return userTradeDetail;
     }
 
+    @PostMapping("/inner/userMarketTrade/cancelOrder")
+    public void cancelOrder(@RequestParam Map<String,Object> map) {
+        userMarketTradeService.cancelOrder(map);
+    }
+
 }
 

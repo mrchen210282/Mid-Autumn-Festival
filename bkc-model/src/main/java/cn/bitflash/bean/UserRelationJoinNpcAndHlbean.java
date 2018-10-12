@@ -63,7 +63,7 @@ public class UserRelationJoinNpcAndHlbean {
     private float npcFrozenAssets;
 
     //npc每天释放
-    private float npcdailyRelease;
+    private float npcDailyRelease;
 
     //npc总释放量
     private float npcTotelRelease;
@@ -246,12 +246,12 @@ public class UserRelationJoinNpcAndHlbean {
         this.npcFrozenAssets = npcFrozenAssets;
     }
 
-    public float getNpcdailyRelease() {
-        return npcdailyRelease;
+    public float getNpcDailyRelease() {
+        return npcDailyRelease;
     }
 
-    public void setNpcdailyRelease(float npcdailyRelease) {
-        this.npcdailyRelease = npcdailyRelease;
+    public void setNpcDailyRelease(float npcDailyRelease) {
+        this.npcDailyRelease = npcDailyRelease;
     }
 
     public float getNpcTotelRelease() {
