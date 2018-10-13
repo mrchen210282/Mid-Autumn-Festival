@@ -66,7 +66,7 @@ public class AddOrCancel {
             BigDecimal priceB = new BigDecimal(price);
             BigDecimal minPrice = new BigDecimal(TradeCommon.MIN_PRICE);
             if (priceB.compareTo(minPrice) <= -1) {
-                return R.error("最低价格为0.33!");
+                return R.error("最低价格为0.33!").put("status",500);
             }
             if (Integer.valueOf(quantity) <= 0) {
                 return R.error("发布数量最小为100!");
@@ -117,7 +117,7 @@ public class AddOrCancel {
                         tradeFeign.insertTradePoundage(tradePoundageEntity);
                         return R.ok();
                     } else {
-                        return R.error().put("code", "1").put("msg","额度不够！");
+                        return R.error().put("status", "1").put("msg","额度不够！");
                     }
                 }
 
