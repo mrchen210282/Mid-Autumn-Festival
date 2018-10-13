@@ -55,11 +55,6 @@ public class ExchangeNpc {
         if(!fee.equals(form.getExpense())){
             return R.error("手续费出现异常");
         }
-        int npcNum = (int) (hlb/npc_unit_price);
-        if (npcNum!=(int) npc) {
-            return R.error("可兑换hlb数量发生变化，请重新兑换");
-        }
-
         UserNpcTradeHistoryEntity userNpcTradeHistoryEntity = new UserNpcTradeHistoryEntity();
         userNpcTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
         userNpcTradeHistoryEntity.setUid(uid);
