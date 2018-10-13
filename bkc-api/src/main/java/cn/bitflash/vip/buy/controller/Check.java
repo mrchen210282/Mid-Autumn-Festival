@@ -59,7 +59,7 @@ public class Check {
     public R checkOrder(@RequestParam("id") String id) {
         UserBuyBean userBuyBean = feign.checkOrder(id);
         if (userBuyBean == null) {
-            return R.ok().put("code", "订单不存在");
+            return R.ok().put("code", "订单不存在").put("statue","500");
         }
         Map<String, Float> map = tradeUtil.poundage(id);
         return R.ok().put("userBean", userBuyBean).put("totalQuantity", map.get("totalQuantity"))
