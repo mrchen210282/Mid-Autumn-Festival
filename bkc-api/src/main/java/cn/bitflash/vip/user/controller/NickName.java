@@ -21,11 +21,11 @@ public class NickName {
     @ApiOperation("修改昵称")
     public R updateNicknmae(@RequestAttribute("uid")String uid , @RequestParam("nickname")String nickname){
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
-        if(info.getNicklock().equals(Common.UNAUTHENTICATION)){
+        if(info.getNicklock().equals(Common.AUTHENTICATION)){
             return R.error("昵称只能修改一次");
         }
-        info.setNicklock(nickname);
-        info.setNicklock(Common.UNAUTHENTICATION);
+        info.setNickname(nickname);
+        info.setNicklock(Common.AUTHENTICATION);
         userFeign.updateUserInfoById(info);
         return R.ok();
     }

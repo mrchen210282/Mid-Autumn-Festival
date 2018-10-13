@@ -71,7 +71,7 @@ public class WalletAddress {
 
         UserWalletAddressEntity userWalletAddress = new UserWalletAddressEntity();
         userWalletAddress.setUid(uid);
-        userWalletAddress.setAddress(Encrypt.SHA256(address));
+        userWalletAddress.setAddress(Encrypt.SHA256(address+randomUtil()).substring(33));
         userWalletAddress.setPrivateKey(privateKey.toString());
         return userFeign.insetUserWalletAddress(userWalletAddress);
     }
@@ -97,6 +97,26 @@ public class WalletAddress {
             return R.error("登录密码错误");
         }
         return R.ok();
+    }
+
+    /**
+     * 生成8位随机数
+     *
+     * @return
+     */
+    public static String randomUtil() {
+
+        // 字符源，可以根据需要删减
+        String generateSource = "1234567890";// 去掉1和i ，0和o
+        String rtnStr = "";
+        for (int i = 0; i < 8; i++) {
+            // 循环随机获得当次字符，并移走选出的字符
+            String nowStr = String
+                    .valueOf(generateSource.charAt((int) Math.floor(Math.random() * generateSource.length())));
+            rtnStr += nowStr;
+            generateSource = generateSource.replaceAll(nowStr, "" );
+        }
+        return rtnStr.toUpperCase();
     }
 
 

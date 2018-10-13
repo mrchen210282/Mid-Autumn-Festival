@@ -175,6 +175,9 @@ public class PayUrl {
     @ApiOperation("获取银行信息")
     public R getBankPaymentInfo(@RequestAttribute("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
+        if(bankInfo==null){
+            return R.error("未上传银行卡信息");
+        }
         return R.ok(new ModelMap("bank", bankInfo));
     }
 
@@ -182,6 +185,9 @@ public class PayUrl {
     @ApiOperation("获取银行信息")
     public R getOtherBankPaymentInfo(@RequestParam("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
+        if(bankInfo==null){
+            return R.error("该用户未上传银行卡信息");
+        }
         return R.ok(new ModelMap("bank", bankInfo));
     }
 
@@ -190,6 +196,9 @@ public class PayUrl {
     @ApiOperation("获取手机支付方式")
     public R getMobilePaymentInfo(@RequestAttribute("uid") String uid, @RequestParam("type") String type) {
         UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
+        if(mobile == null){
+            return R.error("未上传手机支付方式");
+        }
         String address = userFeign.getPath(2);
         return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));
     }
@@ -198,6 +207,9 @@ public class PayUrl {
     @ApiOperation("获取手机支付方式")
     public R getOtherMobilePaymentInfo(@RequestParam("uid") String uid, @RequestParam("type") String type) {
         UserMobilePaymentInfoEntity mobile = userFeign.selectPaymentByUidAndType(uid, type);
+        if(mobile ==null){
+            return R.error("该用户未上传手机支付方式");
+        }
         String address = userFeign.getPath(2);
         return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));
     }
