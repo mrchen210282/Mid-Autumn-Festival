@@ -51,7 +51,7 @@ public interface TradeFeign {
     @PostMapping("/inner/userMarketTrade/tradeListCount")
     Integer tradeListCount(@RequestParam Map<String, Object> map);
 
-    @PostMapping("")
+    @PostMapping("/inner/userMarketTrade/selectTradeByState")
     List<UserMarketTradeEntity> selectTradeByState(@RequestParam("state") String state);
 
     @PostMapping("/inner/userMarketTrade/selectOrderTrade")
