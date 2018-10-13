@@ -123,5 +123,12 @@ public class UserMarketTradeController {
         userMarketTradeService.cancelOrder(map);
     }
 
+    @PostMapping("/inner/userMarketTrade/selectTradeByState")
+    public List<UserMarketTradeEntity> selectTradeByState(@RequestParam("state") String state) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("state",state);
+        List<UserMarketTradeEntity> list = userMarketTradeService.selectByMap(map);
+        return list;
+    }
 }
 

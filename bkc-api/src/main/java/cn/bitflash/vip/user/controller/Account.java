@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,9 +47,9 @@ public class Account {
         UserAssetsHlbBean userAssetsHlbBean = userFeign.selectHlbCommunity(uid);
 
         if (null != userAssetsNpcEntity) {
-            map.put("NPCtotalAssets", userAssetsNpcEntity.getTotelAssets());
-            map.put("NPCfrozen", userAssetsNpcEntity.getFrozenAssets());
-            map.put("NPCavailable", userAssetsNpcEntity.getAvailableAssets());
+            map.put("NPCtotalAssets",String.format("%.2f", userAssetsNpcEntity.getTotelAssets()));
+            map.put("NPCfrozen", String.format("%.2f", userAssetsNpcEntity.getFrozenAssets()));
+            map.put("NPCavailable", String.format("%.2f", userAssetsNpcEntity.getAvailableAssets()));
         } else {
             map.put("NPCtotalAssets", 0.00f);
             map.put("NPCfrozen", 0.00f);
@@ -57,12 +58,12 @@ public class Account {
         }
 
         if (null != userAssetsHlbBean) {
-            map.put("HLBtotalAssets", userAssetsHlbBean.getTotelAssets());
-            map.put("HLBfrozen", userAssetsHlbBean.getFrozenAssets());
-            map.put("HLBavailable", userAssetsHlbBean.getAvailableAssets());
-            map.put("lftAchievement",userAssetsHlbBean.getLftAchievement());
-            map.put("rgtAchievement",userAssetsHlbBean.getRgtAchievement());
-            map.put("daliyRelease",userAssetsHlbBean.getDailyRelease());
+            map.put("HLBtotalAssets", String.format("%.2f", userAssetsHlbBean.getTotelAssets()));
+            map.put("HLBfrozen", String.format("%.2f", userAssetsHlbBean.getFrozenAssets()));
+            map.put("HLBavailable", String.format("%.2f", userAssetsHlbBean.getAvailableAssets()));
+            map.put("lftAchievement",String.format("%.2f", userAssetsHlbBean.getLftAchievement()));
+            map.put("rgtAchievement",String.format("%.2f", userAssetsHlbBean.getRgtAchievement()));
+            map.put("daliyRelease",String.format("%.2f", userAssetsHlbBean.getDailyRelease()));
             map.put("powerRelease",userAssetsHlbBean.getPower());
         } else {
             map.put("HLBtotalAssets", 0.00f);
@@ -71,12 +72,11 @@ public class Account {
             map.put("lftAchievement",0.00f);
             map.put("rgtAchievement",0.00f);
             map.put("daliyRelease",0.00f);
-            map.put("powerRelease","0.00%");
+            map.put("powerRelease","0%");
 
             logger.info("查询HLB资产用户:" + uid + "为空！");
         }
         return R.ok(map);
     }
-
 
 }
