@@ -1,26 +1,28 @@
 package cn.bitflash.entity;
 
+import java.math.BigDecimal;
+
 public class UserAssetsNpcEntity {
 
     private String uid;
 
     //总收益
-    private float totelAssets;
+    private BigDecimal totelAssets;
 
     //冻结
-    private float frozenAssets;
+    private BigDecimal frozenAssets;
 
     //每天释放
-    private float dailyRelease;
+    private BigDecimal dailyRelease;
 
     //总释放量
-    private float totelRelease;
+    private BigDecimal totelRelease;
 
     //npc可用资产
-    private float availableAssets;
+    private BigDecimal availableAssets;
 
     //npc购买价格
-    private float npcPrice;
+    private BigDecimal npcPrice;
 
     public String getUid() {
         return uid;
@@ -30,51 +32,51 @@ public class UserAssetsNpcEntity {
         this.uid = uid;
     }
 
-    public float getTotelAssets() {
+    public BigDecimal getTotelAssets() {
         return totelAssets;
     }
 
-    public void setTotelAssets(float totelAssets) {
+    public void setTotelAssets(BigDecimal totelAssets) {
         this.totelAssets = totelAssets;
     }
 
-    public float getFrozenAssets() {
+    public BigDecimal getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(BigDecimal frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
-    public float getDailyRelease() {
+    public BigDecimal getDailyRelease() {
         return dailyRelease;
     }
 
-    public void setDailyRelease(float dailyRelease) {
+    public void setDailyRelease(BigDecimal dailyRelease) {
         this.dailyRelease = dailyRelease;
     }
 
-    public float getTotelRelease() {
+    public BigDecimal getTotelRelease() {
         return totelRelease;
     }
 
-    public void setTotelRelease(float totelRelease) {
+    public void setTotelRelease(BigDecimal totelRelease) {
         this.totelRelease = totelRelease;
     }
 
-    public float getAvailableAssets() {
+    public BigDecimal getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(BigDecimal availableAssets) {
         this.availableAssets = availableAssets;
     }
 
-    public float getNpcPrice() {
+    public BigDecimal getNpcPrice() {
         return npcPrice;
     }
 
-    public void setNpcPrice(float npcPrice) {
+    public void setNpcPrice(BigDecimal npcPrice) {
         this.npcPrice = npcPrice;
     }
 }

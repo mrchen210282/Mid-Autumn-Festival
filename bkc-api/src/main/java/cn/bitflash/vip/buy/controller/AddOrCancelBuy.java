@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,8 +45,8 @@ public class AddOrCancelBuy {
         if (userMarketBuyEntity == null) {
             return R.error(501, "求购信息为空");
         }
-        Float num = userMarketBuyEntity.getQuantity();
-        if (num % 100 != 0 || num < 100) {
+        BigDecimal num = userMarketBuyEntity.getQuantity();
+        if (num.floatValue() % 100 != 0 || num.compareTo(new BigDecimal(100)) == -1) {
             return R.error(502, "求购数量最低为100，且为100的倍数");
         }
 
@@ -108,7 +109,7 @@ public class AddOrCancelBuy {
             return R.ok().put("code", TRADEMISS);
         }
         //获取手续费
-        Map<String, Float> map = tradeUtil.poundage(id);
+        Map<String, BigDecimal> map = tradeUtil.poundage(id);
         //扣除手续费
         boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
         if (!dec) {
