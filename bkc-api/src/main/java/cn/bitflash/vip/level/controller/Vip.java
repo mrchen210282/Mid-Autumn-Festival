@@ -52,20 +52,38 @@ public class Vip {
         List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
         if (userVips.size() == 1) {
             //最大算力
+            //当前额度
             map.put("now_amount", maxVip.getVipCash());
+            //下一级额度
             map.put("next_amount", maxVip.getVipCash());
+            //升级所需npc额度
             map.put("npc_amount", 0);
-
+            //是否为最大额度
+            map.put("max_amount",Common.AUTHENTICATION);
 
         } else {
             map.put("now_amount", userVips.get(0).getVipCash());
             map.put("next_amount", userVips.get(1).getVipCash());
             float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice()) / npc;
-            if ((nextUpnpc * 100) % 100 == 0) {
-                map.put("npc_amount", (int) nextUpnpc);
-            } else {
-                map.put("npc_amount", (int) nextUpnpc + 1);
+            map.put("max_amount",Common.UNAUTHENTICATION);
+            if(nextUpnpc<0){
+                /**
+                 * 小于0代表当前消费额度>下一等级的额度
+                 */
+                map.put("update",Common.AUTHENTICATION);
+                map.put("npc_amount",0);
+            }else{
+                map.put("update",Common.UNAUTHENTICATION);
+                if ((nextUpnpc * 100) % 100 == 0) {
+                    /**
+                     * 判断是否有小数，有小数位情况直接取整+1
+                     */
+                    map.put("npc_amount", (int) nextUpnpc);
+                } else {
+                    map.put("npc_amount", (int) nextUpnpc + 1);
+                }
             }
+
         }
         return R.ok(map);
 
