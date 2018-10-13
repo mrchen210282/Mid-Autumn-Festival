@@ -43,6 +43,12 @@ public class UserInfoEntity implements Serializable {
 
     private String area;
 
+    //npc释放比率
+    private Integer npcRelease;
+
+    //hlb释放比率
+    private Integer hlbRelease;
+
     public String getArea() {
         return area;
     }
@@ -153,5 +159,21 @@ public class UserInfoEntity implements Serializable {
 
     public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public Integer getNpcRelease() {
+        return npcRelease;
+    }
+
+    public void setNpcRelease(Integer npcRelease) {
+        this.npcRelease = npcRelease;
+    }
+
+    public Integer getHlbRelease() {
+        return hlbRelease;
+    }
+
+    public void setHlbRelease(Integer hlbRelease) {
+        this.hlbRelease = hlbRelease;
     }
 }

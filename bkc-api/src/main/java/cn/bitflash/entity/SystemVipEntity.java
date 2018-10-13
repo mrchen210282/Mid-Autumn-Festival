@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import java.math.BigDecimal;
+
 public class SystemVipEntity {
 
     private int id;
@@ -9,6 +11,16 @@ public class SystemVipEntity {
     private String vipLevel;
 
     private float hlbAmount;
+
+    //最大算力
+    private BigDecimal maxPower;
+    //最小算力
+    private BigDecimal minPower;
+
+    //欢乐币赠送比例
+    private BigDecimal hlbGiveRate;
+
+    private String remark;
 
     public float getHlbAmount() {
         return hlbAmount;
@@ -40,5 +52,37 @@ public class SystemVipEntity {
 
     public void setVipLevel(String vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public BigDecimal getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(BigDecimal maxPower) {
+        this.maxPower = maxPower;
+    }
+
+    public BigDecimal getMinPower() {
+        return minPower;
+    }
+
+    public void setMinPower(BigDecimal minPower) {
+        this.minPower = minPower;
+    }
+
+    public BigDecimal getHlbGiveRate() {
+        return hlbGiveRate;
+    }
+
+    public void setHlbGiveRate(BigDecimal hlbGiveRate) {
+        this.hlbGiveRate = hlbGiveRate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
