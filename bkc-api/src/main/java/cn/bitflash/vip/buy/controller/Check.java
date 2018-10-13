@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,8 +44,8 @@ public class Check {
             return R.ok().put("code", TRADEMISS);
         }
         //获取手续费
-        Map<String, Float> map = tradeUtil.poundage(id);
-        return R.ok().put("code", SUCCESS).put("userBuy", userMarketBuyEntity).put("poundage", map.get("poundage") * 100)
+        Map<String, BigDecimal> map = tradeUtil.poundage(id);
+        return R.ok().put("code", SUCCESS).put("userBuy", userMarketBuyEntity).put("poundage", map.get("poundage").multiply(new BigDecimal(100)))
                 .put("totalMoney", map.get("totalMoney")).put("totalQuantity", map.get("totalQuantity"));
     }
 
@@ -61,7 +62,7 @@ public class Check {
         if (userBuyBean == null) {
             return R.ok().put("code", "订单不存在").put("statue","500");
         }
-        Map<String, Float> map = tradeUtil.poundage(id);
+        Map<String, BigDecimal> map = tradeUtil.poundage(id);
         return R.ok().put("userBean", userBuyBean).put("totalQuantity", map.get("totalQuantity"))
                 .put("price", map.get("price")).put("buyQuantity", map.get("buyQuantity"))
                 .put("totalMoney", map.get("totalMoney"));

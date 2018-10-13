@@ -43,7 +43,7 @@ public class TradeList {
         List<TradeListBean> listEntity = tradeFeign.tradeList(map);
         Integer count = tradeFeign.tradeListCount(map);
         Map<String, Object> param = new HashMap<>();
-        param.put("availableAssets", BigDecimalUtils.DecimalFormat(new BigDecimal(userAccount.getAvailableAssets())));
+        param.put("availableAssets", BigDecimalUtils.DecimalFormat(userAccount.getAvailableAssets()));
         param.put("userAccountList", listEntity);
         param.put("totalRecord", count);
 
@@ -65,7 +65,7 @@ public class TradeList {
             map.put("pageTotal",pageTotal);
             List<OrderListBean> listEntity = tradeFeign.selectOrderTrade(map);
             Integer count = tradeFeign.selectOrderCount(map);
-            BigDecimal npcAssets = new BigDecimal(userAccount.getAvailableAssets());
+            BigDecimal npcAssets = userAccount.getAvailableAssets();
             param.put("availableAssets", TradeCommon.decimalFormat(npcAssets.doubleValue()));
             param.put("userAccountList", listEntity);
             param.put("totalRecord", count);

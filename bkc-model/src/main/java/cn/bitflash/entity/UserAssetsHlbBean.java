@@ -30,6 +30,9 @@ public class UserAssetsHlbBean {
 
     private String power;
 
+    //档位
+    private float hlbAmount;
+
     public String getUid() {
         return uid;
     }
@@ -117,5 +120,13 @@ public class UserAssetsHlbBean {
 
     public void setPower(String power) {
         this.power = power;
+    }
+
+    public float getHlbAmount() {
+        return hlbAmount;
+    }
+
+    public void setHlbAmount(float hlbAmount) {
+        this.hlbAmount = hlbAmount;
     }
 }

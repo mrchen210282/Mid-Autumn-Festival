@@ -63,7 +63,7 @@ public class Account {
             map.put("HLBavailable", String.format("%.2f", userAssetsHlbBean.getAvailableAssets()));
             map.put("lftAchievement",String.format("%.2f", userAssetsHlbBean.getLftAchievement()));
             map.put("rgtAchievement",String.format("%.2f", userAssetsHlbBean.getRgtAchievement()));
-            map.put("daliyRelease",String.format("%.2f", userAssetsHlbBean.getDailyRelease()));
+            map.put("daliyRelease",String.format("%.2f", userAssetsHlbBean.getHlbAmount()));
             map.put("powerRelease",userAssetsHlbBean.getPower());
         } else {
             map.put("HLBtotalAssets", 0.00f);

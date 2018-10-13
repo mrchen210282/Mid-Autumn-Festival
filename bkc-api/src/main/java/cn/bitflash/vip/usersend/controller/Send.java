@@ -65,13 +65,13 @@ public class Send {
         }
 
         //赠送数量
-        Float quantity_f = Float.parseFloat(quantity);
+        BigDecimal quantity_f = new BigDecimal(quantity);
         BigDecimal trade_quantity = new BigDecimal(quantity);
 
         //2.5%手续费
         UserMarketConfigEntity userMarketConfigEntity = sendFrign.selectConfigById(2);
-        Float poundage = userMarketConfigEntity.getPoundage();
-        BigDecimal user_brokerage = new BigDecimal(quantity_f * poundage);
+        BigDecimal poundage = userMarketConfigEntity.getPoundage();
+        BigDecimal user_brokerage = quantity_f.multiply(poundage);
 
 
         /*--------在user_assets_npc中修改--------*/
@@ -80,11 +80,11 @@ public class Send {
         //扣款数量=交易数量+手续费
         BigDecimal deduction_quantity = trade_quantity.add(user_brokerage);
         //可用余额
-        BigDecimal npcAssets = new BigDecimal(send_account.getAvailableAssets());
+        BigDecimal npcAssets = send_account.getAvailableAssets();
 
         //发送人账户扣款
         if (deduction_quantity.compareTo(npcAssets) == -1 || deduction_quantity.compareTo(npcAssets) == 0) {
-            send_account.setAvailableAssets(npcAssets.subtract(deduction_quantity).floatValue());
+            send_account.setAvailableAssets(npcAssets.subtract(deduction_quantity));
             sendFrign.updateAssetsById(send_account);
         } else {
             //数量不够扣款
@@ -95,8 +95,8 @@ public class Send {
 
         //接收人账户充值
         UserAssetsNpcEntity sendee_account = sendFrign.selectAssetsById(sendee.getUid());
-        BigDecimal sendeeAssets = new BigDecimal(send_account.getAvailableAssets());
-        sendee_account.setAvailableAssets(sendeeAssets.add(trade_quantity).floatValue());
+        BigDecimal sendeeAssets = send_account.getAvailableAssets();
+        sendee_account.setAvailableAssets(sendeeAssets.add(trade_quantity));
         //更新数据
         sendFrign.updateAssetsById(sendee_account);
 
@@ -146,10 +146,10 @@ public class Send {
         //钱包地址
         String address = sendFrign.selectAddressById(uid).getAddress();
         //可用余额
-        float npcAssets = sendFrign.selectAssetsById(uid).getAvailableAssets();
+        BigDecimal npcAssets = sendFrign.selectAssetsById(uid).getAvailableAssets();
         //手续费
-        Float poundage = sendFrign.selectConfigById(2).getPoundage();
-        String brokerage = new BigDecimal(100 * poundage).toString();
+        BigDecimal poundage = sendFrign.selectConfigById(2).getPoundage();
+        String brokerage = new BigDecimal(100).multiply(poundage).toString();
         return R.ok().put("npcAssets",npcAssets).put("address",address).put("brokerage",brokerage);
     }
 

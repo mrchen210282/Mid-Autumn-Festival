@@ -1,12 +1,13 @@
 package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.*;
-import cn.bitflash.utils.Common;
+import cn.bitflash.entity.TradePoundageEntity;
+import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.entity.UserMarketTradeHistoryEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RedisUtils;
 import cn.bitflash.vip.trade.entity.AllUserTradeBean;
-import cn.bitflash.vip.trade.entity.UserTradeBean;
 import cn.bitflash.vip.trade.entity.UserTradeConfigEntity;
 import cn.bitflash.vip.trade.feign.RedisKey;
 import cn.bitflash.vip.trade.feign.TradeCommon;
@@ -58,7 +59,7 @@ public class AddOrCancel {
 
         UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(uid);
         // 先校验出售数量是否大于已有数量
-        BigDecimal total = new BigDecimal(userAssetsNpcEntity.getAvailableAssets());
+        BigDecimal total = userAssetsNpcEntity.getAvailableAssets();
         logger.info("uid:" + userAssetsNpcEntity.getUid() + ",卖出数量:" + quantity + ",价格:" + price);
 
         if (StringUtils.isNotBlank(price) && StringUtils.isNotBlank(quantity)) {
@@ -92,8 +93,8 @@ public class AddOrCancel {
                     // 等于1表示total大于percentB,可以交易
                     if (total.compareTo(purchase) == 1 || total.compareTo(purchase) == 0) {
                         // 卖出量-调节释放
-                        BigDecimal subtract = new BigDecimal(userAssetsNpcEntity.getAvailableAssets()).subtract(purchase);
-                        userAssetsNpcEntity.setAvailableAssets(subtract.floatValue());
+                        BigDecimal subtract = userAssetsNpcEntity.getAvailableAssets().subtract(purchase);
+                        userAssetsNpcEntity.setAvailableAssets(subtract);
 
                         tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
@@ -102,9 +103,9 @@ public class AddOrCancel {
                         String orderId = "00"+ RandomStringUtils.randomNumeric(6);
                         userMarketTrade.setId(orderId);
                         userMarketTrade.setUid(uid);
-                        userMarketTrade.setPrice(Float.parseFloat(price));
+                        userMarketTrade.setPrice(priceB);
                         userMarketTrade.setState(TradeCommon.STATE_SELL);
-                        userMarketTrade.setQuantity(Float.parseFloat(quantity));
+                        userMarketTrade.setQuantity(quantityB);
                         userMarketTrade.setCreateTime(new Date());
                         tradeFeign.insertOrUpdateUserMarketTrade(userMarketTrade);
 
@@ -112,7 +113,7 @@ public class AddOrCancel {
                         TradePoundageEntity tradePoundageEntity = new TradePoundageEntity();
                         tradePoundageEntity.setUserTradeId(orderId);
                         tradePoundageEntity.setUid(userAssetsNpcEntity.getUid());
-                        tradePoundageEntity.setPoundage(percentB.floatValue());
+                        tradePoundageEntity.setPoundage(percentB);
                         tradePoundageEntity.setCreateTime(new Date());
                         tradeFeign.insertTradePoundage(tradePoundageEntity);
                         return R.ok();
@@ -140,14 +141,15 @@ public class AddOrCancel {
         if (null != userAccount) {
             returnMap = tradeFeign.responseTrade(userAccount.getUid());
             //可卖份数 = 可用额度 / 100
-
-            if (userAccount.getAvailableAssets() <= 0) {
+            if (userAccount.getAvailableAssets().compareTo(new BigDecimal(0)) <= 0) {
                 returnMap.put("number", "0");
             } else {
-                double number = Double.valueOf(userAccount.getAvailableAssets()) / TradeCommon.MIN_NUMBER;
+
+                BigDecimal number = userAccount.getAvailableAssets().divide(new BigDecimal(TradeCommon.MIN_NUMBER));
                 returnMap.put("number", number);
             }
-            String availableAssets = TradeCommon.decimalFormat(Double.valueOf(userAccount.getAvailableAssets()));
+            Double available = userAccount.getAvailableAssets().doubleValue();
+            String availableAssets = TradeCommon.decimalFormat(available);
             returnMap.put("availableAssets", availableAssets);
         }
         return R.ok().put("userAccount", returnMap);
@@ -220,7 +222,7 @@ public class AddOrCancel {
                 //查询手续费
                 TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(orderId);
                 if(null != tradePoundageEntity) {
-                    float poundage = tradePoundageEntity.getPoundage();
+                    BigDecimal poundage = tradePoundageEntity.getPoundage();
 
                     //查询交易费
                     UserMarketTradeEntity userMarketTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
@@ -229,7 +231,7 @@ public class AddOrCancel {
                         UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(userMarketTradeEntity.getUid());
                         if(null != userAssetsNpcEntity) {
                             //账户总额=当前剩余额度 + 交易额度 + 手续费
-                            float availableAssets = userAssetsNpcEntity.getAvailableAssets() + userMarketTradeEntity.getQuantity() + poundage;
+                            BigDecimal availableAssets = userAssetsNpcEntity.getAvailableAssets().add(userMarketTradeEntity.getQuantity()).add(poundage);
                             userAssetsNpcEntity.setAvailableAssets(availableAssets);
                             tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 

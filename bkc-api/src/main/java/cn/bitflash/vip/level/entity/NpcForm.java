@@ -1,32 +1,28 @@
 package cn.bitflash.vip.level.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NpcForm {
 
-    private Float npc;
+    private BigDecimal npc;
 
-    private Float hlb;
+    private BigDecimal hlb;
 
-
-    public Float getNpc() {
+    public BigDecimal getNpc() {
         return npc;
     }
 
-    public void setNpc(Float npc) {
+    public void setNpc(BigDecimal npc) {
         this.npc = npc;
     }
 
-    public Float getHlb() {
+    public BigDecimal getHlb() {
         return hlb;
     }
 
-    public void setHlb(Float hlb) {
+    public void setHlb(BigDecimal hlb) {
         this.hlb = hlb;
     }
-
-
-
-
 }

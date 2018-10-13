@@ -2,6 +2,7 @@ package cn.bitflash.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -13,9 +14,9 @@ public class UserNpcTradeHistoryEntity {
 
     private String uid;
 
-    private Float totalHlb;
+    private BigDecimal totalHlb;
 
-    private Float totalNpc;
+    private BigDecimal totalNpc;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -36,19 +37,19 @@ public class UserNpcTradeHistoryEntity {
         this.uid = uid;
     }
 
-    public Float getTotalHlb() {
+    public BigDecimal getTotalHlb() {
         return totalHlb;
     }
 
-    public void setTotalHlb(Float totalHlb) {
+    public void setTotalHlb(BigDecimal totalHlb) {
         this.totalHlb = totalHlb;
     }
 
-    public Float getTotalNpc() {
+    public BigDecimal getTotalNpc() {
         return totalNpc;
     }
 
-    public void setTotalNpc(Float totalNpc) {
+    public void setTotalNpc(BigDecimal totalNpc) {
         this.totalNpc = totalNpc;
     }
 
