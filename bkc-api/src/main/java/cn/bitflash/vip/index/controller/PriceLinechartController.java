@@ -89,7 +89,7 @@ public class PriceLinechartController {
                     symbol = 1;
 
                 } else if(dValue == 0){
-                    subtraction = "=";
+                    subtraction = "+";
                     symbol = 1;
                 } else {
                     subtraction = "-";
