@@ -49,14 +49,14 @@ public class ConfirmTrade {
             UserMarketTradeEntity trade = tradeFeign.selectTradeByIdAndState(orderId, TradeCommon.STATE_CONFIRM);
             if (null != trade) {
                 // 卖出数量
-                Float quantity = trade.getQuantity();
+                BigDecimal quantity = trade.getQuantity();
                 TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(orderId);
                 if(null != tradePoundageEntity) {
 
                     //手续费累加
                     Integer id = 1;
                     UserBrokerageEntity userBrokerageEntity = tradeFeign.selectUserBrokerageById(id);
-                    BigDecimal poundage = new BigDecimal(tradePoundageEntity.getPoundage());
+                    BigDecimal poundage = tradePoundageEntity.getPoundage();
 
                     BigDecimal multiplyB = userBrokerageEntity.getSellBrokerage().add(poundage);
 
@@ -65,12 +65,12 @@ public class ConfirmTrade {
 
                     UserMarketTradeEntity entity = tradeFeign.selectUserMarketTradeById(trade.getId());
                     if (null != entity) {
-                        float availableAssets = entity.getQuantity();
+                        BigDecimal availableAssets = entity.getQuantity();
 
                         //查询出购买人
                         UserAssetsNpcEntity userAssetsNpcEntity = tradeFeign.selectUserAssetsNpcById(entity.getPurchaseUid());
                         if (null != userAssetsNpcEntity) {
-                            float purchaseAvailable = userAssetsNpcEntity.getAvailableAssets() + availableAssets;
+                            BigDecimal purchaseAvailable = userAssetsNpcEntity.getAvailableAssets().add(availableAssets);
                             userAssetsNpcEntity.setAvailableAssets(purchaseAvailable);
                             tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 

@@ -2,6 +2,7 @@ package cn.bitflash.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -10,7 +11,7 @@ public class DailyTotalNpcEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createTime;
 
-    private Float totalNpc;
+    private BigDecimal totalNpc;
 
     public LocalDate getCreateTime() {
         return createTime;
@@ -20,11 +21,11 @@ public class DailyTotalNpcEntity {
         this.createTime = createTime;
     }
 
-    public Float getTotalNpc() {
+    public BigDecimal getTotalNpc() {
         return totalNpc;
     }
 
-    public void setTotalNpc(Float totalNpc) {
+    public void setTotalNpc(BigDecimal totalNpc) {
         this.totalNpc = totalNpc;
     }
 }

@@ -13,6 +13,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class Vip {
         } else {
             map.put("now_amount", userVips.get(0).getVipCash());
             map.put("next_amount", userVips.get(1).getVipCash());
-            float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice()) / npc;
+            float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice().floatValue()) / npc;
             map.put("max_amount", Common.UNAUTHENTICATION);
             if (nextUpnpc < 0) {
                 /**
@@ -101,7 +102,7 @@ public class Vip {
         int vipLevel = userInfo.getVipLevel();
         //当前额度信息和下一级额度信息
         List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
-        if (userVips.size() == 2 && npcEntity.getNpcPrice() > userVips.get(1).getVipCash()) {
+        if (userVips.size() == 2 && npcEntity.getNpcPrice().floatValue() > userVips.get(1).getVipCash()) {
             userInfo.setVipLevel(userInfo.getVipLevel() + 1);
             levelFeign.updateUserInfo(userInfo);
         }
@@ -121,22 +122,23 @@ public class Vip {
         }
         //2.验证 NPC数量 单价
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
-        if (npcEntity.getAvailableAssets() < form.getNpc()) {
+        BigDecimal giveRate = new BigDecimal(levelFeign.getVal("hlb_give_rate"));
+
+        if (npcEntity.getAvailableAssets().compareTo(form.getNpc()) == -1) {
             return R.error("NPC数量不足");
         }
         //npc单价
-        float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
-        float hlb = npc * form.getNpc() * giveRate;
-        if (hlb != form.getHlb()) {
+        BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
+        BigDecimal hlb = npc.multiply(form.getNpc().multiply(giveRate));
+        if (!hlb.equals(form.getHlb())) {
             return R.error("可换取的HLB数量有误");
         }
 
 
         //4.更新npc数量
-        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets() - form.getNpc());
-        npcEntity.setFrozenAssets(npcEntity.getFrozenAssets() + form.getNpc());
-        npcEntity.setNpcPrice(npcEntity.getNpcPrice() + form.getNpc() * npc);
+        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets().subtract(form.getNpc()));
+        npcEntity.setFrozenAssets(npcEntity.getFrozenAssets().add(form.getNpc()));
+        npcEntity.setNpcPrice(npcEntity.getNpcPrice().add(form.getNpc().multiply(npc)));
         levelFeign.updateUserAssetsNpc(npcEntity);
         //5.加入hlb兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
@@ -147,7 +149,7 @@ public class Vip {
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
 
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
-        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
+        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets().add(hlb));
         //6.提升vip等级
         //用户当前vip额度信息
         SystemVipEntity userVip = levelFeign.selectSystemVipById(userInfo.getVipLevel());
@@ -155,9 +157,9 @@ public class Vip {
         String max_vip_id = levelFeign.getVal("max_vip_id");
         //最大的vip等级信息
         SystemVipEntity maxVip = levelFeign.selectSystemVipById(Integer.valueOf(max_vip_id));
-        if (npcEntity.getNpcPrice() >= userVip.getVipCash() && userInfo.getVipLevel() < maxVip.getId()) {
+        if (npcEntity.getNpcPrice().doubleValue() >= userVip.getVipCash() && userInfo.getVipLevel() < maxVip.getId()) {
             userInfo.setVipLevel(userInfo.getVipLevel() + 1);
-            hlbEntity.setVipReleaseCash(0);
+            hlbEntity.setVipReleaseCash(new BigDecimal(0));
             levelFeign.updateUserInfo(userInfo);
         }
         //7.添加可冻结hlb和冻结npc数量

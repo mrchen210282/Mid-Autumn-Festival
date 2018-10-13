@@ -1,28 +1,30 @@
 package cn.bitflash.vip.user.entity;
 
+import java.math.BigDecimal;
+
 public class NpcForm {
 
-    private Float npc;
+    private BigDecimal npc;
 
-    private Float hlb;
+    private BigDecimal hlb;
 
-    private Float expense;
+    private BigDecimal expense;
 
     private String password;
 
-    public Float getNpc() {
+    public BigDecimal getNpc() {
         return npc;
     }
 
-    public void setNpc(Float npc) {
+    public void setNpc(BigDecimal npc) {
         this.npc = npc;
     }
 
-    public Float getHlb() {
+    public BigDecimal getHlb() {
         return hlb;
     }
 
-    public void setHlb(Float hlb) {
+    public void setHlb(BigDecimal hlb) {
         this.hlb = hlb;
     }
 
@@ -34,11 +36,11 @@ public class NpcForm {
         this.password = password;
     }
 
-    public Float getExpense() {
+    public BigDecimal getExpense() {
         return expense;
     }
 
-    public void setExpense(Float expense) {
+    public void setExpense(BigDecimal expense) {
         this.expense = expense;
     }
 }

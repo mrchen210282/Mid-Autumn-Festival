@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -40,18 +41,21 @@ public class ExchangeNpc {
         LocalDate localDate = LocalDate.now();
         DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
         //兑换的npc数量
-        float npc = form.getNpc();
+        BigDecimal npc = form.getNpc();
         //兑换的hlb数量
-        float hlb = form.getHlb();
+        BigDecimal hlb = form.getHlb();
         //当前hlb可兑换的npc数量
-        Float hlb_handling_fee = Float.valueOf(userFeign.getVal("hlb_handling_fee"));
-        if (npcEntity.getTotalNpc() < npc) {
+        BigDecimal hlb_handling_fee = new BigDecimal(userFeign.getVal("hlb_handling_fee"));
+
+        if (npcEntity.getTotalNpc().compareTo(npc) == -1) {
             return R.error("可兑换npc数量不足");
         }
-        if(form.getHlb()%100!=0){
+
+        if(form.getHlb().doubleValue()%100!=0){
             return R.error("HLB兑换数量必须为100的倍数");
         }
-        Float fee = hlb_handling_fee*form.getHlb();
+        BigDecimal fee = hlb_handling_fee.multiply(form.getHlb());
+
         if(!fee.equals(form.getExpense())){
             return R.error("手续费出现异常");
         }
@@ -64,17 +68,17 @@ public class ExchangeNpc {
         userFeign.insertUserNpcEntity(userNpcTradeHistoryEntity);
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
-        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets() -( form.getHlb()+form.getExpense()));
+        hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets().subtract(form.getHlb().add(form.getExpense())));
 
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
 
-        npcNumEntity.setAvailableAssets(npcNumEntity.getAvailableAssets() + npc);
-        npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets() + npc);
+        npcNumEntity.setAvailableAssets(npcNumEntity.getAvailableAssets().add(npc));
+        npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets().add(npc));
         userFeign.updateUserAssetsNpc(npcNumEntity);
         //扣除可兑换npc
-        npcEntity.setTotalNpc(npcEntity.getTotalNpc() - npc);
+        npcEntity.setTotalNpc(npcEntity.getTotalNpc().subtract(npc));
         userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
     }

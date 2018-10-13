@@ -1,32 +1,34 @@
 package cn.bitflash.entity;
 
+import java.math.BigDecimal;
+
 public class UserAssetsHlbEntity {
 
     private String uid;
 
     //总收益
-    private float totelAssets;
+    private BigDecimal totelAssets;
 
     //冻结
-    private float frozenAssets;
+    private BigDecimal frozenAssets;
 
     //每天释放
-    private float dailyRelease;
+    private BigDecimal dailyRelease;
 
     //总释放量
-    private float totelRelease;
+    private BigDecimal totelRelease;
 
     //hlb可用资产
-    private float availableAssets;
+    private BigDecimal availableAssets;
 
     //左业绩
-    private float lftAchievement;
+    private BigDecimal lftAchievement;
 
     //右业绩
-    private float rgtAchievement;
+    private BigDecimal rgtAchievement;
 
     //当前vip等级释放量
-    private float vipReleaseCash;
+    private BigDecimal vipReleaseCash;
 
     public String getUid() {
         return uid;
@@ -36,67 +38,67 @@ public class UserAssetsHlbEntity {
         this.uid = uid;
     }
 
-    public float getTotelAssets() {
+    public BigDecimal getTotelAssets() {
         return totelAssets;
     }
 
-    public void setTotelAssets(float totelAssets) {
+    public void setTotelAssets(BigDecimal totelAssets) {
         this.totelAssets = totelAssets;
     }
 
-    public float getFrozenAssets() {
+    public BigDecimal getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(BigDecimal frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
-    public float getDailyRelease() {
+    public BigDecimal getDailyRelease() {
         return dailyRelease;
     }
 
-    public void setDailyRelease(float dailyRelease) {
+    public void setDailyRelease(BigDecimal dailyRelease) {
         this.dailyRelease = dailyRelease;
     }
 
-    public float getTotelRelease() {
+    public BigDecimal getTotelRelease() {
         return totelRelease;
     }
 
-    public void setTotelRelease(float totelRelease) {
+    public void setTotelRelease(BigDecimal totelRelease) {
         this.totelRelease = totelRelease;
     }
 
-    public float getAvailableAssets() {
+    public BigDecimal getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(BigDecimal availableAssets) {
         this.availableAssets = availableAssets;
     }
 
-    public float getLftAchievement() {
+    public BigDecimal getLftAchievement() {
         return lftAchievement;
     }
 
-    public void setLftAchievement(float lftAchievement) {
+    public void setLftAchievement(BigDecimal lftAchievement) {
         this.lftAchievement = lftAchievement;
     }
 
-    public float getRgtAchievement() {
+    public BigDecimal getRgtAchievement() {
         return rgtAchievement;
     }
 
-    public void setRgtAchievement(float rgtAchievement) {
+    public void setRgtAchievement(BigDecimal rgtAchievement) {
         this.rgtAchievement = rgtAchievement;
     }
 
-    public float getVipReleaseCash() {
+    public BigDecimal getVipReleaseCash() {
         return vipReleaseCash;
     }
 
-    public void setVipReleaseCash(float vipReleaseCash) {
+    public void setVipReleaseCash(BigDecimal vipReleaseCash) {
         this.vipReleaseCash = vipReleaseCash;
     }
 }

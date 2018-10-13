@@ -40,7 +40,7 @@ public class CheckTrade {
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
             if (null != tradePoundageEntity) {
                 //扣除交易额=交易额+手续费
-                BigDecimal deductAmount = userTradeDetail.getQuantity().add(new BigDecimal(tradePoundageEntity.getPoundage()));
+                BigDecimal deductAmount = userTradeDetail.getQuantity().add(tradePoundageEntity.getPoundage());
                 userTradeDetail.setDeductAmount(deductAmount);
             }
             if (null != userTradeDetail) {
@@ -68,7 +68,7 @@ public class CheckTrade {
             TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
             if (null != tradePoundageEntity) {
                 //扣除交易额=交易额+手续费
-                BigDecimal deductAmount = alltrade.getQuantity().add(new BigDecimal(tradePoundageEntity.getPoundage()));
+                BigDecimal deductAmount = alltrade.getQuantity().add(tradePoundageEntity.getPoundage());
                 alltrade.setDeductAmount(deductAmount);
             }
 
