@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,27 +22,27 @@ public class TradeUtil {
     /**
      * ----------------------------手续费+订单数量------------------------
      */
-    public Map<String, Float> poundage(String id) {
+    public Map<String, BigDecimal> poundage(String id) {
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         if (userMarketBuyEntity == null) {
             return null;
         }
         DecimalFormat df = new DecimalFormat("#########.##");
         //交易数量
-        Float buyQuantity = Float.parseFloat(df.format(userMarketBuyEntity.getQuantity()));
+        BigDecimal buyQuantity = userMarketBuyEntity.getQuantity();
         //手续费比率
         UserMarketConfigEntity userMarketConfigEntity = feign.selectPoundage(2);
-        float poundage = userMarketConfigEntity.getPoundage();
+        BigDecimal poundage = userMarketConfigEntity.getPoundage();
         //手续费数量
-        Float totalPoundage = buyQuantity * poundage;
+        BigDecimal totalPoundage = buyQuantity.multiply(poundage);
         //实际交易总数量
-        Float totalQuantity = buyQuantity + totalPoundage;
+        BigDecimal totalQuantity = buyQuantity.add(totalPoundage);
         //单价
-        Float price = userMarketBuyEntity.getPrice();
+        BigDecimal price = userMarketBuyEntity.getPrice();
         //总价格
-        Float totalMoney = buyQuantity * (price);
+        BigDecimal totalMoney = buyQuantity.multiply(price);
 
-        Map<String, Float> map = new HashMap<String, Float>();
+        Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
         map.put("buyQuantity", buyQuantity);
         map.put("poundage", poundage);
         map.put("totalPoundage", totalPoundage);
@@ -54,10 +55,10 @@ public class TradeUtil {
     /**
      * --------------------------------扣款-------------------------------
      */
-    public boolean deduct(float money, String uid) {
+    public boolean deduct(BigDecimal money, String uid) {
         UserAssetsNpcEntity userAssetsNpcEntity = feign.selectAccountById(uid);
-        float deduction = userAssetsNpcEntity.getAvailableAssets() - money;
-        if (deduction < 0) {
+        BigDecimal deduction = userAssetsNpcEntity.getAvailableAssets().subtract(money);
+        if (deduction.compareTo(new BigDecimal(0)) == -1) {
             return false;
         }
         return true;

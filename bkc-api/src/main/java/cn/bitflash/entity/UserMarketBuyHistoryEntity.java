@@ -15,8 +15,8 @@ public class UserMarketBuyHistoryEntity implements Serializable {
 
     private String userBuyId;
     private String purchaseUid;
-    private float quantity;
-    private float price;
+    private BigDecimal quantity;
+    private BigDecimal price;
     private String sellUid;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
@@ -49,19 +49,19 @@ public class UserMarketBuyHistoryEntity implements Serializable {
         this.purchaseUid = purchaseUid;
     }
 
-    public float getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

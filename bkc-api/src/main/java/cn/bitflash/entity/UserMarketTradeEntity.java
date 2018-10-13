@@ -3,6 +3,7 @@ package cn.bitflash.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -14,8 +15,8 @@ public class UserMarketTradeEntity implements Serializable {
 
     private String id;
     private String uid;
-    private float quantity;
-    private float price;
+    private BigDecimal quantity;
+    private BigDecimal price;
     private String state;
     private String purchaseUid;
 
@@ -64,19 +65,19 @@ public class UserMarketTradeEntity implements Serializable {
         this.state = state;
     }
 
-    public float getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
