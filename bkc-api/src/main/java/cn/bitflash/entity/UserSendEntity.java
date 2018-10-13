@@ -3,6 +3,7 @@ package cn.bitflash.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ public class UserSendEntity implements Serializable {
 
     private String sendUid;
 
-    private float quantity;
+    private BigDecimal quantity;
 
     private String sendeeUid;
 
@@ -39,11 +40,11 @@ public class UserSendEntity implements Serializable {
         this.sendUid = sendUid;
     }
 
-    public float getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
