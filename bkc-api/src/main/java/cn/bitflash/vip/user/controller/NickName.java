@@ -24,7 +24,7 @@ public class NickName {
         if(info.getNicklock().equals(Common.AUTHENTICATION)){
             return R.error("昵称只能修改一次");
         }
-        info.setNicklock(nickname);
+        info.setNickname(nickname);
         info.setNicklock(Common.AUTHENTICATION);
         userFeign.updateUserInfoById(info);
         return R.ok();
