@@ -51,7 +51,7 @@ public class PayUrl {
         ValidatorUtils.validateEntity(imgForm);
         UserSecretEntity user = userFeign.selectUserLoginByUid(uid);
         String path = "/home/statics/qrcode/";
-        //String path = "D:/";
+        //String path = "D:/BitFlash-WalletAddress";
         String imgName = MD5Util.getMD5Format(user.getMobile() + System.currentTimeMillis());
         switch (imgForm.getImgType()) {
             case Common.WECHAT:

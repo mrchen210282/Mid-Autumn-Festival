@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_relation_copy")
+@TableName("user_relation")
 public class UserRelationEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String uid;

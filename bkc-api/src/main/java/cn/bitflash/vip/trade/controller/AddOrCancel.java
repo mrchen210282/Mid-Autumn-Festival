@@ -1,10 +1,7 @@
 package cn.bitflash.vip.trade.controller;//package cn.bitflash.vip.trade.controller;
 
 import cn.bitflash.annotation.Login;
-import cn.bitflash.entity.SystemParamEntity;
-import cn.bitflash.entity.TradePoundageEntity;
-import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
 import cn.bitflash.utils.RedisUtils;
@@ -236,13 +233,22 @@ public class AddOrCancel {
                             userAssetsNpcEntity.setAvailableAssets(availableAssets);
                             tradeFeign.updateUserAssetsNpc(userAssetsNpcEntity);
 
-                            //更新交易记录
-                            userMarketTradeEntity.setState(TradeCommon.STATE_CANCEL);
-                            userMarketTradeEntity.setId(orderId);
-                            tradeFeign.insertOrUpdateUserMarketTrade(userMarketTradeEntity);
+                            //删除交易记录
+                            tradeFeign.deleteUserMarketTradeById(orderId);
 
                             //删除手续费记录
                             tradeFeign.deleteTradePoundageById(orderId);
+
+                            //添加历史记录
+                            UserMarketTradeHistoryEntity userMarketTradeHistoryEntity = new UserMarketTradeHistoryEntity();
+                            userMarketTradeHistoryEntity.setPurchaseUid(userMarketTradeEntity.getPurchaseUid());
+                            userMarketTradeHistoryEntity.setPrice(userMarketTradeEntity.getPrice());
+                            userMarketTradeHistoryEntity.setSellUid(userMarketTradeEntity.getUid());
+                            userMarketTradeHistoryEntity.setUserTradeId(userMarketTradeEntity.getId());
+                            userMarketTradeHistoryEntity.setOrderState(TradeCommon.STATE_CANCEL);
+                            userMarketTradeHistoryEntity.setCreateTime(new Date());
+                            userMarketTradeHistoryEntity.setFinishTime(new Date());
+                            tradeFeign.insertUserMarketTradeHistory(userMarketTradeHistoryEntity);
                         } else {
                             logger.info("uid:" + userMarketTradeEntity.getUid() + "账户信息不存在！");
                         }
