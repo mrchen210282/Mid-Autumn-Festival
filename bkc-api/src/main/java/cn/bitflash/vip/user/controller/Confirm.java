@@ -37,7 +37,7 @@ public class Confirm {
     ) throws Exception {
 
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
-        if (info.getIsAuth().equals(Common.AUTHENTICATION)) {
+        if (info.getIsAuth().equals(Common.UNAUTHENTICATION)) {
             return R.ok();
         }
         //请求地址  支持http 和 https 及 WEBSOCKET
@@ -60,7 +60,7 @@ public class Confirm {
         String json = read(httpURLConnection.getInputStream());
         String code = JSON.parseObject(json).getString("status");
         if (code.equals("01") || code.equals("1")) {
-            info.setIsAuth(Common.AUTHENTICATION);
+            info.setIsAuth(Common.UNAUTHENTICATION);
             info.setRealname(realname);
             info.setIdNumber(idnum);
             userFeign.updateUserInfoById(info);

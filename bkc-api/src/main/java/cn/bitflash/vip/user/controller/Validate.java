@@ -50,10 +50,10 @@ public class Validate {
         map.put("uid", uid);
         //是否设置了支付密码
         map.put("setPaypasswd",secretEntity.getIsSetPaypwd());
-        //昵称名字是否可以更改
-        map.put("nickname",info.getNicklock());
         //昵称
-        map.put("nick",info.getNickname());
+        map.put("nickname",info.getNickname());
+        //昵称名字是否可以更改
+        map.put("nicklock",info.getNicklock());
         //是否有邀请码
         UserInvitationCodeEntity invitationCodeEntity = userFeign.selectInvitationCodeByUid(uid);
         map.put("invitationCode",Common.UNAUTHENTICATION);
