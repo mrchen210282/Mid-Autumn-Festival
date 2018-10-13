@@ -73,10 +73,10 @@
         ub.price as price,
         ub.sell_uid as sellUid,
         ub.order_state as state,
-        ui.nickname as purchaseNickname,
-        tem.nickname as sellNickname,
-        ui.mobile as purMobile,
-        tem.mobile as sellMobile
+        ui.nickname as sellNickname,
+        tem.nickname as purchaseNickname,
+        ui.mobile as sellMobile,
+        tem.mobile as purMobile
         FROM
         user_market_trade_history ub
         LEFT JOIN user_info ui on ui.uid = ub.sell_uid
