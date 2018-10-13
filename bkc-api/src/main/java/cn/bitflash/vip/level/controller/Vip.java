@@ -4,13 +4,11 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.Common;
-import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.level.entity.NpcForm;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Info;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +28,14 @@ public class Vip {
 
     @Login
     @PostMapping("showVipMess")
+    @ApiOperation("显示当前vip等级额度信息")
     public R showVipMess(@RequestAttribute("uid") String uid) {
         //所有额度信息
         List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
-        float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
+        // float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
         //用户目前额度等级
         int vipLevel = userInfo.getVipLevel();
         //最大额度信息
@@ -59,21 +58,23 @@ public class Vip {
             //升级所需npc额度
             map.put("npc_amount", 0);
             //是否为最大额度
-            map.put("max_amount",Common.AUTHENTICATION);
+            map.put("max_amount", Common.AUTHENTICATION);
+            //是否可以提升
+            map.put("update", Common.UNAUTHENTICATION);
 
         } else {
             map.put("now_amount", userVips.get(0).getVipCash());
             map.put("next_amount", userVips.get(1).getVipCash());
             float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice()) / npc;
-            map.put("max_amount",Common.UNAUTHENTICATION);
-            if(nextUpnpc<0){
+            map.put("max_amount", Common.UNAUTHENTICATION);
+            if (nextUpnpc < 0) {
                 /**
                  * 小于0代表当前消费额度>下一等级的额度
                  */
-                map.put("update",Common.AUTHENTICATION);
-                map.put("npc_amount",0);
-            }else{
-                map.put("update",Common.UNAUTHENTICATION);
+                map.put("update", Common.AUTHENTICATION);
+                map.put("npc_amount", 0);
+            } else {
+                map.put("update", Common.UNAUTHENTICATION);
                 if ((nextUpnpc * 100) % 100 == 0) {
                     /**
                      * 判断是否有小数，有小数位情况直接取整+1
@@ -86,6 +87,25 @@ public class Vip {
 
         }
         return R.ok(map);
+
+    }
+
+    @Login
+    @PostMapping("updateForfree")
+    @ApiOperation("消费金额>下一级额度直接升级")
+    public R updateForfree(@RequestAttribute("uid") String uid) {
+        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
+        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
+        List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
+        //用户目前额度等级
+        int vipLevel = userInfo.getVipLevel();
+        //当前额度信息和下一级额度信息
+        List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
+        if (userVips.size() == 2 && npcEntity.getNpcPrice() > userVips.get(1).getVipCash()) {
+            userInfo.setVipLevel(userInfo.getVipLevel() + 1);
+            levelFeign.updateUserInfo(userInfo);
+        }
+        return R.ok();
 
     }
 
@@ -129,14 +149,14 @@ public class Vip {
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets() + hlb);
         //6.提升vip等级
-            //用户当前vip额度信息
+        //用户当前vip额度信息
         SystemVipEntity userVip = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-            //最大的vip等级id
+        //最大的vip等级id
         String max_vip_id = levelFeign.getVal("max_vip_id");
-            //最大的vip等级信息
+        //最大的vip等级信息
         SystemVipEntity maxVip = levelFeign.selectSystemVipById(Integer.valueOf(max_vip_id));
-        if(npcEntity.getNpcPrice()>=userVip.getVipCash() && userInfo.getVipLevel()<maxVip.getId()){
-            userInfo.setVipLevel(userInfo.getVipLevel()+1);
+        if (npcEntity.getNpcPrice() >= userVip.getVipCash() && userInfo.getVipLevel() < maxVip.getId()) {
+            userInfo.setVipLevel(userInfo.getVipLevel() + 1);
             hlbEntity.setVipReleaseCash(0);
             levelFeign.updateUserInfo(userInfo);
         }
