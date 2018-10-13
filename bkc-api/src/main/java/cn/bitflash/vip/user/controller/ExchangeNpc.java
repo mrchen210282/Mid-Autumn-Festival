@@ -56,7 +56,7 @@ public class ExchangeNpc {
         }
         BigDecimal fee = hlb_handling_fee.multiply(form.getHlb());
 
-        if(!fee.equals(form.getExpense())){
+        if(fee.compareTo(form.getExpense()) != 0){
             return R.error("手续费出现异常");
         }
         UserNpcTradeHistoryEntity userNpcTradeHistoryEntity = new UserNpcTradeHistoryEntity();

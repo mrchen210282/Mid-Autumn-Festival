@@ -130,7 +130,8 @@ public class Vip {
         //npc单价
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
         BigDecimal hlb = npc.multiply(form.getNpc().multiply(giveRate));
-        if (!hlb.equals(form.getHlb())) {
+
+        if (hlb.compareTo(form.getHlb()) != 0) {
             return R.error("可换取的HLB数量有误");
         }
 
