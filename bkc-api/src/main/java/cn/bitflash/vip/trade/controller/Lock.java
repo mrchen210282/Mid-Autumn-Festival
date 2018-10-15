@@ -52,8 +52,6 @@ public class Lock {
             String[] str = redisUtils.get(t.getId(), String[].class);
             if (str == null || str.length == 0) {
                 if (t.getState().equals(TradeCommon.STATE_LOCK)) {
-//                    t.setState(TradeCommon.STATE_SELL);
-//                    tradeFeign.updateTrade(t);
                     Map<String,Object> map = new HashMap<String,Object>();
                     map.put("id",t.getId());
                     map.put("state",TradeCommon.STATE_SELL);
