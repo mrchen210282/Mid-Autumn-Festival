@@ -6,10 +6,10 @@ public class UserRelationJoinNpcAndHlbean {
     private String uid;
 
     //用户关系图谱左边界值
-    private int lft;
+    private Integer lft;
 
     //用户关系图谱右边界值
-    private int rgt;
+    private Integer rgt;
 
     //用户父亲邀请码
     private String fatherCode;
@@ -33,58 +33,70 @@ public class UserRelationJoinNpcAndHlbean {
     private String isInvited;
 
     //实际邀请人数
-    private int realUpgradeNum;
+    private Integer realUpgradeNum;
 
     //hlb总收益
-    private float hlbTotelAssets;
+    private Float hlbTotelAssets;
 
     //hlb冻结数量
-    private float hlbFrozenAssets;
+    private Float hlbFrozenAssets;
 
     //hlb每天释放
-    private float hlbDailyRelease;
+    private Float hlbDailyRelease;
 
     //hlb总释放量
-    private float hlbTotelRelease;
+    private Float hlbTotelRelease;
 
     //hlb可用值
-    private float hlbAvailableAssets;
+    private Float hlbAvailableAssets;
 
     //当前档位的hlb释放量
-    private float vipReleaseCash;
+    private Float vipReleaseCash;
 
     //npc总购买
-    private float npcPurchase;
+    private Float npcPurchase;
 
     //npc总收益
-    private float npcTotelAssets;
+    private Float npcTotelAssets;
 
     //npc冻结数量
-    private float npcFrozenAssets;
+    private Float npcFrozenAssets;
 
     //npc每天释放
-    private float npcDailyRelease;
+    private Float npcDailyRelease;
 
     //npc总释放量
-    private float npcTotelRelease;
+    private Float npcTotelRelease;
 
     //npc可用值
-    private float npcAvailableAssets;
+    private Float npcAvailableAssets;
 
     //npc购买价格
-    private float npcPrice;
+    private Float npcPrice;
 
     //当前算力
-    private float power;
+    private Float power;
 
     //当前算力对应的邀请人数
-    private int upgradeNum;
+    private Integer upgradeNum;
 
     //当前vip现金条件
-    private float vipCash;
+    private Float vipCash;
 
     //当前vip释放额度
-    private float vipHlbAmount;
+    private Float vipHlbAmount;
+
+    //当前npc的释放比例
+    private Float npcReleaseRate;
+
+    //当前hlb的释放比例
+    private Float hlbReleaseRate;
+
+    //当前档位最小算力
+    private Float minPower;
+
+    //当前档位最大算力
+    private Float maxPower;
 
     public String getUid() {
         return uid;
@@ -94,19 +106,19 @@ public class UserRelationJoinNpcAndHlbean {
         this.uid = uid;
     }
 
-    public int getLft() {
+    public Integer getLft() {
         return lft;
     }
 
-    public void setLft(int lft) {
+    public void setLft(Integer lft) {
         this.lft = lft;
     }
 
-    public int getRgt() {
+    public Integer getRgt() {
         return rgt;
     }
 
-    public void setRgt(int rgt) {
+    public void setRgt(Integer rgt) {
         this.rgt = rgt;
     }
 
@@ -166,147 +178,179 @@ public class UserRelationJoinNpcAndHlbean {
         this.isInvited = isInvited;
     }
 
-    public int getRealUpgradeNum() {
+    public Integer getRealUpgradeNum() {
         return realUpgradeNum;
     }
 
-    public void setRealUpgradeNum(int realUpgradeNum) {
+    public void setRealUpgradeNum(Integer realUpgradeNum) {
         this.realUpgradeNum = realUpgradeNum;
     }
 
-    public float getHlbTotelAssets() {
+    public Float getHlbTotelAssets() {
         return hlbTotelAssets;
     }
 
-    public void setHlbTotelAssets(float hlbTotelAssets) {
+    public void setHlbTotelAssets(Float hlbTotelAssets) {
         this.hlbTotelAssets = hlbTotelAssets;
     }
 
-    public float getHlbFrozenAssets() {
+    public Float getHlbFrozenAssets() {
         return hlbFrozenAssets;
     }
 
-    public void setHlbFrozenAssets(float hlbFrozenAssets) {
+    public void setHlbFrozenAssets(Float hlbFrozenAssets) {
         this.hlbFrozenAssets = hlbFrozenAssets;
     }
 
-    public float getHlbDailyRelease() {
+    public Float getHlbDailyRelease() {
         return hlbDailyRelease;
     }
 
-    public void setHlbDailyRelease(float hlbDailyRelease) {
+    public void setHlbDailyRelease(Float hlbDailyRelease) {
         this.hlbDailyRelease = hlbDailyRelease;
     }
 
-    public float getHlbTotelRelease() {
+    public Float getHlbTotelRelease() {
         return hlbTotelRelease;
     }
 
-    public void setHlbTotelRelease(float hlbTotelRelease) {
+    public void setHlbTotelRelease(Float hlbTotelRelease) {
         this.hlbTotelRelease = hlbTotelRelease;
     }
 
-    public float getHlbAvailableAssets() {
+    public Float getHlbAvailableAssets() {
         return hlbAvailableAssets;
     }
 
-    public void setHlbAvailableAssets(float hlbAvailableAssets) {
+    public void setHlbAvailableAssets(Float hlbAvailableAssets) {
         this.hlbAvailableAssets = hlbAvailableAssets;
     }
 
-    public float getVipReleaseCash() {
+    public Float getVipReleaseCash() {
         return vipReleaseCash;
     }
 
-    public void setVipReleaseCash(float vipReleaseCash) {
+    public void setVipReleaseCash(Float vipReleaseCash) {
         this.vipReleaseCash = vipReleaseCash;
     }
 
-    public float getNpcPurchase() {
+    public Float getNpcPurchase() {
         return npcPurchase;
     }
 
-    public void setNpcPurchase(float npcPurchase) {
+    public void setNpcPurchase(Float npcPurchase) {
         this.npcPurchase = npcPurchase;
     }
 
-    public float getNpcTotelAssets() {
+    public Float getNpcTotelAssets() {
         return npcTotelAssets;
     }
 
-    public void setNpcTotelAssets(float npcTotelAssets) {
+    public void setNpcTotelAssets(Float npcTotelAssets) {
         this.npcTotelAssets = npcTotelAssets;
     }
 
-    public float getNpcFrozenAssets() {
+    public Float getNpcFrozenAssets() {
         return npcFrozenAssets;
     }
 
-    public void setNpcFrozenAssets(float npcFrozenAssets) {
+    public void setNpcFrozenAssets(Float npcFrozenAssets) {
         this.npcFrozenAssets = npcFrozenAssets;
     }
 
-    public float getNpcDailyRelease() {
+    public Float getNpcDailyRelease() {
         return npcDailyRelease;
     }
 
-    public void setNpcDailyRelease(float npcDailyRelease) {
+    public void setNpcDailyRelease(Float npcDailyRelease) {
         this.npcDailyRelease = npcDailyRelease;
     }
 
-    public float getNpcTotelRelease() {
+    public Float getNpcTotelRelease() {
         return npcTotelRelease;
     }
 
-    public void setNpcTotelRelease(float npcTotelRelease) {
+    public void setNpcTotelRelease(Float npcTotelRelease) {
         this.npcTotelRelease = npcTotelRelease;
     }
 
-    public float getNpcAvailableAssets() {
+    public Float getNpcAvailableAssets() {
         return npcAvailableAssets;
     }
 
-    public void setNpcAvailableAssets(float npcAvailableAssets) {
+    public void setNpcAvailableAssets(Float npcAvailableAssets) {
         this.npcAvailableAssets = npcAvailableAssets;
     }
 
-    public float getNpcPrice() {
+    public Float getNpcPrice() {
         return npcPrice;
     }
 
-    public void setNpcPrice(float npcPrice) {
+    public void setNpcPrice(Float npcPrice) {
         this.npcPrice = npcPrice;
     }
 
-    public float getPower() {
+    public Float getPower() {
         return power;
     }
 
-    public void setPower(float power) {
+    public void setPower(Float power) {
         this.power = power;
     }
 
-    public int getUpgradeNum() {
+    public Integer getUpgradeNum() {
         return upgradeNum;
     }
 
-    public void setUpgradeNum(int upgradeNum) {
+    public void setUpgradeNum(Integer upgradeNum) {
         this.upgradeNum = upgradeNum;
     }
 
-    public float getVipCash() {
+    public Float getVipCash() {
         return vipCash;
     }
 
-    public void setVipCash(float vipCash) {
+    public void setVipCash(Float vipCash) {
         this.vipCash = vipCash;
     }
 
-    public float getVipHlbAmount() {
+    public Float getVipHlbAmount() {
         return vipHlbAmount;
     }
 
-    public void setVipHlbAmount(float vipHlbAmount) {
+    public void setVipHlbAmount(Float vipHlbAmount) {
         this.vipHlbAmount = vipHlbAmount;
+    }
+
+    public Float getNpcReleaseRate() {
+        return npcReleaseRate;
+    }
+
+    public void setNpcReleaseRate(Float npcReleaseRate) {
+        this.npcReleaseRate = npcReleaseRate;
+    }
+
+    public Float getHlbReleaseRate() {
+        return hlbReleaseRate;
+    }
+
+    public void setHlbReleaseRate(Float hlbReleaseRate) {
+        this.hlbReleaseRate = hlbReleaseRate;
+    }
+
+    public Float getMinPower() {
+        return minPower;
+    }
+
+    public void setMinPower(Float minPower) {
+        this.minPower = minPower;
+    }
+
+    public Float getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(Float maxPower) {
+        this.maxPower = maxPower;
     }
 }

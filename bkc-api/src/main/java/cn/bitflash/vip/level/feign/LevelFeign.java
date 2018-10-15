@@ -113,7 +113,7 @@ public interface LevelFeign {
      * system_power
      */
     @PostMapping("/inner/systemPower/selectById")
-    SystemPowerEntity selectSystemPowerById(@RequestParam("id")String id);
+    SystemPowerEntity selectSystemPowerById(@RequestParam("id")Integer id);
 
     /**
      * system_vip 表

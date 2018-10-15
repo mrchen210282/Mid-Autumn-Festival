@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -18,9 +19,11 @@ public class UserHlbTradeHistoryEntity {
 
     private String uid;
 
-    private Float totalHlb;
+    private BigDecimal totalHlb;
 
-    private Float totalNpc;
+    private BigDecimal totalNpc;
+
+    private BigDecimal frozenNpc;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -41,20 +44,28 @@ public class UserHlbTradeHistoryEntity {
         this.uid = uid;
     }
 
-    public Float getTotalHlb() {
+    public BigDecimal getTotalHlb() {
         return totalHlb;
     }
 
-    public void setTotalHlb(Float totalHlb) {
+    public void setTotalHlb(BigDecimal totalHlb) {
         this.totalHlb = totalHlb;
     }
 
-    public Float getTotalNpc() {
+    public BigDecimal getTotalNpc() {
         return totalNpc;
     }
 
-    public void setTotalNpc(Float totalNpc) {
+    public void setTotalNpc(BigDecimal totalNpc) {
         this.totalNpc = totalNpc;
+    }
+
+    public BigDecimal getFrozenNpc() {
+        return frozenNpc;
+    }
+
+    public void setFrozenNpc(BigDecimal frozenNpc) {
+        this.frozenNpc = frozenNpc;
     }
 
     public Date getCreateTime() {

@@ -33,37 +33,21 @@ public class UserInfoEntity implements Serializable {
     //头像
     private String avatar;
 
-    private String powerLevel;
+    private Integer powerLevel;
 
     private Integer upgradeNum;
 
     private Integer vipLevel;
 
-    private String nicklock;
-
     private String area;
+
+    private String nicklock;
 
     //npc释放比率
     private Integer npcRelease;
 
     //hlb释放比率
     private Integer hlbRelease;
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
-
-    public String getNicklock() {
-        return nicklock;
-    }
-
-    public void setNicklock(String nicklock) {
-        this.nicklock = nicklock;
-    }
 
     public String getUid() {
         return uid;
@@ -137,11 +121,11 @@ public class UserInfoEntity implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getPowerLevel() {
+    public Integer getPowerLevel() {
         return powerLevel;
     }
 
-    public void setPowerLevel(String powerLevel) {
+    public void setPowerLevel(Integer powerLevel) {
         this.powerLevel = powerLevel;
     }
 
@@ -159,6 +143,22 @@ public class UserInfoEntity implements Serializable {
 
     public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getNicklock() {
+        return nicklock;
+    }
+
+    public void setNicklock(String nicklock) {
+        this.nicklock = nicklock;
     }
 
     public Integer getNpcRelease() {

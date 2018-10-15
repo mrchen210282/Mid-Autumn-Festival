@@ -4,45 +4,37 @@ import java.math.BigDecimal;
 
 public class SystemVipEntity {
 
-    private int id;
+    private Integer id;
 
-    private float vipCash;
+    private Float vipCash;
 
     private String vipLevel;
 
-    private float hlbAmount;
+    private Float hlbAmount;
 
     //最大算力
-    private BigDecimal maxPower;
+    private Integer maxPower;
     //最小算力
-    private BigDecimal minPower;
+    private Integer minPower;
 
     //欢乐币赠送比例
     private BigDecimal hlbGiveRate;
 
     private String remark;
 
-    public float getHlbAmount() {
-        return hlbAmount;
-    }
-
-    public void setHlbAmount(float hlbAmount) {
-        this.hlbAmount = hlbAmount;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public float getVipCash() {
+    public Float getVipCash() {
         return vipCash;
     }
 
-    public void setVipCash(float vipCash) {
+    public void setVipCash(Float vipCash) {
         this.vipCash = vipCash;
     }
 
@@ -54,19 +46,27 @@ public class SystemVipEntity {
         this.vipLevel = vipLevel;
     }
 
-    public BigDecimal getMaxPower() {
+    public Float getHlbAmount() {
+        return hlbAmount;
+    }
+
+    public void setHlbAmount(Float hlbAmount) {
+        this.hlbAmount = hlbAmount;
+    }
+
+    public Integer getMaxPower() {
         return maxPower;
     }
 
-    public void setMaxPower(BigDecimal maxPower) {
+    public void setMaxPower(Integer maxPower) {
         this.maxPower = maxPower;
     }
 
-    public BigDecimal getMinPower() {
+    public Integer getMinPower() {
         return minPower;
     }
 
-    public void setMinPower(BigDecimal minPower) {
+    public void setMinPower(Integer minPower) {
         this.minPower = minPower;
     }
 

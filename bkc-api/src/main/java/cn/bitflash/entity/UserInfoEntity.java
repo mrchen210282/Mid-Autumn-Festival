@@ -27,7 +27,7 @@ public class UserInfoEntity implements Serializable {
     //头像
     private String avatar;
 
-    private String powerLevel;
+    private Integer powerLevel;
 
     private Integer upgradeNum;
 
@@ -131,11 +131,11 @@ public class UserInfoEntity implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getPowerLevel() {
+    public Integer getPowerLevel() {
         return powerLevel;
     }
 
-    public void setPowerLevel(String powerLevel) {
+    public void setPowerLevel(Integer powerLevel) {
         this.powerLevel = powerLevel;
     }
 
