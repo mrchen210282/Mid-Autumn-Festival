@@ -60,7 +60,7 @@ public class Appeal {
         }
         //判定订单不存在
         if (userComplaintBean == null) {
-            return R.ok().put("code", "订单不存在");
+            return R.ok().put("status", "订单不存在");
         }
         Map<String, Float> map = orderUtil.poundage(id, state, "REMIND");
         return R.ok().put("orderId", id).put("name", name).put("mobile", mobile).put("map", map);

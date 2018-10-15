@@ -38,7 +38,7 @@ public class PendingPayTrade {
         // 更新为已购买
         UserMarketTradeEntity userTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
         if (!userTradeEntity.getState().equals(TradeCommon.STATE_LOCK)) {
-            return R.error("订单状态有误，请稍后再试");
+            return R.error("订单状态有误，请稍后再试" + ",订单号:" + orderId);
         }
         userTradeEntity.setState(TradeCommon.STATE_CONFIRM);
         userTradeEntity.setId(orderId);

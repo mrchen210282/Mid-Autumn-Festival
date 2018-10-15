@@ -9,7 +9,7 @@
 		 ]]>
     </select>
 
-    <select id="selectOrderCount" statementType="CALLABLE" resultType="java.lang.Integer" parameterType="java.util.Map">
+    <select id="selectOrderCount" statementType="CALLABLE" parameterType="java.util.Map">
         <![CDATA[
 		  call selectOrderCount(#{uid,jdbcType=VARCHAR,mode=IN},#{count,jdbcType=VARCHAR,mode=OUT})
 		 ]]>
@@ -21,7 +21,7 @@
 		 ]]>
     </select>
 
-    <select id="tradeListCount" statementType="CALLABLE" resultType="java.lang.Integer" parameterType="java.util.Map">
+    <select id="tradeListCount" statementType="CALLABLE" parameterType="java.util.Map">
         <![CDATA[
 		  call tradeListCount(#{uid,jdbcType=VARCHAR,mode=IN},#{count,jdbcType=VARCHAR,mode=OUT})
 		 ]]>
