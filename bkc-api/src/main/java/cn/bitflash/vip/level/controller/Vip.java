@@ -5,7 +5,6 @@ import cn.bitflash.entity.*;
 import cn.bitflash.exception.RRException;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
-import cn.bitflash.vip.level.entity.NpcForm;
 import cn.bitflash.vip.level.feign.LevelFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,143 +30,87 @@ public class Vip {
     @PostMapping("showVipMess")
     @ApiOperation("显示当前vip等级额度信息")
     public R showVipMess(@RequestAttribute("uid") String uid) {
-        //所有额度信息
-        List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
-        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        float npc = Float.valueOf(levelFeign.getVal("npc_unit_price"));
-        // float giveRate = Float.valueOf(levelFeign.getVal("hlb_give_rate"));
-        //用户目前额度等级
-        int vipLevel = userInfo.getVipLevel();
-        //最大额度信息
-        SystemVipEntity maxVip = vips.get(vips.size() - 1);
-        //返回值集合
-        Map<String, Object> map = new HashMap<>();
-        //额度信息
-        map.put("vips", vips);
-        //当前累计npc购买金额
-        map.put("now_cash", npcEntity.getNpcPrice());
-        //下一级额度信息
-        //当前额度信息和下一级额度信息
-        List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
-        if (userVips.size() == 1) {
-            //最大算力
-            //当前额度
-            map.put("now_amount", maxVip.getVipCash());
-            //下一级额度
-            map.put("next_amount", maxVip.getVipCash());
-            //升级所需npc额度
-            map.put("npc_amount", 0);
-            //是否为最大额度
-            map.put("max_amount", Common.AUTHENTICATION);
-            //是否可以提升
-            map.put("update", Common.UNAUTHENTICATION);
-
-        } else {
-            map.put("now_amount", userVips.get(0).getVipCash());
-            map.put("next_amount", userVips.get(1).getVipCash());
-            float nextUpnpc = (userVips.get(1).getVipCash() - npcEntity.getNpcPrice().floatValue()) / npc;
-            map.put("max_amount", Common.UNAUTHENTICATION);
-            if (nextUpnpc < 0) {
-                /**
-                 * 小于0代表当前消费额度>下一等级的额度
-                 */
-                map.put("update", Common.AUTHENTICATION);
-                map.put("npc_amount", 0);
-            } else {
-                map.put("update", Common.UNAUTHENTICATION);
-                if ((nextUpnpc * 100) % 100 == 0) {
-                    /**
-                     * 判断是否有小数，有小数位情况直接取整+1
-                     */
-                    map.put("npc_amount", (int) nextUpnpc);
-                } else {
-                    map.put("npc_amount", (int) nextUpnpc + 1);
-                }
-            }
-
-        }
+        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
+        Map<String,Object> map = new HashMap<>();
+        //目前额度
+        map.put("now_amount",vipEntity.getVipCash());
+        //赠送比例
+        map.put("give_rate",vipEntity.getHlbGiveRate());
+        //算力区间
+        map.put("min_max",vipEntity.getMinPower()*100+"% ~ "+vipEntity.getMaxPower()*100+"%");
         return R.ok(map);
-
     }
 
-    @Login
-    @PostMapping("updateForfree")
-    @ApiOperation("消费金额>下一级额度直接升级")
-    public R updateForfree(@RequestAttribute("uid") String uid) {
-        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
-        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        List<SystemVipEntity> vips = levelFeign.selectSystemVipes();
-        //用户目前额度等级
-        int vipLevel = userInfo.getVipLevel();
-        //当前额度信息和下一级额度信息
-        List<SystemVipEntity> userVips = vips.stream().filter(u -> u.getId() == vipLevel || u.getId() == vipLevel + 1).collect(Collectors.toList());
-        if (userVips.size() == 2 && npcEntity.getNpcPrice().floatValue() > userVips.get(1).getVipCash()) {
-            userInfo.setVipLevel(userInfo.getVipLevel() + 1);
-            levelFeign.updateUserInfo(userInfo);
-        }
-        return R.ok();
-
-    }
 
     @Login
     @PostMapping("updateLevel")
     @ApiOperation("提升算力")
-    public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestBody NpcForm form) {
+    public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestParam("amountId") Integer amountId) {
 
         //1.验证 邀请码
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
-        //2.验证 NPC数量 单价
-        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        BigDecimal giveRate = new BigDecimal(levelFeign.getVal("hlb_give_rate"));
 
-        if (npcEntity.getAvailableAssets().compareTo(form.getNpc()) == -1) {
-            return R.error("NPC数量不足");
+        //3.验证档位是否存在
+        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(amountId);
+        if (vipEntity == null) {
+            return R.error("升级档位信息有误");
         }
+        //4.更新npc数量
         //npc单价
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
-        BigDecimal hlb = npc.multiply(form.getNpc().multiply(giveRate));
-        if (!hlb.equals(form.getHlb())) {
-            return R.error("可换取的HLB数量有误");
+        //冻结时加入冻结的比例
+        BigDecimal freezeRateNpc = new BigDecimal(levelFeign.getVal("freeze_rate_npc"));
+        //npc扣除数量
+        BigDecimal npcNum = new BigDecimal(vipEntity.getVipCash()).divide(npc);
+        if((npcNum.doubleValue()*100)%100!=0){
+            npcNum = new BigDecimal(npcNum.intValue()+1);
         }
-
-
-        //4.更新npc数量
-        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets().subtract(form.getNpc()));
-        npcEntity.setFrozenAssets(npcEntity.getFrozenAssets().add(form.getNpc()));
-        npcEntity.setNpcPrice(npcEntity.getNpcPrice().add(form.getNpc().multiply(npc)));
+        //npc冻结数量
+        BigDecimal frozenNpc = npcNum.multiply(freezeRateNpc);
+        UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
+        if (npcEntity.getAvailableAssets().compareTo(npcNum) == -1) {
+            return R.error("当前升级所需的NPC数量不足");
+        }
+        //公式：总可用=总可用-（1-冻结比列）*所需npc数量
+        npcEntity.setTotelAssets(npcEntity.getTotelAssets().subtract(npcNum.multiply(new BigDecimal(1).subtract(freezeRateNpc))));
+        npcEntity.setAvailableAssets(npcEntity.getAvailableAssets().subtract(npcNum));
+        npcEntity.setFrozenAssets(npcEntity.getFrozenAssets().add(frozenNpc));
+        npcEntity.setNpcPrice(npcEntity.getNpcPrice().add(new BigDecimal(vipEntity.getVipCash())));
         levelFeign.updateUserAssetsNpc(npcEntity);
-        //5.加入hlb兑换历史
+        //5.更新hlb冻结数量
+        BigDecimal hlbAmount = new BigDecimal(vipEntity.getHlbAmount());
+        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
+        hlbEntity.setTotelAssets(hlbEntity.getTotelAssets().add(hlbAmount));
+        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets().add(hlbAmount));
+        if (amountId > userInfo.getVipLevel()) {
+            hlbEntity.setVipReleaseCash(new BigDecimal(0));
+            //提升的vip等级>当前实际的vip等级
+            userInfo.setVipLevel(vipEntity.getId());
+            SystemPowerEntity npcPower = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
+            userInfo.setUpgradeNum(npcPower.getUpgradeNum());
+        }
+        levelFeign.updateUserAssetsHlb(hlbEntity);
+        //6.加入hlb兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
         hlbTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
         hlbTradeHistoryEntity.setUid(uid);
-        hlbTradeHistoryEntity.setTotalHlb(hlb);
-        hlbTradeHistoryEntity.setTotalNpc(form.getNpc());
+        hlbTradeHistoryEntity.setTotalHlb(new BigDecimal(vipEntity.getHlbAmount()));
+        hlbTradeHistoryEntity.setTotalNpc(npcNum);
+        hlbTradeHistoryEntity.setFrozenNpc(frozenNpc);
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
-
-        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
-        hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets().add(hlb));
-        //6.提升vip等级
-        //用户当前vip额度信息
-        SystemVipEntity userVip = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        //最大的vip等级id
-        String max_vip_id = levelFeign.getVal("max_vip_id");
-        //最大的vip等级信息
-        SystemVipEntity maxVip = levelFeign.selectSystemVipById(Integer.valueOf(max_vip_id));
-        if (npcEntity.getNpcPrice().doubleValue() >= userVip.getVipCash() && userInfo.getVipLevel() < maxVip.getId()) {
-            userInfo.setVipLevel(userInfo.getVipLevel() + 1);
-            hlbEntity.setVipReleaseCash(new BigDecimal(0));
-            levelFeign.updateUserInfo(userInfo);
+        //7.更新userinfo的算力和vip等级
+        if (userInfo.getPowerLevel() < vipEntity.getMinPower()) {
+            userInfo.setPowerLevel(vipEntity.getMinPower());
         }
-        //7.添加可冻结hlb和冻结npc数量
-        levelFeign.updateUserAssetsHlb(hlbEntity);
+        levelFeign.updateUserInfo(userInfo);
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         String invitCode = userInfo.getInvitationCode();
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
-        //8.验证排点
+        //8.验证是否排点
         if (relation != null) {
             return R.ok();
         } else {
@@ -176,7 +119,7 @@ public class Vip {
             int peopleNum = f_info.getUpgradeNum();
             //最大算力id
             String power_id = levelFeign.getVal("max_power_id");
-            SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(power_id);
+            SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(Integer.valueOf(power_id));
             if (peopleNum < systemPowerEntity.getUpgradeNum()) {
                 //邀请人数小于最大算力对应的人数
                 f_info.setUpgradeNum(peopleNum + 1);

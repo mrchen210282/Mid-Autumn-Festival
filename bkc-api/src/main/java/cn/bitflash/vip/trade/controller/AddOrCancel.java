@@ -259,9 +259,11 @@ public class AddOrCancel {
                     }
                 } else {
                     logger.info("订单号:" + orderId + "手续费不存在！");
+                    return R.error().put("status",502);
                 }
             } else {
                 logger.info("订单号:" + orderId + "不存在！");
+                return R.error().put("status",501);
             }
 
         } else {

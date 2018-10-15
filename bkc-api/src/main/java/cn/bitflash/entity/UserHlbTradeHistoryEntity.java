@@ -18,6 +18,8 @@ public class UserHlbTradeHistoryEntity {
 
     private BigDecimal totalNpc;
 
+    private BigDecimal frozenNpc;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
@@ -59,5 +61,13 @@ public class UserHlbTradeHistoryEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public BigDecimal getFrozenNpc() {
+        return frozenNpc;
+    }
+
+    public void setFrozenNpc(BigDecimal frozenNpc) {
+        this.frozenNpc = frozenNpc;
     }
 }

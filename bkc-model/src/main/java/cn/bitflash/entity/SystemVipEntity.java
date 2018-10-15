@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author wangjun
@@ -15,19 +16,19 @@ public class SystemVipEntity implements Serializable {
     @TableId
     private Integer id;
 
-    private float vipCash;
+    private Float vipCash;
 
     private String vipLevel;
 
-    private float hlbAmount;
+    private Float hlbAmount;
 
-    public float getHlbAmount() {
-        return hlbAmount;
-    }
+    //最大算力
+    private Integer maxPower;
+    //最小算力
+    private Integer minPower;
 
-    public void setHlbAmount(float hlbAmount) {
-        this.hlbAmount = hlbAmount;
-    }
+    //欢乐币赠送比例
+    private BigDecimal hlbGiveRate;
 
     private String remark;
 
@@ -39,11 +40,11 @@ public class SystemVipEntity implements Serializable {
         this.id = id;
     }
 
-    public float getVipCash() {
+    public Float getVipCash() {
         return vipCash;
     }
 
-    public void setVipCash(float vipCash) {
+    public void setVipCash(Float vipCash) {
         this.vipCash = vipCash;
     }
 
@@ -53,6 +54,38 @@ public class SystemVipEntity implements Serializable {
 
     public void setVipLevel(String vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public Float getHlbAmount() {
+        return hlbAmount;
+    }
+
+    public void setHlbAmount(Float hlbAmount) {
+        this.hlbAmount = hlbAmount;
+    }
+
+    public Integer getMaxPower() {
+        return maxPower;
+    }
+
+    public void setMaxPower(Integer maxPower) {
+        this.maxPower = maxPower;
+    }
+
+    public Integer getMinPower() {
+        return minPower;
+    }
+
+    public void setMinPower(Integer minPower) {
+        this.minPower = minPower;
+    }
+
+    public BigDecimal getHlbGiveRate() {
+        return hlbGiveRate;
+    }
+
+    public void setHlbGiveRate(BigDecimal hlbGiveRate) {
+        this.hlbGiveRate = hlbGiveRate;
     }
 
     public String getRemark() {

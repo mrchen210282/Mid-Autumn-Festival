@@ -24,7 +24,7 @@ public class UserNpcHistoryController {
 
     @PostMapping("/inner/usernpchistory/selectNpchistory")
     public List<UserNpcTradeHistoryEntity> selectNpchistory(@RequestParam("uid")String uid){
-        return  userNpcTradeHistoryService.selectList(new EntityWrapper<UserNpcTradeHistoryEntity>().eq("uid",uid).orderBy("create_time",true));
+        return  userNpcTradeHistoryService.selectList(new EntityWrapper<UserNpcTradeHistoryEntity>().eq("uid",uid).orderBy("create_time",false));
     }
 
 }

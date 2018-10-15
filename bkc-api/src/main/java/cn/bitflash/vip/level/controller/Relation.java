@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class Relation {
         //当前算力
         SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getPowerLevel());
         BigDecimal power = new BigDecimal(systemPowerEntity.getPower() * 100);
-        map.put("now_power", power.setScale(2,4) + "%");
+        map.put("now_power", power.setScale(2, 4) + "%");
         //HLB冻结数量
         map.put("hlb_frozen", hlbEntity.getFrozenAssets());
         return R.ok(map);
@@ -65,7 +66,11 @@ public class Relation {
         List<UserRelationEntity> reles = levelFeign.selectRelationByCode(code.getCode());
         map.put("counts", reles.size());
         String point = levelFeign.getVal("power_point");
-        map.put("point",point);
+        //提示
+        map.put("point", point);
+        //算力区间
+        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
+        map.put("min_max", vipEntity.getMinPower() * 100 + "% ~ " + vipEntity.getMaxPower() * 100 + "%");
         return R.ok(map);
     }
 
@@ -74,18 +79,48 @@ public class Relation {
     @ApiOperation("我的HLB")
     public R myHLB(@RequestAttribute("uid") String uid) {
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
-        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         Map<String, Object> map = new HashMap<>();
         //npc可用
-        map.put("available_npc", npcEntity.getAvailableAssets());
+        map.put("npc_available", npcEntity.getAvailableAssets());
+        //npc冻结
+        map.put("npc_frozen", npcEntity.getFrozenAssets());
+        //HLB可用量
+        UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
+        map.put("hlb_available", hlbEntity.getAvailableAssets());
         //HLB冻结数量
         map.put("hlb_frozen", hlbEntity.getFrozenAssets());
-        //HLB可用量
-        map.put("available_hlb", hlbEntity.getAvailableAssets());
+        //目前额度
+        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
+        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
+        map.put("now_amount",vipEntity.getVipCash());
+        List<SystemVipEntity> vipes = levelFeign.selectSystemVipes();
+        vipes.remove(0);
+        List<Map<String, Object>> maps = new ArrayList<>();
+        //npc单价
         String npc = levelFeign.getVal("npc_unit_price");
-        String giveRate = levelFeign.getVal("hlb_give_rate");
-        map.put("npc_unit_price", npc);
-        map.put("giveRate", giveRate);
+        //冻结比例
+        Float freezeRateNpc = Float.valueOf(levelFeign.getVal("freeze_rate_npc"));
+        vipes.stream().forEach(u -> {
+            Map<String, Object> vips = new HashMap<>();
+            vips.put("amountId",u.getId());
+            //前端显示赠送HLB倍数
+            vips.put("rate", u.getHlbGiveRate().multiply(new BigDecimal(npc)));
+            //档位金额
+            vips.put("vip_amount", u.getVipCash());
+            //所需npc数量
+            Float npcNums = u.getVipCash() / Float.valueOf(npc);
+            if ((npcNums * 100) % 100 != 0) {
+                npcNums = npcNums+1;
+            }
+            //需要npc数量
+            vips.put("npcNums",npcNums.intValue());
+            //赠送hlb数量
+            vips.put("hlbNums",u.getHlbAmount());
+            //冻结npc数量
+            vips.put("npcFrozen",npcNums.intValue()*freezeRateNpc);
+            maps.add(vips);
+        });
+        map.put("vipMes",maps);
         return R.ok(map);
     }
 
@@ -119,10 +154,10 @@ public class Relation {
         //判断左区邀请码是否存在
         List<UserInfoEntity> infoEntityList = levelFeign.selectUserInfoesLikeCode("%" + code.getCode() + "%");
         List<UserRelationEntity> userRelationEntities = levelFeign.selectRelationByCode(code.getCode());
-        map.put("showRgt",Common.UNAUTHENTICATION);
-        infoEntityList.stream().forEach(u->{
-            if(u.getArea().equals("L") && userRelationEntities.size()>1){
-                map.put("showRgt",Common.AUTHENTICATION);
+        map.put("showRgt", Common.UNAUTHENTICATION);
+        infoEntityList.stream().forEach(u -> {
+            if (u.getArea().equals("L") && userRelationEntities.size() > 1) {
+                map.put("showRgt", Common.AUTHENTICATION);
             }
         });
         return R.ok(map);

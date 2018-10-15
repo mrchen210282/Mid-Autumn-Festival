@@ -49,7 +49,11 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
 
     @Override
     public Integer selectOrderCount(Map<String, Object> map) {
-        Integer count = baseMapper.selectOrderCount(map);
+        baseMapper.selectOrderCount(map);
+        Integer count = 0;
+        if(null != map.get("count")) {
+            count = new Integer(map.get("count").toString());
+        }
         return count;
     }
 
@@ -61,8 +65,14 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
 
     @Override
     public Integer tradeListCount(@RequestParam Map<String, Object> map) {
-        Integer integer = baseMapper.tradeListCount(map);
-        return integer;
+        baseMapper.tradeListCount(map);
+        map.get("count");
+        Integer count = 0;
+        if(null != map.get("count")) {
+            count = new Integer(map.get("count").toString());
+        }
+
+        return count;
     }
 
     @Override
