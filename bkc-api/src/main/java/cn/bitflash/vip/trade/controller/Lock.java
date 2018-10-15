@@ -48,7 +48,7 @@ public class Lock {
     public R updateTradeState() {
         String state = "5";
         List<UserMarketTradeEntity> trades = tradeFeign.selectTradeByState(state);
-        trades.stream().forEach((t) -> {
+            trades.stream().forEach((t) -> {
             String[] str = redisUtils.get(t.getId(), String[].class);
             if (str == null || str.length == 0) {
                 if (t.getState().equals(TradeCommon.STATE_LOCK)) {
