@@ -1,5 +1,6 @@
 package cn.bitflash.vip.buy.controller;
 
+import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.utils.GeTuiSendMessage;
 import cn.bitflash.utils.R;
@@ -9,10 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
 
@@ -31,10 +29,18 @@ public class RemindBuy {
     /**
      * -------------点击催单(待收款/待收币)------------
      */
+    @Login
     @PostMapping("remind")
     @Transactional(propagation = Propagation.REQUIRED)
-    public R reminders(@RequestParam("id") String id) {
+    public R reminders(@RequestParam("id") String id,@RequestParam("state") String state, @RequestAttribute("uid") String uid) {
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
+        if(userMarketBuyEntity == null){
+            return R.ok().put("code", FAIL);
+        }
+        if (state != userMarketBuyEntity.getState()) {
+            return R.ok().put("code", FAIL);
+        }
+
         //获取Cid
         String cid = null;
         //获取推送信息
@@ -47,11 +53,11 @@ public class RemindBuy {
             cid = feign.selectCid(userMarketBuyEntity.getSellUid());
             text = feign.getVal("reminders");
         }
-        String idVal = redisUtils.get(BuyCommon.ADD_LOCKNUM + id);
+        String idVal = redisUtils.get(BuyCommon.ADD_LOCKNUM + id + uid);
         if (StringUtils.isBlank(idVal)) {
             try {
                 GeTuiSendMessage.sendSingleMessage(text, cid);
-                redisUtils.set(BuyCommon.ADD_LOCKNUM + id, id, 60 * 60);
+                redisUtils.set(BuyCommon.ADD_LOCKNUM + id + uid, id, 60 * 60);
             } catch (Exception e) {
                 return R.error("推送失败");
             }
@@ -62,9 +68,10 @@ public class RemindBuy {
     /**
      * -------------判定是否催单(待收币)------------
      */
+    @Login
     @PostMapping("remind/decide")
-    public R checkReminders(@RequestParam("id") String id) {
-        if (redisUtils.get(BuyCommon.ADD_LOCKNUM + id) == null || "".equals(redisUtils.get(BuyCommon.ADD_LOCKNUM + id))) {
+    public R checkReminders(@RequestParam("id") String id, @RequestAttribute("uid") String uid) {
+        if (redisUtils.get(BuyCommon.ADD_LOCKNUM + id + uid) == null || "".equals(redisUtils.get(BuyCommon.ADD_LOCKNUM + id + uid))) {
             return R.ok().put("state", "0");
         } else {
             return R.ok().put("state", "1");
