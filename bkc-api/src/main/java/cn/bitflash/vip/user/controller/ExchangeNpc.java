@@ -86,6 +86,9 @@ public class ExchangeNpc {
 
         //SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
         LocalDate localDate = LocalDate.now();
+        System.out.println("------------------------------------------------------");
+        System.out.println("当前系统时间为-----------"+localDate+"-----------------");
+        System.out.println("------------------------------------------------------");
         DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
         Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
@@ -105,6 +108,7 @@ public class ExchangeNpc {
         map.put("hlb_handling_fee",Float.valueOf(hlb_handling_fee));
         return R.ok(map);
     }
+
 
     @Login
     @PostMapping("getNpcHistory")

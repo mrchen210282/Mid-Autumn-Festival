@@ -19,6 +19,9 @@ public class DailyTotalNpcController {
 
     @PostMapping("/inner/dailytotalnpc/selectById")
     public DailyTotalNpcEntity selectById(@RequestParam("id")LocalDate id){
+        System.out.println("------------------------------------------------------");
+        System.out.println("当前系统时间为-----------"+id+"-----------------");
+        System.out.println("------------------------------------------------------");
         return dailyTotalNpcService.selectById(id);
     }
 
