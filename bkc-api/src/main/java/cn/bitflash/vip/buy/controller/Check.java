@@ -41,7 +41,7 @@ public class Check {
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         //判定订单不存在
         if (userMarketBuyEntity == null || !ORDER_STATE_PUBLISH.equals(userMarketBuyEntity.getState())) {
-            return R.ok().put("code", TRADEMISS);
+            return R.error("订单不存在");
         }
         //获取手续费
         Map<String, BigDecimal> map = tradeUtil.poundage(id);
@@ -60,7 +60,7 @@ public class Check {
     public R checkOrder(@RequestParam("id") String id) {
         UserBuyBean userBuyBean = feign.checkOrder(id);
         if (userBuyBean == null) {
-            return R.ok().put("code", "订单不存在").put("statue","500");
+            return R.error("订单不存在");
         }
         Map<String, BigDecimal> map = tradeUtil.poundage(id);
         return R.ok().put("userBean", userBuyBean).put("totalQuantity", map.get("totalQuantity"))
