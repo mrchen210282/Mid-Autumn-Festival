@@ -47,7 +47,7 @@ public class Relation {
         //当前算力
         SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getPowerLevel());
         BigDecimal power = new BigDecimal(systemPowerEntity.getPower() * 100);
-        map.put("now_power", power.setScale(2, 4) + "%");
+        map.put("now_power", power.intValue() + "%");
         //HLB冻结数量
         map.put("hlb_frozen", hlbEntity.getFrozenAssets());
         return R.ok(map);
