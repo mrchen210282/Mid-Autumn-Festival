@@ -34,7 +34,7 @@ public class RemindTrade {
 
     @Login
     @PostMapping("singleMsg")
-    public R sendSingleMsg(@ApiParam(value = "被催单人的uid") @RequestParam String uid,
+    public R sendSingleMsg(@ApiParam(value = "被催单人的uid") @RequestParam String  uid,
                            @ApiParam(value = "订单id") @RequestParam String id) throws Exception {
         String redisKey = RedisKey.SEND_TRADE_MESSAGE + id;
         String idVal = redisUtils.get(redisKey);
