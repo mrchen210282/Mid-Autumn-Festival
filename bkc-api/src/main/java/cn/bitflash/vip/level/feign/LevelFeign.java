@@ -115,6 +115,11 @@ public interface LevelFeign {
     @PostMapping("/inner/systemPower/selectById")
     SystemPowerEntity selectSystemPowerById(@RequestParam("id")Integer id);
 
+    @PostMapping("/inner/systemPower/selectSystemPowerByNum")
+    SystemPowerEntity selectSystemPowerByNum(@RequestParam("num")Integer num);
+
+
+
     /**
      * system_vip 表
      */

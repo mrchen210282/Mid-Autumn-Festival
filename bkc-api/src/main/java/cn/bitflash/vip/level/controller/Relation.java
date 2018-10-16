@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +61,8 @@ public class Relation {
         Map<String, Object> map = new HashMap<>();
         //当前算力
         SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getPowerLevel());
-        map.put("now_power", systemPowerEntity.getPower() * 100 + "%");
+
+        map.put("now_power", new BigDecimal(String.valueOf(systemPowerEntity.getPower())).multiply(new BigDecimal(100)) + "%");
         //总邀请人数
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
         List<UserRelationEntity> reles = levelFeign.selectRelationByCode(code.getCode());
@@ -70,7 +72,11 @@ public class Relation {
         map.put("point", point);
         //算力区间
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        map.put("min_max", vipEntity.getMinPower() * 100 + "% ~ " + vipEntity.getMaxPower() * 100 + "%");
+        SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
+        SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
+        BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
+        BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
+        map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         return R.ok(map);
     }
 
@@ -89,6 +95,9 @@ public class Relation {
         map.put("hlb_available", hlbEntity.getAvailableAssets());
         //HLB冻结数量
         map.put("hlb_frozen", hlbEntity.getFrozenAssets());
+        //页面提示信息
+        String point = levelFeign.getVal("hlb_point");
+        map.put("point",point);
         //目前额度
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
@@ -117,7 +126,7 @@ public class Relation {
             //赠送hlb数量
             vips.put("hlbNums",u.getHlbAmount());
             //冻结npc数量
-            vips.put("npcFrozen",npcNums.intValue()*freezeRateNpc);
+            vips.put("npcFrozen",(int)(npcNums.intValue()*freezeRateNpc));
             maps.add(vips);
         });
         map.put("vipMes",maps);
@@ -164,5 +173,7 @@ public class Relation {
 
 
     }
+
+
 
 }
