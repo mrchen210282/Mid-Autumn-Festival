@@ -35,10 +35,10 @@ public class RemindBuy {
     public R reminders(@RequestParam("id") String id,@RequestParam("state") String state, @RequestAttribute("uid") String uid) {
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         if(userMarketBuyEntity == null){
-            return R.ok().put("code", FAIL);
+            return R.error("催单失败");
         }
-        if (state != userMarketBuyEntity.getState()) {
-            return R.ok().put("code", FAIL);
+        if (!state.equals(userMarketBuyEntity.getState())) {
+            return R.error("催单失败");
         }
 
         //获取Cid
@@ -62,7 +62,7 @@ public class RemindBuy {
                 return R.error("推送失败");
             }
         }
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 
     /**

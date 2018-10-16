@@ -28,9 +28,17 @@ public class BuyAppeal {
      */
     @PostMapping("appeal")
     @Transactional(propagation = Propagation.REQUIRED)
-    public R appeal(@RequestParam("id") String id) {
+    public R appeal(@RequestParam("state") String state,@RequestParam("id") String id) {
+
         //修改订单状态
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
+        if(userMarketBuyEntity == null){
+            return R.error("申诉失败");
+        }
+        if (!state.equals(userMarketBuyEntity.getState())) {
+            return R.error("申诉失败");
+        }
+
         userMarketBuyEntity.setState(ORDER_STATE_APPEAL);
         feign.updateBuyById(userMarketBuyEntity);
         //添加订单到申诉表中
@@ -43,6 +51,6 @@ public class BuyAppeal {
         userComplaintEntity.setIsRead(IS_NOT_READED);
         userComplaintEntity.setOrderState(userMarketBuyEntity.getState());
         feign.insertComplaint(userComplaintEntity);
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 }

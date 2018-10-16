@@ -36,23 +36,19 @@ public class Send {
     public R userSend(@RequestParam("quantity") String quantity, @RequestParam("address") String address, @RequestParam("user_pwd") String user_pwd, @RequestAttribute("uid") String uid) {
 
         //交易状态：‘-1’余额不足错误；‘0’操作成功；‘1’用户不存在；‘2’其他错误；‘3’交易数量错误；‘4’交易密码错误
-        int code = 2;
-
         /*-------------校验---------------*/
         //用户是否存在
         UserWalletAddressEntity sendee = sendFrign.selectAddress(address);
         if (sendee == null || "".equals(sendee)) {
             //用户不存在
-            code = 1;
-            return R.ok().put("code", code);
+            return R.error("用户不存在");
         }
 
         //交易密码
         UserSecretEntity userSecretEntity = sendFrign.selectSecretById(uid);
         if (!user_pwd.equals(userSecretEntity.getPayPassword())) {
             // 交易密码不正确
-            code = 4;
-            return R.ok().put("code", code);
+            return R.error("交易密码不正确");
         }
 
         //交易数量是否大于100且是100的倍数
@@ -60,8 +56,7 @@ public class Send {
         BigDecimal num = quantite.divide(new BigDecimal(100), 0, BigDecimal.ROUND_DOWN);
         BigDecimal result = num.subtract(quantite.divide(new BigDecimal(100)));
         if (quantite.compareTo(new BigDecimal(100)) == -1 || result.compareTo(new BigDecimal(0)) == -1) {
-            code = 3;
-            return R.ok().put("code", code);
+            return R.error("余额不足");
         }
 
         //赠送数量
@@ -88,9 +83,7 @@ public class Send {
             sendFrign.updateAssetsById(send_account);
         } else {
             //数量不够扣款
-            code = -1;
-            //交易失败
-            return R.ok().put("code", code);
+            return R.error("余额不足");
         }
 
         //接收人账户充值
@@ -116,9 +109,8 @@ public class Send {
         userbroker.setSellBrokerage(get_brokerages);
         //修改到user_brokerage
         sendFrign.updateBrokerage(userbroker);
-        code = 0;
 
-        return R.ok().put("code", code);
+        return R.ok();
     }
 
     @Login

@@ -68,7 +68,7 @@ public class AddOrCancelBuy {
     public R cancelBuyMessage(@RequestParam String id) {
         UserMarketBuyEntity ub = feign.selectBuyById(id);
         if (ub == null || !ORDER_STATE_PUBLISH.equals(ub.getState())) {
-            return R.ok().put("code", FAIL);
+            return R.error("订单不存在");
         }
         //user_buy删除记录
         feign.deleteBuyById(id);
@@ -106,14 +106,14 @@ public class AddOrCancelBuy {
         //查询订单是否存在
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         if (userMarketBuyEntity == null || !ORDER_STATE_PUBLISH.equals(userMarketBuyEntity.getState())) {
-            return R.ok().put("code", TRADEMISS);
+            return R.error("订单不存在");
         }
         //获取手续费
         Map<String, BigDecimal> map = tradeUtil.poundage(id);
         //扣除手续费
         boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
         if (!dec) {
-            return R.ok().put("code", FAIL);
+            return R.error("余额不足");
         }
 
         //添加手续费记录

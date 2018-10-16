@@ -36,7 +36,7 @@ public class UserBuyConfirm {
         UserSecretEntity userSecretEntity = feign.selectUid(uid);
         //交易密码不正确
         if (!pwd.equals(userSecretEntity.getPayPassword())) {
-            return R.ok().put("code", "3");
+            return R.error("交易密码不正确");
         }
 
         //判断对方是否点击申诉
