@@ -30,4 +30,9 @@ public class SystemPowerController {
     public  SystemPowerEntity selectByupgradeNum(@RequestParam("upgradeNum") String upgradeNum){
         return systemPowerService.selectOne(new EntityWrapper<SystemPowerEntity>().eq("upgrade_num",upgradeNum));
     }
+
+    @PostMapping("/inner/systemPower/selectSystemPowerByNum")
+    public SystemPowerEntity selectSystemPowerByNum(@RequestParam("num")Integer num){
+        return systemPowerService.selectOne(new EntityWrapper<SystemPowerEntity>().eq("upgrade_num",num));
+    }
 }

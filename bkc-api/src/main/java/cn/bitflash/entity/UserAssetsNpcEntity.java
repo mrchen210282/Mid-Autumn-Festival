@@ -6,6 +6,9 @@ public class UserAssetsNpcEntity {
 
     private String uid;
 
+    //总购买
+    private BigDecimal purchase;
+
     //总收益
     private BigDecimal totelAssets;
 
@@ -30,6 +33,14 @@ public class UserAssetsNpcEntity {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public BigDecimal getPurchase() {
+        return purchase;
+    }
+
+    public void setPurchase(BigDecimal purchase) {
+        this.purchase = purchase;
     }
 
     public BigDecimal getTotelAssets() {
