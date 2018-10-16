@@ -43,7 +43,7 @@ public class Vip {
         //算力区间
         BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
         BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
-        map.put("min_max", min + "% ~ " + max + "%");
+        map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         //当前档位的释放额度
         map.put("hlb_amount", vipEntity.getHlbAmount());
         return R.ok(map);
