@@ -79,7 +79,7 @@ public class Relation {
             max = new BigDecimal(String.valueOf(powerEntity2.getSpecialPower())).multiply(new BigDecimal(100));
         }
 
-        map.put("now_power", now_power + "%");
+        map.put("now_power", now_power.intValue() + "%");
         //算力区间
         map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         //总邀请人数
