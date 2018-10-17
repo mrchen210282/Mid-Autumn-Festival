@@ -41,8 +41,14 @@ public class Vip {
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
         map.put("give_rate", vipEntity.getHlbGiveRate().multiply(npc));
         //算力区间
+        Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
         BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
         BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
+        if(specialPower.equals(userInfo.getVipLevel())){
+             min = new BigDecimal(String.valueOf(powerEntity1.getSpecialPower())).multiply(new BigDecimal(100));
+             max = new BigDecimal(String.valueOf(powerEntity2.getSpecialPower())).multiply(new BigDecimal(100));
+        }
+
         map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         //当前档位的释放额度
         map.put("hlb_amount", vipEntity.getHlbAmount());
@@ -108,7 +114,7 @@ public class Vip {
         hlbTradeHistoryEntity.setFrozenNpc(frozenNpc);
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
         //7.更新userinfo的算力和vip等级
-        if (userInfo.getPowerLevel() < vipEntity.getMinPower()) {
+        if (userInfo.getUpgradeNum() < vipEntity.getMinPower()) {
             userInfo.setPowerLevel(vipEntity.getMinPower());
         }
         levelFeign.updateUserInfo(userInfo);
@@ -128,8 +134,8 @@ public class Vip {
             if (peopleNum < f_power.getUpgradeNum()) {
                 //邀请人数小于最大算力对应的人数
                 f_info.setUpgradeNum(peopleNum + 1);
-                SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerByNum(f_info.getUpgradeNum());
-                f_info.setPowerLevel(f_nextPower.getId());
+                SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerById(f_info.getUpgradeNum());
+                f_info.setPowerLevel(f_nextPower.getUpgradeNum());
                 levelFeign.updateUserInfo(f_info);
             }
         }

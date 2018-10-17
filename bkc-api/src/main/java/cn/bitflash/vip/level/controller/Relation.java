@@ -45,8 +45,13 @@ public class Relation {
         SystemVipEntity systemVipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
         map.put("now_amount", systemVipEntity.getVipCash());
         //当前算力
-        SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getPowerLevel());
+        Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
+
+        SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getUpgradeNum());
         BigDecimal power = new BigDecimal(systemPowerEntity.getPower() * 100);
+        if(userInfo.getVipLevel().equals(specialPower)){
+            power = new BigDecimal(systemPowerEntity.getSpecialPower() * 100);
+        }
         map.put("now_power", power.intValue() + "%");
         //HLB冻结数量
         map.put("hlb_frozen", hlbEntity.getFrozenAssets());
@@ -60,9 +65,23 @@ public class Relation {
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         Map<String, Object> map = new HashMap<>();
         //当前算力
-        SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getPowerLevel());
+        SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(userInfo.getUpgradeNum());
+        Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
+        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
+        SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
+        SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
+        BigDecimal now_power = new BigDecimal(String.valueOf(systemPowerEntity.getPower())).multiply(new BigDecimal(100));
+        BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
+        BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
+        if(specialPower.equals(userInfo.getVipLevel())){
+            now_power =  new BigDecimal(String.valueOf(systemPowerEntity.getSpecialPower())).multiply(new BigDecimal(100));
+            min = new BigDecimal(String.valueOf(powerEntity1.getSpecialPower())).multiply(new BigDecimal(100));
+            max = new BigDecimal(String.valueOf(powerEntity2.getSpecialPower())).multiply(new BigDecimal(100));
+        }
 
-        map.put("now_power", new BigDecimal(String.valueOf(systemPowerEntity.getPower())).multiply(new BigDecimal(100)) + "%");
+        map.put("now_power", now_power.intValue() + "%");
+        //算力区间
+        map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         //总邀请人数
         UserInvitationCodeEntity code = levelFeign.selectInvitationCodeByUid(uid);
         List<UserRelationEntity> reles = levelFeign.selectRelationByCode(code.getCode());
@@ -70,13 +89,8 @@ public class Relation {
         String point = levelFeign.getVal("power_point");
         //提示
         map.put("point", point);
-        //算力区间
-        SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
-        SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
-        BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
-        BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
-        map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
+
+
         return R.ok(map);
     }
 

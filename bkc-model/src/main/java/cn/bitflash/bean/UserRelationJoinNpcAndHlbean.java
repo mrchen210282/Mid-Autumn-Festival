@@ -98,6 +98,16 @@ public class UserRelationJoinNpcAndHlbean {
     //当前档位最大算力
     private Float maxPower;
 
+    private Float specialPower;
+
+    public Float getSpecialPower() {
+        return specialPower;
+    }
+
+    public void setSpecialPower(Float specialPower) {
+        this.specialPower = specialPower;
+    }
+
     public String getUid() {
         return uid;
     }
