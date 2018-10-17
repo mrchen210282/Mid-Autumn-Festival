@@ -8,13 +8,13 @@ import cn.bitflash.vip.user.entity.NpcForm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.RandomStringUtils;
-import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("npc")
 public class ExchangeNpc {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UserFeign userFeign;
@@ -37,9 +39,8 @@ public class ExchangeNpc {
         if (!Encrypt.SHA256(form.getPassword() + login.getSalt()).equals(login.getPassword())) {
             return R.error("密码验证错误");
         }
-        Float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
         LocalDate localDate = LocalDate.now();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate.toString());
         //兑换的npc数量
         BigDecimal npc = form.getNpc();
         //兑换的hlb数量
@@ -51,12 +52,12 @@ public class ExchangeNpc {
             return R.error("可兑换npc数量不足");
         }
 
-        if(form.getHlb().doubleValue()%100!=0){
+        if (form.getHlb().doubleValue() % 100 != 0) {
             return R.error("HLB兑换数量必须为100的倍数");
         }
         BigDecimal fee = hlb_handling_fee.multiply(form.getHlb());
 
-        if(fee.compareTo(form.getExpense()) != 0){
+        if (fee.compareTo(form.getExpense()) != 0) {
             return R.error("手续费出现异常");
         }
         UserNpcTradeHistoryEntity userNpcTradeHistoryEntity = new UserNpcTradeHistoryEntity();
@@ -69,13 +70,11 @@ public class ExchangeNpc {
         //扣除用户hlb
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
         hlbNumEntity.setAvailableAssets(hlbNumEntity.getAvailableAssets().subtract(form.getHlb().add(form.getExpense())));
-
         userFeign.updateUserAssetsHlb(hlbNumEntity);
         //增加用户npc数量
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
-
         npcNumEntity.setAvailableAssets(npcNumEntity.getAvailableAssets().add(npc));
-        npcNumEntity.setTotelAssets(npcNumEntity.getFrozenAssets().add(npc));
+        npcNumEntity.setTotelAssets(npcNumEntity.getTotelAssets().add(npc));
         userFeign.updateUserAssetsNpc(npcNumEntity);
         //扣除可兑换npc
         npcEntity.setTotalNpc(npcEntity.getTotalNpc().subtract(npc));
@@ -87,11 +86,14 @@ public class ExchangeNpc {
     @PostMapping("showNpcNum")
     @ApiOperation("获取npc数量")
     public R showNpcNum(@RequestAttribute("uid") String uid) {
-       // Date now = new Date();
+        // Date now = new Date();
 
         //SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
         LocalDate localDate = LocalDate.now();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate);
+        logger.info("------------------------------------------------------");
+        logger.info("当前系统时间为-----------" + localDate + "-----------------");
+        logger.info("------------------------------------------------------");
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate.toString());
         Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
@@ -107,16 +109,17 @@ public class ExchangeNpc {
         map.put("rate", rate);
         //手续费
         String hlb_handling_fee = userFeign.getVal("hlb_handling_fee");
-        map.put("hlb_handling_fee",Float.valueOf(hlb_handling_fee));
+        map.put("hlb_handling_fee", Float.valueOf(hlb_handling_fee));
         return R.ok(map);
     }
+
 
     @Login
     @PostMapping("getNpcHistory")
     @ApiOperation("获取npc兑换历史记录")
-    public R getNpcHistory(@RequestAttribute("uid") String uid){
+    public R getNpcHistory(@RequestAttribute("uid") String uid) {
         List<UserNpcTradeHistoryEntity> list = userFeign.selectNpchistory(uid);
-        return R.ok(new ModelMap("hostorys",list));
+        return R.ok(new ModelMap("hostorys", list));
     }
 
 

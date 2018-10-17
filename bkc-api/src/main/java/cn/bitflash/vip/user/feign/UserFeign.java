@@ -88,7 +88,7 @@ public interface UserFeign {
      * daily_total_npc 表
      */
     @PostMapping("/inner/dailytotalnpc/selectById")
-    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")LocalDate id);
+    DailyTotalNpcEntity selectDailyTotalNpcEntityById(@RequestParam("id")String id);
 
     @PostMapping("/inner/dailytotalnpc/update")
     Boolean updateDailyTotalNpc(@RequestBody DailyTotalNpcEntity daily);

@@ -32,13 +32,20 @@ public class Vip {
     public R showVipMess(@RequestAttribute("uid") String uid) {
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        Map<String,Object> map = new HashMap<>();
+        SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
+        SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
+        Map<String, Object> map = new HashMap<>();
         //目前额度
-        map.put("now_amount",vipEntity.getVipCash());
+        map.put("now_amount", vipEntity.getVipCash());
         //赠送比例
-        map.put("give_rate",vipEntity.getHlbGiveRate());
+        BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
+        map.put("give_rate", vipEntity.getHlbGiveRate().multiply(npc));
         //算力区间
-        map.put("min_max",vipEntity.getMinPower()*100+"% ~ "+vipEntity.getMaxPower()*100+"%");
+        BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
+        BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
+        map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
+        //当前档位的释放额度
+        map.put("hlb_amount", vipEntity.getHlbAmount());
         return R.ok(map);
     }
 
@@ -65,18 +72,16 @@ public class Vip {
         //冻结时加入冻结的比例
         BigDecimal freezeRateNpc = new BigDecimal(levelFeign.getVal("freeze_rate_npc"));
         //npc扣除数量
-        BigDecimal npcNum = new BigDecimal(vipEntity.getVipCash()).divide(npc);
-        if((npcNum.doubleValue()*100)%100!=0){
-            npcNum = new BigDecimal(npcNum.intValue()+1);
-        }
+        BigDecimal npcNum = new BigDecimal(vipEntity.getVipCash()).divide(npc, 0);
         //npc冻结数量
         BigDecimal frozenNpc = npcNum.multiply(freezeRateNpc);
+        frozenNpc = new BigDecimal(frozenNpc.intValue());
         UserAssetsNpcEntity npcEntity = levelFeign.selectUserAssetsNpcById(uid);
         if (npcEntity.getAvailableAssets().compareTo(npcNum) == -1) {
             return R.error("当前升级所需的NPC数量不足");
         }
         //公式：总可用=总可用-（1-冻结比列）*所需npc数量
-        npcEntity.setTotelAssets(npcEntity.getTotelAssets().subtract(npcNum.multiply(new BigDecimal(1).subtract(freezeRateNpc))));
+        //npcEntity.setTotelAssets(npcEntity.getTotelAssets().subtract(npcNum.multiply(new BigDecimal(1).subtract(freezeRateNpc))));
         npcEntity.setAvailableAssets(npcEntity.getAvailableAssets().subtract(npcNum));
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets().add(frozenNpc));
         npcEntity.setNpcPrice(npcEntity.getNpcPrice().add(new BigDecimal(vipEntity.getVipCash())));
@@ -118,14 +123,15 @@ public class Vip {
             UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
             int peopleNum = f_info.getUpgradeNum();
             //最大算力id
-            String power_id = levelFeign.getVal("max_power_id");
-            SystemPowerEntity systemPowerEntity = levelFeign.selectSystemPowerById(Integer.valueOf(power_id));
-            if (peopleNum < systemPowerEntity.getUpgradeNum()) {
+            SystemVipEntity f_vip = levelFeign.selectSystemVipById(f_info.getVipLevel());
+            SystemPowerEntity f_power = levelFeign.selectSystemPowerById(f_vip.getMaxPower());
+            if (peopleNum < f_power.getUpgradeNum()) {
                 //邀请人数小于最大算力对应的人数
                 f_info.setUpgradeNum(peopleNum + 1);
+                SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerByNum(f_info.getUpgradeNum());
+                f_info.setPowerLevel(f_nextPower.getId());
                 levelFeign.updateUserInfo(f_info);
             }
-
         }
 
         //10.初始化邀请码
