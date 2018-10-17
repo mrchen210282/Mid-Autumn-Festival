@@ -74,8 +74,13 @@ public class Relation {
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
         SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
         SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
+        Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
         BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
         BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
+        if(specialPower.equals(userInfo.getVipLevel())){
+            min = new BigDecimal(String.valueOf(powerEntity1.getSpecialPower())).multiply(new BigDecimal(100));
+            max = new BigDecimal(String.valueOf(powerEntity2.getSpecialPower())).multiply(new BigDecimal(100));
+        }
         map.put("min_max",min.intValue() +"% ~ "+max.intValue()+"%");
         return R.ok(map);
     }

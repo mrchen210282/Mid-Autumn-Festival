@@ -2,18 +2,18 @@ package cn.bitflash.entity;
 
 public class SystemPowerEntity {
 
-    private Integer id;
-
     private Float power;
 
     private Integer upgradeNum;
 
-    public Integer getId() {
-        return id;
+    private Float specialPower;
+
+    public Float getSpecialPower() {
+        return specialPower;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSpecialPower(Float specialPower) {
+        this.specialPower = specialPower;
     }
 
     public Float getPower() {
