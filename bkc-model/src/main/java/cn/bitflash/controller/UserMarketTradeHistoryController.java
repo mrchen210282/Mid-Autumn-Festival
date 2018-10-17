@@ -1,5 +1,6 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.UserTradeDetail;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.entity.UserMarketTradeHistoryEntity;
 import cn.bitflash.service.UserMarketTradeHistoryService;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class UserMarketTradeHistoryController {
@@ -58,5 +62,18 @@ public class UserMarketTradeHistoryController {
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userMarketTradeHistoryService.deleteById(id);
     }
+
+    /**
+     * selectTradeLog
+     *
+     * @return
+     */
+    @PostMapping("/inner/userMarketTrade/selectTradeLog")
+    public UserTradeDetail selectTradeLog(@RequestParam("id") String id) {
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("id",id);
+        return userMarketTradeHistoryService.selectTradeLog(map);
+    }
+
 
 }

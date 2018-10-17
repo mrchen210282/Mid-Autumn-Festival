@@ -177,8 +177,8 @@ public class AddOrCancel {
                 str = new String[2];
                 str[0] = orderId;
                 str[1] = uid;
-                redisUtils.set(orderId, str, 60);
-                //redisUtils.set(orderId, str, 60 * 60);
+                //redisUtils.set(orderId, str, 60);
+                redisUtils.set(orderId, str, 60 * 60);
                 //当天时间凌晨23:59:59的秒数
                 long tomorrow = LocalDateTime.now().withHour(23)
                         .withMinute(59)

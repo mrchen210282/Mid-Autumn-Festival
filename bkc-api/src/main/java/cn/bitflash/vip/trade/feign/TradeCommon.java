@@ -38,7 +38,7 @@ public class TradeCommon {
     // 待确认
     public final static String STATE_CONFIRM = "6";
 
-    // 申拆中
+    // 申诉中
     public final static String STATE_COMPLAINT = "9";
 
 
