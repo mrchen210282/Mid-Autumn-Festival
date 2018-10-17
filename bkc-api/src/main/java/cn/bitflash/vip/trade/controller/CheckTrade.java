@@ -37,23 +37,27 @@ public class CheckTrade {
         map.put("state",null);
         if (StringUtils.isNotBlank(id)) {
             UserTradeDetail userTradeDetail = tradeFeign.selectDetail(map);
-            TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
-            if (null != tradePoundageEntity) {
-                //扣除交易额=交易额+手续费
-                BigDecimal deductAmount = userTradeDetail.getQuantity().add(tradePoundageEntity.getPoundage());
-                userTradeDetail.setDeductAmount(deductAmount);
+            if(null != userTradeDetail) {
+                TradePoundageEntity tradePoundageEntity = tradeFeign.selectTradePoundageById(id);
+                if (null != tradePoundageEntity) {
+                    //扣除交易额=交易额+手续费
+                    BigDecimal deductAmount = userTradeDetail.getQuantity().add(tradePoundageEntity.getPoundage());
+                    userTradeDetail.setDeductAmount(deductAmount);
+                }
+                if (null != userTradeDetail) {
+                    //数量
+                    BigDecimal quantity = userTradeDetail.getQuantity();
+                    //价格
+                    BigDecimal price = userTradeDetail.getPrice();
+                    BigDecimal tradeAmount = price.multiply(quantity);
+                    userTradeDetail.setTradeAmount(tradeAmount);
+                }
+                return R.ok().put("userTradeBean", userTradeDetail);
+            } else {
+                return R.error().put("status",500).put("msg","订单不存在");
             }
-            if (null != userTradeDetail) {
-                //数量
-                BigDecimal quantity = userTradeDetail.getQuantity();
-                //价格
-                BigDecimal price = userTradeDetail.getPrice();
-                BigDecimal tradeAmount = price.multiply(quantity);
-                userTradeDetail.setTradeAmount(tradeAmount);
-            }
-            return R.ok().put("userTradeBean", userTradeDetail);
         } else {
-            return R.error("参数不能为空！");
+            return R.error().put("status",500).put("msg","订单号:" + id + "不存在！");
         }
     }
 
