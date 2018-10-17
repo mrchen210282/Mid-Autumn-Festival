@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import java.math.BigDecimal;
+
 public class UserAssetsHlbBean {
 
     private String uid;
@@ -8,7 +10,7 @@ public class UserAssetsHlbBean {
     private float totelAssets;
 
     //冻结
-    private float frozenAssets;
+    private BigDecimal frozenAssets;
 
     //每天释放
     private float dailyRelease;
@@ -17,7 +19,7 @@ public class UserAssetsHlbBean {
     private float totelRelease;
 
     //hlb可用资产
-    private float availableAssets;
+    private BigDecimal availableAssets;
 
     //左业绩
     private float lftAchievement;
@@ -50,11 +52,11 @@ public class UserAssetsHlbBean {
         this.totelAssets = totelAssets;
     }
 
-    public float getFrozenAssets() {
+    public BigDecimal getFrozenAssets() {
         return frozenAssets;
     }
 
-    public void setFrozenAssets(float frozenAssets) {
+    public void setFrozenAssets(BigDecimal frozenAssets) {
         this.frozenAssets = frozenAssets;
     }
 
@@ -74,11 +76,11 @@ public class UserAssetsHlbBean {
         this.totelRelease = totelRelease;
     }
 
-    public float getHlbAssets() {
+    public BigDecimal getHlbAssets() {
         return availableAssets;
     }
 
-    public void setHlbAssets(float hlbAssets) {
+    public void setHlbAssets(BigDecimal hlbAssets) {
         this.availableAssets = hlbAssets;
     }
 
@@ -98,11 +100,11 @@ public class UserAssetsHlbBean {
         this.rgtAchievement = rgtAchievement;
     }
 
-    public float getAvailableAssets() {
+    public BigDecimal getAvailableAssets() {
         return availableAssets;
     }
 
-    public void setAvailableAssets(float availableAssets) {
+    public void setAvailableAssets(BigDecimal availableAssets) {
         this.availableAssets = availableAssets;
     }
 
