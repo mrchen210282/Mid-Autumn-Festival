@@ -45,7 +45,7 @@ public class Validate {
         //是否实名认证
         map.put("auth", info.getIsAuth());
         //当前算力
-        map.put("level", info.getPowerLevel());
+        map.put("level", info.getUpgradeNum());
         //uid
         map.put("uid", uid);
         //是否设置了支付密码

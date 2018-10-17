@@ -114,7 +114,7 @@ public class Vip {
         hlbTradeHistoryEntity.setFrozenNpc(frozenNpc);
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
         //7.更新userinfo的算力和vip等级
-        if (userInfo.getPowerLevel() < vipEntity.getMinPower()) {
+        if (userInfo.getUpgradeNum() < vipEntity.getMinPower()) {
             userInfo.setPowerLevel(vipEntity.getMinPower());
         }
         levelFeign.updateUserInfo(userInfo);
