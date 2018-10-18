@@ -27,11 +27,11 @@ public class UserInfoEntity implements Serializable {
     //头像
     private String avatar;
 
-    private Integer powerLevel;
-
     private Integer upgradeNum;
 
     private Integer vipLevel;
+
+    private Float currentPower;
 
     private String area;
 
@@ -42,6 +42,14 @@ public class UserInfoEntity implements Serializable {
 
     //hlb释放比率
     private Integer hlbRelease;
+
+    public Float getCurrentPower() {
+        return currentPower;
+    }
+
+    public void setCurrentPower(Float currentPower) {
+        this.currentPower = currentPower;
+    }
 
     public String getNicklock() {
         return nicklock;
@@ -129,14 +137,6 @@ public class UserInfoEntity implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public Integer getPowerLevel() {
-        return powerLevel;
-    }
-
-    public void setPowerLevel(Integer powerLevel) {
-        this.powerLevel = powerLevel;
     }
 
     public Integer getUpgradeNum() {

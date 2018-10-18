@@ -32,8 +32,6 @@ public class Vip {
     public R showVipMess(@RequestAttribute("uid") String uid) {
         UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(userInfo.getVipLevel());
-        SystemPowerEntity powerEntity1 = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
-        SystemPowerEntity powerEntity2 = levelFeign.selectSystemPowerById(vipEntity.getMaxPower());
         Map<String, Object> map = new HashMap<>();
         //目前额度
         map.put("now_amount", vipEntity.getVipCash());
@@ -41,14 +39,8 @@ public class Vip {
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
         map.put("give_rate", vipEntity.getHlbGiveRate().multiply(npc));
         //算力区间
-        Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
-        BigDecimal min = new BigDecimal(String.valueOf(powerEntity1.getPower())).multiply(new BigDecimal(100));
-        BigDecimal max = new BigDecimal(String.valueOf(powerEntity2.getPower())).multiply(new BigDecimal(100));
-        if (specialPower.equals(userInfo.getVipLevel())) {
-            min = new BigDecimal(String.valueOf(powerEntity1.getSpecialPower())).multiply(new BigDecimal(100));
-            max = new BigDecimal(String.valueOf(powerEntity2.getSpecialPower())).multiply(new BigDecimal(100));
-        }
-
+        BigDecimal min = new BigDecimal(vipEntity.getMinPower() * 100);
+        BigDecimal max = new BigDecimal(vipEntity.getMaxPower() * 100);
         map.put("min_max", min.intValue() + "% ~ " + max.intValue() + "%");
         //当前档位的释放额度
         map.put("hlb_amount", vipEntity.getHlbAmount());
@@ -62,17 +54,18 @@ public class Vip {
     public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestParam("amountId") Integer amountId) {
 
         //1.验证 邀请码
-        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
+        UserInfoEntity userInfo = levelFeign.selectUserInfoByUidForPower(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
 
-        //3.验证档位是否存在
+        //2.验证档位是否存在
         SystemVipEntity vipEntity = levelFeign.selectSystemVipById(amountId);
         if (vipEntity == null) {
             return R.error("升级档位信息有误");
         }
-        //4.更新npc数量
+
+        //3.更新npc数量
         //npc单价
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
         //冻结时加入冻结的比例
@@ -86,30 +79,36 @@ public class Vip {
         if (npcEntity.getAvailableAssets().compareTo(npcNum) == -1) {
             return R.error("当前升级所需的NPC数量不足");
         }
-        //公式：总可用=总可用-（1-冻结比列）*所需npc数量
-        //npcEntity.setTotelAssets(npcEntity.getTotelAssets().subtract(npcNum.multiply(new BigDecimal(1).subtract(freezeRateNpc))));
         npcEntity.setAvailableAssets(npcEntity.getAvailableAssets().subtract(npcNum));
         npcEntity.setFrozenAssets(npcEntity.getFrozenAssets().add(frozenNpc));
         npcEntity.setNpcPrice(npcEntity.getNpcPrice().add(new BigDecimal(vipEntity.getVipCash())));
         levelFeign.updateUserAssetsNpc(npcEntity);
+
+        //4.更新userinfo信息
+        //充值等级>当前等级
+        if (amountId > userInfo.getVipLevel()) {
+            //提升的vip等级>当前实际的vip等级
+            userInfo.setVipLevel(amountId);
+            if (vipEntity.getInitPower() > userInfo.getCurrentPower()) {
+                //初始算力>实际算力
+                userInfo.setCurrentPower(vipEntity.getInitPower());
+            }
+            levelFeign.updateUserInfo(userInfo);
+        }
+
         //5.更新hlb冻结数量
         BigDecimal hlbAmount = new BigDecimal(vipEntity.getHlbAmount());
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
+        //判断是否为老用户(有排点，但是没有冻结 hlb数量)
         boolean flag = false;
-        if (hlbEntity.getFrozenAssets().doubleValue() == 0 && relation != null) {
+        if (hlbEntity.getTotelAssets().doubleValue() == 0 && relation != null) {
             flag = true;
         }
         hlbEntity.setTotelAssets(hlbEntity.getTotelAssets().add(hlbAmount));
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets().add(hlbAmount));
-        if (amountId > userInfo.getVipLevel()) {
-            //hlbEntity.setVipReleaseCash(new BigDecimal(0));
-            //提升的vip等级>当前实际的vip等级
-            userInfo.setVipLevel(vipEntity.getId());
-            SystemPowerEntity npcPower = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
-            userInfo.setUpgradeNum(npcPower.getUpgradeNum());
-        }
         levelFeign.updateUserAssetsHlb(hlbEntity);
+
         //6.加入hlb兑换历史
         UserHlbTradeHistoryEntity hlbTradeHistoryEntity = new UserHlbTradeHistoryEntity();
         hlbTradeHistoryEntity.setId("00" + RandomStringUtils.randomNumeric(6));
@@ -118,62 +117,36 @@ public class Vip {
         hlbTradeHistoryEntity.setTotalNpc(npcNum);
         hlbTradeHistoryEntity.setFrozenNpc(frozenNpc);
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
-        //7.更新userinfo的算力和vip等级
-        if (userInfo.getUpgradeNum() < vipEntity.getMinPower()) {
-            userInfo.setPowerLevel(vipEntity.getMinPower());
-        }
-        levelFeign.updateUserInfo(userInfo);
 
+        //7.判断老用户数据(已经排过点但是hlb的总收益为0)
         String invitCode = userInfo.getInvitationCode();
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
         if (flag) {
-            //9.增加父邀请码人数
-            UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
-            int peopleNum = f_info.getUpgradeNum();
-            //最大算力id
+            //增加父邀请码人数
+            UserInfoEntity f_info = levelFeign.selectUserInfoByUidForPower(pCode.getUid());
             SystemVipEntity f_vip = levelFeign.selectSystemVipById(f_info.getVipLevel());
-            SystemPowerEntity f_power = levelFeign.selectSystemPowerById(f_vip.getMaxPower());
-            if (peopleNum < f_power.getUpgradeNum()) {
-                //邀请人数小于最大算力对应的人数
-                f_info.setUpgradeNum(peopleNum + 1);
-                SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerById(f_info.getUpgradeNum());
-                f_info.setUpgradeNum(f_nextPower.getUpgradeNum());
-                Float power = f_power.getPower();
-                Float nextPower = f_nextPower.getPower();
-                Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
-                if(f_info.getVipLevel().equals(specialPower)){
-                     power = f_power.getSpecialPower();
-                     nextPower = f_nextPower.getSpecialPower();
-                }
-                if(!power.equals(nextPower)){
-                    /**
-                     * 如果父级因此提升算力，将当前档位累计释放量清0
-                     */
-                    UserAssetsHlbEntity f_hlbEntity = levelFeign.selectUserAssetsHlbById(pCode.getUid());
-                    f_hlbEntity.setRegulateRelease(new BigDecimal(0));
-                    levelFeign.updateUserAssetsHlb(f_hlbEntity);
-                }
-                levelFeign.updateUserInfo(f_info);
-                return R.ok();
-            }
+            Integer inviteNum = f_info.getUpgradeNum() + 1;
+            Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
+            //更新算力值
+            f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
+            //更新最终人数
+            f_info.setUpgradeNum((int) (f_info.getUpgradeNum() % f_vip.getPeopleStep()));
+            levelFeign.updateUserInfo(f_info);
         }
         //8.验证是否排点
         if (relation != null) {
             return R.ok();
         } else {
             //9.增加父邀请码人数
-            UserInfoEntity f_info2 = levelFeign.selectUserInfoByUid(pCode.getUid());
-            int peopleNum2 = f_info2.getUpgradeNum();
-            //最大算力id
-            SystemVipEntity f_vip2 = levelFeign.selectSystemVipById(f_info2.getVipLevel());
-            SystemPowerEntity f_power2 = levelFeign.selectSystemPowerById(f_vip2.getMaxPower());
-            if (peopleNum2 < f_power2.getUpgradeNum()) {
-                //邀请人数小于最大算力对应的人数
-                f_info2.setUpgradeNum(peopleNum2 + 1);
-                SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerById(f_info2.getUpgradeNum());
-                f_info2.setPowerLevel(f_nextPower.getUpgradeNum());
-                levelFeign.updateUserInfo(f_info2);
-            }
+            UserInfoEntity f_info = levelFeign.selectUserInfoByUidForPower(pCode.getUid());
+            SystemVipEntity f_vip = levelFeign.selectSystemVipById(f_info.getVipLevel());
+            Integer inviteNum = f_info.getUpgradeNum() + 1;
+            Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
+            //更新算力值
+            f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
+            //更新最终人数
+            f_info.setUpgradeNum((int) (f_info.getUpgradeNum() % f_vip.getPeopleStep()));
+            levelFeign.updateUserInfo(f_info);
         }
 
         //10.初始化邀请码

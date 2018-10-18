@@ -49,9 +49,8 @@ public class UserRelationJoinNpcAndHlbean {
 
     //hlb可用值
     private Float hlbAvailableAssets;
-
-    //当前档位的hlb释放量
-    private Float vipReleaseCash;
+    //当前vip等级释放量
+    private Float regulateRelease;
 
     //npc总购买
     private Float npcPurchase;
@@ -98,22 +97,12 @@ public class UserRelationJoinNpcAndHlbean {
     //当前档位最大算力
     private Float maxPower;
 
-    //vip4级的特殊算力
-    private Float specialPower;
-
     //左业绩
     private Float lftAchievement;
 
     //右业绩
     private Float rgtAchievement;
 
-    public Float getSpecialPower() {
-        return specialPower;
-    }
-
-    public void setSpecialPower(Float specialPower) {
-        this.specialPower = specialPower;
-    }
 
     public String getUid() {
         return uid;
@@ -241,14 +230,6 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setHlbAvailableAssets(Float hlbAvailableAssets) {
         this.hlbAvailableAssets = hlbAvailableAssets;
-    }
-
-    public Float getVipReleaseCash() {
-        return vipReleaseCash;
-    }
-
-    public void setVipReleaseCash(Float vipReleaseCash) {
-        this.vipReleaseCash = vipReleaseCash;
     }
 
     public Float getNpcPurchase() {
@@ -385,5 +366,13 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setRgtAchievement(Float rgtAchievement) {
         this.rgtAchievement = rgtAchievement;
+    }
+
+    public Float getRegulateRelease() {
+        return regulateRelease;
+    }
+
+    public void setRegulateRelease(Float regulateRelease) {
+        this.regulateRelease = regulateRelease;
     }
 }
