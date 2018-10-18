@@ -24,4 +24,15 @@ public class AuthorityUserController {
         AuthorityUserEntity entity = authorityUserService.selectOne(new EntityWrapper<AuthorityUserEntity>().eq("mobile",mobile));
         return entity;
     }
+
+    /**
+     * selectAuthorityById
+     *
+     * @return
+     */
+    @PostMapping("/inner/authority/selectAuthorityById")
+    public AuthorityUserEntity selectAuthorityById(@RequestParam("id") String id) {
+        AuthorityUserEntity entity = authorityUserService.selectById(id);
+        return entity;
+    }
 }
