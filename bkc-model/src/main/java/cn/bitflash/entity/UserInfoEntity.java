@@ -33,8 +33,6 @@ public class UserInfoEntity implements Serializable {
     //头像
     private String avatar;
 
-    private Integer powerLevel;
-
     private Integer upgradeNum;
 
     private Integer vipLevel;
@@ -119,14 +117,6 @@ public class UserInfoEntity implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public Integer getPowerLevel() {
-        return powerLevel;
-    }
-
-    public void setPowerLevel(Integer powerLevel) {
-        this.powerLevel = powerLevel;
     }
 
     public Integer getUpgradeNum() {

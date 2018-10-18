@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserCashAssetsJoinDictComputingPowerDao extends BaseMapper<UserCashAssetsJoinDictComputingPowerBean> {
 
-    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid);
+    //public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid);
 }

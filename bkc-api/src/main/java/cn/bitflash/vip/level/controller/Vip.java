@@ -119,9 +119,9 @@ public class Vip {
         hlbTradeHistoryEntity.setFrozenNpc(frozenNpc);
         levelFeign.insertUserHlbTradeHistory(hlbTradeHistoryEntity);
         //7.更新userinfo的算力和vip等级
-        if (userInfo.getUpgradeNum() < vipEntity.getMinPower()) {
-            userInfo.setPowerLevel(vipEntity.getMinPower());
-        }
+//        if (userInfo.getUpgradeNum() < vipEntity.getMinPower()) {
+//            userInfo.setPowerLevel(vipEntity.getMinPower());
+//        }
         levelFeign.updateUserInfo(userInfo);
 
         String invitCode = userInfo.getInvitationCode();
@@ -171,7 +171,7 @@ public class Vip {
                 //邀请人数小于最大算力对应的人数
                 f_info2.setUpgradeNum(peopleNum2 + 1);
                 SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerById(f_info2.getUpgradeNum());
-                f_info2.setPowerLevel(f_nextPower.getUpgradeNum());
+//                f_info2.setPowerLevel(f_nextPower.getUpgradeNum());
                 levelFeign.updateUserInfo(f_info2);
             }
         }
