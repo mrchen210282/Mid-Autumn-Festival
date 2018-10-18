@@ -98,6 +98,7 @@ public class UserRelationJoinNpcAndHlbean {
     //当前档位最大算力
     private Float maxPower;
 
+    //vip4级的特殊算力
     private Float specialPower;
 
     public Float getSpecialPower() {
