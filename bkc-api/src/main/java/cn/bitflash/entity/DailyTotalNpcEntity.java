@@ -8,7 +8,6 @@ import java.util.Date;
 
 public class DailyTotalNpcEntity {
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createTime;
 
     private BigDecimal totalNpc;

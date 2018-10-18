@@ -5,22 +5,24 @@ import com.baomidou.mybatisplus.annotations.TableName;
 
 @TableName("system_power")
 public class SystemPowerEntity {
-    @TableId
-    private Integer id;
 
     private Float power;
 
+    @TableId
     private Integer upgradeNum;
 
     private String remark;
 
-    public Integer getId() {
-        return id;
+    private Float specialPower;
+
+    public Float getSpecialPower() {
+        return specialPower;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSpecialPower(Float specialPower) {
+        this.specialPower = specialPower;
     }
+
 
     public Float getPower() {
         return power;

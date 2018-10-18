@@ -88,6 +88,22 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("/bitflash/selectPriceLinechart") != -1) {
             return false;
         }
+        //游戏授权
+        if (url.indexOf("/api/reg/authorityValidate") != -1) {
+            return false;
+        }
+        if (url.indexOf("/api/external/getBKCNum") != -1) {
+            return false;
+        }
+
+        if (url.indexOf("/api/external/changeBKCNum") != -1) {
+            return false;
+        }
+        if (url.indexOf("/server2/") != -1) {
+            return false;
+        }
+
+
         return true;
     }
 

@@ -22,6 +22,27 @@ public class UserTradeDetail {
     //扣除交易额=交易额+手续费
     private BigDecimal deductAmount;
 
+    private String state;
+
+    //订单状态描述
+    private String msg;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     public BigDecimal getTradeAmount() {
         return tradeAmount;
     }
