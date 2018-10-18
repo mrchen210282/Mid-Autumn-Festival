@@ -83,6 +83,6 @@ public class UserBuyConfirm {
         //删除user_buy记录
         feign.deleteBuyById(id);
 
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 }

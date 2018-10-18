@@ -1,7 +1,6 @@
 package cn.bitflash.vip.buy.controller;
 
 import cn.bitflash.entity.UserMarketBuyEntity;
-import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.Bean.UserBuyBean;
 import cn.bitflash.vip.buy.feign.BuyFeign;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -45,7 +42,7 @@ public class Check {
         }
         //获取手续费
         Map<String, BigDecimal> map = tradeUtil.poundage(id);
-        return R.ok().put("code", SUCCESS).put("userBuy", userMarketBuyEntity).put("poundage", map.get("poundage").multiply(new BigDecimal(100)))
+        return R.ok().put("userBuy", userMarketBuyEntity).put("poundage", map.get("poundage").multiply(new BigDecimal(100)))
                 .put("totalMoney", map.get("totalMoney")).put("totalQuantity", map.get("totalQuantity"));
     }
 
