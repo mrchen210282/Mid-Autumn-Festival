@@ -16,8 +16,11 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.UserTradeDetail;
 import cn.bitflash.entity.UserMarketTradeHistoryEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.Map;
 
 /**
  * @author gaoyuguo
@@ -25,4 +28,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface UserMarketTradeHistoryDao extends BaseMapper<UserMarketTradeHistoryEntity> {
 
+    public UserTradeDetail selectTradeLog(Map<String,Object> map);
 }

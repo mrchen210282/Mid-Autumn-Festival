@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserMarketTradeHistoryDao">
+
+    <select id="selectTradeLog" resultType="cn.bitflash.bean.UserTradeDetail" parameterType="java.util.Map">
+        select
+        a.price,
+        a.quantity,
+				a.sell_uid as uid,
+				a.order_state as state,
+				case when a.order_state = '1' then 'success'
+						 when a.order_state = '3' then 'success'
+						 when a.order_state = '4' then 'success'
+						 when a.order_state = '5' then 'success'
+						 when a.order_state = '6' then '待确认'
+						 when a.order_state = '9' then '已申诉'
+				     end as msg
+        from user_market_trade_history a
+		where a.user_trade_id = #{id}
+    </select>
+
+</mapper>

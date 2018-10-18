@@ -176,4 +176,12 @@ public interface TradeFeign {
 
     @PostMapping("/inner/userMarketTrade/cancelOrder")
     void cancelOrder(@RequestParam Map<String, Object> map);
+
+    /**
+     * selectTradeLog
+     *
+     * @return
+     */
+    @PostMapping("/inner/userMarketTrade/selectTradeLog")
+    public UserTradeDetail selectTradeLog(@RequestParam("id") String id);
 }

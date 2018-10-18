@@ -54,7 +54,12 @@ public class CheckTrade {
                 }
                 return R.ok().put("userTradeBean", userTradeDetail);
             } else {
-                return R.error().put("status",500).put("msg","订单不存在");
+                UserTradeDetail userTrade = tradeFeign.selectTradeLog(id);
+                if(null != userTrade) {
+                    return R.ok().put("userTradeBean", userTrade);
+                } else {
+                    return R.error().put("status",500).put("msg","订单不存在");
+                }
             }
         } else {
             return R.error().put("status",500).put("msg","订单号:" + id + "不存在！");
