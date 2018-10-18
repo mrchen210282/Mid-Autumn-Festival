@@ -97,13 +97,13 @@ public class Vip {
         UserAssetsHlbEntity hlbEntity = levelFeign.selectUserAssetsHlbById(uid);
         UserRelationEntity relation = levelFeign.selectRelationByUid(uid);
         boolean flag = false;
-        if (hlbEntity.getFrozenAssets().doubleValue() == 0 && relation == null) {
+        if (hlbEntity.getFrozenAssets().doubleValue() == 0 && relation != null) {
             flag = true;
         }
         hlbEntity.setTotelAssets(hlbEntity.getTotelAssets().add(hlbAmount));
         hlbEntity.setFrozenAssets(hlbEntity.getFrozenAssets().add(hlbAmount));
         if (amountId > userInfo.getVipLevel()) {
-            hlbEntity.setVipReleaseCash(new BigDecimal(0));
+            //hlbEntity.setVipReleaseCash(new BigDecimal(0));
             //提升的vip等级>当前实际的vip等级
             userInfo.setVipLevel(vipEntity.getId());
             SystemPowerEntity npcPower = levelFeign.selectSystemPowerById(vipEntity.getMinPower());
@@ -137,7 +137,22 @@ public class Vip {
                 //邀请人数小于最大算力对应的人数
                 f_info.setUpgradeNum(peopleNum + 1);
                 SystemPowerEntity f_nextPower = levelFeign.selectSystemPowerById(f_info.getUpgradeNum());
-                f_info.setPowerLevel(f_nextPower.getUpgradeNum());
+                f_info.setUpgradeNum(f_nextPower.getUpgradeNum());
+                Float power = f_power.getPower();
+                Float nextPower = f_nextPower.getPower();
+                Integer specialPower = Integer.valueOf(levelFeign.getVal("special_level"));
+                if(f_info.getVipLevel().equals(specialPower)){
+                     power = f_power.getSpecialPower();
+                     nextPower = f_nextPower.getSpecialPower();
+                }
+                if(!power.equals(nextPower)){
+                    /**
+                     * 如果父级因此提升算力，将当前档位累计释放量清0
+                     */
+                    UserAssetsHlbEntity f_hlbEntity = levelFeign.selectUserAssetsHlbById(pCode.getUid());
+                    f_hlbEntity.setRegulateRelease(new BigDecimal(0));
+                    levelFeign.updateUserAssetsHlb(f_hlbEntity);
+                }
                 levelFeign.updateUserInfo(f_info);
                 return R.ok();
             }

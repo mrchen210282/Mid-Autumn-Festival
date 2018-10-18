@@ -28,7 +28,7 @@ public class UserAssetsHlbEntity {
     private BigDecimal rgtAchievement;
 
     //当前vip等级释放量
-    private BigDecimal vipReleaseCash;
+    private BigDecimal regulateRelease;
 
     public String getUid() {
         return uid;
@@ -94,11 +94,11 @@ public class UserAssetsHlbEntity {
         this.rgtAchievement = rgtAchievement;
     }
 
-    public BigDecimal getVipReleaseCash() {
-        return vipReleaseCash;
+    public BigDecimal getRegulateRelease() {
+        return regulateRelease;
     }
 
-    public void setVipReleaseCash(BigDecimal vipReleaseCash) {
-        this.vipReleaseCash = vipReleaseCash;
+    public void setRegulateRelease(BigDecimal regulateRelease) {
+        this.regulateRelease = regulateRelease;
     }
 }

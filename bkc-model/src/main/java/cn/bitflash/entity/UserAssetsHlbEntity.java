@@ -32,7 +32,7 @@ public class UserAssetsHlbEntity {
     private Float rgtAchievement;
 
     //当前vip等级释放量
-    private Float vipReleaseCash;
+    private Float regulateRelease;
 
     public String getUid() {
         return uid;
@@ -98,11 +98,11 @@ public class UserAssetsHlbEntity {
         this.rgtAchievement = rgtAchievement;
     }
 
-    public Float getVipReleaseCash() {
-        return vipReleaseCash;
+    public Float getRegulateRelease() {
+        return regulateRelease;
     }
 
-    public void setVipReleaseCash(Float vipReleaseCash) {
-        this.vipReleaseCash = vipReleaseCash;
+    public void setRegulateRelease(Float regulateRelease) {
+        this.regulateRelease = regulateRelease;
     }
 }
