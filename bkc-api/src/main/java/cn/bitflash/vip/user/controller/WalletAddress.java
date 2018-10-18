@@ -71,7 +71,7 @@ public class WalletAddress {
 
         UserWalletAddressEntity userWalletAddress = new UserWalletAddressEntity();
         userWalletAddress.setUid(uid);
-        userWalletAddress.setAddress(Encrypt.SHA256(address+randomUtil()).substring(33));
+        userWalletAddress.setAddress(Encrypt.SHA256(address+randomUtil()).substring(32));
         userWalletAddress.setPrivateKey(privateKey.toString());
         return userFeign.insetUserWalletAddress(userWalletAddress);
     }

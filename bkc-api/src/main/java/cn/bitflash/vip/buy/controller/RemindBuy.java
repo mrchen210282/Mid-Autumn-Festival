@@ -40,7 +40,6 @@ public class RemindBuy {
         if (!state.equals(userMarketBuyEntity.getState())) {
             return R.error("催单失败");
         }
-
         //获取Cid
         String cid = null;
         //获取推送信息

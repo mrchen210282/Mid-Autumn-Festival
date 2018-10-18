@@ -4,20 +4,16 @@ import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.BuyPoundageEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketBuyHistoryEntity;
-import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.utils.R;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import static cn.bitflash.vip.buy.controller.BuyCommon.*;
@@ -57,7 +53,7 @@ public class AddOrCancelBuy {
         userMarketBuyEntity.setState(ORDER_STATE_PUBLISH);
         userMarketBuyEntity.setIsRead(IS_NOT_READED);
         feign.insertBuy(userMarketBuyEntity);
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 
     /**
@@ -83,7 +79,7 @@ public class AddOrCancelBuy {
         userMarketBuyHistoryEntity.setFinishTime(new Date());
         feign.insertHistory(userMarketBuyHistoryEntity);
 
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 
     /**
@@ -131,7 +127,7 @@ public class AddOrCancelBuy {
         userMarketBuyEntity.setState(ORDER_STATE_STEP1);
         feign.updateBuyById(userMarketBuyEntity);
 
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 
 }

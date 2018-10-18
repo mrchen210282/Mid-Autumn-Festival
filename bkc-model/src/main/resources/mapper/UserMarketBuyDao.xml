@@ -26,6 +26,7 @@
     or
     ub.sell_uid = #{uid}
     and ub.state != '0' and ub.state != '6' and ub.state != '9'
+    order by ub.create_time desc
     limit #{pages},6
     </select>
 

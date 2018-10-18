@@ -5,7 +5,6 @@ import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.vip.buy.feign.BuyFeign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

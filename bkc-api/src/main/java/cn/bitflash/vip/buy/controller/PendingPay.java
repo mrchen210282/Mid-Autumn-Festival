@@ -43,7 +43,7 @@ public class PendingPay {
         if (userComplaintEntity != null) {
             buyFeign.deleteComplaint(id);
         }
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 
     /**
@@ -67,6 +67,6 @@ public class PendingPay {
         }
         //删除求购历史订单
         buyFeign.deleteBuyById(id);
-        return R.ok().put("code", SUCCESS);
+        return R.ok();
     }
 }
