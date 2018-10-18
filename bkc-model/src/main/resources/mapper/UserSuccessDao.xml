@@ -4,7 +4,7 @@
 <mapper namespace="cn.bitflash.dao.UserSuccessDao">
 
     <select id="selectSuccessList" resultType="cn.bitflash.bean.UserSuccessBean">
-        SELECT
+        (SELECT
             ui.nickname as nickname,
             ub.price as price,
             ub.quantity as quantity,
@@ -17,7 +17,9 @@
         WHERE
             ub.purchase_uid = #{uid} and ub.order_state = '6'
             OR ub.sell_uid = #{uid} and ub.order_state = '6'
+        )
         UNION
+        (
         SELECT
             ui.nickname as nickname,
             ut.price as userPrice,
@@ -31,6 +33,8 @@
         WHERE
             ut.purchase_uid = #{uid} and ut.order_state = '4'
             OR ut.sell_uid = #{uid} and ut.order_state = '4'
+        )
+        ORDER BY createTime desc
         limit #{pages},6
     </select>
 
