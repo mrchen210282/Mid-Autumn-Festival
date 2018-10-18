@@ -179,7 +179,7 @@ public class Relation {
         List<UserRelationEntity> userRelationEntities = levelFeign.selectRelationByCode(code.getCode());
         map.put("showRgt", Common.UNAUTHENTICATION);
         infoEntityList.stream().forEach(u -> {
-            if (u.getArea().equals("L") && userRelationEntities.size() > 1) {
+            if (u.getArea().equals("L") && userRelationEntities.size() > 0) {
                 map.put("showRgt", Common.AUTHENTICATION);
             }
         });

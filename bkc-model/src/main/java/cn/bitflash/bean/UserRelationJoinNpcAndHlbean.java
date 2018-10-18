@@ -98,7 +98,14 @@ public class UserRelationJoinNpcAndHlbean {
     //当前档位最大算力
     private Float maxPower;
 
+    //vip4级的特殊算力
     private Float specialPower;
+
+    //左业绩
+    private Float lftAchievement;
+
+    //右业绩
+    private Float rgtAchievement;
 
     public Float getSpecialPower() {
         return specialPower;
@@ -362,5 +369,21 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setMaxPower(Float maxPower) {
         this.maxPower = maxPower;
+    }
+
+    public Float getLftAchievement() {
+        return lftAchievement;
+    }
+
+    public void setLftAchievement(Float lftAchievement) {
+        this.lftAchievement = lftAchievement;
+    }
+
+    public Float getRgtAchievement() {
+        return rgtAchievement;
+    }
+
+    public void setRgtAchievement(Float rgtAchievement) {
+        this.rgtAchievement = rgtAchievement;
     }
 }

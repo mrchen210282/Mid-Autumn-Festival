@@ -26,7 +26,7 @@ public class UserAssetsHlbBean {
     private float rgtAchievement;
 
     //当前vip等级释放量
-    private float vipReleaseCash;
+    private float regulateRelease;
 
     private String power;
 
@@ -106,12 +106,12 @@ public class UserAssetsHlbBean {
         this.availableAssets = availableAssets;
     }
 
-    public float getVipReleaseCash() {
-        return vipReleaseCash;
+    public float getRegulateRelease() {
+        return regulateRelease;
     }
 
-    public void setVipReleaseCash(float vipReleaseCash) {
-        this.vipReleaseCash = vipReleaseCash;
+    public void setRegulateRelease(float regulateRelease) {
+        this.regulateRelease = regulateRelease;
     }
 
     public String getPower() {
