@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserCashAssetsJoinDictComputingPowerController {
 
-    @Autowired
-    private UserCashAssetsJoinDictComputingPowerService userCashAssetsJoinDictComputingPowerService;
+//    @Autowired
+//    private UserCashAssetsJoinDictComputingPowerService userCashAssetsJoinDictComputingPowerService;
 
     /**
      * selectById
      *
      * @return
      */
-    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
-    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid) {
-        UserCashAssetsJoinDictComputingPowerBean userCashAssetsJoinDictComputingPowerBean = userCashAssetsJoinDictComputingPowerService.selectUserCashAssetsJoinDictComputingPower(uid);
-        return userCashAssetsJoinDictComputingPowerBean;
-    }
+//    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
+//    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid) {
+//        UserCashAssetsJoinDictComputingPowerBean userCashAssetsJoinDictComputingPowerBean = userCashAssetsJoinDictComputingPowerService.selectUserCashAssetsJoinDictComputingPower(uid);
+//        return userCashAssetsJoinDictComputingPowerBean;
+//    }
 }

@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface UserCashAssetsJoinDictComputingPowerService extends IService<UserCashAssetsJoinDictComputingPowerBean> {
 
-    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid);
+    //public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid);
 }

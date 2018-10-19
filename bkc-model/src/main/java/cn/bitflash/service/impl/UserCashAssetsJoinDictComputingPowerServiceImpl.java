@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service("userCashAssetsJoinDictComputingPowerService")
 public class UserCashAssetsJoinDictComputingPowerServiceImpl extends ServiceImpl<UserCashAssetsJoinDictComputingPowerDao, UserCashAssetsJoinDictComputingPowerBean> implements UserCashAssetsJoinDictComputingPowerService {
 
-    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid) {
-        return baseMapper.selectUserCashAssetsJoinDictComputingPower(uid);
-    }
+//    public UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(String uid) {
+//        return baseMapper.selectUserCashAssetsJoinDictComputingPower(uid);
+//    }
 }

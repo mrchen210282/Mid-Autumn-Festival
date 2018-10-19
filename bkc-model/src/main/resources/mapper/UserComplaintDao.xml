@@ -4,7 +4,7 @@
 <mapper namespace="cn.bitflash.dao.UserComplaintDao">
 
     <select id="selectAppealList" resultType="cn.bitflash.bean.UserBuyBean">
-        SELECT
+        (SELECT
             ui.nickname as nickname,
             ub.price as price,
             ub.quantity as quantity,
@@ -19,7 +19,9 @@
         WHERE
             ub.purchase_uid = #{uid}
             OR ub.sell_uid = #{uid}
+        )
         UNION
+        (
         SELECT
             ui.nickname as nickname,
             ut.price as userPrice,
@@ -35,6 +37,8 @@
         WHERE
             ut.purchase_uid = #{uid}
             OR ut.uid = #{uid}
+        )
+        ORDER BY createTime desc
         limit #{pages},6
     </select>
 
