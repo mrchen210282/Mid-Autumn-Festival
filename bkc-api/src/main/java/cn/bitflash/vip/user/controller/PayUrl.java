@@ -2,6 +2,7 @@ package cn.bitflash.vip.user.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserBankPaymentInfoEntity;
+import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserMobilePaymentInfoEntity;
 import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.Common;
@@ -185,10 +186,11 @@ public class PayUrl {
     @ApiOperation("获取银行信息")
     public R getOtherBankPaymentInfo(@RequestParam("uid") String uid) {
         UserBankPaymentInfoEntity bankInfo = userFeign.selectBankInfoByUid(uid);
+        UserInfoEntity userInfo = userFeign.selectUserinfoById(uid);
         if(bankInfo==null){
             return R.error("该用户未上传银行卡信息");
         }
-        return R.ok(new ModelMap("bank", bankInfo));
+        return R.ok().put("bank", bankInfo).put("realname",userInfo.getRealname());
     }
 
     @Login
