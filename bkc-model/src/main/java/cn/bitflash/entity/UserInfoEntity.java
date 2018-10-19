@@ -37,6 +37,8 @@ public class UserInfoEntity implements Serializable {
 
     private Integer vipLevel;
 
+    private Float currentPower;
+
     private String area;
 
     private String nicklock;
@@ -133,6 +135,14 @@ public class UserInfoEntity implements Serializable {
 
     public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public Float getCurrentPower() {
+        return currentPower;
+    }
+
+    public void setCurrentPower(Float currentPower) {
+        this.currentPower = currentPower;
     }
 
     public String getArea() {

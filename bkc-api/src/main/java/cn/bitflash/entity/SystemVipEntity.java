@@ -13,14 +13,46 @@ public class SystemVipEntity {
     private Float hlbAmount;
 
     //最大算力
-    private Integer maxPower;
+    private Float maxPower;
     //最小算力
-    private Integer minPower;
+    private Float minPower;
 
     //欢乐币赠送比例
     private BigDecimal hlbGiveRate;
 
     private String remark;
+
+    private Float initPower;
+
+    //算力步长
+    private Float powerStep;
+
+    //人数步长
+    private Float peopleStep;
+
+    public Float getInitPower() {
+        return initPower;
+    }
+
+    public void setInitPower(Float initPower) {
+        this.initPower = initPower;
+    }
+
+    public Float getPowerStep() {
+        return powerStep;
+    }
+
+    public void setPowerStep(Float powerStep) {
+        this.powerStep = powerStep;
+    }
+
+    public Float getPeopleStep() {
+        return peopleStep;
+    }
+
+    public void setPeopleStep(Float peopleStep) {
+        this.peopleStep = peopleStep;
+    }
 
     public Integer getId() {
         return id;
@@ -54,19 +86,19 @@ public class SystemVipEntity {
         this.hlbAmount = hlbAmount;
     }
 
-    public Integer getMaxPower() {
+    public Float getMaxPower() {
         return maxPower;
     }
 
-    public void setMaxPower(Integer maxPower) {
+    public void setMaxPower(Float maxPower) {
         this.maxPower = maxPower;
     }
 
-    public Integer getMinPower() {
+    public Float getMinPower() {
         return minPower;
     }
 
-    public void setMinPower(Integer minPower) {
+    public void setMinPower(Float minPower) {
         this.minPower = minPower;
     }
 
