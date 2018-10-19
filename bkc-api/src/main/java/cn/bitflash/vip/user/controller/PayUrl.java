@@ -182,6 +182,7 @@ public class PayUrl {
         return R.ok(new ModelMap("bank", bankInfo));
     }
 
+    @Login
     @PostMapping("getOtherBankPaymentInfo")
     @ApiOperation("获取银行信息")
     public R getOtherBankPaymentInfo(@RequestParam("uid") String uid) {
@@ -205,6 +206,7 @@ public class PayUrl {
         return R.ok(new ModelMap("account", mobile.getAccount()).addAttribute("uri", address + mobile.getCode()));
     }
 
+    @Login
     @PostMapping("getOtherMobilePaymentInfo")
     @ApiOperation("获取手机支付方式")
     public R getOtherMobilePaymentInfo(@RequestParam("uid") String uid, @RequestParam("type") String type) {
