@@ -18,6 +18,7 @@
 				     end as msg
         from user_market_trade_history a
 		where a.user_trade_id = #{id}
+		and <![CDATA[ a.order_state <> 3]];
     </select>
 
 </mapper>

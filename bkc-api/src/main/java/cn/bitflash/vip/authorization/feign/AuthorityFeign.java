@@ -22,6 +22,9 @@ public interface AuthorityFeign {
     @PostMapping("/inner/userEmpower/selectUserEmpowerById")
     UserEmpowerEntity selectUserEmpowerById(@RequestParam("clientid") String clientid, @RequestParam("ticket") String ticket);
 
+
+
+
     /**
      * selectUserEmpowerByAppid
      *
@@ -38,6 +41,12 @@ public interface AuthorityFeign {
      */
     @PostMapping("/inner/authority/selectAuthorityByMobile")
     AuthorityUserEntity selectAuthorityByMobile(@RequestParam("mobile") String mobile);
+
+    @PostMapping("/inner/authority/selectAuthorityByUid")
+    AuthorityUserEntity selectAuthorityByUid(@RequestParam("uid") String uid);
+
+    @PostMapping("/inner/authority/insertAuthority")
+    void insertAuthority(@RequestBody AuthorityUserEntity authorityUserEntity);
 
     /**
      * selectAuthorityById
@@ -57,6 +66,14 @@ public interface AuthorityFeign {
      */
     @PostMapping("/inner/userInfo/selectById")
     UserInfoEntity selectById(@RequestParam("id") String id);
+
+    /**
+     * selectByMobile
+     *
+     * @return
+     */
+    @PostMapping("/inner/userInfo/selectUserInfoByMobile")
+    UserInfoEntity selectUserInfoByMobile(@RequestParam("mobile") String mobile);
 
     /**
      * selectByMobile

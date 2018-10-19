@@ -2,6 +2,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -64,6 +65,19 @@ public class UserInfoController {
     public boolean deleteById(@RequestParam("id") String id) throws Exception {
         return userInfoService.deleteById(id);
     }
+
+
+    /**
+     * selectByMobile
+     *
+     * @return
+     */
+    @PostMapping("/inner/userInfo/selectUserInfoByMobile")
+    public UserInfoEntity selectUserInfoByMobile(@RequestParam("mobile") String mobile) {
+        UserInfoEntity userInfoEntity = userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("mobile",mobile));
+        return userInfoEntity;
+    }
+
 
     @PostMapping("/inner/userinfo/selectUserInfoLikeCode")
     public List<UserInfoBean> selectUserInfoLikeCode(@RequestParam("code")String code){
