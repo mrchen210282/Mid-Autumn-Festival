@@ -54,7 +54,7 @@ public class Vip {
     public R updateVipLevel(@RequestAttribute("uid") String uid, @RequestParam("amountId") Integer amountId) {
 
         //1.验证 邀请码
-        UserInfoEntity userInfo = levelFeign.selectUserInfoByUidForPower(uid);
+        UserInfoEntity userInfo = levelFeign.selectUserInfoByUid(uid);
         if (userInfo.getIsInvited().equals(Common.UNAUTHENTICATION) || userInfo.getInvitationCode() == null) {
             return R.ok("没有邀请码用户");
         }
@@ -123,30 +123,37 @@ public class Vip {
         UserInvitationCodeEntity pCode = levelFeign.selectInvitationCodeByCode(invitCode);
         if (flag) {
             //增加父邀请码人数
-            UserInfoEntity f_info = levelFeign.selectUserInfoByUidForPower(pCode.getUid());
+            UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
             SystemVipEntity f_vip = levelFeign.selectSystemVipById(f_info.getVipLevel());
-            Integer inviteNum = f_info.getUpgradeNum() + 1;
-            Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
-            //更新算力值
-            f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
-            //更新最终人数
-            f_info.setUpgradeNum((int) (f_info.getUpgradeNum() % f_vip.getPeopleStep()));
-            levelFeign.updateUserInfo(f_info);
+            if(f_vip.getMaxPower()>f_info.getCurrentPower()){
+                Integer inviteNum = f_info.getUpgradeNum() + 1;
+                Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
+                //更新算力值
+                f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
+                //更新最终人数
+                Float finalNum = inviteNum % f_vip.getPeopleStep();
+                f_info.setUpgradeNum(finalNum.intValue());
+                levelFeign.updateUserInfo(f_info);
+            }
         }
         //8.验证是否排点
         if (relation != null) {
             return R.ok();
         } else {
             //9.增加父邀请码人数
-            UserInfoEntity f_info = levelFeign.selectUserInfoByUidForPower(pCode.getUid());
+            UserInfoEntity f_info = levelFeign.selectUserInfoByUid(pCode.getUid());
             SystemVipEntity f_vip = levelFeign.selectSystemVipById(f_info.getVipLevel());
-            Integer inviteNum = f_info.getUpgradeNum() + 1;
-            Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
-            //更新算力值
-            f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
-            //更新最终人数
-            f_info.setUpgradeNum((int) (f_info.getUpgradeNum() % f_vip.getPeopleStep()));
-            levelFeign.updateUserInfo(f_info);
+            if(f_vip.getMaxPower()>f_info.getCurrentPower()){
+                Integer inviteNum = f_info.getUpgradeNum() + 1;
+                Float f_upPower = ((int) (inviteNum / f_vip.getPeopleStep())) * f_vip.getPowerStep();
+                //更新算力值
+                f_info.setCurrentPower(f_info.getCurrentPower() + f_upPower);
+                //更新最终人数
+                Float finalNum = inviteNum % f_vip.getPeopleStep();
+                f_info.setUpgradeNum(finalNum.intValue());
+                levelFeign.updateUserInfo(f_info);
+            }
+
         }
 
         //10.初始化邀请码
@@ -185,7 +192,7 @@ public class Vip {
                 //等于2代表直接父类下面开辟中区,或者左区下面只有一个点
                 else if (size == 2) {
                     levelFeign.insertTreeNode(pCode.getUid(), uid, invitCode);
-                } else if (size > 3) {
+                } else if (size > 2) {
                     if (f_user.get(0).getRgt() == f_user.get(1).getRgt() + 1) {
                         //   o 情况1   实现 o
                         //  o             o o
