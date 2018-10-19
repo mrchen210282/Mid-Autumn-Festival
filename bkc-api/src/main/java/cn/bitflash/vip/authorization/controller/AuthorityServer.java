@@ -1,31 +1,19 @@
 package cn.bitflash.vip.authorization.controller;
 
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserSecretEntity;
-import cn.bitflash.utils.ExternalMD5;
 import cn.bitflash.utils.R;
-import cn.bitflash.vip.authorization.entity.AuthorityUserEntity;
-import cn.bitflash.vip.authorization.entity.UserEmpowerEntity;
 import cn.bitflash.vip.authorization.feign.AuthorityFeign;
-import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
-import org.apache.oltu.oauth2.as.response.OAuthASResponse;
-import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
-import org.apache.oltu.oauth2.common.message.OAuthResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/server2")
@@ -71,8 +59,8 @@ public class AuthorityServer {
 //                Map<String, Object> map = new HashMap<String, Object>();
 //                map.put("mobile", mobile);
 //                UserSecretEntity userInfoEntity = authorityFeign.selectByMobile(mobile);
-
-
+//
+//
 //                if(null != userInfoEntity) {
 //
 ////                    AuthorityUserEntity AuthorityUser = authorityUserService.selectOne(new EntityWrapper<AuthorityUserEntity>().eq("uid", userInfoEntity.getUid()));
@@ -133,7 +121,7 @@ public class AuthorityServer {
 //            } else {
 //                return R.error().put("code", "500");
 //            }
-
+//
 //        } catch (OAuthSystemException e) {
 //            e.printStackTrace();
 //        } catch (OAuthProblemException e) {
