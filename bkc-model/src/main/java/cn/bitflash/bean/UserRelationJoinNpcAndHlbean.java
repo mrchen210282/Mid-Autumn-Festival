@@ -35,6 +35,9 @@ public class UserRelationJoinNpcAndHlbean {
     //实际邀请人数
     private Integer realUpgradeNum;
 
+    //实际算力
+    private Float currentPower;
+
     //hlb总收益
     private Float hlbTotelAssets;
 
@@ -49,6 +52,7 @@ public class UserRelationJoinNpcAndHlbean {
 
     //hlb可用值
     private Float hlbAvailableAssets;
+
     //当前vip等级释放量
     private Float regulateRelease;
 
@@ -102,7 +106,6 @@ public class UserRelationJoinNpcAndHlbean {
 
     //右业绩
     private Float rgtAchievement;
-
 
     public String getUid() {
         return uid;
@@ -192,6 +195,14 @@ public class UserRelationJoinNpcAndHlbean {
         this.realUpgradeNum = realUpgradeNum;
     }
 
+    public Float getCurrentPower() {
+        return currentPower;
+    }
+
+    public void setCurrentPower(Float currentPower) {
+        this.currentPower = currentPower;
+    }
+
     public Float getHlbTotelAssets() {
         return hlbTotelAssets;
     }
@@ -230,6 +241,14 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setHlbAvailableAssets(Float hlbAvailableAssets) {
         this.hlbAvailableAssets = hlbAvailableAssets;
+    }
+
+    public Float getRegulateRelease() {
+        return regulateRelease;
+    }
+
+    public void setRegulateRelease(Float regulateRelease) {
+        this.regulateRelease = regulateRelease;
     }
 
     public Float getNpcPurchase() {
@@ -366,13 +385,5 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setRgtAchievement(Float rgtAchievement) {
         this.rgtAchievement = rgtAchievement;
-    }
-
-    public Float getRegulateRelease() {
-        return regulateRelease;
-    }
-
-    public void setRegulateRelease(Float regulateRelease) {
-        this.regulateRelease = regulateRelease;
     }
 }
