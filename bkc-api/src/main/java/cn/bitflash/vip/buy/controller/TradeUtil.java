@@ -60,6 +60,8 @@ public class TradeUtil {
         if (deduction.compareTo(new BigDecimal(0)) == -1) {
             return false;
         }
+        userAssetsNpcEntity.setAvailableAssets(deduction);
+        feign.updateAccountById(userAssetsNpcEntity);
         return true;
     }
 

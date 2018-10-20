@@ -89,8 +89,8 @@ public class Send {
 
         //接收人账户充值
         UserAssetsNpcEntity sendee_account = sendFrign.selectAssetsById(sendee.getUid());
-        BigDecimal sendeeAssets = send_account.getAvailableAssets();
-        sendee_account.setAvailableAssets(sendeeAssets.add(trade_quantity));
+        sendee_account.setAvailableAssets(sendee_account.getAvailableAssets().add(trade_quantity));
+        sendee_account.setTotelAssets(sendee_account.getTotelAssets().add(trade_quantity));
         //更新数据
         sendFrign.updateAssetsById(sendee_account);
 

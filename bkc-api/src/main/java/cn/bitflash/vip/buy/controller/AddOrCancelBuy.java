@@ -122,14 +122,6 @@ public class AddOrCancelBuy {
                 return R.error(501, "订单已经被撤销,无法锁定");
             }
 
-            //获取手续费
-            Map<String, BigDecimal> map = tradeUtil.poundage(id);
-            //扣除手续费
-            boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
-            if (!dec) {
-                return R.error("余额不足");
-            }
-
             //下单次数缓存key
             String countKey = RedisKey.COUNT_LOCK + uid;
             Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
@@ -156,6 +148,13 @@ public class AddOrCancelBuy {
                     //设置过期时间为当天剩余时间的秒数
                     redisUtils.set(countKey, ++count, (tomorrow - now));
 
+                    //获取手续费
+                    Map<String, BigDecimal> map = tradeUtil.poundage(id);
+                    //扣除
+                    boolean dec = tradeUtil.deduct(map.get("totalQuantity"), uid);
+                    if (!dec) {
+                        return R.error("余额不足");
+                    }
                     //添加手续费记录
                     BuyPoundageEntity buyPoundageEntity = new BuyPoundageEntity();
                     buyPoundageEntity.setUserBuyId(id);
