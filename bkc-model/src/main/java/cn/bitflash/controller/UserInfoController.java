@@ -89,4 +89,9 @@ public class UserInfoController {
         return userInfoService.selectList(new EntityWrapper<UserInfoEntity>().like("invitation_code",code));
     }
 
+    @PostMapping("inner/userInfo/updateList")
+    public Boolean updateUserInfoList(@RequestBody List<UserInfoEntity> userInfoEntities){
+        return userInfoService.updateBatchById(userInfoEntities);
+    }
+
 }
