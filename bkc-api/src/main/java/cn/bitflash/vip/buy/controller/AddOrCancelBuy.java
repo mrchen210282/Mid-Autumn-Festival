@@ -123,7 +123,7 @@ public class AddOrCancelBuy {
             }
 
             //下单次数缓存key
-            String countKey = RedisKey.COUNT_LOCK + uid;
+            String countKey = RedisKey.BUY_COUNT_LOCK + uid;
             Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
             //下单最大次数
             String key = TradeCommon.LOCK_TRADE;
