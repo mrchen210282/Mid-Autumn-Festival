@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.bitflash.dao.UserMarketTradeHistoryDao">
 
-    <select id="selectTradeLog" resultType="cn.bitflash.bean.UserTradeDetail" parameterType="java.util.Map">
+	<select id="selectTradeLog" resultType="cn.bitflash.bean.UserTradeDetail" parameterType="java.util.Map">
         select
         a.price,
         a.quantity,
@@ -18,6 +18,7 @@
 				     end as msg
         from user_market_trade_history a
 		where a.user_trade_id = #{id}
+		and a.order_state <![CDATA[ <> ]]> 3
     </select>
 
 </mapper>

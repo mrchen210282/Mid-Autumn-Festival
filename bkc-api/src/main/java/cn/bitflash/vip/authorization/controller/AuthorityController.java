@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/reg")
+@RequestMapping("/reg")
 public class AuthorityController {
 
     private Logger logger = LoggerFactory.getLogger(AuthorityController.class);

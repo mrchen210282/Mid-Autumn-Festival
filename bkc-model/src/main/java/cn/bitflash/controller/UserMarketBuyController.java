@@ -2,6 +2,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.entity.UserMarketBuyEntity;
+import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserMarketBuyService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author GAOYGUUO
@@ -126,6 +129,14 @@ public class UserMarketBuyController {
     @PostMapping("/inner/userMarketBuy/selectBuyPrompt")
     int selectBuyPrompt(@RequestParam("uid") String uid){
         return userMarketBuyService.selectBuyPrompt(uid);
+    }
+
+    @PostMapping("/inner/userMarketBuy/selectBuyState")
+    List<UserMarketBuyEntity> selectBuyState(@RequestParam("state") String state){
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("state",state);
+        List<UserMarketBuyEntity> list = userMarketBuyService.selectByMap(map);
+        return list;
     }
 
 }

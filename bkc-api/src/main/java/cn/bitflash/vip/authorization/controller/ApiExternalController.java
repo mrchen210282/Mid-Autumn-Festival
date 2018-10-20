@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/external")
+@RequestMapping("/external")
 public class ApiExternalController {
 
     private Logger logger = LoggerFactory.getLogger(ApiExternalController.class);
