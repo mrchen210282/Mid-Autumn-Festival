@@ -160,47 +160,52 @@ public class AddOrCancel {
     @ApiOperation("下单")
     public R addLock(@ApiParam(value = "订单id") @RequestParam String orderId, @RequestAttribute("uid") String uid) throws ParseException {
         UserMarketTradeEntity userTradeEntity = tradeFeign.selectUserMarketTradeById(orderId);
-        if (userTradeEntity.getState().equals(TradeCommon.STATE_CANCEL)) {
-            return R.error(501, "订单已经被撤销,无法锁定");
-        }
-        //下单次数缓存key
-        String countKey = RedisKey.COUNT_LOCK + uid;
-        Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
-        //下单最大次数
-        String key = TradeCommon.LOCK_TRADE;
-        String param =  tradeFeign.getVal(key);
-        int trade = Integer.valueOf(param);
-        if (count < trade) {
-            String[] str = redisUtils.get(orderId, String[].class);
-            if (str == null || str.length == 0) {
-                //统计锁定数量
-                str = new String[2];
-                str[0] = orderId;
-                str[1] = uid;
-                //redisUtils.set(orderId, str, 60);
-                redisUtils.set(orderId, str, 60 * 60);
-                //当天时间凌晨23:59:59的秒数
-                long tomorrow = LocalDateTime.now().withHour(23)
-                        .withMinute(59)
-                        .withSecond(59).toEpochSecond(ZoneOffset.of("+8"));
-                //当前时间秒数
-                long now = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
-                //设置过期时间为当天剩余时间的秒数
-                redisUtils.set(countKey, ++count, (tomorrow - now));
-                //更新订单状态
-                userTradeEntity.setState(TradeCommon.STATE_LOCK);
-                userTradeEntity.setPurchaseUid(uid);
-                userTradeEntity.setId(orderId);
-                tradeFeign.updateTrade(userTradeEntity);
-                logger.info("当前锁定订单的数量为：" + count);
-                logger.info("下单addLock:订单号" + orderId);
-                return R.ok();
-            } else if (str[1].equals(uid)) {
-                return R.error(502, "订单被锁定,本人锁定");
+        if(null != userTradeEntity) {
+            if (userTradeEntity.getState().equals(TradeCommon.STATE_CANCEL)) {
+                return R.error(501, "订单已经被撤销,无法锁定");
             }
-            return R.error(503, "订单已经被锁定");
+            //下单次数缓存key
+            String countKey = RedisKey.COUNT_LOCK + uid;
+            Integer count = redisUtils.get(countKey, Integer.class) == null ? 0 : redisUtils.get(countKey, Integer.class);
+            //下单最大次数
+            String key = TradeCommon.LOCK_TRADE;
+            String param =  tradeFeign.getVal(key);
+            int trade = Integer.valueOf(param);
+            if (count < trade) {
+                String[] str = redisUtils.get(orderId, String[].class);
+                if (str == null || str.length == 0) {
+                    //统计锁定数量
+                    str = new String[2];
+                    str[0] = orderId;
+                    str[1] = uid;
+                    //redisUtils.set(orderId, str, 60);
+                    redisUtils.set(orderId, str, 60 * 60);
+                    //当天时间凌晨23:59:59的秒数
+                    long tomorrow = LocalDateTime.now().withHour(23)
+                            .withMinute(59)
+                            .withSecond(59).toEpochSecond(ZoneOffset.of("+8"));
+                    //当前时间秒数
+                    long now = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
+                    //设置过期时间为当天剩余时间的秒数
+                    redisUtils.set(countKey, ++count, (tomorrow - now));
+                    //更新订单状态
+                    userTradeEntity.setState(TradeCommon.STATE_LOCK);
+                    userTradeEntity.setPurchaseUid(uid);
+                    userTradeEntity.setId(orderId);
+                    tradeFeign.updateTrade(userTradeEntity);
+                    logger.info("当前锁定订单的数量为：" + count);
+                    logger.info("下单addLock:订单号" + orderId);
+                    return R.ok();
+                } else if (str[1].equals(uid)) {
+                    return R.error(502, "订单被锁定,本人锁定");
+                }
+                return R.error(503, "订单已经被锁定");
+            } else {
+                return R.error(504, "当天锁定数量已到上限");
+            }
+        } else {
+            return R.error(505, "当前订单不存在");
         }
-        return R.error(504, "当天锁定数量已到上限");
     }
 
 
