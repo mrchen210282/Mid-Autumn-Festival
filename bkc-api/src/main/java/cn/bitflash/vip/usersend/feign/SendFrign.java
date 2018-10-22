@@ -63,7 +63,7 @@ public interface SendFrign {
     /**
      * UserBrokerageEntity 表
      */
-    @PostMapping("/inner/userBroker/selectUserBrokerageById")
+    @PostMapping("/inner/userBroker/selectById")
     UserBrokerageEntity selectBrokerage(@RequestParam("id") int id);
 
     @PostMapping("/inner/userBroker/updateUserBrokerage")

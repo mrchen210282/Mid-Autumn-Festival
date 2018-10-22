@@ -23,6 +23,10 @@ public class UserRelationEntity implements Serializable {
 
     private Integer layer;
 
+    private String oldUid;
+
+    private String invitationCode;
+
     public String getUid() {
         return uid;
     }
@@ -61,5 +65,21 @@ public class UserRelationEntity implements Serializable {
 
     public void setLayer(Integer layer) {
         this.layer = layer;
+    }
+
+    public String getOldUid() {
+        return oldUid;
+    }
+
+    public void setOldUid(String oldUid) {
+        this.oldUid = oldUid;
+    }
+
+    public String getInvitationCode() {
+        return invitationCode;
+    }
+
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
     }
 }

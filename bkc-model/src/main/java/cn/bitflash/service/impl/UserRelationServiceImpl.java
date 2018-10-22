@@ -19,9 +19,11 @@ package cn.bitflash.service.impl;
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.dao.UserRelationDao;
+import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.service.UserRelationService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,13 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
     @Override
     public List<UserInfoBean> selectRelationAndMobileByCode(String code) {
         return baseMapper.selectRelationAndMobileByCode(code);
+    }
+
+    public List<UserInvitationCodeEntity> selectUserInvitationCode(String str) {
+        return baseMapper.selectUserInvitationCode(str);
+    }
+
+    public List<UserRelationEntity> selectUserRelationCode(@Param("code") String code) {
+        return baseMapper.selectUserRelationCode(code);
     }
 }

@@ -94,4 +94,10 @@ public class UserInfoController {
         return userInfoService.updateBatchById(userInfoEntities);
     }
 
+    @PostMapping("inner/userInfo/selectUserInfoByOldUid")
+    public UserInfoEntity selectUserInfoByOldUid(@RequestParam("uid")String uid) {
+        UserInfoEntity userInfoEntity = userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("old_uid",uid));
+        return userInfoEntity;
+    }
+
 }

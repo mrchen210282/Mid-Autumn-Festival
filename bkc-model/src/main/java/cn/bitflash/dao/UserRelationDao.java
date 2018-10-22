@@ -19,6 +19,7 @@ package cn.bitflash.dao;
 
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
+import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -38,5 +39,9 @@ public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
     List<UserRelationJoinNpcAndHlbean> selectTreeNood(@Param("f_uid" ) String f_uid);
 
     List<UserInfoBean> selectRelationAndMobileByCode(@Param("code") String code);
+
+    List<UserInvitationCodeEntity> selectUserInvitationCode(String str);
+
+    List<UserRelationEntity> selectUserRelationCode(@Param("code") String code);
 
 }
