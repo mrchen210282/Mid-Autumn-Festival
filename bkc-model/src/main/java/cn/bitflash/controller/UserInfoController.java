@@ -2,6 +2,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entity.UserMarketTradeEntity;
 import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -65,6 +66,19 @@ public class UserInfoController {
         return userInfoService.deleteById(id);
     }
 
+
+    /**
+     * selectByMobile
+     *
+     * @return
+     */
+    @PostMapping("/inner/userInfo/selectUserInfoByMobile")
+    public UserInfoEntity selectUserInfoByMobile(@RequestParam("mobile") String mobile) {
+        UserInfoEntity userInfoEntity = userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("mobile",mobile));
+        return userInfoEntity;
+    }
+
+
     @PostMapping("/inner/userinfo/selectUserInfoLikeCode")
     public List<UserInfoBean> selectUserInfoLikeCode(@RequestParam("code")String code){
         return userInfoService.selectUserInfoLikeCode(code);
@@ -73,6 +87,17 @@ public class UserInfoController {
     @PostMapping("/inner/userinfo/selectUserInfoesLikeCode")
     public List<UserInfoEntity> selectUserInfoesLikeCode(@RequestParam("code")String code){
         return userInfoService.selectList(new EntityWrapper<UserInfoEntity>().like("invitation_code",code));
+    }
+
+    @PostMapping("inner/userInfo/updateList")
+    public Boolean updateUserInfoList(@RequestBody List<UserInfoEntity> userInfoEntities){
+        return userInfoService.updateBatchById(userInfoEntities);
+    }
+
+    @PostMapping("inner/userInfo/selectUserInfoByOldUid")
+    public UserInfoEntity selectUserInfoByOldUid(@RequestParam("uid")String uid) {
+        UserInfoEntity userInfoEntity = userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("old_uid",uid));
+        return userInfoEntity;
     }
 
 }

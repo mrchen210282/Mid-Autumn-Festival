@@ -32,6 +32,9 @@ public class UserRelationJoinNpcAndHlbean {
     //是否有邀请码
     private String isInvited;
 
+    //实际算力
+    private Float currentPower;
+
     //实际邀请人数
     private Integer realUpgradeNum;
 
@@ -50,8 +53,14 @@ public class UserRelationJoinNpcAndHlbean {
     //hlb可用值
     private Float hlbAvailableAssets;
 
-    //当前档位的hlb释放量
-    private Float vipReleaseCash;
+    //当前vip等级释放量
+    private Float regulateRelease;
+
+    //左业绩
+    private Float lftAchievement;
+
+    //右业绩
+    private Float rgtAchievement;
 
     //npc总购买
     private Float npcPurchase;
@@ -74,23 +83,11 @@ public class UserRelationJoinNpcAndHlbean {
     //npc购买价格
     private Float npcPrice;
 
-    //当前算力
-    private Float power;
-
-    //当前算力对应的邀请人数
-    private Integer upgradeNum;
-
     //当前vip现金条件
     private Float vipCash;
 
     //当前vip释放额度
     private Float vipHlbAmount;
-
-    //当前npc的释放比例
-    private Float npcReleaseRate;
-
-    //当前hlb的释放比例
-    private Float hlbReleaseRate;
 
     //当前档位最小算力
     private Float minPower;
@@ -98,22 +95,17 @@ public class UserRelationJoinNpcAndHlbean {
     //当前档位最大算力
     private Float maxPower;
 
-    //vip4级的特殊算力
-    private Float specialPower;
+    //当前vip的人数步长
+    private Float peopleStep;
 
-    //左业绩
-    private Float lftAchievement;
+    //当前算力的人数步长
+    private Float powerStep;
 
-    //右业绩
-    private Float rgtAchievement;
+    //当前npc的释放比例
+    private Float npcReleaseRate;
 
-    public Float getSpecialPower() {
-        return specialPower;
-    }
-
-    public void setSpecialPower(Float specialPower) {
-        this.specialPower = specialPower;
-    }
+    //当前hlb的释放比例
+    private Float hlbReleaseRate;
 
     public String getUid() {
         return uid;
@@ -195,6 +187,14 @@ public class UserRelationJoinNpcAndHlbean {
         this.isInvited = isInvited;
     }
 
+    public Float getCurrentPower() {
+        return currentPower;
+    }
+
+    public void setCurrentPower(Float currentPower) {
+        this.currentPower = currentPower;
+    }
+
     public Integer getRealUpgradeNum() {
         return realUpgradeNum;
     }
@@ -243,12 +243,28 @@ public class UserRelationJoinNpcAndHlbean {
         this.hlbAvailableAssets = hlbAvailableAssets;
     }
 
-    public Float getVipReleaseCash() {
-        return vipReleaseCash;
+    public Float getRegulateRelease() {
+        return regulateRelease;
     }
 
-    public void setVipReleaseCash(Float vipReleaseCash) {
-        this.vipReleaseCash = vipReleaseCash;
+    public void setRegulateRelease(Float regulateRelease) {
+        this.regulateRelease = regulateRelease;
+    }
+
+    public Float getLftAchievement() {
+        return lftAchievement;
+    }
+
+    public void setLftAchievement(Float lftAchievement) {
+        this.lftAchievement = lftAchievement;
+    }
+
+    public Float getRgtAchievement() {
+        return rgtAchievement;
+    }
+
+    public void setRgtAchievement(Float rgtAchievement) {
+        this.rgtAchievement = rgtAchievement;
     }
 
     public Float getNpcPurchase() {
@@ -307,22 +323,6 @@ public class UserRelationJoinNpcAndHlbean {
         this.npcPrice = npcPrice;
     }
 
-    public Float getPower() {
-        return power;
-    }
-
-    public void setPower(Float power) {
-        this.power = power;
-    }
-
-    public Integer getUpgradeNum() {
-        return upgradeNum;
-    }
-
-    public void setUpgradeNum(Integer upgradeNum) {
-        this.upgradeNum = upgradeNum;
-    }
-
     public Float getVipCash() {
         return vipCash;
     }
@@ -337,22 +337,6 @@ public class UserRelationJoinNpcAndHlbean {
 
     public void setVipHlbAmount(Float vipHlbAmount) {
         this.vipHlbAmount = vipHlbAmount;
-    }
-
-    public Float getNpcReleaseRate() {
-        return npcReleaseRate;
-    }
-
-    public void setNpcReleaseRate(Float npcReleaseRate) {
-        this.npcReleaseRate = npcReleaseRate;
-    }
-
-    public Float getHlbReleaseRate() {
-        return hlbReleaseRate;
-    }
-
-    public void setHlbReleaseRate(Float hlbReleaseRate) {
-        this.hlbReleaseRate = hlbReleaseRate;
     }
 
     public Float getMinPower() {
@@ -371,19 +355,35 @@ public class UserRelationJoinNpcAndHlbean {
         this.maxPower = maxPower;
     }
 
-    public Float getLftAchievement() {
-        return lftAchievement;
+    public Float getPeopleStep() {
+        return peopleStep;
     }
 
-    public void setLftAchievement(Float lftAchievement) {
-        this.lftAchievement = lftAchievement;
+    public void setPeopleStep(Float peopleStep) {
+        this.peopleStep = peopleStep;
     }
 
-    public Float getRgtAchievement() {
-        return rgtAchievement;
+    public Float getPowerStep() {
+        return powerStep;
     }
 
-    public void setRgtAchievement(Float rgtAchievement) {
-        this.rgtAchievement = rgtAchievement;
+    public void setPowerStep(Float powerStep) {
+        this.powerStep = powerStep;
+    }
+
+    public Float getNpcReleaseRate() {
+        return npcReleaseRate;
+    }
+
+    public void setNpcReleaseRate(Float npcReleaseRate) {
+        this.npcReleaseRate = npcReleaseRate;
+    }
+
+    public Float getHlbReleaseRate() {
+        return hlbReleaseRate;
+    }
+
+    public void setHlbReleaseRate(Float hlbReleaseRate) {
+        this.hlbReleaseRate = hlbReleaseRate;
     }
 }

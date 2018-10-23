@@ -30,4 +30,15 @@ public class UserEmpowerController {
         UserEmpowerEntity entity = userEmpowerService.selectOne(new EntityWrapper<UserEmpowerEntity>().eq("appid",clientid).eq("ticket",ticket));
         return entity;
     }
+
+    /**
+     * selectUserEmpowerByAppid
+     *
+     * @return
+     */
+    @PostMapping("/inner/userEmpower/selectUserEmpowerByAppid")
+    public UserEmpowerEntity selectUserEmpowerByAppid(@RequestParam("clientid") String clientid) {
+        UserEmpowerEntity entity = userEmpowerService.selectOne(new EntityWrapper<UserEmpowerEntity>().eq("appid",clientid));
+        return entity;
+    }
 }

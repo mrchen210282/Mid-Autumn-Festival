@@ -52,7 +52,7 @@ public class VerifyCode {
             if (userEntity == null) {
                 return R.error("手机号不存在用户");
             }
-            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_146615963");
+            return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_148591397");
         }
         //钱包地址
         if (type.equals("walletAdress")) {

@@ -6,12 +6,9 @@ import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 
-/**
- * @author gaoyuguo
- * @date 2018年9月22日
- */
-@TableName("user_relation")
-public class UserRelationEntity implements Serializable {
+@TableName("user_relation1")
+public class UserRelation1 implements Serializable {
+
     @TableId(type = IdType.INPUT)
     private String uid;
 
@@ -22,10 +19,6 @@ public class UserRelationEntity implements Serializable {
     private Integer rgt;
 
     private Integer layer;
-
-    private String oldUid;
-
-    private String invitationCode;
 
     public String getUid() {
         return uid;
@@ -65,21 +58,5 @@ public class UserRelationEntity implements Serializable {
 
     public void setLayer(Integer layer) {
         this.layer = layer;
-    }
-
-    public String getOldUid() {
-        return oldUid;
-    }
-
-    public void setOldUid(String oldUid) {
-        this.oldUid = oldUid;
-    }
-
-    public String getInvitationCode() {
-        return invitationCode;
-    }
-
-    public void setInvitationCode(String invitationCode) {
-        this.invitationCode = invitationCode;
     }
 }

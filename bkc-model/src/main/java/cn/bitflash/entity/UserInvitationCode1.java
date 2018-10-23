@@ -10,16 +10,12 @@ import java.io.Serializable;
  * @author gaoyuguo
  * @date 2018年9月22日
  */
-@TableName("user_invitation_code")
-public class UserInvitationCodeEntity implements Serializable {
+@TableName("user_invitation_code1")
+public class UserInvitationCode1 implements Serializable {
     @TableId(type = IdType.INPUT)
     private String uid;
 
     private String code;
-
-    private String lftCode;
-
-    private String rgtCode;
 
     public String getUid() {
         return uid;
@@ -35,21 +31,5 @@ public class UserInvitationCodeEntity implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getLftCode() {
-        return lftCode;
-    }
-
-    public void setLftCode(String lftCode) {
-        this.lftCode = lftCode;
-    }
-
-    public String getRgtCode() {
-        return rgtCode;
-    }
-
-    public void setRgtCode(String rgtCode) {
-        this.rgtCode = rgtCode;
     }
 }

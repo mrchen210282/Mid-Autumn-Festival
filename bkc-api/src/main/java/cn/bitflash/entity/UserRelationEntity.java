@@ -35,6 +35,7 @@ public class UserRelationEntity implements Serializable {
      */
     private Integer layer;
 
+    private String oldUid;
 
     public String getUid() {
         return uid;
@@ -76,4 +77,11 @@ public class UserRelationEntity implements Serializable {
         this.layer = layer;
     }
 
+    public String getOldUid() {
+        return oldUid;
+    }
+
+    public void setOldUid(String oldUid) {
+        this.oldUid = oldUid;
+    }
 }

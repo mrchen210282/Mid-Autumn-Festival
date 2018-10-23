@@ -99,10 +99,13 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("/api/external/changeBKCNum") != -1) {
             return false;
         }
-        if (url.indexOf("/server2/") != -1) {
+        if (url.indexOf("/api/server2/responseCode") != -1) {
             return false;
         }
 
+        if (url.indexOf("/api/test/demo") != -1) {
+            return false;
+        }
 
         return true;
     }

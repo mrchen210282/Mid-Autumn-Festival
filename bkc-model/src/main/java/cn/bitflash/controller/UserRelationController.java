@@ -3,6 +3,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
+import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
 import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
@@ -92,6 +93,23 @@ public class UserRelationController {
     @PostMapping("/inner/userRelation/selectRelationAndMobileByCode")
     public List<UserInfoBean> selectRelationAndMobileByCode(@RequestParam("code") String code){
         return userRelationService.selectRelationAndMobileByCode(code);
+    }
+
+    @PostMapping("/inner/userRelation/selectUserInvitationCode")
+    public List<UserInvitationCodeEntity> selectUserInvitationCode(@RequestParam("code") String code){
+        return userRelationService.selectUserInvitationCode(code);
+    }
+
+    @PostMapping("/inner/userRelation/selectUserRelation")
+    public UserRelationEntity selectUserRelation(@RequestParam("uid") String uid) {
+        UserRelationEntity userRelationEntity = userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("old_uid",uid));
+        return userRelationEntity;
+    }
+
+    @PostMapping("/inner/userRelation/selectUserRelationCode")
+    public List<UserRelationEntity> selectUserRelationCode(@RequestParam("code") String code) {
+        List<UserRelationEntity> list = userRelationService.selectUserRelationCode(code);
+        return list;
     }
 
 }

@@ -92,6 +92,9 @@ public interface BuyFeign {
     @PostMapping("/inner/userMarketBuy/checkOrder")
     UserBuyBean checkOrder(@RequestParam("id") String id);
 
+    @PostMapping("/inner/userMarketBuy/selectBuyState")
+    List<UserMarketBuyEntity> selectBuyState(@RequestParam("state") String state);
+
 
 //-------------------------------------------------------userBuyHistory-------------------------------------------------
 

@@ -1,13 +1,18 @@
 package cn.bitflash.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
-import java.util.Date;
 
-public class UserInfoEntity implements Serializable {
-
-    private static final long serialVersionUID = 4282111755160371079L;
-
+/**
+ * @author gaoyuguo
+ * @date 2018年9月22日
+ */
+@TableName("user_info1")
+public class UserInfo1 implements Serializable {
+    @TableId(type = IdType.INPUT)
     private String uid;
 
     private String realname;
@@ -42,30 +47,6 @@ public class UserInfoEntity implements Serializable {
 
     //hlb释放比率
     private Integer hlbRelease;
-
-    public Float getCurrentPower() {
-        return currentPower;
-    }
-
-    public void setCurrentPower(Float currentPower) {
-        this.currentPower = currentPower;
-    }
-
-    public String getNicklock() {
-        return nicklock;
-    }
-
-    public void setNicklock(String nicklock) {
-        this.nicklock = nicklock;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
-    }
 
     public String getUid() {
         return uid;
@@ -153,6 +134,30 @@ public class UserInfoEntity implements Serializable {
 
     public void setVipLevel(Integer vipLevel) {
         this.vipLevel = vipLevel;
+    }
+
+    public Float getCurrentPower() {
+        return currentPower;
+    }
+
+    public void setCurrentPower(Float currentPower) {
+        this.currentPower = currentPower;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getNicklock() {
+        return nicklock;
+    }
+
+    public void setNicklock(String nicklock) {
+        this.nicklock = nicklock;
     }
 
     public Integer getNpcRelease() {

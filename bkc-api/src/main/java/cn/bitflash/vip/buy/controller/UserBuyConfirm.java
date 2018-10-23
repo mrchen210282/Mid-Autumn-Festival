@@ -53,11 +53,12 @@ public class UserBuyConfirm {
         //充值+扣款
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         UserAssetsNpcEntity purchaseAssets = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
-        UserAssetsNpcEntity sellAssets = feign.selectAccountById(userMarketBuyEntity.getSellUid());
+//        UserAssetsNpcEntity sellAssets = feign.selectAccountById(userMarketBuyEntity.getSellUid());
         purchaseAssets.setAvailableAssets(purchaseAssets.getAvailableAssets().add(buyQuantity));
-        sellAssets.setAvailableAssets(sellAssets.getAvailableAssets().subtract(totalQuantity));
+        purchaseAssets.setTotelAssets(purchaseAssets.getTotelAssets().add(buyQuantity));
+//        sellAssets.setAvailableAssets(sellAssets.getAvailableAssets().subtract(totalQuantity));
         feign.updateAccountById(purchaseAssets);
-        feign.updateAccountById(sellAssets);
+//        feign.updateAccountById(sellAssets);
 
         //添加手续费到user_brokerage中
         BigDecimal totalPoundage = map.get("totalPoundage");

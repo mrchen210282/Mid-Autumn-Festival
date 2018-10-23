@@ -31,6 +31,7 @@ public interface LevelFeign {
     @PostMapping("/inner/userinfo/selectUserInfoesLikeCode")
     List<UserInfoEntity> selectUserInfoesLikeCode(@RequestParam("code")String code);
 
+
     /**
      * user_relation 表
      */
@@ -108,14 +109,6 @@ public interface LevelFeign {
      */
     @PostMapping("/inner/systemResource/getPath")
     String getPath(@RequestParam("id")Integer id);
-
-    /**
-     * system_power
-     */
-    @PostMapping("/inner/systemPower/selectById")
-    SystemPowerEntity selectSystemPowerById(@RequestParam("id")Integer id);
-
-
 
 
     /**

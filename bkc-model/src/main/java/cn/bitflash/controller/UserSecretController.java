@@ -89,6 +89,8 @@ public class UserSecretController {
         return entity;
     }
 
+
+
     @PostMapping("/inner/userLogin/registerLogin")
     public String registerLogin(@RequestBody Map<String, Object> map) {
         return userSecretService.selectUid(map);
