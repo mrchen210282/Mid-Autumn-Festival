@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -141,7 +142,8 @@ public class Send {
         BigDecimal npcAssets = sendFrign.selectAssetsById(uid).getAvailableAssets();
         //手续费
         BigDecimal poundage = sendFrign.selectConfigById(2).getPoundage();
-        String brokerage = new BigDecimal(100).multiply(poundage).toString();
+        BigDecimal broker = new BigDecimal(100).multiply(poundage);
+        BigDecimal brokerage = broker.setScale(2, RoundingMode.HALF_UP);
         return R.ok().put("npcAssets",npcAssets).put("address",address).put("brokerage",brokerage);
     }
 
