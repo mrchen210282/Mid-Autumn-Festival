@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 
+import java.io.Serializable;
+
 @TableName("user_relation1")
-public class UserRelation1 {
+public class UserRelation1 implements Serializable {
+
     @TableId(type = IdType.INPUT)
     private String uid;
 

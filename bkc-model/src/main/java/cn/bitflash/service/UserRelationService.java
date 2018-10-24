@@ -3,8 +3,10 @@ package cn.bitflash.service;
 
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
+import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
 import com.baomidou.mybatisplus.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -23,5 +25,8 @@ public interface UserRelationService extends IService<UserRelationEntity> {
 
     List<UserInfoBean> selectRelationAndMobileByCode(String code);
 
+    List<UserInvitationCodeEntity> selectUserInvitationCode(String str);
+
+    List<UserRelationEntity> selectUserRelationCode(@Param("code") String code);
 
 }

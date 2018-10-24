@@ -38,7 +38,17 @@
       where ur.father_code = #{code }
     </select>
 
+    <select id="selectUserInvitationCode" resultType="cn.bitflash.entity.UserInvitationCodeEntity" parameterType="java.lang.String">
+      select uid,lft_code as lftCode,rgt_code rgtCode from user_invitation_code1
+    </select>
 
+    <select id="selectUserRelation" resultType="cn.bitflash.entity.UserInvitationCodeEntity" parameterType="java.lang.String">
+      select uid,lft_code,rgt_code from user_invitation_code1 where uid = #{uid}
+    </select>
+
+    <select id="selectUserRelationCode" resultType="cn.bitflash.entity.UserRelationEntity" parameterType="java.lang.String">
+      select father_code as fatherCode,layer,lft,rgt,uid from user_relation where father_code = #{code}
+    </select>
 
 
 

@@ -103,6 +103,9 @@ public class TokenFilter extends ZuulFilter {
             return false;
         }
 
+        if (url.indexOf("/api/test/demo") != -1) {
+            return false;
+        }
 
         return true;
     }
