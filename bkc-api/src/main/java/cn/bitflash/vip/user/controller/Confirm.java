@@ -29,6 +29,12 @@ public class Confirm {
     @Autowired
     private UserFeign userFeign;
 
+    /**
+     *  实名认证接口
+     *  AppKey：25198027
+     *  AppSecret：b38da61305dc3daf657cfccb4d86cd87
+     *  AppCode：ec04e916a3a74ca39247a27a3f68e38f
+     */
     @Login
     @PostMapping("authentication")
     @ApiOperation("实名认证")
@@ -45,7 +51,7 @@ public class Confirm {
         //后缀
         String path = "/IDCard";
         //AppCode  你自己的AppCode 在买家中心查看
-        String appcode = "188cbe4f58fa44e09f122ada0ef8934e";
+        String appcode = "ec04e916a3a74ca39247a27a3f68e38f";
         //参数，具体参照api接口参数
         String idCard = idnum;
         //参数，具体参照api接口参数
@@ -103,7 +109,6 @@ public class Confirm {
          */
         return R.ok(map);
     }
-
     /*
        读取返回结果
     */
