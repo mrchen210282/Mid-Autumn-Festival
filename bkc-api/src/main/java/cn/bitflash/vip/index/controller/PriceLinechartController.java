@@ -44,7 +44,6 @@ public class PriceLinechartController {
         List<PriceLinechartEntity> priceLinechartToday = indexFeign.selectLineChartYesterDayByDate(today);
         PriceLinechartEntity priceLinechartEntity = null;
         int symbol = 1;
-        DecimalFormat df = new DecimalFormat("#.00");
         if(null != priceLinechartToday && priceLinechartToday.size() > 0) {
             priceLinechartEntity = priceLinechartToday.get(0);
 
@@ -61,17 +60,17 @@ public class PriceLinechartController {
             //如果当天的美元为空，则取最近一天，并且美元价格大于0
             if(priceLinechartEntity.getUs().compareTo(new BigDecimal(0)) <= 0) {
                 PriceLinechartEntity priceUs = indexFeign.selectPriceUs();
-                priceLinechartEntity.setUsStr(df.format(priceUs.getUs()));
+                priceLinechartEntity.setUsStr(String.format("%.2f",priceUs.getUs()));
             } else {
-                priceLinechartEntity.setUsStr(df.format(priceLinechartEntity.getUs()));
+                priceLinechartEntity.setUsStr(String.format("%.2f",priceLinechartEntity.getUs()));
             }
 
             //如果当天的人民币为空，则取最近一天，并且人民币价格大于0
             if(priceLinechartEntity.getCny().compareTo(new BigDecimal(0)) <= 0) {
                 PriceLinechartEntity priceCny = indexFeign.selectPriceCny();
-                priceLinechartEntity.setCnyStr(df.format(priceCny.getCny()));
+                priceLinechartEntity.setCnyStr(String.format("%.2f",priceCny.getCny()));
             } else {
-                priceLinechartEntity.setCnyStr(df.format(priceLinechartEntity.getCny()));
+                priceLinechartEntity.setCnyStr(String.format("%.2f",priceLinechartEntity.getCny()));
             }
 
             if (null != priceLinechartList && priceLinechartList.size() > 0) {
@@ -111,8 +110,9 @@ public class PriceLinechartController {
             priceLinechartEntity = new PriceLinechartEntity();
             priceLinechartEntity.setRateStr("+0.00%");
             priceLinechartEntity.setSymbol(symbol);
-            priceLinechartEntity.setUsStr(df.format(priceUs.getUs()));
-            priceLinechartEntity.setCnyStr(df.format(priceCny.getCny()));
+            priceLinechartEntity.setUsStr(String.format("%.2f",priceUs.getUs()));
+
+            priceLinechartEntity.setCnyStr(String.format("%.2f",priceCny.getCny()));
         }
         return R.ok().put("priceLinechart", priceLinechartEntity);
     }
