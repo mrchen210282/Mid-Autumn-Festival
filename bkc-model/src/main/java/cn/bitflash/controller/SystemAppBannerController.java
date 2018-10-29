@@ -82,6 +82,7 @@ public class SystemAppBannerController {
 
     @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
     public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
+        String imgPath = "192.168.31.43:8888/banner/";
         String path = "/home/statics/banner/";
         String imgName = RandomStringUtils.randomAlphanumeric(10);
         path = path+imgName;
@@ -111,7 +112,7 @@ public class SystemAppBannerController {
 
         SystemAppBannerEntity appBannerEntity = new SystemAppBannerEntity();
         appBannerEntity.setId(imgForm.getId());
-        appBannerEntity.setBannerAddress(imgName);
+        appBannerEntity.setBannerAddress(imgPath+imgName);
         appBannerEntity.setCreateTime(new Date());
         appBannerEntity.setOpendAddress(imgForm.getOpenAddress());
         appBannerEntity.setTitle(imgForm.getTitle());
