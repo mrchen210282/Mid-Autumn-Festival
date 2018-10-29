@@ -7,6 +7,7 @@ import cn.bitflash.service.SystemAppBannerService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
@@ -26,6 +27,9 @@ public class SystemAppBannerController {
 
     @Autowired
     private SystemAppBannerService systemAppBannerService;
+
+    @Value("${img.path}")
+    String imgPath;
 
     /**
      * selectById
@@ -82,9 +86,9 @@ public class SystemAppBannerController {
 
     @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
     public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
-        String imgPath = "192.168.31.43:8888/banner/";
+        String imgPath = "http://192.168.31.43:8888/banner/";
         String path = "/home/statics/banner/";
-        String imgName = RandomStringUtils.randomAlphanumeric(10);
+        String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
         path = path+imgName;
         BASE64Decoder decoder = new BASE64Decoder();
         try {
