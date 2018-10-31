@@ -1,6 +1,7 @@
 package cn.bitflash.service;
 
 
+import cn.bitflash.bean.AdminRelationBean;
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserInvitationCodeEntity;
@@ -28,5 +29,10 @@ public interface UserRelationService extends IService<UserRelationEntity> {
     List<UserInvitationCodeEntity> selectUserInvitationCode(String str);
 
     List<UserRelationEntity> selectUserRelationCode(@Param("code") String code);
+
+    List<AdminRelationBean> findTree();
+
+    AdminRelationBean findNode(String realname);
+
 
 }

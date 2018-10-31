@@ -25,7 +25,6 @@ public class UserRelationEntity implements Serializable {
 
     private String oldUid;
 
-    private String invitationCode;
 
     public String getUid() {
         return uid;
@@ -75,11 +74,4 @@ public class UserRelationEntity implements Serializable {
         this.oldUid = oldUid;
     }
 
-    public String getInvitationCode() {
-        return invitationCode;
-    }
-
-    public void setInvitationCode(String invitationCode) {
-        this.invitationCode = invitationCode;
-    }
 }

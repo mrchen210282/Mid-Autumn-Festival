@@ -1,11 +1,9 @@
 package cn.bitflash.service;
 
-import cn.bitflash.bean.AllUserTradeBean;
-import cn.bitflash.bean.OrderListBean;
-import cn.bitflash.bean.TradeListBean;
-import cn.bitflash.bean.UserTradeDetail;
+import cn.bitflash.bean.*;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import com.baomidou.mybatisplus.service.IService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -35,4 +33,13 @@ public interface UserMarketTradeService extends IService<UserMarketTradeEntity> 
     UserTradeDetail selectDetail(Map<String,Object> map);
 
     void cancelOrder(Map<String,Object> map);
+
+
+    List<AdminOrderBean> apiTradeList(Integer page);
+
+    Integer apiTradeListCount();
+
+    List<AdminOrderBean> apiTradeSearch(Integer page,String id);
+
+    Integer apiSearchCount(String id);
 }

@@ -5,10 +5,7 @@ import cn.bitflash.entity.UserBrokerageEntity;
 import cn.bitflash.service.UserAssetsNpcService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,4 +31,21 @@ public class UserAssetsNpcController {
         return userAssetsNpcService.updateBatchById(assetsNpcEntities);
     }
 
+    /**
+     * admin
+     * getNPC
+     */
+    @GetMapping("/inner/userAssetsNpc/getNPC/{uid}")
+    public UserAssetsNpcEntity getNPC(@PathVariable String uid){
+        return userAssetsNpcService.selectById(uid);
+    }
+
+    /**
+     * admin
+     * getNPC
+     */
+    @PostMapping(value = "/inner/userAssetsNpc/updateNPC",consumes = "application/json")
+    public Boolean getNPC(@RequestBody UserAssetsNpcEntity npc){
+        return userAssetsNpcService.updateById(npc);
+    }
 }

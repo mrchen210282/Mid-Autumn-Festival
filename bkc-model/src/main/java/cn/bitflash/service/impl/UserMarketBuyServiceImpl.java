@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.dao.UserComplaintDao;
 import cn.bitflash.dao.UserMarketBuyDao;
@@ -82,5 +83,24 @@ public class UserMarketBuyServiceImpl extends ServiceImpl<UserMarketBuyDao, User
     @Override
     public int selectBuyPrompt(String uid){
         return  baseMapper.selectBuyPrompt(uid);
+    }
+
+    @Override
+    public List<AdminOrderBean> apiBuyList(Integer page){
+        return baseMapper.apiBuyList(page);
+    }
+
+    @Override
+    public Integer apiBuyListCount(){
+        return baseMapper.apiBuyListCount();
+    }
+    @Override
+    public List<AdminOrderBean> apiBuySearch( Integer page,String id){
+        return baseMapper.apiBuySearch(page,id);
+    }
+
+    @Override
+    public AdminOrderBean findById(String id){
+        return baseMapper.findById(id);
     }
 }

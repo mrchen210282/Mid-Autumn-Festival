@@ -16,6 +16,7 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserComplaintBean;
 import cn.bitflash.entity.UserComplaintEntity;
@@ -37,4 +38,10 @@ public interface UserComplaintDao extends BaseMapper<UserComplaintEntity> {
     UserComplaintBean getComplaintMessage(String id);
 
     int selectAppealPrompt(String uid);
+
+    List<AdminOrderBean> apiComplaintList(Integer page);
+
+    Integer apiComplaintCount();
+
+    List<AdminOrderBean> apiComplaintSearch(@Param("page") Integer page,@Param("uid") String uid);
 }

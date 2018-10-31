@@ -3,11 +3,9 @@ package cn.bitflash.controller;
 import cn.bitflash.entity.SystemAppBannerEntity;
 import cn.bitflash.service.SystemAppBannerService;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -72,6 +70,42 @@ public class SystemAppBannerController {
     @PostMapping("/inner/systemAppBanner/selectAppBanner")
     public List<SystemAppBannerEntity> selectAppBanner() {
         return systemAppBannerService.selectAppBanner();
+    }
+
+    /**
+     * admin
+     * apiBannerList
+     */
+    @GetMapping("/inner/systemAppBanner/apiBannerList")
+    public List<SystemAppBannerEntity> apiBannerList() {
+        return systemAppBannerService.selectList(new EntityWrapper<>());
+    }
+
+    /**
+     * admin
+     * apiBannerAdd
+     */
+    @PostMapping(value = "/inner/systemAppBanner/apiBannerAdd",consumes = "application/json")
+    public Boolean apiBannerAdd(@RequestBody SystemAppBannerEntity entity) {
+        return systemAppBannerService.insert(entity);
+    }
+
+    /**
+     * admin
+     * apiBannerDelete
+     */
+    @GetMapping(value = "/inner/systemAppBanner/apiBannerDelete/{ids}")
+    public Boolean apiBannerDelete(@PathVariable String ids) {
+        return systemAppBannerService.deleteById(Integer.parseInt(ids));
+    }
+
+    /**
+     * admin
+     * apiBannerInfo
+     */
+    @GetMapping("/inner/systemAppBanner/apiBannerList/{id}")
+    public SystemAppBannerEntity apiBannerInfo(@PathVariable String id) {
+        return systemAppBannerService.selectById(Integer.parseInt(id));
     }
 
 }

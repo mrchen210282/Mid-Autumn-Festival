@@ -17,6 +17,7 @@
 package cn.bitflash.dao;
 
 
+import cn.bitflash.bean.AdminRelationBean;
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserInvitationCodeEntity;
@@ -43,5 +44,9 @@ public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
     List<UserInvitationCodeEntity> selectUserInvitationCode(String str);
 
     List<UserRelationEntity> selectUserRelationCode(@Param("code") String code);
+
+    AdminRelationBean findNode(String realname);
+
+    List<AdminRelationBean> findTree();
 
 }

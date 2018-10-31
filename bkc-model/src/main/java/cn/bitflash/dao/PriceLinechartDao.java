@@ -19,6 +19,7 @@ package cn.bitflash.dao;
 import cn.bitflash.entity.PriceLinechartEntity;
 import cn.bitflash.entity.SystemAppBannerEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface PriceLinechartDao extends BaseMapper<PriceLinechartEntity> {
     public PriceLinechartEntity selectPriceUs();
 
     public PriceLinechartEntity selectPriceCny();
+
+    List<PriceLinechartEntity> apilineChart(@Param("startd") String startd , @Param("yester")String yester);
 }

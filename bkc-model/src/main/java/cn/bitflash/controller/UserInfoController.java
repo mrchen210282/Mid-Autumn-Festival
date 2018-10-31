@@ -7,10 +7,8 @@ import cn.bitflash.service.UserInfoService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -99,5 +97,62 @@ public class UserInfoController {
         UserInfoEntity userInfoEntity = userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("old_uid",uid));
         return userInfoEntity;
     }
+
+    /**
+     * admin
+     * findUserList
+     */
+    @GetMapping("inner/userInfo/findUserList/{page}")
+    public List<UserInfoEntity> findUserList(@PathVariable String page){
+        return userInfoService.findUserList(Integer.parseInt(page));
+    }
+
+    /**
+     * admin
+     * getUserInfo
+     */
+    @GetMapping("inner/userInfo/getUserInfo/{id}")
+    public UserInfoEntity getUserInfo(@PathVariable String id){
+        return userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("uid",id));
+    }
+
+    /**
+     * admin
+     * findByName
+     */
+    @GetMapping("inner/userInfo/findByName/{username}")
+    public UserInfoEntity findByName(@PathVariable String username){
+        return userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("nickname",username));
+    }
+
+    /**
+     * admin
+     * searchUser
+     */
+    @GetMapping("inner/userInfo/searchUser/{str}")
+    public UserInfoEntity searchUser(@PathVariable String str){
+        return userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("nickname",str).or().eq("realname",str).or().eq("mobile",str));
+    }
+
+    /**
+     * admin
+     * updateUser
+     */
+    @PostMapping(value = "inner/userInfo/updateUser", consumes = "application/json")
+    public Boolean updateUser(@RequestBody UserInfoEntity user){
+        return userInfoService.updateById(user);
+    }
+
+
+    /**
+     * admin
+     * userListCount
+     */
+    @GetMapping("inner/userInfo/userListCount")
+    public Integer userListCount(){
+        return userInfoService.userListCount();
+    }
+
+
 
 }

@@ -79,4 +79,57 @@
     and is_read = 'N'
     </select>
 
+    <select id="apiBuyList" resultType="cn.bitflash.bean.AdminOrderBean" parameterType="java.lang.Integer">
+        select
+        t.id as orderId,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.purchase_uid=ui.uid
+	    )as purchaseUid,
+        t.quantity as quantity,
+        t.price as price,
+        t.state as state,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.sell_uid=ui.uid
+	    )as sellUid,
+        t.is_read as isRead,
+        t.create_time as createTime,
+        t.pay_time as payTime
+        from user_market_buy t
+        limit #{page},10
+    </select>
+
+    <select id="apiBuyListCount" resultType="java.lang.Integer">
+        select count(0) from user_market_trade
+    </select>
+
+    <select id="apiBuySearch" resultType="cn.bitflash.bean.AdminOrderBean">
+        select
+        t.id as orderId,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.purchase_uid=ui.uid
+	    )as purchaseUid,
+        t.quantity as quantity,
+        t.price as price,
+        t.state as state,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.sell_uid=ui.uid
+	    )as sellUid,
+        t.is_read as isRead,
+        t.create_time as createTime,
+        t.pay_time as payTime
+        from user_market_buy t
+        where t.purchase_uid = #{id} or t.sell_uid=#{id} or t.id=#{id}
+        limit #{page},10
+    </select>
+
+
+
 </mapper>

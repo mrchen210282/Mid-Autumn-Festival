@@ -1,18 +1,17 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.bean.AllUserTradeBean;
-import cn.bitflash.bean.OrderListBean;
-import cn.bitflash.bean.TradeListBean;
-import cn.bitflash.bean.UserTradeDetail;
+import cn.bitflash.bean.*;
+import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.service.BuyPoundageService;
+import cn.bitflash.service.UserAssetsNpcService;
 import cn.bitflash.service.UserMarketTradeService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +22,7 @@ public class UserMarketTradeController {
 
     @Autowired
     private UserMarketTradeService userMarketTradeService;
+
 
     /**
      * selectUserMarketTradeById
@@ -129,6 +129,70 @@ public class UserMarketTradeController {
         map.put("state",state);
         List<UserMarketTradeEntity> list = userMarketTradeService.selectByMap(map);
         return list;
+    }
+
+    /**
+     * admin
+     * apiTradeList
+     */
+    @GetMapping("/inner/userMarketTrade/apiTradeList/{page}")
+    public List<AdminOrderBean> apiTradeList(@PathVariable String page) {
+        List<AdminOrderBean> list = userMarketTradeService.apiTradeList(Integer.parseInt(page));
+        return list;
+    }
+
+    /**
+     * admin
+     * apiTradeListCount
+     */
+    @GetMapping("/inner/userMarketTrade/apiTradeListCount")
+    public Integer apiTradeListCount() {
+        Integer count = userMarketTradeService.apiTradeListCount();
+        return count;
+    }
+
+    /**
+     * admin
+     * apiTradeSearch
+     */
+    @GetMapping("/inner/userMarketTrade/apiTradeSearch/{page}/{id}")
+    public List<AdminOrderBean> apiTradeSearch(@PathVariable String page,@PathVariable String id) {
+        List<AdminOrderBean> list = userMarketTradeService.apiTradeSearch(Integer.parseInt(page),id);
+        return list;
+    }
+
+    /**
+     * admin
+     * apiSearchCount
+     */
+    @GetMapping("/inner/userMarketTrade/apiSearchCount/{id}")
+    public Integer apiSearchCount(@PathVariable String id) {
+        Integer count = userMarketTradeService.apiSearchCount(id);
+        return count;
+    }
+
+
+    /**
+     * 申诉成功
+     * complaintSuccess
+     */
+    @GetMapping("/inner/userMarketTrade/complaintSuccess/{id}")
+    public void complaintSuccess(@PathVariable String id){
+        UserMarketTradeEntity entity = userMarketTradeService.selectById(id);
+        entity.setState("4");
+        userMarketTradeService.updateById(entity);
+    }
+
+    /**
+     * 申诉失败
+     * complaintFail
+     */
+    @GetMapping("/inner/userMarketTrade/complaintFail/{id}")
+    public void complaintFail(@PathVariable String id){
+        UserMarketTradeEntity entity = userMarketTradeService.selectById(id);
+        entity.setState("1");
+        entity.setPurchaseUid("");
+        userMarketTradeService.updateById(entity);
     }
 }
 

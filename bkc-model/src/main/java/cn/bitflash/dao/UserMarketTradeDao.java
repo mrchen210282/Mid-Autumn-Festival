@@ -16,12 +16,10 @@
 
 package cn.bitflash.dao;
 
-import cn.bitflash.bean.AllUserTradeBean;
-import cn.bitflash.bean.OrderListBean;
-import cn.bitflash.bean.TradeListBean;
-import cn.bitflash.bean.UserTradeDetail;
+import cn.bitflash.bean.*;
 import cn.bitflash.entity.UserMarketTradeEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -49,5 +47,13 @@ public interface UserMarketTradeDao extends BaseMapper<UserMarketTradeEntity> {
     UserTradeDetail selectDetail(Map<String,Object> map);
 
     void cancelOrder(Map<String,Object> map);
+
+    List<AdminOrderBean> apiTradeList(Integer page);
+
+    Integer apiTradeListCount();
+
+    List<AdminOrderBean> apiTradeSearch(@Param("page") Integer page,@Param("id") String id);
+
+    Integer apiSearchCount(String id);
 }
 

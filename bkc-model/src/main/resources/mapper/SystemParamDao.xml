@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.SystemParamDao">
+
+ <select id="apiParamList" resultType="cn.bitflash.entity.SystemParamEntity" parameterType="java.lang.Integer">
+     select sp.*
+     FROM
+      system_param sp
+     limit #{page},10
+ </select>
+
+ <select id="paramListCount" resultType="java.lang.Integer">
+  select count(0)
+  from system_param
+ </select>
+
+</mapper>

@@ -18,7 +18,10 @@ package cn.bitflash.dao;
 
 
 import cn.bitflash.entity.SystemParamEntity;
+import cn.bitflash.entity.UserInfoEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * @author gaoyuguo
@@ -26,4 +29,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface SystemParamDao extends BaseMapper<SystemParamEntity> {
 
+    List<SystemParamEntity> apiParamList(Integer page);
+
+    Integer paramListCount();
 }
