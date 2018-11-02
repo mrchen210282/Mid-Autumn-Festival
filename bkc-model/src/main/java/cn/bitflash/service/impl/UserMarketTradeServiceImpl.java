@@ -16,10 +16,7 @@
 
 package cn.bitflash.service.impl;
 
-import cn.bitflash.bean.AllUserTradeBean;
-import cn.bitflash.bean.OrderListBean;
-import cn.bitflash.bean.TradeListBean;
-import cn.bitflash.bean.UserTradeDetail;
+import cn.bitflash.bean.*;
 import cn.bitflash.dao.UserMarketTradeDao;
 import cn.bitflash.entity.UserMarketConfigEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
@@ -128,9 +125,29 @@ public class UserMarketTradeServiceImpl extends ServiceImpl<UserMarketTradeDao, 
     public UserTradeDetail selectDetail(Map<String, Object> map) {
         return baseMapper.selectDetail(map);
     }
-
+    @Override
     public void cancelOrder(Map<String, Object> map) {
         baseMapper.cancelOrder(map);
+    }
+
+    @Override
+    public List<AdminOrderBean> apiTradeList(Integer page){
+        return baseMapper.apiTradeList(page);
+    }
+
+    @Override
+    public Integer apiTradeListCount(){
+        return baseMapper.apiTradeListCount();
+    }
+
+    @Override
+    public List<AdminOrderBean> apiTradeSearch(Integer page,String id){
+        return baseMapper.apiTradeSearch(page,id);
+    }
+
+    @Override
+    public Integer apiSearchCount(String id){
+        return baseMapper.apiSearchCount(id);
     }
 }
 

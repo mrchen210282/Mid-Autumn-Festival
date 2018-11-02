@@ -32,4 +32,5 @@ public class UserInvitationCodeEntity implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
 }

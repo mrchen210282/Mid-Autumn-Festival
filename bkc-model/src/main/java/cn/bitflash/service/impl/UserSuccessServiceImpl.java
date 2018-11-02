@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserSuccessBean;
 import cn.bitflash.dao.UserSuccessDao;
 import cn.bitflash.service.UserSuccessService;
@@ -38,5 +39,20 @@ public class UserSuccessServiceImpl extends ServiceImpl<UserSuccessDao, UserSucc
     @Override
     public UserSuccessBean getSuccessMessage(@Param("id") String uid, @Param("state") String state){
         return baseMapper.getSuccessMessage(uid,state);
+    }
+
+    @Override
+    public List<UserSuccessBean> apiSuccessList(Integer page){
+        return baseMapper.apiSuccessList(page);
+    }
+
+    @Override
+    public Integer apiSuccessListCount(){
+        return baseMapper.apiSuccessListCount();
+    }
+
+    @Override
+    public List<UserSuccessBean> apiSuccessSearch(Integer page,String id){
+        return baseMapper.apiSuccessSearch(page,id);
     }
 }

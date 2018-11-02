@@ -1,6 +1,7 @@
 package cn.bitflash.controller;
 
 
+import cn.bitflash.bean.AdminRelationBean;
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserInvitationCodeEntity;
@@ -9,10 +10,7 @@ import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -110,5 +108,30 @@ public class UserRelationController {
     public List<UserRelationEntity> selectUserRelationCode(@RequestParam("code") String code) {
         List<UserRelationEntity> list = userRelationService.selectUserRelationCode(code);
         return list;
+    }
+
+    /**
+     * admin
+     * findTree
+     */
+    @GetMapping("/inner/userRelation/findTree")
+    public List<AdminRelationBean> findTree() {
+        return userRelationService.findTree();
+    }
+
+    /**
+     * findNode
+     */
+    @GetMapping("/inner/userRelation/findTree/{realname}")
+    public AdminRelationBean findNode(@PathVariable String realname) {
+        return userRelationService.findNode(realname);
+    }
+
+    /**
+     * findById
+     */
+    @GetMapping("/inner/userRelation/findById/{left}")
+    public UserRelationEntity findById(@PathVariable String left) {
+        return userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("lft",Integer.parseInt(left)));
     }
 }

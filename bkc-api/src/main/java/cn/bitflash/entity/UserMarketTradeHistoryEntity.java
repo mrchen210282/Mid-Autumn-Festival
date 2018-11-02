@@ -14,10 +14,15 @@ import java.util.Date;
 public class UserMarketTradeHistoryEntity implements Serializable {
 
     private String userTradeId;
+
     private String purchaseUid;
+
     private BigDecimal price;
+
     private String sellUid;
+
     private BigDecimal quantity;
+
     private String orderState;
 
     //Y:已查看,N未查看

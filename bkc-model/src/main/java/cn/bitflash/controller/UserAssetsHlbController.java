@@ -1,13 +1,10 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.UserAssetsHlbBean;
+import cn.bitflash.bean.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import cn.bitflash.service.UserAssetsHlbService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +32,24 @@ public class UserAssetsHlbController {
     @PostMapping("/inner/userAssetsHlb/updateList")
     public boolean updateuserAssetsHlbList(@RequestBody List<UserAssetsHlbEntity> assetsHlbEntities) {
         return userAssetsHlbService.updateBatchById(assetsHlbEntities);
+    }
+
+    /**
+     * admin
+     * getHLB
+     */
+    @GetMapping("/inner/userAssetsHlb/getHLB/{uid}")
+    public UserAssetsHlbEntity getHLB(@PathVariable String uid){
+        return userAssetsHlbService.selectById(uid);
+    }
+
+    /**
+     * admin
+     * getHLB
+     */
+    @PostMapping(value = "/inner/userAssetsHlb/updateHLB",consumes = "application/json")
+    public Boolean getHLB(@RequestBody UserAssetsHlbEntity hlb){
+        return userAssetsHlbService.updateById(hlb);
     }
 
 }

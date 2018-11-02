@@ -31,4 +31,7 @@ import java.util.List;
 public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     List<UserInfoBean> selectUserInfoLikeCode(@Param("code") String code);
 
+    List<UserInfoEntity> findUserList(Integer page);
+
+    Integer userListCount();
 }

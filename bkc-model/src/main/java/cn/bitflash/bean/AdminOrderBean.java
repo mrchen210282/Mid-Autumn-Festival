@@ -1,42 +1,66 @@
-package cn.bitflash.entity;
+package cn.bitflash.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author soso
- * @date 2018年5月22日 下午4:00:45
- */
+public class AdminOrderBean {
 
-public class UserMarketTradeEntity implements Serializable {
+    /**
+     * 订单编号
+     */
+    private String orderId;
 
-    private String id;
-
-    private String uid;
-
-    private BigDecimal quantity;
-
-    private BigDecimal price;
-
-    private String state;
-
+    /**
+     * 发单人
+     */
     private String purchaseUid;
 
+    /**
+     * 订单状态
+     */
+    private String state;
+
+    /**
+     * 交易数量
+     */
+    private BigDecimal quantity;
+
+    /**
+     * 价格
+     */
+    private BigDecimal price;
+
+    /**
+     * 接单人
+     */
+    private String sellUid;
+
+    /**
+     * 是否已读
+     */
     //Y:已查看,N未查看
     private String isRead;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    public String getId() {
-        return id;
+    /**
+     * 修改时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date payTime;
+
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getIsRead() {
@@ -45,14 +69,6 @@ public class UserMarketTradeEntity implements Serializable {
 
     public void setIsRead(String isRead) {
         this.isRead = isRead;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getPurchaseUid() {
@@ -87,6 +103,14 @@ public class UserMarketTradeEntity implements Serializable {
         this.price = price;
     }
 
+    public String getSellUid() {
+        return sellUid;
+    }
+
+    public void setSellUid(String sellUid) {
+        this.sellUid = sellUid;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -95,4 +119,11 @@ public class UserMarketTradeEntity implements Serializable {
         this.createTime = createTime;
     }
 
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
 }

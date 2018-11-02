@@ -1,4 +1,4 @@
-package cn.bitflash.entity;
+package cn.bitflash.bean;
 
 public class UserAssetsHlbBean {
 

@@ -1,10 +1,12 @@
 package cn.bitflash.service;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserSuccessBean;
 import cn.bitflash.entity.AppStatusEntity;
 import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -20,4 +22,10 @@ public interface UserSuccessService extends IService<UserSuccessBean> {
     Integer selectSuccessCount(String uid);
 
     UserSuccessBean getSuccessMessage(@Param("id") String uid, @Param("state") String state);
+
+    List<UserSuccessBean> apiSuccessList(Integer page);
+
+    Integer apiSuccessListCount();
+
+    List<UserSuccessBean> apiSuccessSearch(Integer page,String id);
 }

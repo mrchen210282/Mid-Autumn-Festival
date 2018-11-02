@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserComplaintBean;
 import cn.bitflash.dao.UserComplaintDao;
@@ -47,5 +48,20 @@ public class UserComplaintServiceImpl extends ServiceImpl<UserComplaintDao, User
     @Override
     public int selectAppealPrompt(String uid){
         return baseMapper.selectAppealPrompt(uid);
+    }
+
+    @Override
+    public List<AdminOrderBean> apiComplaintList(Integer page){
+        return baseMapper.apiComplaintList(page);
+    }
+
+    @Override
+    public Integer apiComplaintCount(){
+        return baseMapper.apiComplaintCount();
+    }
+
+    @Override
+    public List<AdminOrderBean> apiComplaintSearch(Integer page,String id){
+        return baseMapper.apiComplaintSearch(page,id);
     }
 }

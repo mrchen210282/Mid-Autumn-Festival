@@ -16,10 +16,15 @@ import java.util.Date;
 public class UserMarketTradeHistoryEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String userTradeId;
+
     private String purchaseUid;
+
     private float price;
+
     private String sellUid;
+
     private float quantity;
+
     private String orderState;
 
     //Y:已查看,N未查看
@@ -27,6 +32,7 @@ public class UserMarketTradeHistoryEntity implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date finishTime;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 

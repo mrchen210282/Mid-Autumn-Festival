@@ -1,15 +1,18 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
+import cn.bitflash.entity.UserAssetsNpcEntity;
+import cn.bitflash.entity.UserBrokerageEntity;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.service.BuyPoundageService;
+import cn.bitflash.service.UserAssetsNpcService;
+import cn.bitflash.service.UserBrokerageService;
 import cn.bitflash.service.UserMarketBuyService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,12 @@ public class UserMarketBuyController {
 
     @Autowired
     private UserMarketBuyService userMarketBuyService;
+
+    @Autowired
+    private UserAssetsNpcService userAssetsNpcService;
+
+    @Autowired
+    private BuyPoundageService buyPoundageService;
 
     /**
      * selectById
@@ -137,6 +146,93 @@ public class UserMarketBuyController {
         map.put("state",state);
         List<UserMarketBuyEntity> list = userMarketBuyService.selectByMap(map);
         return list;
+    }
+
+
+    /**
+     * admin
+     * apiBuyList
+     */
+    @GetMapping("/inner/userMarketBuy/apiBuyList/{page}")
+    public List<AdminOrderBean> apiBuyList(@PathVariable String page) {
+        List<AdminOrderBean> list = userMarketBuyService.apiBuyList(Integer.parseInt(page));
+        return list;
+    }
+
+    /**
+     * admin
+     * apiBuyListCount
+     */
+    @GetMapping("/inner/userMarketBuy/apiBuyListCount")
+    public Integer apiBuyListCount() {
+        Integer count = userMarketBuyService.apiBuyListCount();
+        return count;
+    }
+
+    /**
+     * admin
+     * apiBuySearch
+     */
+    @GetMapping("/inner/userMarketBuy/apiBuySearch/{page}/{id}")
+    public List<AdminOrderBean> apiBuySearch(@PathVariable String page,@PathVariable String id) {
+        List<AdminOrderBean> list = userMarketBuyService.apiBuySearch(Integer.parseInt(page),id);
+        return list;
+    }
+
+    /**
+     * showSearchCount
+     *
+     * @return
+     */
+    @GetMapping("/inner/userMarketBuy/showSearchCount/{id}")
+    public Integer showSearchCount(@PathVariable String id){
+        int count = userMarketBuyService.showBuyingCount(id);
+        return count;
+    }
+
+    /**
+     * findById
+     *
+     * @return
+     */
+    @GetMapping("/inner/userMarketBuy/findById/{id}")
+    public AdminOrderBean findById(@PathVariable String id){
+        AdminOrderBean order = userMarketBuyService.findById(id);
+        return order;
+    }
+
+    /**
+     * 申诉成功
+     * complaintSuccess
+     */
+    @GetMapping("/inner/userMarketBuy/complaintSuccess/{id}")
+    public void complaintSuccess(@PathVariable String id){
+        UserMarketBuyEntity entity = userMarketBuyService.selectById(id);
+        if("".equals(entity.getPayTime()) || entity.getPayTime() == null){
+            entity.setState("2");
+        }else {
+            entity.setState("3");
+        }
+        userMarketBuyService.updateById(entity);
+    }
+
+    /**
+     * 申诉失败
+     * complaintFail
+     */
+    @GetMapping("/inner/userMarketBuy/complaintFail/{id}")
+    public void complaintFail(@PathVariable String id){
+        UserMarketBuyEntity entity = userMarketBuyService.selectById(id);
+        entity.setPayTime(null);
+        entity.setSellUid(null);
+        entity.setState("1");
+        userMarketBuyService.updateById(entity);
+
+        buyPoundageService.deleteById(id);
+
+        UserAssetsNpcEntity userAssetsNpcEntity = userAssetsNpcService.selectById(entity.getSellUid());
+        userAssetsNpcEntity.setAvailableAssets(userAssetsNpcEntity.getAvailableAssets()+entity.getQuantity());
+        userAssetsNpcService.updateById(userAssetsNpcEntity);
     }
 
 }

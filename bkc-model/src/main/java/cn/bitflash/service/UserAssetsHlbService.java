@@ -1,6 +1,6 @@
 package cn.bitflash.service;
 
-import cn.bitflash.entity.UserAssetsHlbBean;
+import cn.bitflash.bean.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import com.baomidou.mybatisplus.service.IService;
 

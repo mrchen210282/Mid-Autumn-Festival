@@ -19,4 +19,16 @@
     </select>
 
 
+ <select id="findUserList" resultType="cn.bitflash.entity.UserInfoEntity" parameterType="java.lang.Integer">
+     select u.*
+     FROM
+      user_info u
+     limit #{page},10
+ </select>
+
+ <select id="userListCount" resultType="java.lang.Integer">
+  select count(0)
+  from user_info
+ </select>
+
 </mapper>

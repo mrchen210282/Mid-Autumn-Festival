@@ -18,10 +18,22 @@ package cn.bitflash.service.impl;
 
 import cn.bitflash.dao.SystemParamDao;
 import cn.bitflash.entity.SystemParamEntity;
+import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.service.SystemParamService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("systemParamService")
 public class SystemParamServiceImpl extends ServiceImpl<SystemParamDao, SystemParamEntity> implements SystemParamService {
+    @Override
+    public List<SystemParamEntity> apiParamList(Integer page){
+        return baseMapper.apiParamList(page);
+    }
+
+    @Override
+    public Integer paramListCount(){
+        return baseMapper.paramListCount();
+    }
 }
