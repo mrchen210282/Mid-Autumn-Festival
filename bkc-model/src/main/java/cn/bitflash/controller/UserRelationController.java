@@ -111,5 +111,4 @@ public class UserRelationController {
         List<UserRelationEntity> list = userRelationService.selectUserRelationCode(code);
         return list;
     }
-
 }
