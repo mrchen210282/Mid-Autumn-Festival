@@ -104,4 +104,75 @@
     and is_read = 'N'
     </select>
 
+
+
+
+
+    <select id="apiComplaintCount" resultType="java.lang.Integer">
+        SELECT
+            count(0)
+        FROM
+            user_complaint uc
+    </select>
+
+
+    <select id="apiComplaintList" resultType="cn.bitflash.bean.AdminOrderBean">
+        SELECT
+        uc.order_id AS orderId,
+        (
+            SELECT
+                ui.nickname
+            FROM
+                user_info ui
+            WHERE
+                uc.complaint_uid = ui.uid
+        ) AS purchaseUid,
+        (
+            SELECT
+                ui.nickname
+            FROM
+                user_info ui
+            WHERE
+                uc.contacts_uid = ui.uid
+        ) AS sellUid,
+        uc.is_read AS isRead,
+        uc.complaint_state AS state,
+        uc.create_time AS createTime
+    FROM
+        user_complaint uc
+    ORDER BY
+	createTime DESC
+        limit #{page},10
+    </select>
+
+    <select id="apiComplaintSearch" resultType="cn.bitflash.bean.AdminOrderBean">
+        SELECT
+        uc.order_id AS orderId,
+        (
+            SELECT
+                ui.nickname
+            FROM
+                user_info ui
+            WHERE
+                uc.complaint_uid = ui.uid
+        ) AS purchaseUid,
+        (
+            SELECT
+                ui.nickname
+            FROM
+                user_info ui
+            WHERE
+                uc.contacts_uid = ui.uid
+        ) AS sellUid,
+        uc.is_read AS isRead,
+        uc.complaint_state AS state,
+        uc.create_time AS createTime
+    FROM
+        user_complaint uc
+    where uc.complaint_uid = #{uid} or uc.contacts_uid = #{uid}
+    ORDER BY
+	createTime DESC
+        limit #{page},10
+    </select>
+
 </mapper>

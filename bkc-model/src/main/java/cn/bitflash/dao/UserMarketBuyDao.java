@@ -16,6 +16,7 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
@@ -41,5 +42,13 @@ public interface UserMarketBuyDao extends BaseMapper<UserMarketBuyEntity> {
     UserBuyBean checkOrder(@Param("id")String id);
 
     int selectBuyPrompt(String uid);
+
+    List<AdminOrderBean> apiBuyList(Integer page);
+
+    Integer apiBuyListCount();
+
+    List<AdminOrderBean> apiBuySearch(@Param("page") Integer page,@Param("id") String id);
+
+    AdminOrderBean findById(String id);
 
 }

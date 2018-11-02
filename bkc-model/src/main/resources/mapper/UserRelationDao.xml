@@ -50,7 +50,19 @@
       select father_code as fatherCode,layer,lft,rgt,uid from user_relation where father_code = #{code}
     </select>
 
+    <select id="findTree" resultType="cn.bitflash.bean.AdminRelationBean">
+        select ur.lft, ur.rgt,ur.layer,ui.realname,ur.uid
+        from user_relation ur
+        LEFT JOIN user_info ui on ur.uid = ui.uid
+        order by ur.lft
+    </select>
 
 
+    <select id="findNode" resultType="cn.bitflash.bean.AdminRelationBean">
+		select ur.lft, ur.rgt,ur.layer,ui.realname,ur.uid
+		from user_relation ur
+		LEFT JOIN user_info ui on ur.uid = ui.uid
+		where ui.realname = #{realname}
+	</select>
 
 </mapper>

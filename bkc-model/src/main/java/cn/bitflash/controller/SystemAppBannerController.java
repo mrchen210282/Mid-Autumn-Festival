@@ -2,14 +2,14 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.ImgForm;
 import cn.bitflash.entity.SystemAppBannerEntity;
-import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.service.SystemAppBannerService;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.RandomStringUtils;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
 import java.io.FileOutputStream;
@@ -84,6 +84,42 @@ public class SystemAppBannerController {
         return systemAppBannerService.selectAppBanner();
     }
 
+    /**
+     * admin
+     * apiBannerList
+     */
+    @GetMapping("/inner/systemAppBanner/apiBannerList")
+    public List<SystemAppBannerEntity> apiBannerList() {
+        return systemAppBannerService.selectList(new EntityWrapper<>());
+    }
+
+    /**
+     * admin
+     * apiBannerAdd
+     */
+    @PostMapping(value = "/inner/systemAppBanner/apiBannerAdd",consumes = "application/json")
+    public Boolean apiBannerAdd(@RequestBody SystemAppBannerEntity entity) {
+        return systemAppBannerService.insert(entity);
+    }
+
+    /**
+     * admin
+     * apiBannerDelete
+     */
+    @GetMapping(value = "/inner/systemAppBanner/apiBannerDelete/{ids}")
+    public Boolean apiBannerDelete(@PathVariable String ids) {
+        return systemAppBannerService.deleteById(Integer.parseInt(ids));
+    }
+
+    /**
+     * admin
+     * apiBannerInfo
+     */
+    @GetMapping("/inner/systemAppBanner/apiBannerList/{id}")
+    public SystemAppBannerEntity apiBannerInfo(@PathVariable String id) {
+        return systemAppBannerService.selectById(Integer.parseInt(id));
+    }
+
     @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
     public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
         String imgPath = "http://192.168.31.43:8888/banner/";
@@ -123,7 +159,6 @@ public class SystemAppBannerController {
         systemAppBannerService.insertOrUpdate(appBannerEntity);
         return new ModelMap("status",0);
     }
-
 
 
 }

@@ -16,6 +16,7 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.AdminRelationBean;
 import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.dao.UserRelationDao;
@@ -49,12 +50,24 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
     public List<UserInfoBean> selectRelationAndMobileByCode(String code) {
         return baseMapper.selectRelationAndMobileByCode(code);
     }
-
+    @Override
     public List<UserInvitationCodeEntity> selectUserInvitationCode(String str) {
         return baseMapper.selectUserInvitationCode(str);
     }
-
+    @Override
     public List<UserRelationEntity> selectUserRelationCode(@Param("code") String code) {
         return baseMapper.selectUserRelationCode(code);
     }
+
+    @Override
+    public List<AdminRelationBean> findTree(){
+        return baseMapper.findTree();
+    }
+
+    @Override
+    public AdminRelationBean findNode(String realname){
+        return baseMapper.findNode(realname);
+    }
+
+
 }

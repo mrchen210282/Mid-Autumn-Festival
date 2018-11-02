@@ -22,18 +22,28 @@ import cn.bitflash.service.PriceLinechartService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("priceLinechartService")
 public class PriceLinechartServiceImpl extends ServiceImpl<PriceLinechartDao, PriceLinechartEntity> implements PriceLinechartService {
 
+    @Override
     public PriceLinechartEntity selectPriceLinechart() {
         return baseMapper.selectPriceLinechart();
     }
 
+    @Override
     public PriceLinechartEntity selectPriceUs() {
         return baseMapper.selectPriceUs();
     }
 
+    @Override
     public PriceLinechartEntity selectPriceCny() {
         return baseMapper.selectPriceCny();
+    }
+
+    @Override
+    public List<PriceLinechartEntity> apilineChart(String startd , String yester){
+        return baseMapper.apilineChart(startd,yester);
     }
 }

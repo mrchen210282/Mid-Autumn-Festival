@@ -1,8 +1,10 @@
 package cn.bitflash.service;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.entity.UserMarketBuyEntity;
 import com.baomidou.mybatisplus.service.IService;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -23,4 +25,12 @@ public interface UserMarketBuyService extends IService<UserMarketBuyEntity> {
     UserBuyBean checkOrder(@RequestParam("id")String id);
 
     int selectBuyPrompt(String uid);
+
+    List<AdminOrderBean> apiBuyList(Integer page);
+
+    Integer apiBuyListCount();
+
+    List<AdminOrderBean> apiBuySearch( Integer page,String id);
+
+    AdminOrderBean findById(String id);
 }

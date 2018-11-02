@@ -32,4 +32,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
         return baseMapper.selectUserInfoLikeCode(code);
 
     }
+
+    @Override
+    public List<UserInfoEntity> findUserList(Integer page){
+        return baseMapper.findUserList(page);
+    }
+
+    @Override
+    public Integer userListCount(){
+        return baseMapper.userListCount();
+    }
 }

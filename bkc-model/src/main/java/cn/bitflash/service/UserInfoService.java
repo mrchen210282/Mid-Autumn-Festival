@@ -16,4 +16,7 @@ public interface UserInfoService extends IService<UserInfoEntity> {
 
     List<UserInfoBean> selectUserInfoLikeCode(String code);
 
+    List<UserInfoEntity> findUserList(Integer page);
+
+    Integer userListCount();
 }

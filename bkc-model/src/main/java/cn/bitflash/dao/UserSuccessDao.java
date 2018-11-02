@@ -16,6 +16,7 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserSuccessBean;
 import cn.bitflash.entity.BuyPoundageEntity;
@@ -35,4 +36,10 @@ public interface UserSuccessDao extends BaseMapper<UserSuccessBean> {
     Integer selectSuccessCount(String uid);
 
     UserSuccessBean getSuccessMessage(@Param("id") String uid, @Param("state") String state);
+
+    List<UserSuccessBean> apiSuccessList(Integer page);
+
+    Integer apiSuccessListCount();
+
+    List<UserSuccessBean> apiSuccessSearch(@Param("page") Integer page,@Param("uid") String uid);
 }

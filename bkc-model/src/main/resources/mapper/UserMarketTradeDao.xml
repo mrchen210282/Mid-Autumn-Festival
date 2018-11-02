@@ -59,4 +59,58 @@
         update user_market_trade set state = #{state},purchase_uid = null where id = #{id}
     </update>
 
+    <select id="apiTradeList" resultType="cn.bitflash.bean.AdminOrderBean" parameterType="java.lang.Integer">
+        select
+        t.id as orderId,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.uid=ui.uid
+	    )as purchaseUid,
+        t.quantity as quantity,
+        t.price as price,
+        t.state as state,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.purchase_uid=ui.uid
+	    )as sellUid,
+        t.is_read as isRead,
+        t.create_time as createTime
+        from user_market_trade t
+        limit #{page},10
+    </select>
+
+    <select id="apiTradeListCount" resultType="java.lang.Integer">
+        select count(0) from user_market_trade
+    </select>
+
+    <select id="apiTradeSearch" resultType="cn.bitflash.bean.AdminOrderBean">
+        select
+        t.id as orderId,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.uid=ui.uid
+	    )as purchaseUid,
+        t.quantity as quantity,
+        t.price as price,
+        t.state as state,
+        ( SELECT ui.nickname
+          FROM user_info ui
+          WHERE
+          t.purchase_uid=ui.uid
+	    )as sellUid,
+        t.is_read as isRead,
+        t.create_time as createTime
+        from user_market_trade t
+        where t.uid = #{id} or t.purchase_uid=#{id} or t.id=#{id}
+        limit #{page},10
+    </select>
+
+    <select id="apiSearchCount" resultType="java.lang.Integer">
+        select count(0) from user_market_trade t
+        where t.uid = #{id} and state != '0' and state != '9' or t.purchase_uid = #{id} and state != '0' and state != '9'
+    </select>
+
 </mapper>

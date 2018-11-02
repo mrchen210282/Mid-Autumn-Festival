@@ -5,10 +5,7 @@ import cn.bitflash.service.PriceLinechartService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -119,4 +116,23 @@ public class PriceLinechartController {
         PriceLinechartEntity priceLinechartEntity = priceLinechartService.selectPriceCny();
         return priceLinechartEntity;
     }
+
+    /**
+     * admin
+     * apilineChart
+     */
+    @GetMapping("/inner/priceLinechart/apilineChart/{startd}/{yester}")
+    public List<PriceLinechartEntity> apilineChart(@PathVariable String startd ,@PathVariable String yester){
+        return priceLinechartService.apilineChart(startd,yester);
+    }
+
+    /**
+     * admin
+     * addlineChart
+     */
+    @PostMapping("/inner/priceLinechart/addlineChart")
+    public Boolean addlineChart(@RequestBody PriceLinechartEntity entity){
+        return priceLinechartService.insert(entity);
+    }
+
 }

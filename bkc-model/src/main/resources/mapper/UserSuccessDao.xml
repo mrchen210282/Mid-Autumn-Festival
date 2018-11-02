@@ -89,6 +89,84 @@
     </if>
     </select>
 
+    <select id="apiSuccessList" resultType="cn.bitflash.bean.UserSuccessBean">
+        (SELECT
+            ui.nickname as nickname,
+            ub.price as price,
+            ub.quantity as quantity,
+            ub.finish_time as createTime,
+            ub.user_buy_id as orderId,
+            '1' as state
+        FROM
+            user_market_buy_history ub
+        LEFT JOIN user_info ui ON ub.purchase_uid = ui.uid
+        WHERE ub.order_state = '6'
+        )
+        UNION
+        (
+        SELECT
+            ui.nickname as nickname,
+            ut.price as userPrice,
+            ut.quantity as userQuantity,
+            ut.finish_time as createTime,
+            ut.user_trade_id as orderId,
+            '2' as state
+        FROM
+            user_market_trade_history ut
+        LEFT JOIN user_info ui ON ut.sell_uid = ui.uid
+        WHERE ut.order_state = '4'
+        )
+        ORDER BY createTime desc
+        limit #{page},10
+    </select>
+
+    <select id="apiSuccessListCount" resultType="java.lang.Integer">
+        SELECT
+            count(0)
+        FROM
+            (SELECT ub.user_buy_id as orderId from user_market_buy_history ub where ub.order_state = '6'
+             UNION
+             SELECT ut.user_trade_id as orderId from user_market_trade_history ut where ut.order_state = '4'
+            )t
+    </select>
+
+    <select id="apiSuccessSearch" resultType="cn.bitflash.bean.UserSuccessBean">
+        (SELECT
+            ui.nickname as nickname,
+            ub.price as price,
+            ub.quantity as quantity,
+            ub.finish_time as createTime,
+            ub.user_buy_id as orderId,
+            '1' as state
+        FROM
+            user_market_buy_history ub
+        LEFT JOIN user_info ui ON ub.purchase_uid = ui.uid
+        WHERE
+            ub.purchase_uid = #{uid} and ub.order_state = '6'
+            OR ub.sell_uid = #{uid} and ub.order_state = '6'
+            OR ub.user_buy_id = #{uid} and ub.order_state = '6'
+        )
+        UNION
+        (
+        SELECT
+            ui.nickname as nickname,
+            ut.price as userPrice,
+            ut.quantity as userQuantity,
+            ut.finish_time as createTime,
+            ut.user_trade_id as orderId,
+            '2' as state
+        FROM
+            user_market_trade_history ut
+        LEFT JOIN user_info ui ON ut.sell_uid = ui.uid
+        WHERE
+            ut.purchase_uid = #{uid} and ut.order_state = '4'
+            OR ut.sell_uid = #{uid} and ut.order_state = '4'
+            OR ut.user_trade_id = #{uid} and ut.order_state = '4'
+        )
+        ORDER BY createTime desc
+        limit #{page},10
+    </select>
+
     <!--<select id="getSuccessMessage" resultType="cn.bitflash.bean.UserSuccessBean">-->
 	<!--SELECT-->
     <!--ub.user_buy_id as orderId,-->

@@ -1,17 +1,16 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
 import cn.bitflash.bean.UserComplaintBean;
+import cn.bitflash.bean.UserSuccessBean;
 import cn.bitflash.entity.BuyPoundageEntity;
 import cn.bitflash.entity.UserComplaintEntity;
 import cn.bitflash.service.BuyPoundageService;
 import cn.bitflash.service.UserComplaintService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -94,6 +93,53 @@ public class UserComplaintController {
     @PostMapping("/inner/userMarketBuyHistory/selectAppealPrompt")
     int selectAppealPrompt(@RequestParam("uid") String uid){
         return userComplaintService.selectAppealPrompt(uid);
+    }
+
+
+    /**
+     * admin
+     * apiComplaintList
+     */
+    @GetMapping("/inner/userComplaint/apiComplaintList/{page}")
+    public List<AdminOrderBean> apiComplaintList(@PathVariable String page) {
+        List<AdminOrderBean> list = userComplaintService.apiComplaintList(Integer.parseInt(page));
+        return list;
+    }
+
+    /**
+     * admin
+     * apiComplaintCount
+     */
+    @GetMapping("/inner/userComplaint/apiComplaintCount")
+    public Integer apiComplaintCount() {
+        Integer count = userComplaintService.apiComplaintCount();
+        return count;
+    }
+
+    /**
+     * admin
+     * apiComplaintSearch
+     */
+    @GetMapping("/inner/userComplaint/apiComplaintSearch/{page}/{id}")
+    public List<AdminOrderBean> apiComplaintSearch(@PathVariable String page,@PathVariable String id) {
+        List<AdminOrderBean> list = userComplaintService.apiComplaintSearch(Integer.parseInt(page),id);
+        return list;
+    }
+
+    /**
+     * selectSearchCount
+     */
+    @GetMapping("/inner/userComplaint/selectSearchCount/{id}")
+    public Integer selectSearchCount(@PathVariable String id){
+        return userComplaintService.selectAppealCount(id);
+    }
+
+    /**
+     * deleteComplaint
+     */
+    @GetMapping("/inner/userComplaint/deleteComplaint/{id}")
+    public Boolean deleteComplaint(@PathVariable String id){
+        return userComplaintService.deleteById(id);
     }
 
 }

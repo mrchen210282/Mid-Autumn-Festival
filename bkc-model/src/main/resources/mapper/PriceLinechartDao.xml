@@ -15,4 +15,8 @@
       select us,rate,cny,price,bkc from price_linechart where 1= 1 and cny > 0 order by rate_time desc limit 1
     </select>
 
+    <select id="apilineChart" resultType="cn.bitflash.entity.PriceLinechartEntity">
+      select us,rate,cny,price,bkc,rate_time from price_linechart where rate_time between #{startd} and #{yester} order by rate_time asc
+    </select>
+
 </mapper>
