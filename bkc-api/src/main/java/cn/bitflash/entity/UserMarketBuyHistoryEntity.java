@@ -14,12 +14,18 @@ import java.util.Date;
 public class UserMarketBuyHistoryEntity implements Serializable {
 
     private String userBuyId;
+
     private String purchaseUid;
+
     private BigDecimal quantity;
+
     private BigDecimal price;
+
     private String sellUid;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
+
     private String orderState;
 
     //Y:已查看,N未查看

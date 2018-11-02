@@ -16,15 +16,21 @@ import java.util.Date;
 public class UserMarketBuyHistoryEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String userBuyId;
+
     private String purchaseUid;
+
     private float quantity;
+
     private float price;
+
     private String sellUid;
 
     //Y:已查看,N未查看
     private String isRead;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date finishTime;
+
     private String orderState;
 
     public String getUserBuyId() {

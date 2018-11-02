@@ -66,12 +66,6 @@ public interface LevelFeign {
     Boolean insertInvitation(@RequestBody UserInvitationCodeEntity code);
 
     /**
-     * user_performance 表
-     */
-    @PostMapping("/inner/userPerformance/selectById")
-    UserPerformanceEntity selectPerformanceByUid(@RequestParam("id")String id);
-
-    /**
      * user_hlb_trade_history 表
      */
     @PostMapping("/inner/userHlbhistory/insert")

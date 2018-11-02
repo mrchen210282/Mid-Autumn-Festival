@@ -16,8 +16,11 @@ import java.util.Date;
 public class TradePoundageEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String userTradeId;
+
     private String uid;
+
     private float poundage;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
 
