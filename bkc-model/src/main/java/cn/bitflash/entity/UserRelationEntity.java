@@ -25,7 +25,6 @@ public class UserRelationEntity implements Serializable {
 
     private String oldUid;
 
-
     public String getUid() {
         return uid;
     }
@@ -73,5 +72,4 @@ public class UserRelationEntity implements Serializable {
     public void setOldUid(String oldUid) {
         this.oldUid = oldUid;
     }
-
 }

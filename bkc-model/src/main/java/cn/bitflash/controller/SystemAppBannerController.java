@@ -125,6 +125,7 @@ public class SystemAppBannerController {
         path = path+imgName;
         BASE64Decoder decoder = new BASE64Decoder();
         try {
+            
             // Base64解码
             String[] base64Str = imgForm.getImg().split(",");
             if (base64Str.length >= 2) {
