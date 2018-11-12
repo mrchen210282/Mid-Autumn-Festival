@@ -13,7 +13,9 @@ public class UserBrokerageEntity {
 
     @TableId(type = IdType.INPUT)
     private String id;
+
     private Float purchaseBrokerage;
+
     private Float sellBrokerage;
 
     public String getId() {

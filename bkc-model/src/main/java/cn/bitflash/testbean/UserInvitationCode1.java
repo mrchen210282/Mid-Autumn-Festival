@@ -1,4 +1,4 @@
-package cn.bitflash.entity;
+package cn.bitflash.testbean;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;

@@ -3,7 +3,7 @@
 
 <mapper namespace="cn.bitflash.dao.UserAssetsHlbDao">
 
-    <select id="selectHlbCommunity" statementType="CALLABLE" resultType="cn.bitflash.entity.UserAssetsHlbBean"  parameterType="java.lang.String">
+    <select id="selectHlbCommunity" statementType="CALLABLE" resultType="cn.bitflash.bean.UserAssetsHlbBean" parameterType="java.lang.String">
         <![CDATA[
 		  call selectHlbCommunity(#{uid,jdbcType=VARCHAR,mode=IN})
 		 ]]>

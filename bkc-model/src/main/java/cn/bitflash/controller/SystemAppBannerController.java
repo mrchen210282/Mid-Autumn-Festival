@@ -28,9 +28,6 @@ public class SystemAppBannerController {
     @Autowired
     private SystemAppBannerService systemAppBannerService;
 
-    @Value("${img.path}")
-    String imgPath;
-
     /**
      * selectById
      *

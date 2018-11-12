@@ -16,12 +16,18 @@ import java.util.Date;
 public class UserComplaintEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String orderId;
+
     private String complaintUid;
+
     private String contactsUid;
+
     private String complaintState;
+
     private String orderState;
+
     //Y:已查看,N未查看
     private String isRead;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
     private Date createTime;
 

@@ -17,7 +17,7 @@
 package cn.bitflash.service.impl;
 
 import cn.bitflash.dao.UserAssetsHlbDao;
-import cn.bitflash.entity.UserAssetsHlbBean;
+import cn.bitflash.bean.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
 import cn.bitflash.service.UserAssetsHlbService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;

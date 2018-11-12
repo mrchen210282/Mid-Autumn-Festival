@@ -1,8 +1,7 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.UserAssetsHlbBean;
+import cn.bitflash.bean.UserAssetsHlbBean;
 import cn.bitflash.entity.UserAssetsHlbEntity;
-import cn.bitflash.entity.UserAssetsNpcEntity;
 import cn.bitflash.service.UserAssetsHlbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

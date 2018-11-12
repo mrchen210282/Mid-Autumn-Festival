@@ -14,14 +14,20 @@ import java.util.Date;
 public class UserMarketTradeEntity implements Serializable {
 
     private String id;
+
     private String uid;
+
     private BigDecimal quantity;
+
     private BigDecimal price;
+
     private String state;
+
     private String purchaseUid;
 
     //Y:已查看,N未查看
     private String isRead;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 

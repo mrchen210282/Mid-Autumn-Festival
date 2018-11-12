@@ -16,14 +16,20 @@ import java.util.Date;
 public class UserMarketTradeEntity implements Serializable {
     @TableId(type = IdType.INPUT)
     private String id;
+
     private String uid;
+
     private float quantity;
+
     private float price;
+
     private String state;
+
     private String purchaseUid;
 
     //Y:已查看,N未查看
     private String isRead;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createTime;
 
