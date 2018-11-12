@@ -43,6 +43,9 @@ public class LoginApp {
         if (user == null) {
             return R.error("用户不存在");
         }
+        if(user.getIsAvailable().equals(Common.UNAUTHENTICATION)){
+            return R.error("用户账号已被冻结");
+        }
         String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());
         UserGetuiEntity getuiEntity = new UserGetuiEntity();
         getuiEntity.setUid(user.getUid());
