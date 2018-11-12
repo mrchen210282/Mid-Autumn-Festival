@@ -27,6 +27,8 @@ public class UserSecretEntity implements Serializable {
     @JSONField(serialize = false)
     private String password;
 
+    private String isAvailable;
+
     private String salt;
 
     private String token;
@@ -100,5 +102,13 @@ public class UserSecretEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }
