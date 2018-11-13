@@ -2,6 +2,7 @@ package cn.bitflash.vip.index.controller;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserGetuiEntity;
+import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.interceptor.ApiLoginInterceptor;
 import cn.bitflash.utils.*;
@@ -43,6 +44,7 @@ public class LoginApp {
         if (user == null) {
             return R.error("用户不存在");
         }
+        UserInfoEntity userinfo = indexFeign.
         if(user.getIsAvailable().equals(Common.UNAUTHENTICATION)){
             return R.error("用户账号已被冻结");
         }
