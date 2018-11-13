@@ -34,6 +34,8 @@ public interface IndexFeign {
     @PostMapping("/inner/userInfo/insert")
     Boolean insertUserInfoById(@RequestBody UserInfoEntity infoEntity);
 
+    UserInfoEntity selectUserinfoById(@RequestParam String id);
+
     /**
      * SystemAppBanner 表
      */

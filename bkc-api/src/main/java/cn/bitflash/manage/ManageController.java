@@ -1,30 +1,25 @@
-package cn.bitflash.vip.user.controller;
+package cn.bitflash.manage;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserInfoEntity;
 import cn.bitflash.utils.Common;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.user.controller.Confirm;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.alibaba.fastjson.JSON;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/user")
-@Api(value = "实名Con", tags = {"用户上传sfz图片"})
-public class Confirm {
+@RequestMapping("manage")
+public class ManageController {
 
     @Autowired
     private UserFeign userFeign;
@@ -35,10 +30,9 @@ public class Confirm {
      *  AppSecret：b38da61305dc3daf657cfccb4d86cd87
      *  AppCode：ec04e916a3a74ca39247a27a3f68e38f
      */
-    @Login
     @PostMapping("authentication")
     @ApiOperation("实名认证")
-    public R uploadImgMessage(@RequestAttribute("uid") String uid,
+    public R uploadImgMessage(@RequestParam("uid") String uid,
                               @ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
     ) throws Exception {
 
@@ -63,7 +57,7 @@ public class Confirm {
         //格式Authorization:APPCODE (中间是英文空格)
         httpURLConnection.setRequestProperty("Authorization", "APPCODE " + appcode);
         //int httpCode = httpURLConnection.getResponseCode();
-        String json = read(httpURLConnection.getInputStream());
+        String json = Confirm.read(httpURLConnection.getInputStream());
         String code = JSON.parseObject(json).getString("status");
         if (code.equals("01") || code.equals("1")) {
             info.setIsAuth(Common.AUTHENTICATION);
@@ -108,19 +102,5 @@ public class Confirm {
          *      205  身份证格式不正确！
          */
         return R.ok(map);
-    }
-    /*
-       读取返回结果
-    */
-    public static String read(InputStream is) throws IOException {
-        StringBuffer sb = new StringBuffer();
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        while ((line = br.readLine()) != null) {
-            line = new String(line.getBytes(), "utf-8");
-            sb.append(line);
-        }
-        br.close();
-        return sb.toString();
     }
 }
