@@ -19,4 +19,6 @@ public interface UserInfoService extends IService<UserInfoEntity> {
     List<UserInfoEntity> findUserList(Integer page);
 
     Integer userListCount();
+
+    Integer freezeCount();
 }

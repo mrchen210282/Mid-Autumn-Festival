@@ -33,5 +33,7 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
 
     List<UserInfoEntity> findUserList(Integer page);
 
+    Integer freezeCount();
+
     Integer userListCount();
 }

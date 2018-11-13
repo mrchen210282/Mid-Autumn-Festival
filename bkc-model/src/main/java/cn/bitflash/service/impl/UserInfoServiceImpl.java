@@ -42,4 +42,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfoEntity
     public Integer userListCount(){
         return baseMapper.userListCount();
     }
+
+    @Override
+    public Integer freezeCount(){
+        return baseMapper.freezeCount();
+    }
 }
