@@ -6,6 +6,7 @@ import cn.bitflash.bean.UserInfoBean;
 import cn.bitflash.bean.UserRelationJoinNpcAndHlbean;
 import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
+import cn.bitflash.service.UserInvitationCodeService;
 import cn.bitflash.service.UserRelationService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -22,6 +23,9 @@ public class UserRelationController {
 
     @Autowired
     private UserRelationService userRelationService;
+
+    @Autowired
+    private UserInvitationCodeService userInvitationCodeService;
 
     /**
      * selectById
@@ -133,5 +137,14 @@ public class UserRelationController {
     @GetMapping("/inner/userRelation/findById/{left}")
     public UserRelationEntity findById(@PathVariable String left) {
         return userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("lft",Integer.parseInt(left)));
+    }
+
+    /**
+     * findCode
+     */
+    @GetMapping("/inner/userRelation/findCode/{left}")
+    public List<UserRelationEntity> findCode(@PathVariable Integer left) {
+        UserInvitationCodeEntity userCode = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("uid",left.toString()));
+        return userRelationService.selectList(new EntityWrapper<UserRelationEntity>().eq("father_code",userCode.getCode()).or().eq("uid",left.toString()));
     }
 }

@@ -153,6 +153,22 @@ public class UserInfoController {
         return userInfoService.userListCount();
     }
 
+    /**
+     * admin
+     * freezeList
+     */
+    @GetMapping("inner/userInfo/freezeList")
+    public List<UserInfoEntity> freezeList(){
+        return userInfoService.selectList(new EntityWrapper<UserInfoEntity>().eq("is_available","N"));
+    }
 
+    /**
+     * admin
+     * freezeCount
+     */
+    @GetMapping("inner/userInfo/freezeCount")
+    public Integer freezeCount(){
+        return userInfoService.freezeCount();
+    }
 
 }

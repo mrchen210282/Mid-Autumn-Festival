@@ -31,4 +31,10 @@
   from user_info
  </select>
 
+ <select id="freezeCount" resultType="java.lang.Integer">
+  select count(0)
+  from user_info
+  where is_available = 'N'
+ </select>
+
 </mapper>
