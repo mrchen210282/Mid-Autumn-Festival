@@ -44,8 +44,8 @@ public class LoginApp {
         if (user == null) {
             return R.error("用户不存在");
         }
-        UserInfoEntity userinfo = indexFeign.
-        if(user.getIsAvailable().equals(Common.UNAUTHENTICATION)){
+        UserInfoEntity userinfo = indexFeign.selectUserInfoByMobile(form.getMobile());
+        if(userinfo.getIsAvailable().equals(Common.UNAUTHENTICATION)){
             return R.error("用户账号已被冻结");
         }
         String finalPwd = Encrypt.SHA256(form.getPassword() + user.getSalt());

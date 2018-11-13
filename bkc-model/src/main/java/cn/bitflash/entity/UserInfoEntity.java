@@ -49,6 +49,8 @@ public class UserInfoEntity implements Serializable {
     //hlb释放比率
     private Integer hlbRelease;
 
+    private String isAvailable;
+
     public String getUid() {
         return uid;
     }
@@ -175,5 +177,13 @@ public class UserInfoEntity implements Serializable {
 
     public void setHlbRelease(Integer hlbRelease) {
         this.hlbRelease = hlbRelease;
+    }
+
+    public String getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
     }
 }
