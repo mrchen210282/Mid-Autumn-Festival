@@ -30,7 +30,7 @@ public class ManageController {
      *  AppSecret：b38da61305dc3daf657cfccb4d86cd87
      *  AppCode：ec04e916a3a74ca39247a27a3f68e38f
      */
-    @PostMapping("authentication")
+    @GetMapping("authentication")
     @ApiOperation("实名认证")
     public R uploadImgMessage(@RequestParam("uid") String uid,
                               @ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum

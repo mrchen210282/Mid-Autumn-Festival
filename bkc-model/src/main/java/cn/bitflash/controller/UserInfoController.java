@@ -109,6 +109,15 @@ public class UserInfoController {
 
     /**
      * admin
+     * findAll
+     */
+    @GetMapping("inner/userInfo/findAll")
+    public List<UserInfoEntity> findAll(){
+        return userInfoService.selectList(new EntityWrapper<>());
+    }
+
+    /**
+     * admin
      * getUserInfo
      */
     @GetMapping("inner/userInfo/getUserInfo/{id}")
