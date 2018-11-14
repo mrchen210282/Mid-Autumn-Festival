@@ -2,14 +2,8 @@ package cn.bitflash.controller;
 
 import cn.bitflash.bean.AdminOrderBean;
 import cn.bitflash.bean.UserBuyBean;
-import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.entity.UserBrokerageEntity;
-import cn.bitflash.entity.UserMarketBuyEntity;
-import cn.bitflash.entity.UserMarketTradeEntity;
-import cn.bitflash.service.BuyPoundageService;
-import cn.bitflash.service.UserAssetsNpcService;
-import cn.bitflash.service.UserBrokerageService;
-import cn.bitflash.service.UserMarketBuyService;
+import cn.bitflash.entity.*;
+import cn.bitflash.service.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +26,9 @@ public class UserMarketBuyController {
 
     @Autowired
     private BuyPoundageService buyPoundageService;
+
+    @Autowired
+    private UserComplaintService userComplaintService;
 
     /**
      * selectById
@@ -214,6 +211,10 @@ public class UserMarketBuyController {
             entity.setState("3");
         }
         userMarketBuyService.updateById(entity);
+
+        UserComplaintEntity complaint = userComplaintService.selectById(id);
+        complaint.setOrderState("1");
+        userComplaintService.updateById(complaint);
     }
 
     /**
@@ -222,17 +223,24 @@ public class UserMarketBuyController {
      */
     @GetMapping("/inner/userMarketBuy/complaintFail/{id}")
     public void complaintFail(@PathVariable String id){
+        //获取订单信息
         UserMarketBuyEntity entity = userMarketBuyService.selectById(id);
-        entity.setPayTime(null);
-        entity.setSellUid(null);
-        entity.setState("1");
-        userMarketBuyService.updateById(entity);
 
-        buyPoundageService.deleteById(id);
-
+        //接单人返还npc
         UserAssetsNpcEntity userAssetsNpcEntity = userAssetsNpcService.selectById(entity.getSellUid());
         userAssetsNpcEntity.setAvailableAssets(userAssetsNpcEntity.getAvailableAssets()+entity.getQuantity());
         userAssetsNpcService.updateById(userAssetsNpcEntity);
+
+        //删除订单
+        userMarketBuyService.deleteById(id);
+
+        //删除手续费
+        buyPoundageService.deleteById(id);
+
+        //申诉订单状态变为1
+        UserComplaintEntity complaint = userComplaintService.selectById(id);
+        complaint.setOrderState("1");
+        userComplaintService.updateById(complaint);
     }
 
 }

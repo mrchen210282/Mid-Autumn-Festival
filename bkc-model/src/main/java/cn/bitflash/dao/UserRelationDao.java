@@ -49,4 +49,5 @@ public interface UserRelationDao extends BaseMapper<UserRelationEntity> {
 
     List<AdminRelationBean> findTree();
 
+    List<AdminRelationBean> findCode(@Param("fatherCode") String fatherCode,@Param("uid") String uid);
 }

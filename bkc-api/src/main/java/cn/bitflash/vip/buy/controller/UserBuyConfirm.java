@@ -50,7 +50,7 @@ public class UserBuyConfirm {
         BigDecimal buyQuantity = map.get("buyQuantity");
         BigDecimal totalQuantity = map.get("totalQuantity");
 
-        //充值+扣款
+        //充值
         UserMarketBuyEntity userMarketBuyEntity = feign.selectBuyById(id);
         UserAssetsNpcEntity purchaseAssets = feign.selectAccountById(userMarketBuyEntity.getPurchaseUid());
 //        UserAssetsNpcEntity sellAssets = feign.selectAccountById(userMarketBuyEntity.getSellUid());

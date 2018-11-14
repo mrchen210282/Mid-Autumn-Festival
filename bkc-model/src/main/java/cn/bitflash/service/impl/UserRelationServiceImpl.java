@@ -69,5 +69,8 @@ public class UserRelationServiceImpl extends ServiceImpl<UserRelationDao, UserRe
         return baseMapper.findNode(realname);
     }
 
-
+    @Override
+    public List<AdminRelationBean> findCode(String fatherCode,String uid){
+        return baseMapper.findCode(fatherCode,uid);
+    }
 }
