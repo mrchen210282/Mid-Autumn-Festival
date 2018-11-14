@@ -1,12 +1,11 @@
 package cn.bitflash.vip.system.feign;
 
-import cn.bitflash.entity.AppStatusEntity;
-import cn.bitflash.entity.PriceLinechartEntity;
-import cn.bitflash.entity.UserSecretEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.vip.system.entity.PriceChart;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,5 +31,11 @@ public interface SystemFeign {
     @ApiOperation(value = "根据主键查询数据")
     @PostMapping("/inner/priceLinechart/selectLineChartById")
     PriceLinechartEntity selectLineChartById(@RequestParam("date") Date date);
+
+    @GetMapping("/inner/sysQuestion/selectList")
+    List<SystemQuestionEntity> selectList();
+
+    @GetMapping("/inner/sysAnswer/selectByQuestionId")
+    SystemAnswerEntity selectById(@RequestParam("questionId") String questionId);
 }
 

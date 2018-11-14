@@ -131,13 +131,10 @@ public interface UserFeign {
     UserInvitationCodeEntity selectInvitationCodeByUid(@RequestParam("id") String uid);
 
     /**
-     * 首页资产
+     * user_advise 表
      */
-//    @PostMapping("/inner/userCashAssetsJoinDictComputingPower/selectUserCashAssetsJoinDictComputingPower")
-//    UserCashAssetsJoinDictComputingPowerBean selectUserCashAssetsJoinDictComputingPower(@RequestParam("uid") String uid);
-//
-//    @PostMapping("/inner/userDigitalAssets/selectById")
-//    UserDigitalAssetsEntity selectDigitalAssetsById(@RequestParam("id") String id);
+    @GetMapping("/inner/userAdvise/insert")
+    void insertUserAdvise(@RequestBody UserAdviseEntity userAdviseEntity);
 
 
 
