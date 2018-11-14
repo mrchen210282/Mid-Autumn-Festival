@@ -1,5 +1,7 @@
 package cn.bitflash.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class SystemAnswerEntity {
@@ -10,6 +12,7 @@ public class SystemAnswerEntity {
 
     private String  answer;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     public Integer getId() {
