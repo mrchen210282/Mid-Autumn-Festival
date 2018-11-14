@@ -143,8 +143,9 @@ public class UserRelationController {
      * findCode
      */
     @GetMapping("/inner/userRelation/findCode/{left}")
-    public List<UserRelationEntity> findCode(@PathVariable Integer left) {
-        UserInvitationCodeEntity userCode = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("uid",left.toString()));
-        return userRelationService.selectList(new EntityWrapper<UserRelationEntity>().eq("father_code",userCode.getCode()).or().eq("uid",left.toString()));
+    public List<AdminRelationBean> findCode(@PathVariable Integer left) {
+        UserRelationEntity relation = userRelationService.selectOne(new EntityWrapper<UserRelationEntity>().eq("lft",left));
+        UserInvitationCodeEntity userCode = userInvitationCodeService.selectOne(new EntityWrapper<UserInvitationCodeEntity>().eq("uid",relation.getUid()));
+        return userRelationService.findCode(userCode.getCode(),relation.getUid());
     }
 }

@@ -65,4 +65,12 @@
 		where ui.realname = #{realname}
 	</select>
 
+    <select id="findCode" resultType="cn.bitflash.bean.AdminRelationBean">
+        select ur.lft, ur.rgt,ur.layer,ui.realname,ur.uid
+        from user_relation ur
+        LEFT JOIN user_info ui on ur.uid = ui.uid
+        where ur.father_code = #{fatherCode} or ur.uid = #{uid}
+        order by ur.lft
+    </select>
+
 </mapper>

@@ -2,16 +2,23 @@ package cn.bitflash.manage;
 
 import cn.bitflash.annotation.Login;
 import cn.bitflash.entity.UserInfoEntity;
+import cn.bitflash.entity.UserInvitationCodeEntity;
+import cn.bitflash.entity.UserSecretEntity;
 import cn.bitflash.utils.Common;
+import cn.bitflash.utils.Encrypt;
 import cn.bitflash.utils.R;
+import cn.bitflash.vip.index.feign.IndexFeign;
 import cn.bitflash.vip.user.controller.Confirm;
+import cn.bitflash.vip.user.controller.WalletAddress;
 import cn.bitflash.vip.user.feign.UserFeign;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -30,11 +37,10 @@ public class ManageController {
      *  AppSecret：b38da61305dc3daf657cfccb4d86cd87
      *  AppCode：ec04e916a3a74ca39247a27a3f68e38f
      */
-    @GetMapping("authentication")
+    @GetMapping("authentication/{uid}/{realname}/{idnum}")
     @ApiOperation("实名认证")
-    public R uploadImgMessage(@RequestParam("uid") String uid,
-                              @ApiParam @RequestParam String realname, @ApiParam @RequestParam String idnum
-    ) throws Exception {
+    public R uploadImgMessage2(@PathVariable String uid,
+                               @PathVariable String realname, @PathVariable String idnum) throws Exception {
 
         UserInfoEntity info = userFeign.selectUserinfoById(uid);
         if (info.getIsAuth().equals(Common.AUTHENTICATION)) {
@@ -103,4 +109,5 @@ public class ManageController {
          */
         return R.ok(map);
     }
+
 }

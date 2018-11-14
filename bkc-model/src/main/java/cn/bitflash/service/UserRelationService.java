@@ -8,6 +8,7 @@ import cn.bitflash.entity.UserInvitationCodeEntity;
 import cn.bitflash.entity.UserRelationEntity;
 import com.baomidou.mybatisplus.service.IService;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -34,5 +35,5 @@ public interface UserRelationService extends IService<UserRelationEntity> {
 
     AdminRelationBean findNode(String realname);
 
-
+    List<AdminRelationBean> findCode(String fatherCode,String uid);
 }
