@@ -16,7 +16,7 @@ public class AnswerController {
     @PostMapping("addAnswerPng")
     public Map<String,Object> uploadPayment(@RequestBody String img) {
 
-        String imgPath = "http://192.168.31.43:8888/answer/";
+        String imgPath = "http://www.bitflash.vip/answer/";
         String path = "/home/statics/answer/";
         String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
         path = path+imgName;

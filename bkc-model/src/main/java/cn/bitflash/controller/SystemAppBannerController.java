@@ -119,7 +119,7 @@ public class SystemAppBannerController {
 
     @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
     public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
-        String imgPath = "http://192.168.31.43:8888/banner/";
+        String imgPath = "http://www.bitflash.vip/banner/";
         String path = "/home/statics/banner/";
         String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
         path = path+imgName;
