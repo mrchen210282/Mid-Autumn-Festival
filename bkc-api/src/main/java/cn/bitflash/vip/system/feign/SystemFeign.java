@@ -35,7 +35,7 @@ public interface SystemFeign {
     @GetMapping("/inner/sysQuestion/selectList")
     List<SystemQuestionEntity> selectList();
 
-    @GetMapping("/inner/sysAnswer/selectByQuestionId")
-    SystemAnswerEntity selectById(@RequestParam("questionId") String questionId);
+    @GetMapping("/inner/sysAnswer/selectQuestionById")
+    SystemQuestionEntity selectQuestionById(@RequestParam String questionId);
 }
 

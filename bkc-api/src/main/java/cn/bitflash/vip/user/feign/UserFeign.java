@@ -133,7 +133,7 @@ public interface UserFeign {
     /**
      * user_advise 表
      */
-    @GetMapping("/inner/userAdvise/insert")
+    @PostMapping("/inner/userAdvise/insert")
     void insertUserAdvise(@RequestBody UserAdviseEntity userAdviseEntity);
 
 

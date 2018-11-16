@@ -17,7 +17,7 @@ public class SystemQuestionEntity {
 
     private String answer;
 
-  public Integer getId() {
+    public Integer getId() {
         return id;
     }
 

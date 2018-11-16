@@ -1,22 +1,19 @@
 package cn.bitflash.controller;
 
-import cn.bitflash.entity.SystemAnswerEntity;
 import cn.bitflash.entity.SystemQuestionEntity;
-import cn.bitflash.service.SystemAnswerService;
 import cn.bitflash.service.SystemQuestionService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sound.midi.Soundbank;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 public class SystemAnswerAndQuestionController {
-
-    @Autowired
-    private SystemAnswerService systemAnswerService;
 
     @Autowired
     private SystemQuestionService systemQuestionService;
@@ -26,13 +23,8 @@ public class SystemAnswerAndQuestionController {
         return systemQuestionService.selectList(new EntityWrapper<SystemQuestionEntity>().orderBy("id"));
     }
 
-    @GetMapping("/inner/sysAnswer/selectByQuestionId")
-    public SystemAnswerEntity selectById(@RequestParam String questionId){
-        return systemAnswerService.selectOne(new EntityWrapper<SystemAnswerEntity>().eq("question_id",questionId));
-    }
-
     /**
-     * 获取问题列表
+     * ��ȡ�����б�
      */
     @GetMapping("/inner/sysQueAnws/list/{page}")
     public List<SystemQuestionEntity> questionList(@PathVariable Integer page){
@@ -40,7 +32,7 @@ public class SystemAnswerAndQuestionController {
     }
 
     /**
-     * 获取问题详情
+     * ��ȡ��������
      */
     @GetMapping("/inner/sysQueAnws/info/{id}")
     public SystemQuestionEntity questionCheck(@PathVariable Integer id){
@@ -48,7 +40,7 @@ public class SystemAnswerAndQuestionController {
     }
 
     /**
-     * 数量
+     * ����
      */
     @GetMapping("inner/sysQueAnws/count")
     public Integer questionCount(){
@@ -56,7 +48,7 @@ public class SystemAnswerAndQuestionController {
     }
 
     /**
-     * 删除列表
+     * ɾ���б�
      */
     @GetMapping("/inner/sysQueAnws/delete/{id}")
     public void questionDelete(@PathVariable Integer id){
@@ -64,7 +56,7 @@ public class SystemAnswerAndQuestionController {
     }
 
     /**
-     * 修改问题和答案
+     * �޸�����ʹ�
      */
     @PostMapping(value = "/inner/sysQueAnws/update",consumes = "application/json")
     public void updateQueAnws(@RequestBody SystemQuestionEntity entity){
@@ -72,7 +64,7 @@ public class SystemAnswerAndQuestionController {
     }
 
     /**
-     * 添加
+     * ���
      */
     @PostMapping(value = "/inner/sysQueAnws/add",consumes = "application/json")
     public void questionDelete(@RequestBody SystemQuestionEntity entity){
