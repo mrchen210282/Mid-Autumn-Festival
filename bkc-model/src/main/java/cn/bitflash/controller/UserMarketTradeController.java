@@ -1,12 +1,10 @@
 package cn.bitflash.controller;
 
 import cn.bitflash.bean.*;
-import cn.bitflash.entity.UserAssetsNpcEntity;
-import cn.bitflash.entity.UserInfoEntity;
-import cn.bitflash.entity.UserMarketBuyEntity;
-import cn.bitflash.entity.UserMarketTradeEntity;
+import cn.bitflash.entity.*;
 import cn.bitflash.service.BuyPoundageService;
 import cn.bitflash.service.UserAssetsNpcService;
+import cn.bitflash.service.UserComplaintService;
 import cn.bitflash.service.UserMarketTradeService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -19,6 +17,9 @@ import java.util.Map;
 
 @RestController
 public class UserMarketTradeController {
+
+    @Autowired
+    private UserComplaintService userComplaintService;
 
     @Autowired
     private UserMarketTradeService userMarketTradeService;
@@ -181,6 +182,11 @@ public class UserMarketTradeController {
         UserMarketTradeEntity entity = userMarketTradeService.selectById(id);
         entity.setState("4");
         userMarketTradeService.updateById(entity);
+
+        //申诉订单状态变为1
+        UserComplaintEntity complaint = userComplaintService.selectById(id);
+        complaint.setOrderState("1");
+        userComplaintService.updateById(complaint);
     }
 
     /**
@@ -193,6 +199,10 @@ public class UserMarketTradeController {
         entity.setState("1");
         entity.setPurchaseUid("");
         userMarketTradeService.updateById(entity);
+        //申诉订单状态变为1
+        UserComplaintEntity complaint = userComplaintService.selectById(id);
+        complaint.setOrderState("1");
+        userComplaintService.updateById(complaint);
     }
 }
 
