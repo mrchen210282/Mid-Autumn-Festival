@@ -112,7 +112,7 @@ public class RegisterApp {
             info.setMobile(mobile);
             info.setNickname(uid);
             Boolean flag2 = indexFeign.insertUserInfoById(info);
-            //创建钱包地址
+//            创建钱包地址
             try {
                 walletAddress.createWalletAddress(uid);
             } catch (Exception e) {

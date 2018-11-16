@@ -19,10 +19,13 @@ package cn.bitflash.dao;
 import cn.bitflash.entity.SystemQuestionEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
 public interface SystemQuestionDao extends BaseMapper<SystemQuestionEntity> {
-
+    List<SystemQuestionEntity> questionList(Integer page);
+    Integer questionCount();
 }

@@ -15,7 +15,9 @@ public class SystemQuestionEntity {
 
     private Date createTime;
 
-    public Integer getId() {
+    private String answer;
+
+  public Integer getId() {
         return id;
     }
 
@@ -37,5 +39,13 @@ public class SystemQuestionEntity {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

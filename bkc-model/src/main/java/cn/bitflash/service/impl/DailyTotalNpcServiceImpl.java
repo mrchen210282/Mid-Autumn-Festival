@@ -22,6 +22,13 @@ import cn.bitflash.service.DailyTotalNpcService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("dailyTotalNpcService")
 public class DailyTotalNpcServiceImpl extends ServiceImpl<DailyTotalNpcDao, DailyTotalNpcEntity> implements DailyTotalNpcService {
+
+    @Override
+    public List<DailyTotalNpcEntity> npcList(String today){
+        return baseMapper.npcList(today);
+    }
 }
