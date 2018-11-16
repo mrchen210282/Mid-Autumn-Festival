@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.SystemQuestionDao">
+
+    <select id="questionList" resultType="cn.bitflash.entity.SystemQuestionEntity" parameterType="java.lang.Integer">
+     select
+      *
+     FROM
+      system_question
+    limit #{page},10
+    </select>
+
+    <select id="questionCount" resultType="java.lang.Integer">
+     select
+      count(0)
+     FROM
+      system_question
+    </select>
+</mapper>

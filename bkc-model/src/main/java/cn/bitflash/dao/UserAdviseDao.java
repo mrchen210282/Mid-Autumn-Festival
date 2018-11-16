@@ -16,13 +16,18 @@
 
 package cn.bitflash.dao;
 
+import cn.bitflash.bean.UserAdviseBean;
 import cn.bitflash.entity.UserAdviseEntity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * @author gaoyuguo
  * @date 2018年9月22日
  */
 public interface UserAdviseDao extends BaseMapper<UserAdviseEntity> {
+    List<UserAdviseBean> adviseList(Integer page);
 
+    Integer adviseCount();
 }

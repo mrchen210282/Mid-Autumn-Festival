@@ -109,6 +109,10 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("/api/test/demo") != -1) {
             return false;
         }
+        if (url.indexOf("/api/answerPicture/addAnswerPng") != -1) {
+            return false;
+        }
+
 
         return true;
     }

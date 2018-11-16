@@ -16,12 +16,24 @@
 
 package cn.bitflash.service.impl;
 
+import cn.bitflash.bean.UserAdviseBean;
 import cn.bitflash.dao.UserAdviseDao;
 import cn.bitflash.entity.UserAdviseEntity;
 import cn.bitflash.service.UserAdviseService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("userAdviseService")
 public class UserAdviseServiceImpl extends ServiceImpl<UserAdviseDao, UserAdviseEntity> implements UserAdviseService {
+    @Override
+    public List<UserAdviseBean> adviseList(Integer page){
+        return baseMapper.adviseList(page);
+    }
+
+    @Override
+    public Integer adviseCount(){
+        return baseMapper.adviseCount();
+    }
 }

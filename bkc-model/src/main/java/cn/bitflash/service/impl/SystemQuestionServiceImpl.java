@@ -22,6 +22,17 @@ import cn.bitflash.service.SystemQuestionService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("systemQuestionService")
 public class SystemQuestionServiceImpl extends ServiceImpl<SystemQuestionDao, SystemQuestionEntity> implements SystemQuestionService {
+    @Override
+    public List<SystemQuestionEntity> questionList(Integer page){
+        return baseMapper.questionList(page);
+    }
+
+    @Override
+    public Integer questionCount(){
+        return baseMapper.questionCount();
+    }
 }
