@@ -37,7 +37,10 @@ public class Vip {
         map.put("now_amount", vipEntity.getVipCash());
         //赠送比例
         BigDecimal npc = new BigDecimal(levelFeign.getVal("npc_unit_price"));
-        map.put("give_rate", vipEntity.getHlbGiveRate().multiply(npc));
+        //hlb赠送比例
+        map.put("vip_give_rate",vipEntity.getHlbGiveRate()) ;
+        //当前npc的单价
+        map.put("npc_unit_price",npc);
         //算力区间
         BigDecimal min = new BigDecimal(vipEntity.getMinPower() * 100);
         BigDecimal max = new BigDecimal(vipEntity.getMaxPower() * 100);

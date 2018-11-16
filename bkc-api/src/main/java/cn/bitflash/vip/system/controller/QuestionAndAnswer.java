@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,8 +23,10 @@ public class QuestionAndAnswer {
     @GetMapping("getQuestions")
     public R getQuestions() {
         List<SystemQuestionEntity> systemQuestionEntities = systemFeign.selectList();
-        List<String> questions = systemQuestionEntities.stream().map(SystemQuestionEntity::getQuestion).collect(Collectors.toList());
-        return R.ok().put("questions", questions);
+        systemQuestionEntities.forEach(u->{
+            u.setAnswer(null);
+        });
+        return R.ok().put("questions", systemQuestionEntities);
     }
 
     @GetMapping("getAnswer")
