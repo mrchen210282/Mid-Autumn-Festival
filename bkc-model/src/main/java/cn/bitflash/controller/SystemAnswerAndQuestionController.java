@@ -1,16 +1,21 @@
 package cn.bitflash.controller;
 
+import cn.bitflash.bean.ImgForm;
 import cn.bitflash.entity.SystemAnswerEntity;
 import cn.bitflash.entity.SystemQuestionEntity;
 import cn.bitflash.service.SystemAnswerService;
 import cn.bitflash.service.SystemQuestionService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SystemAnswerAndQuestionController {
@@ -30,4 +35,5 @@ public class SystemAnswerAndQuestionController {
     public SystemAnswerEntity selectById(@RequestParam String questionId){
         return systemAnswerService.selectOne(new EntityWrapper<SystemAnswerEntity>().eq("question_id",questionId));
     }
+
 }
