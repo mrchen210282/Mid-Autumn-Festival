@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bitflash.dao.UserAdviseDao">
+
+    <select id="adviseList" resultType="cn.bitflash.bean.UserAdviseBean" parameterType="java.lang.Integer">
+     select
+      ua.*,ui.nickname,ui.mobile
+     FROM
+      user_advise ua
+     LEFT JOIN
+      user_info ui
+     on
+      ui.uid = ua.uid
+      order by ua.create_time
+      limit #{page},10
+    </select>
+
+    <select id="adviseCount" resultType="java.lang.Integer">
+     select count(0)
+     from user_advise
+    </select>
+</mapper>
