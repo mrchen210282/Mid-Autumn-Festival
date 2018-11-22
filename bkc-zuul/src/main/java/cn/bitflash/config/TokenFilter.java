@@ -112,6 +112,9 @@ public class TokenFilter extends ZuulFilter {
         if (url.indexOf("/api/answerPicture/addAnswerPng") != -1) {
             return false;
         }
+        if(url.indexOf("/system/getForumCode")!=-1){
+            return false;
+        }
 
 
         return true;
