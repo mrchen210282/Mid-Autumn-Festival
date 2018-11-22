@@ -64,7 +64,11 @@ public class VerifyCode {
         return R.error("系统错误");
     }
 
-    private String generateCode() {
-        return String.valueOf(new Random().nextInt(8999) + 1000);
+    @RequestMapping("getForumCode")
+    public R getForumCode(@RequestParam String mobile,HttpServletResponse response){
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        String verifyCode = RandomStringUtils.randomNumeric(6);
+        return SmsUtils.smsApi(mobile, verifyCode, "贝壳", "SMS_135330146");
+
     }
 }
