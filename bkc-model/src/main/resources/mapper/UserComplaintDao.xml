@@ -142,7 +142,7 @@
     FROM
         user_complaint uc
     ORDER BY
-	uc.order_state desc ,createTime asc
+	uc.order_state asc ,createTime asc
         limit #{page},10
     </select>
 

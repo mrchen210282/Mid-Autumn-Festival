@@ -117,6 +117,11 @@ public class SystemAppBannerController {
         return systemAppBannerService.selectById(Integer.parseInt(id));
     }
 
+    @PostMapping(value = "/inner/systemAppBanner/insertOrUpdate", consumes = "application/json")
+    public void insertOrUpdate(@RequestBody SystemAppBannerEntity entity){
+        systemAppBannerService.insertOrUpdate(entity);
+    }
+
 //    @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
 //    public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
 //        String imgPath = "http://www.bitflash.vip/banner/";
