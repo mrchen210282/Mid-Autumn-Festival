@@ -19,7 +19,7 @@ public class BuyPoundageEntity implements Serializable {
     private String sellUid;
     private float poundage;
     private float quantity;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" )
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     public String getUserBuyId() {

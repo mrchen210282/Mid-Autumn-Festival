@@ -96,6 +96,7 @@ public class TokenFilter extends ZuulFilter {
             return false;
         }
         if (url.indexOf("/api/external/getBKCNum") != -1) {
+
             return false;
         }
 
