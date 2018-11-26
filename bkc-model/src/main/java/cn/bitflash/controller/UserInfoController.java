@@ -139,8 +139,8 @@ public class UserInfoController {
      * searchUser
      */
     @GetMapping("inner/userInfo/searchUser/{str}")
-    public UserInfoEntity searchUser(@PathVariable String str){
-        return userInfoService.selectOne(new EntityWrapper<UserInfoEntity>().eq("nickname",str).or().eq("realname",str).or().eq("mobile",str));
+    public List<UserInfoEntity> searchUser(@PathVariable String str){
+        return userInfoService.selectList(new EntityWrapper<UserInfoEntity>().like("nickname",str).or().like("realname",str).or().like("mobile",str));
     }
 
     /**
