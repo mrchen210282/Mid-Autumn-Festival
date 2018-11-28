@@ -96,6 +96,7 @@ public class TokenFilter extends ZuulFilter {
             return false;
         }
         if (url.indexOf("/api/external/getBKCNum") != -1) {
+
             return false;
         }
 
@@ -110,6 +111,9 @@ public class TokenFilter extends ZuulFilter {
             return false;
         }
         if (url.indexOf("/api/answerPicture/addAnswerPng") != -1) {
+            return false;
+        }
+        if(url.indexOf("/system/getForumCode")!=-1){
             return false;
         }
 

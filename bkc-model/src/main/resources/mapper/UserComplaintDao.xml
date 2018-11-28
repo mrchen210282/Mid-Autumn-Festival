@@ -137,11 +137,12 @@
         ) AS sellUid,
         uc.is_read AS isRead,
         uc.complaint_state AS state,
+        uc.order_state as orderState,
         uc.create_time AS createTime
     FROM
         user_complaint uc
     ORDER BY
-	createTime DESC
+	uc.order_state asc ,createTime asc
         limit #{page},10
     </select>
 

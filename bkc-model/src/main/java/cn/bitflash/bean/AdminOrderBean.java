@@ -50,10 +50,24 @@ public class AdminOrderBean {
     private Date createTime;
 
     /**
+     * 订单状态
+     *
+     */
+    private String orderState;
+
+    /**
      * 修改时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date payTime;
+
+    public String getOrderState() {
+        return orderState;
+    }
+
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
+    }
 
     public String getOrderId() {
         return orderId;

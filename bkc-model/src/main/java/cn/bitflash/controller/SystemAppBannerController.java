@@ -117,46 +117,51 @@ public class SystemAppBannerController {
         return systemAppBannerService.selectById(Integer.parseInt(id));
     }
 
-    @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
-    public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
-        String imgPath = "http://www.bitflash.vip/banner/";
-        String path = "/home/statics/banner/";
-        String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
-        path = path+imgName;
-        BASE64Decoder decoder = new BASE64Decoder();
-        try {
-            
-            // Base64解码
-            String[] base64Str = imgForm.getImg().split(",");
-            if (base64Str.length >= 2) {
-                byte[] b = decoder.decodeBuffer(base64Str[1]);
-                for (int i = 0; i < b.length; ++i) {
-                    if (b[i] < 0) {// 调整异常数据
-                        b[i] += 256;
-                    }
-                }
-                // 生成jpeg图片
-                OutputStream out = new FileOutputStream(path);
-                out.write(b);
-                out.flush();
-                out.close();
-            } else {
-                return new ModelMap("status",500);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ModelMap("status",500);
-        }
-
-        SystemAppBannerEntity appBannerEntity = new SystemAppBannerEntity();
-        appBannerEntity.setId(imgForm.getId());
-        appBannerEntity.setBannerAddress(imgPath+imgName);
-        appBannerEntity.setCreateTime(new Date());
-        appBannerEntity.setOpendAddress(imgForm.getOpenAddress());
-        appBannerEntity.setTitle(imgForm.getTitle());
-        systemAppBannerService.insertOrUpdate(appBannerEntity);
-        return new ModelMap("status",0);
+    @PostMapping(value = "/inner/systemAppBanner/insertOrUpdate", consumes = "application/json")
+    public void insertOrUpdate(@RequestBody SystemAppBannerEntity entity){
+        systemAppBannerService.insertOrUpdate(entity);
     }
+
+//    @PostMapping("/inner/systemAppBanner/mobileBannerSetting")
+//    public Map<String,Object> uploadPayment(@RequestBody ImgForm imgForm) {
+//        String imgPath = "http://www.bitflash.vip/banner/";
+//        String path = "/home/statics/banner/";
+//        String imgName = RandomStringUtils.randomAlphanumeric(10)+".png";
+//        path = path+imgName;
+//        BASE64Decoder decoder = new BASE64Decoder();
+//        try {
+//
+//            // Base64解码
+//            String[] base64Str = imgForm.getImg().split(",");
+//            if (base64Str.length >= 2) {
+//                byte[] b = decoder.decodeBuffer(base64Str[1]);
+//                for (int i = 0; i < b.length; ++i) {
+//                    if (b[i] < 0) {// 调整异常数据
+//                        b[i] += 256;
+//                    }
+//                }
+//                // 生成jpeg图片
+//                OutputStream out = new FileOutputStream(path);
+//                out.write(b);
+//                out.flush();
+//                out.close();
+//            } else {
+//                return new ModelMap("status",500);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return new ModelMap("status",500);
+//        }
+//
+//        SystemAppBannerEntity appBannerEntity = new SystemAppBannerEntity();
+//        appBannerEntity.setId(imgForm.getId());
+//        appBannerEntity.setBannerAddress(imgPath+imgName);
+//        appBannerEntity.setCreateTime(new Date());
+//        appBannerEntity.setOpendAddress(imgForm.getOpenAddress());
+//        appBannerEntity.setTitle(imgForm.getTitle());
+//        systemAppBannerService.insertOrUpdate(appBannerEntity);
+//        return new ModelMap("status",0);
+//    }
 
 
 }
