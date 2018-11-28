@@ -8,17 +8,9 @@ import java.util.Date;
 
 public class DailyTotalNpcEntity {
 
-    private LocalDate createTime;
-
     private BigDecimal totalNpc;
 
-    public LocalDate getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDate createTime) {
-        this.createTime = createTime;
-    }
+    private BigDecimal remainderNpc;
 
     public BigDecimal getTotalNpc() {
         return totalNpc;
@@ -26,5 +18,13 @@ public class DailyTotalNpcEntity {
 
     public void setTotalNpc(BigDecimal totalNpc) {
         this.totalNpc = totalNpc;
+    }
+
+    public BigDecimal getRemainderNpc() {
+        return remainderNpc;
+    }
+
+    public void setRemainderNpc(BigDecimal remainderNpc) {
+        this.remainderNpc = remainderNpc;
     }
 }

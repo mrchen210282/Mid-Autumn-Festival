@@ -39,8 +39,7 @@ public class ExchangeNpc {
         if (!Encrypt.SHA256(form.getPassword() + login.getSalt()).equals(login.getPassword())) {
             return R.error("密码验证错误");
         }
-        LocalDate localDate = LocalDate.now();
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate.toString());
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById();
         //兑换的npc数量
         BigDecimal npc = form.getNpc();
         //兑换的hlb数量
@@ -48,7 +47,7 @@ public class ExchangeNpc {
         //当前hlb可兑换的npc数量
         BigDecimal hlb_handling_fee = new BigDecimal(userFeign.getVal("hlb_handling_fee"));
 
-        if (npcEntity.getTotalNpc().compareTo(npc) == -1) {
+        if (npcEntity.getRemainderNpc().compareTo(npc) == -1) {
             return R.error("可兑换npc数量不足");
         }
 
@@ -77,7 +76,7 @@ public class ExchangeNpc {
         npcNumEntity.setTotelAssets(npcNumEntity.getTotelAssets().add(npc));
         userFeign.updateUserAssetsNpc(npcNumEntity);
         //扣除可兑换npc
-        npcEntity.setTotalNpc(npcEntity.getTotalNpc().subtract(npc));
+        npcEntity.setRemainderNpc(npcEntity.getRemainderNpc().subtract(npc));
         userFeign.updateDailyTotalNpc(npcEntity);
         return R.ok();
     }
@@ -86,14 +85,7 @@ public class ExchangeNpc {
     @PostMapping("showNpcNum")
     @ApiOperation("获取npc数量")
     public R showNpcNum(@RequestAttribute("uid") String uid) {
-        // Date now = new Date();
-
-        //SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.now();
-        logger.info("------------------------------------------------------");
-        logger.info("当前系统时间为-----------" + localDate + "-----------------");
-        logger.info("------------------------------------------------------");
-        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById(localDate.toString());
+        DailyTotalNpcEntity npcEntity = userFeign.selectDailyTotalNpcEntityById();
         Map<String, Object> map = new HashMap<>();
         UserAssetsNpcEntity npcNumEntity = userFeign.selectUserAssetsNpcById(uid);
         UserAssetsHlbEntity hlbNumEntity = userFeign.selectUserAssetsHlbById(uid);
@@ -102,7 +94,7 @@ public class ExchangeNpc {
         //当前拥有的npc
         map.put("npc", npcNumEntity.getAvailableAssets());
         //可兑换的npc
-        map.put("allNpc", npcEntity.getTotalNpc());
+        map.put("allNpc", npcEntity.getRemainderNpc());
         //100hlb：npc数量
         float npc_unit_price = Float.valueOf(userFeign.getVal("npc_unit_price"));
         int rate = (int) (100 / npc_unit_price);

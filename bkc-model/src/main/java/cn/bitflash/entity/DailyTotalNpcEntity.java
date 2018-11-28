@@ -5,29 +5,29 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 @TableName("daily_total_npc")
 public class DailyTotalNpcEntity {
 
-    @TableId(type = IdType.INPUT)
-    private LocalDate createTime;
+    private BigDecimal totalNpc;
 
-    private Float totalNpc;
+    private BigDecimal remainderNpc;
 
-    public LocalDate getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDate createTime) {
-        this.createTime = createTime;
-    }
-
-    public Float getTotalNpc() {
+    public BigDecimal getTotalNpc() {
         return totalNpc;
     }
 
-    public void setTotalNpc(Float totalNpc) {
+    public void setTotalNpc(BigDecimal totalNpc) {
         this.totalNpc = totalNpc;
+    }
+
+    public BigDecimal getRemainderNpc() {
+        return remainderNpc;
+    }
+
+    public void setRemainderNpc(BigDecimal remainderNpc) {
+        this.remainderNpc = remainderNpc;
     }
 }

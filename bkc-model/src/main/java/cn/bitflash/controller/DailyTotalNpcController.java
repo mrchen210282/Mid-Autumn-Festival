@@ -2,6 +2,7 @@ package cn.bitflash.controller;
 
 import cn.bitflash.entity.DailyTotalNpcEntity;
 import cn.bitflash.service.DailyTotalNpcService;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,18 @@ public class DailyTotalNpcController {
     private DailyTotalNpcService dailyTotalNpcService;
 
     @PostMapping("/inner/dailytotalnpc/selectById")
-    public DailyTotalNpcEntity selectById(@RequestParam("id")String id){
-        logger.info("------------------------------------------------------");
-        logger.info("当前系统时间为-----------" + id + "-----------------");
-        logger.info("------------------------------------------------------");
-        return dailyTotalNpcService.selectById(id);
+    public DailyTotalNpcEntity selectById(){
+        DailyTotalNpcEntity dailyTotalNpcEntity = null;
+        List<DailyTotalNpcEntity> dailyTotalNpcList = dailyTotalNpcService.selectList(new EntityWrapper<DailyTotalNpcEntity>());
+        if(null != dailyTotalNpcList && dailyTotalNpcList.size() > 0) {
+            dailyTotalNpcEntity = dailyTotalNpcList.get(0);
+        }
+        return dailyTotalNpcEntity;
     }
 
     @PostMapping("/inner/dailytotalnpc/update")
     public Boolean update(@RequestBody DailyTotalNpcEntity daily){
-        return dailyTotalNpcService.updateById(daily);
+        return dailyTotalNpcService.update(daily,new EntityWrapper<DailyTotalNpcEntity>());
     }
 
     @GetMapping("inner/dailytotalnpc/list")
